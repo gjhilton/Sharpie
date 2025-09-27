@@ -18,7 +18,7 @@ const Unanswered = ({ solution, handleKeyPress }) => (
       margin: "4rem auto", 
       fontWeight: "bold" 
     })}>
-      <KB keyCallback={handleKeyPress} />
+      
     </div>
   </div>
 )
@@ -133,6 +133,10 @@ setAttemptStatus(STATUS.NONE)
     setAttempt(button)
   }
 
+    const disableKeyPress = (button) => {
+    console.log("disabled: " + button)
+  }
+
   return (
     <div>
       <StatusDisplay 
@@ -144,9 +148,12 @@ setAttemptStatus(STATUS.NONE)
       />
       
     
-      
-    
-      
+<div className={css({ 
+        opacity: attempt ?  0.1 : 1
+      })}> 
+    <KB keyCallback={attempt ?  disableKeyPress : handleKeyPress} />
+  </div>
+
       <div className={css({ 
         display: "flex", 
         gap: "1rem", 

@@ -17,7 +17,7 @@ const KB = ({
   };
 
   const onKeyPress = button => {
-    
+    console.log("keypress")
     if (button === "{shift}" || button === "{lock}") {
       handleShift()
     } else {

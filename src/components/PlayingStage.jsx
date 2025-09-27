@@ -44,20 +44,10 @@ const IncorrectAnswer = ({ solution, attempt }) => (
   </div>
 )
 
-const StatusDisplay = ({ solution, attempt }) => {
-  const getStatus = () => {
-    if (!attempt) return STATUS.NONE
-    return attempt === solution ? STATUS.CORRECT : STATUS.INCORRECT
-  }
-
-  const [answerStatus, setAnswerStatus] = useState(getStatus())
-
-  useEffect(() => {
-    setAnswerStatus(getStatus())
-  }, [attempt, solution])
+const StatusDisplay = ({ status, solution, attempt }) => {
 
   const renderStatus = () => {
-    switch (answerStatus) {
+    switch (status) {
       case STATUS.NONE:
         return <Unanswered solution={solution} />
       case STATUS.CORRECT:
@@ -74,7 +64,7 @@ const StatusDisplay = ({ solution, attempt }) => {
 
 
 const getRandomLetter = () => {
-  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   const randomIndex = Math.floor(Math.random() * characters.length)
   return characters[randomIndex]
 }
@@ -82,24 +72,34 @@ const getRandomLetter = () => {
 const PlayingStage = ({ onEndGame }) => {
   const [currentLetter, setCurrentLetter] = useState(getRandomLetter())
   const [attempt, setAttempt] = useState(null)
+  const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE)
+
+
+  const getStatus = (attemptValue ) => {
+    if (!attemptValue) return STATUS.NONE
+    return attemptValue === solution ? STATUS.CORRECT : STATUS.INCORRECT
+  }
 
   const handleNextLetter = () => {
+    setAttemptStatus(STATUS.NONE)
+        setAttempt(null)
     const newLetter = getRandomLetter()
     setCurrentLetter(newLetter)
-    setAttempt(null) // Reset attempt for new letter
+
   }
 
   const handleKeyboardInput = (input) => {
-    // Get the last character typed
     const lastChar = input.slice(-1)
     if (lastChar && lastChar !== attempt) {
       setAttempt(lastChar)
     }
+    const status = getStatus(lastChar)
+    setAttemptStatus(status)
   }
 
   return (
     <div>
-      <StatusDisplay solution={currentLetter} attempt={attempt} />
+      <StatusDisplay status={attemptStatus} solution={currentLetter} attempt={attempt} />
       
       <div className={css({ 
         maxWidth: "500px", 

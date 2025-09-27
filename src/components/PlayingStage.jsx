@@ -16,7 +16,7 @@ const Unanswered = ({ solution, handleKeyPress }) => (
   </div>
 )
 
-const CorrectAnswer = ({ solution,handleNextLetter }) => (
+const CorrectAnswer = ({ solution, handleNextLetter }) => (
   <div>
     <Card letter={solution} />
     <div className={css({ 
@@ -27,15 +27,14 @@ const CorrectAnswer = ({ solution,handleNextLetter }) => (
     })}>
       ✅
     </div>
-      <div className={css({ 
-        display: "flex", 
-        gap: "1rem", 
-        justifyContent: "center",
-        margin: "2rem 0"
-      })}>
-       
-          <StageButton onClick={handleNextLetter} label="Next" />
-      </div>
+    <div className={css({ 
+      display: "flex", 
+      gap: "1rem", 
+      justifyContent: "center",
+      margin: "2rem 0"
+    })}>
+      <StageButton onClick={handleNextLetter} label="Next" />
+    </div>
   </div>
 )
 
@@ -48,23 +47,20 @@ const IncorrectAnswer = ({ solution, attempt, handleNextLetter }) => (
       fontSize: "4rem", 
       margin: "1rem" 
     })}>
-     ❌
+      ❌
     </div>
-      <div className={css({ 
-        display: "flex", 
-        gap: "1rem", 
-        justifyContent: "center",
-        margin: "2rem 0"
-      })}>
-       
-          <StageButton onClick={handleNextLetter} label="Next" />
-        
-      </div>
+    <div className={css({ 
+      display: "flex", 
+      gap: "1rem", 
+      justifyContent: "center",
+      margin: "2rem 0"
+    })}>
+      <StageButton onClick={handleNextLetter} label="Next" />
+    </div>
   </div>
 )
 
 const StatusDisplay = ({ handleNextLetter, handleKeyPress, status, solution, attempt }) => {
-
   const renderStatus = () => {
     switch (status) {
       case STATUS.NONE:
@@ -92,18 +88,14 @@ const PlayingStage = ({ onEndGame }) => {
   const [currentLetter, setCurrentLetter] = useState(getRandomLetter())
   const [attempt, setAttempt] = useState(null)
   const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE)
-  const isResetting = useRef(false)
-
-
   const getStatus = (attemptValue) => {
     if (!attemptValue) return STATUS.NONE
     return attemptValue === currentLetter ? STATUS.CORRECT : STATUS.INCORRECT
   }
 
   const handleNextLetter = () => {
-
     setAttemptStatus(STATUS.NONE)
-        setAttempt(null)
+    setAttempt(null)
   }
 
   useEffect(() => {
@@ -113,39 +105,37 @@ const PlayingStage = ({ onEndGame }) => {
     }
   }, [attempt, attemptStatus])
 
-useEffect(() => {
-    if (attempt !== null ) {
-     setAttemptStatus(getStatus(attempt))
+  useEffect(() => {
+    if (attempt !== null) {
+      setAttemptStatus(getStatus(attempt))
     } else {
-setAttemptStatus(STATUS.NONE)
+      setAttemptStatus(STATUS.NONE)
     }
   }, [attempt])
 
   const handleKeyPress = (button) => {
-    console.log("setAttempt: " + button)
     setAttempt(button)
   }
 
-    const disableKeyPress = (button) => {
-    console.log("disabled: " + button)
+  const disableKeyPress = () => {
+    // Disabled state - no action needed
   }
 
   return (
     <div>
       <StatusDisplay 
-      handleNextLetter={handleNextLetter}
+        handleNextLetter={handleNextLetter}
         handleKeyPress={handleKeyPress} 
         status={attemptStatus} 
         solution={currentLetter} 
         attempt={attempt}
       />
       
-    
-<div className={css({ 
-        opacity: attempt ?  0.01 : 1
+      <div className={css({ 
+        opacity: attempt ? 0.01 : 1
       })}> 
-    <KB keyCallback={attempt ?  disableKeyPress : handleKeyPress} />
-  </div>
+        <KB keyCallback={attempt ? disableKeyPress : handleKeyPress} />
+      </div>
 
       <div className={css({ 
         display: "flex", 
@@ -153,8 +143,6 @@ setAttemptStatus(STATUS.NONE)
         justifyContent: "center",
         margin: "2rem 0"
       })}>
-
-        
         <StageButton onClick={onEndGame} label="End Game" />
       </div>
     </div>

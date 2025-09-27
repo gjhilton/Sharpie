@@ -18,7 +18,11 @@ const Unanswered = ({ solution, handleKeyPress }) => (
 
 const CorrectAnswer = ({ solution, handleNextLetter }) => (
   <div>
-    <Card letter={solution} />
+    <Card 
+    title={"Correct"}
+    letter={solution} 
+    caption={solution}
+    />
     <div className={css({ 
       textAlign: "center", 
       color: "green", 
@@ -40,7 +44,20 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => (
 
 const IncorrectAnswer = ({ solution, attempt, handleNextLetter }) => (
   <div>
-    <Card letter={solution} />
+    <div className={css({display: "flex" })}>
+      <div className={css({flex: 1 })}>
+    <Card     title={"Correct answer"}
+    letter={solution} 
+    caption={solution} />
+    </div>
+   <div className={css({flex: 1 })}>
+      <Card 
+      title={"Your answer"}
+      letter={attempt}
+      caption={attempt}/>
+      </div>
+</div>
+
     <div className={css({ 
       textAlign: "center", 
       color: "red", 

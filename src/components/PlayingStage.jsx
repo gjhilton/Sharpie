@@ -75,25 +75,21 @@ const PlayingStage = ({ onEndGame }) => {
   const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE)
 
 
-  const getStatus = (attemptValue ) => {
+  const getStatus = (attemptValue) => {
     if (!attemptValue) return STATUS.NONE
-    return attemptValue === solution ? STATUS.CORRECT : STATUS.INCORRECT
+    return attemptValue === currentLetter ? STATUS.CORRECT : STATUS.INCORRECT
   }
 
   const handleNextLetter = () => {
     setAttemptStatus(STATUS.NONE)
-        setAttempt(null)
+    setAttempt(null)
     const newLetter = getRandomLetter()
     setCurrentLetter(newLetter)
-
   }
 
-  const handleKeyboardInput = (input) => {
-    const lastChar = input.slice(-1)
-    if (lastChar && lastChar !== attempt) {
-      setAttempt(lastChar)
-    }
-    const status = getStatus(lastChar)
+  const handleKeyPress = (button) => {
+    setAttempt(button)
+    const status = getStatus(button)
     setAttemptStatus(status)
   }
 
@@ -101,13 +97,15 @@ const PlayingStage = ({ onEndGame }) => {
     <div>
       <StatusDisplay status={attemptStatus} solution={currentLetter} attempt={attempt} />
       
-      <div className={css({ 
-        maxWidth: "500px", 
-        margin: "4rem auto", 
-        fontWeight: "bold" 
-      })}>
-        <KB onInputChange={handleKeyboardInput} />
-      </div>
+      {attemptStatus === STATUS.NONE && (
+        <div className={css({ 
+          maxWidth: "500px", 
+          margin: "4rem auto", 
+          fontWeight: "bold" 
+        })}>
+          <KB onKeyPress={handleKeyPress} />
+        </div>
+      )}
       
       <div className={css({ 
         display: "flex", 
@@ -115,7 +113,9 @@ const PlayingStage = ({ onEndGame }) => {
         justifyContent: "center",
         margin: "2rem 0"
       })}>
-        <StageButton onClick={handleNextLetter} label="Next" />
+        {attemptStatus !== STATUS.NONE && (
+          <StageButton onClick={handleNextLetter} label="Next" />
+        )}
         <StageButton onClick={onEndGame} label="End Game" />
       </div>
     </div>

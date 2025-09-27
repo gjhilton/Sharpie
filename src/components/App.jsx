@@ -7,9 +7,14 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div className={css({ maxWidth:"400px", margin: "0 auto", fontWeight: "bold" })}>>
+    <>
+    <div className="joscelyn">
+      a b c d e f g
+    </div>
+    <div className={css({ maxWidth:"500px", margin: "4rem auto", fontWeight: "bold" })}>>
       <KB />
     </div>
+    </>
   )
 }
 

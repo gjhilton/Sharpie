@@ -13,13 +13,6 @@ const STATUS = {
 const Unanswered = ({ solution, handleKeyPress }) => (
   <div>
     <Card letter={solution} />
-    <div className={css({ 
-      maxWidth: "500px", 
-      margin: "4rem auto", 
-      fontWeight: "bold" 
-    })}>
-      
-    </div>
   </div>
 )
 
@@ -29,10 +22,10 @@ const CorrectAnswer = ({ solution,handleNextLetter }) => (
     <div className={css({ 
       textAlign: "center", 
       color: "green", 
-      fontSize: "xl", 
+      fontSize: "4rem", 
       margin: "1rem" 
     })}>
-      Correct!
+      ✅
     </div>
       <div className={css({ 
         display: "flex", 
@@ -52,10 +45,10 @@ const IncorrectAnswer = ({ solution, attempt, handleNextLetter }) => (
     <div className={css({ 
       textAlign: "center", 
       color: "red", 
-      fontSize: "xl", 
+      fontSize: "4rem", 
       margin: "1rem" 
     })}>
-      "{attempt}" is wrong. Should be "{solution}"
+     ❌
     </div>
       <div className={css({ 
         display: "flex", 
@@ -149,7 +142,7 @@ setAttemptStatus(STATUS.NONE)
       
     
 <div className={css({ 
-        opacity: attempt ?  0.1 : 1
+        opacity: attempt ?  0.01 : 1
       })}> 
     <KB keyCallback={attempt ?  disableKeyPress : handleKeyPress} />
   </div>

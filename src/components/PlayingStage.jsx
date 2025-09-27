@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { css } from "../../styled-system/css"
 import StageButton from './StageButton.jsx'
 import KB from './KB.jsx'
@@ -10,9 +10,16 @@ const STATUS = {
   INCORRECT: 'incorrect'
 }
 
-const Unanswered = ({ solution }) => (
+const Unanswered = ({ solution, handleKeyPress }) => (
   <div>
     <Card letter={solution} />
+    <div className={css({ 
+      maxWidth: "500px", 
+      margin: "4rem auto", 
+      fontWeight: "bold" 
+    })}>
+      <KB onKeyPress={handleKeyPress} />
+    </div>
   </div>
 )
 
@@ -44,18 +51,18 @@ const IncorrectAnswer = ({ solution, attempt }) => (
   </div>
 )
 
-const StatusDisplay = ({ status, solution, attempt }) => {
+const StatusDisplay = ({ handleKeyPress, status, solution, attempt }) => {
 
   const renderStatus = () => {
     switch (status) {
       case STATUS.NONE:
-        return <Unanswered solution={solution} />
+        return <Unanswered handleKeyPress={handleKeyPress} solution={solution} />
       case STATUS.CORRECT:
         return <CorrectAnswer solution={solution} />
       case STATUS.INCORRECT:
         return <IncorrectAnswer attempt={attempt} solution={solution} />
       default:
-        return <Unanswered solution={solution} />
+        return <Unanswered handleKeyPress={handleKeyPress} solution={solution} />
     }
   }
 
@@ -73,6 +80,7 @@ const PlayingStage = ({ onEndGame }) => {
   const [currentLetter, setCurrentLetter] = useState(getRandomLetter())
   const [attempt, setAttempt] = useState(null)
   const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE)
+  const isResetting = useRef(false)
 
 
   const getStatus = (attemptValue) => {
@@ -81,13 +89,27 @@ const PlayingStage = ({ onEndGame }) => {
   }
 
   const handleNextLetter = () => {
-    setAttemptStatus(STATUS.NONE)
+    isResetting.current = true
     setAttempt(null)
-    const newLetter = getRandomLetter()
-    setCurrentLetter(newLetter)
+    setAttemptStatus(STATUS.NONE)
+    setTimeout(() => {
+      isResetting.current = false
+    }, 50)
   }
 
+  useEffect(() => {
+    if (attempt === null && attemptStatus === STATUS.NONE) {
+      const newLetter = getRandomLetter()
+      setCurrentLetter(newLetter)
+    }
+  }, [attempt, attemptStatus])
+
   const handleKeyPress = (button) => {
+    if (isResetting.current) {
+      console.log("Currently resetting, ignoring key:", button)
+      return
+    }
+    //alert("KP")
     setAttempt(button)
     const status = getStatus(button)
     setAttemptStatus(status)
@@ -95,17 +117,11 @@ const PlayingStage = ({ onEndGame }) => {
 
   return (
     <div>
-      <StatusDisplay status={attemptStatus} solution={currentLetter} attempt={attempt} />
+      <StatusDisplay handleKeyPress={handleKeyPress} status={attemptStatus} solution={currentLetter} attempt={attempt} />
       
-      {attemptStatus === STATUS.NONE && (
-        <div className={css({ 
-          maxWidth: "500px", 
-          margin: "4rem auto", 
-          fontWeight: "bold" 
-        })}>
-          <KB onKeyPress={handleKeyPress} />
-        </div>
-      )}
+    
+      
+    
       
       <div className={css({ 
         display: "flex", 
@@ -113,9 +129,9 @@ const PlayingStage = ({ onEndGame }) => {
         justifyContent: "center",
         margin: "2rem 0"
       })}>
-        {attemptStatus !== STATUS.NONE && (
+       
           <StageButton onClick={handleNextLetter} label="Next" />
-        )}
+        
         <StageButton onClick={onEndGame} label="End Game" />
       </div>
     </div>

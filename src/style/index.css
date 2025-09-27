@@ -1,20 +1,19 @@
-@layer reset, base, tokens, recipes, utilities;  
+@layer reset, base, tokens, recipes, utilities;
 @import './fonts.css';
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  font-weight: 400;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+	font-weight: 400;
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-
-.simple-keyboard{
-  background: transparent !important;
+.simple-keyboard {
+	background: transparent !important;
 }
 
 .joscelyn {
- font-family: 'Joscelyn';
+	font-family: 'Joscelyn';
 }

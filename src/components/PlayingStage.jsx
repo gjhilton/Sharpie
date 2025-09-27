@@ -23,7 +23,7 @@ const Unanswered = ({ solution, handleKeyPress }) => (
   </div>
 )
 
-const CorrectAnswer = ({ solution }) => (
+const CorrectAnswer = ({ solution,handleNextLetter }) => (
   <div>
     <Card letter={solution} />
     <div className={css({ 
@@ -34,10 +34,19 @@ const CorrectAnswer = ({ solution }) => (
     })}>
       Correct!
     </div>
+      <div className={css({ 
+        display: "flex", 
+        gap: "1rem", 
+        justifyContent: "center",
+        margin: "2rem 0"
+      })}>
+       
+          <StageButton onClick={handleNextLetter} label="Next" />
+      </div>
   </div>
 )
 
-const IncorrectAnswer = ({ solution, attempt }) => (
+const IncorrectAnswer = ({ solution, attempt, handleNextLetter }) => (
   <div>
     <Card letter={solution} />
     <div className={css({ 
@@ -48,19 +57,29 @@ const IncorrectAnswer = ({ solution, attempt }) => (
     })}>
       "{attempt}" is wrong. Should be "{solution}"
     </div>
+      <div className={css({ 
+        display: "flex", 
+        gap: "1rem", 
+        justifyContent: "center",
+        margin: "2rem 0"
+      })}>
+       
+          <StageButton onClick={handleNextLetter} label="Next" />
+        
+      </div>
   </div>
 )
 
-const StatusDisplay = ({ handleKeyPress, status, solution, attempt }) => {
+const StatusDisplay = ({ handleNextLetter, handleKeyPress, status, solution, attempt }) => {
 
   const renderStatus = () => {
     switch (status) {
       case STATUS.NONE:
         return <Unanswered handleKeyPress={handleKeyPress} solution={solution} />
       case STATUS.CORRECT:
-        return <CorrectAnswer solution={solution} />
+        return <CorrectAnswer solution={solution} handleNextLetter={handleNextLetter}/>
       case STATUS.INCORRECT:
-        return <IncorrectAnswer attempt={attempt} solution={solution} />
+        return <IncorrectAnswer attempt={attempt} solution={solution} handleNextLetter={handleNextLetter}/>
       default:
         return <Unanswered handleKeyPress={handleKeyPress} solution={solution} />
     }
@@ -89,12 +108,9 @@ const PlayingStage = ({ onEndGame }) => {
   }
 
   const handleNextLetter = () => {
-    isResetting.current = true
-    setAttempt(null)
+
     setAttemptStatus(STATUS.NONE)
-    setTimeout(() => {
-      isResetting.current = false
-    }, 50)
+        setAttempt(null)
   }
 
   useEffect(() => {
@@ -104,15 +120,28 @@ const PlayingStage = ({ onEndGame }) => {
     }
   }, [attempt, attemptStatus])
 
+useEffect(() => {
+    if (attempt !== null ) {
+     setAttemptStatus(getStatus(attempt))
+    } else {
+setAttemptStatus(STATUS.NONE)
+    }
+  }, [attempt])
+
   const handleKeyPress = (button) => {
-    console.log("++++")
-    console.log(button)
-      console.log("++++")
+    console.log("setAttempt: " + button)
+    setAttempt(button)
   }
 
   return (
     <div>
-      <StatusDisplay handleKeyPress={handleKeyPress} status={attemptStatus} solution={currentLetter} attempt={attempt} />
+      <StatusDisplay 
+      handleNextLetter={handleNextLetter}
+        handleKeyPress={handleKeyPress} 
+        status={attemptStatus} 
+        solution={currentLetter} 
+        attempt={attempt}
+      />
       
     
       
@@ -124,8 +153,7 @@ const PlayingStage = ({ onEndGame }) => {
         justifyContent: "center",
         margin: "2rem 0"
       })}>
-       
-          <StageButton onClick={handleNextLetter} label="Next" />
+
         
         <StageButton onClick={onEndGame} label="End Game" />
       </div>

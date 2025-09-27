@@ -18,7 +18,7 @@ const Unanswered = ({ solution, handleKeyPress }) => (
       margin: "4rem auto", 
       fontWeight: "bold" 
     })}>
-      <KB onKeyPress={handleKeyPress} />
+      <KB keyCallback={handleKeyPress} />
     </div>
   </div>
 )
@@ -105,14 +105,9 @@ const PlayingStage = ({ onEndGame }) => {
   }, [attempt, attemptStatus])
 
   const handleKeyPress = (button) => {
-    if (isResetting.current) {
-      console.log("Currently resetting, ignoring key:", button)
-      return
-    }
-    //alert("KP")
-    setAttempt(button)
-    const status = getStatus(button)
-    setAttemptStatus(status)
+    console.log("++++")
+    console.log(button)
+      console.log("++++")
   }
 
   return (

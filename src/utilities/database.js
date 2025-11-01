@@ -34,3 +34,27 @@ export const getAllGraphs = graphset => {
 		return result
 	}, {})
 }
+
+export const findGraphSetByTitle = (db, title) => {
+	const graphSets = getAllGraphsets(db)
+	return graphSets.find(gs => getTitle(gs) === title)
+}
+
+export const getRandomGraph = graphs => {
+	const randomIndex = Math.floor(Math.random() * graphs.length)
+	return graphs[randomIndex]
+}
+
+export const getImagePath = (graph, graphSetTitle) => {
+	const folder = graphSetTitle === 'minuscules' ? 'joscelyn-min' : 'joscelyn-maj'
+	return `/data/${folder}/${graph.img}`
+}
+
+export const flattenGraphs = graphSets => {
+	return graphSets.flatMap(gs => getGraphs(gs))
+}
+
+export const getEnabledGraphSets = db => {
+	const graphSets = getAllGraphsets(db)
+	return graphSets.filter(gs => isEnabled(gs))
+}

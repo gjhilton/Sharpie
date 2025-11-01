@@ -179,3 +179,63 @@ describe('getAllGraphs', () => {
 		expect(result).toEqual({});
 	});
 });
+
+describe('findGraphSetByTitle', () => {
+	test('finds graphSet by title', () => {
+		const result = db.findGraphSetByTitle(mockDB, 'minuscules');
+		expect(result).toEqual(mockDB.graphSets[0]);
+	});
+
+	test('returns undefined when title not found', () => {
+		const result = db.findGraphSetByTitle(mockDB, 'missing');
+		expect(result).toBeUndefined();
+	});
+});
+
+describe('getRandomGraph', () => {
+	test('returns a graph from the array', () => {
+		const graphs = [
+			{ character: 'a', img: 'a.png' },
+			{ character: 'b', img: 'b.png' }
+		];
+		const result = db.getRandomGraph(graphs);
+		expect(graphs).toContain(result);
+	});
+});
+
+describe('getImagePath', () => {
+	test('builds path for minuscules', () => {
+		const graph = { img: 'a.png', character: 'a' };
+		const result = db.getImagePath(graph, 'minuscules');
+		expect(result).toBe('/data/joscelyn-min/a.png');
+	});
+
+	test('builds path for MAJUSCULES', () => {
+		const graph = { img: 'a.png', character: 'A' };
+		const result = db.getImagePath(graph, 'MAJUSCULES');
+		expect(result).toBe('/data/joscelyn-maj/a.png');
+	});
+});
+
+describe('flattenGraphs', () => {
+	test('flattens graphs from multiple graphSets', () => {
+		const result = db.flattenGraphs(mockDB.graphSets);
+		expect(result).toHaveLength(2);
+		expect(result[0]).toEqual(mockDB.graphSets[0].graphs[0]);
+	});
+});
+
+describe('getEnabledGraphSets', () => {
+	test('returns only enabled graphSets', () => {
+		const mockDBWithDisabled = {
+			...mockDB,
+			graphSets: [
+				...mockDB.graphSets,
+				{ title: 'disabled', enabled: false, graphs: [] }
+			]
+		};
+		const result = db.getEnabledGraphSets(mockDBWithDisabled);
+		expect(result).toHaveLength(1);
+		expect(result.every(gs => gs.enabled)).toBe(true);
+	});
+});

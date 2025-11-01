@@ -1,6 +1,6 @@
 import { css } from '../../styled-system/css';
 
-const Card = ({ title, letter, caption }) => (
+const Card = ({ title, graph, letter, caption, imagePath }) => (
 	<div
 		className={css({
 			maxWidth: '500px',
@@ -10,15 +10,29 @@ const Card = ({ title, letter, caption }) => (
 		})}
 	>
 		<div>{title ? title : 'Identify the letterform'}</div>
-		<div className="joscelyn">
-			<div
-				className={css({
-					fontSize: '10rem',
-					padding: '3rem 1rem',
-				})}
-			>
-				{letter}
-			</div>
+		<div>
+			{imagePath ? (
+				<img
+					src={imagePath}
+					alt={graph?.character || letter}
+					className={css({
+						maxWidth: '100%',
+						height: 'auto',
+						padding: '3rem 1rem',
+					})}
+				/>
+			) : (
+				<div className="joscelyn">
+					<div
+						className={css({
+							fontSize: '10rem',
+							padding: '3rem 1rem',
+						})}
+					>
+						{letter}
+					</div>
+				</div>
+			)}
 		</div>
 		<div
 			className={css({

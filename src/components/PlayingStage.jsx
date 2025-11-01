@@ -3,7 +3,9 @@ import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import KB from './KB.jsx';
 import Card from './Card.jsx';
-import { CHARACTER_SETS, GAME_MODES } from '../constants/stages.js';
+import { GAME_MODES } from '../constants/stages.js';
+import { DB } from '../data/DB.js';
+import * as db from '../utilities/database.js';
 
 const STATUS = {
 	NONE: 'none',
@@ -13,13 +15,21 @@ const STATUS = {
 
 const Unanswered = ({ solution, handleKeyPress }) => (
 	<div>
-		<Card letter={solution} />
+		<Card
+			graph={solution.graph}
+			imagePath={solution.imagePath}
+		/>
 	</div>
 );
 
 const CorrectAnswer = ({ solution, handleNextLetter }) => (
 	<div>
-		<Card title={'Correct'} letter={solution} caption={solution} />
+		<Card
+			title={'Correct'}
+			graph={solution.graph}
+			imagePath={solution.imagePath}
+			caption={solution.graph.character}
+		/>
 		<div
 			className={css({
 				textAlign: 'center',
@@ -43,20 +53,21 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => (
 	</div>
 );
 
-const IncorrectAnswer = ({ solution, attempt, handleNextLetter }) => (
+const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter }) => (
 	<div>
 		<div className={css({ display: 'flex' })}>
 			<div className={css({ flex: 1 })}>
 				<Card
 					title={'Correct answer'}
-					letter={solution}
-					caption={solution}
+					graph={solution.graph}
+					imagePath={solution.imagePath}
+					caption={solution.graph.character}
 				/>
 			</div>
 			<div className={css({ flex: 1 })}>
 				<Card
 					title={'Your answer'}
-					letter={attempt}
+					imagePath={attemptImagePath}
 					caption={attempt}
 				/>
 			</div>
@@ -91,6 +102,7 @@ const StatusDisplay = ({
 	status,
 	solution,
 	attempt,
+	attemptImagePath,
 }) => {
 	const renderStatus = () => {
 		switch (status) {
@@ -112,6 +124,7 @@ const StatusDisplay = ({
 				return (
 					<IncorrectAnswer
 						attempt={attempt}
+						attemptImagePath={attemptImagePath}
 						solution={solution}
 						handleNextLetter={handleNextLetter}
 					/>
@@ -129,17 +142,30 @@ const StatusDisplay = ({
 	return <div>{renderStatus()}</div>;
 };
 
-const getRandomLetter = characters => {
-	const randomIndex = Math.floor(Math.random() * characters.length);
-	return characters[randomIndex];
+const getGraphsForGameMode = (gameMode) => {
+	if (gameMode === GAME_MODES.ALL) {
+		const enabledGraphSets = db.getEnabledGraphSets(DB);
+		return db.flattenGraphs(enabledGraphSets);
+	}
+	const title = gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
+	const graphSet = db.findGraphSetByTitle(DB, title);
+	return db.getGraphs(graphSet);
+};
+
+const getRandomSolution = (graphs, graphSetTitle) => {
+	const graph = db.getRandomGraph(graphs);
+	const imagePath = db.getImagePath(graph, graphSetTitle);
+	return { graph, imagePath };
 };
 
 const PlayingStage = ({ onEndGame, gameMode }) => {
-	const characters = CHARACTER_SETS[gameMode];
-	const [currentLetter, setCurrentLetter] = useState(
-		getRandomLetter(characters)
+	const graphs = getGraphsForGameMode(gameMode);
+	const graphSetTitle = gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
+	const [currentSolution, setCurrentSolution] = useState(
+		getRandomSolution(graphs, graphSetTitle)
 	);
 	const [attempt, setAttempt] = useState(null);
+	const [attemptImagePath, setAttemptImagePath] = useState(null);
 	const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE);
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
@@ -147,7 +173,7 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 
 	const getStatus = attemptValue => {
 		if (!attemptValue) return STATUS.NONE;
-		return attemptValue === currentLetter
+		return attemptValue === currentSolution.graph.character
 			? STATUS.CORRECT
 			: STATUS.INCORRECT;
 	};
@@ -155,14 +181,15 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 	const handleNextLetter = () => {
 		setAttemptStatus(STATUS.NONE);
 		setAttempt(null);
+		setAttemptImagePath(null);
 	};
 
 	useEffect(() => {
 		if (attempt === null && attemptStatus === STATUS.NONE) {
-			const newLetter = getRandomLetter(characters);
-			setCurrentLetter(newLetter);
+			const newSolution = getRandomSolution(graphs, graphSetTitle);
+			setCurrentSolution(newSolution);
 		}
-	}, [attempt, attemptStatus, characters]);
+	}, [attempt, attemptStatus, graphs, graphSetTitle]);
 
 	useEffect(() => {
 		if (attempt !== null) {
@@ -182,6 +209,12 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 
 	const handleKeyPress = button => {
 		setAttempt(button);
+		const attemptGraphs = graphs.filter(g => g.character === button);
+		if (attemptGraphs.length > 0) {
+			const attemptGraph = db.getRandomGraph(attemptGraphs);
+			const imagePath = db.getImagePath(attemptGraph, graphSetTitle);
+			setAttemptImagePath(imagePath);
+		}
 	};
 
 	const disableKeyPress = () => {
@@ -194,8 +227,9 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 				handleNextLetter={handleNextLetter}
 				handleKeyPress={handleKeyPress}
 				status={attemptStatus}
-				solution={currentLetter}
+				solution={currentSolution}
 				attempt={attempt}
+				attemptImagePath={attemptImagePath}
 			/>
 
 			<div

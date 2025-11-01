@@ -12,6 +12,18 @@ export default {
 			control: 'text',
 			description: 'The text label displayed on the button',
 		},
+		sublabel: {
+			control: 'text',
+			description: 'Optional smaller text displayed below the label',
+		},
+		hero: {
+			control: 'boolean',
+			description: 'Makes the button larger and bolder (hero style)',
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Disables the button and changes its appearance',
+		},
 		onClick: {
 			action: 'clicked',
 			description: 'Function called when button is clicked',
@@ -40,5 +52,27 @@ export const Next = {
 export const Finish = {
 	args: {
 		label: 'Finish',
+	},
+};
+
+export const Hero = {
+	args: {
+		label: 'Start',
+		hero: true,
+	},
+};
+
+export const Disabled = {
+	args: {
+		label: 'Numerals',
+		sublabel: '(coming soon)',
+		disabled: true,
+	},
+};
+
+export const WithSublabel = {
+	args: {
+		label: 'Main Label',
+		sublabel: 'Additional info',
 	},
 };

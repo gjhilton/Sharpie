@@ -215,6 +215,24 @@ describe('getImagePath', () => {
 		const result = db.getImagePath(graph, 'MAJUSCULES');
 		expect(result).toBe('/data/joscelyn-maj/a.png');
 	});
+
+	test('builds path for Numerals', () => {
+		const graph = { img: '1.png', character: '1' };
+		const result = db.getImagePath(graph, 'Numerals');
+		expect(result).toBe('/data/joscelyn-num/1.png');
+	});
+
+	test('builds path for Brevigraphs', () => {
+		const graph = { img: 'and.png', character: '&' };
+		const result = db.getImagePath(graph, 'Brevigraphs');
+		expect(result).toBe('/data/joscelyn-brev/and.png');
+	});
+
+	test('defaults to minuscules for unknown graphSet', () => {
+		const graph = { img: 'x.png', character: 'x' };
+		const result = db.getImagePath(graph, 'unknown');
+		expect(result).toBe('/data/joscelyn-min/x.png');
+	});
 });
 
 describe('flattenGraphs', () => {
@@ -237,5 +255,42 @@ describe('getEnabledGraphSets', () => {
 		const result = db.getEnabledGraphSets(mockDBWithDisabled);
 		expect(result).toHaveLength(1);
 		expect(result.every(gs => gs.enabled)).toBe(true);
+	});
+});
+
+describe('Edge cases and defensive tests', () => {
+	test('getRandomGraph with single graph', () => {
+		const graphs = [{ character: 'a', img: 'a.png' }];
+		const result = db.getRandomGraph(graphs);
+		expect(result).toEqual(graphs[0]);
+	});
+
+	test('flattenGraphs with empty graphSets', () => {
+		const emptyGraphSets = [{ graphs: [] }, { graphs: [] }];
+		const result = db.flattenGraphs(emptyGraphSets);
+		expect(result).toEqual([]);
+	});
+
+	test('getAllCharacters handles empty graphs array', () => {
+		const emptyGraphSet = { graphs: [] };
+		const result = db.getAllCharacters(emptyGraphSet);
+		expect(result).toEqual([]);
+	});
+
+	test('findGraphSetByTitle returns undefined for empty db', () => {
+		const emptyDB = { graphSets: [] };
+		const result = db.findGraphSetByTitle(emptyDB, 'missing');
+		expect(result).toBeUndefined();
+	});
+
+	test('getEnabledGraphSets returns empty array when all disabled', () => {
+		const allDisabled = {
+			graphSets: [
+				{ title: 'a', enabled: false, graphs: [] },
+				{ title: 'b', enabled: false, graphs: [] }
+			]
+		};
+		const result = db.getEnabledGraphSets(allDisabled);
+		expect(result).toEqual([]);
 	});
 });

@@ -46,7 +46,13 @@ export const getRandomGraph = graphs => {
 }
 
 export const getImagePath = (graph, graphSetTitle) => {
-	const folder = graphSetTitle === 'minuscules' ? 'joscelyn-min' : 'joscelyn-maj'
+	const folderMap = {
+		'minuscules': 'joscelyn-min',
+		'MAJUSCULES': 'joscelyn-maj',
+		'Numerals': 'joscelyn-num',
+		'Brevigraphs': 'joscelyn-brev'
+	}
+	const folder = folderMap[graphSetTitle] || 'joscelyn-min'
 	return `/data/${folder}/${graph.img}`
 }
 

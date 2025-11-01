@@ -14,47 +14,61 @@ export default {
 		},
 		letter: {
 			control: 'text',
-			description: 'The letter to display in the Joscelyn font',
+			description: 'The letter to display in text (fallback)',
 		},
 		caption: {
 			control: 'text',
-			description: 'The caption displayed below the letter',
+			description: 'The caption displayed below the letter/image',
+		},
+		imagePath: {
+			control: 'text',
+			description: 'Path to the image to display',
+		},
+		graph: {
+			control: 'object',
+			description: 'Graph object with character and img properties',
 		},
 	},
 };
 
-export const Default = {
+export const TextFallback = {
 	args: {
 		letter: 'A',
+		caption: 'Text display (fallback)',
 	},
 };
 
-export const WithTitle = {
+export const WithImage = {
 	args: {
-		title: 'Letter Recognition Practice',
-		letter: 'B',
+		imagePath: '/data/joscelyn-min/a.png',
+		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },
+		caption: 'a',
 	},
 };
 
-export const WithCaption = {
+export const WithImageAndTitle = {
 	args: {
-		letter: 'C',
-		caption: 'This is the letter C',
-	},
-};
-
-export const Complete = {
-	args: {
-		title: 'Complete Card Example',
-		letter: 'D',
-		caption: 'This is the letter D',
+		title: 'Correct Answer',
+		imagePath: '/data/joscelyn-maj/a.png',
+		graph: { character: 'A', img: 'a.png', source: 'joscelyn' },
+		caption: 'A',
 	},
 };
 
 export const QuestionMark = {
 	args: {
-		title: 'Guess the Letter',
-		letter: 'E',
+		title: 'Identify the letterform',
+		imagePath: '/data/joscelyn-min/b.png',
+		graph: { character: 'b', img: 'b.png', source: 'joscelyn' },
 		caption: '?',
+	},
+};
+
+export const Majuscule = {
+	args: {
+		title: 'MAJUSCULE Example',
+		imagePath: '/data/joscelyn-maj/b.png',
+		graph: { character: 'B', img: 'b.png', source: 'joscelyn' },
+		caption: 'B',
 	},
 };

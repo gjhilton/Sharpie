@@ -14,7 +14,8 @@
       "WebSearch",
       "Bash(chmod:*)",
       "Bash(npm run import-joscelyn:*)",
-      "Bash(npm run test:run:*)"
+      "Bash(npm run test:run:*)",
+      "Bash(npm run storybook:*)"
     ],
     "deny": []
   }

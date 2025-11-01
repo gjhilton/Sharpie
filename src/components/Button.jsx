@@ -1,0 +1,43 @@
+import { css } from '../../styled-system/css';
+
+const ButtonLabel = ({ text }) => (
+	<span
+		className={css({
+			display: 'block',
+			fontSize: 'xl',
+		})}
+	>
+		{text}
+	</span>
+);
+
+const ButtonLabelAux = ({ text }) => (
+	<span
+		className={css({
+			display: 'block',
+			fontSize: 's',
+		})}
+	>
+		{text}
+	</span>
+);
+
+const Button = ({ onClick, label, disabled, sublabel, hero }) => (
+	<button
+		className={css({
+			opacity: disabled ? 0.5 : 1,
+			border: hero ? '3px solid black' : '1px solid black',
+			fontSize: 'xl',
+			fontWeight: hero ? 900 : 400,
+			padding: '1rem 3rem',
+			margin: '2rem 0',
+			textTransform: hero ? 'uppercase' : 'none',
+		})}
+		onClick={onClick}
+	>
+		<ButtonLabel text={label} />
+		<ButtonLabelAux text={sublabel} />
+	</button>
+);
+
+export default Button;

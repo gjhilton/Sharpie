@@ -1,0 +1,101 @@
+import { css } from '../../styled-system/css';
+import Button from './Button.jsx';
+import { GAME_MODES } from '../constants/stages.js';
+import logo from '../../artwork/sharpielogo.svg';
+
+const Logo = () => (
+	<div
+		className={css({
+			marginBottom: '2rem',
+		})}
+	>
+		<img
+			src={logo}
+			alt="Sharpie Logo"
+			className={css({
+				maxWidth: '300px',
+				width: '100%',
+				height: 'auto',
+			})}
+		/>
+	</div>
+);
+
+const Intro = () => (
+	<div
+		className={css({
+			fontSize: 'xl',
+		})}
+	>
+		A beginner-level workout to drill identifying secretary hand letters.
+	</div>
+);
+
+const Menu = ({ onSelectMode }) => (
+	<div>
+		<div>
+			<Button
+				hero={true}
+				onClick={() => onSelectMode(GAME_MODES.ALL)}
+				label="Start"
+			/>
+		</div>
+		<div>
+			<p>Or practice only:</p>
+		</div>
+		<div
+			className={css({
+				display: 'grid',
+				gridTemplateColumns: '1fr 1fr',
+				gap: '1rem',
+				rowGap: '0.2rem',
+				maxWidth: '600px',
+				margin: '0 auto',
+			})}
+		>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+				label="minuscules"
+			/>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+				label="MAJUSCULES"
+			/>
+			<Button label="Numerals" sublabel="(coming soon)" disabled="true" />
+			<Button
+				label="Brevigraphs"
+				sublabel="(coming soon)"
+				disabled="true"
+			/>
+		</div>
+	</div>
+);
+
+const Credit = () => (
+	<div
+		className={css({
+			fontSize: '0.8rem',
+			marginTop: '1rem',
+		})}
+	>
+		Concept, code &amp; design (also all mistakes) copyright g.j.hilton /
+		funeral games &copy;2025; MSS images ownership as noted
+	</div>
+);
+
+const MenuScreen = ({ onSelectMode }) => {
+	return (
+		<div
+			className={css({
+				textAlign: 'center',
+			})}
+		>
+			<Logo />
+			<Intro />
+			<Menu onSelectMode={onSelectMode} />
+			<Credit />
+		</div>
+	);
+};
+
+export default MenuScreen;

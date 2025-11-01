@@ -2,27 +2,51 @@ import { useState } from 'react';
 import '../style/App.css';
 import { css } from '../../styled-system/css';
 import { STAGES } from '../constants/stages.js';
-import BeforeStage from './BeforeStage.jsx';
+import MenuScreen from './MenuScreen.jsx';
 import PlayingStage from './PlayingStage.jsx';
-import AfterStage from './AfterStage.jsx';
+import ScoreScreen from './ScoreScreen.jsx';
 
 function App() {
-	const [stage, setStage] = useState(STAGES.BEFORE);
+	const [stage, setStage] = useState(STAGES.MENU);
+	const [gameMode, setGameMode] = useState(null);
+	const [score, setScore] = useState(null);
 
-	const handleStartGame = () => setStage(STAGES.PLAYING);
-	const handleEndGame = () => setStage(STAGES.AFTER);
-	const handleRestart = () => setStage(STAGES.BEFORE);
+	const handleSelectMode = mode => {
+		setGameMode(mode);
+		setStage(STAGES.PLAYING);
+	};
+
+	const handleEndGame = scoreData => {
+		setScore(scoreData);
+		setStage(STAGES.SCORE);
+	};
+
+	const handleReturnToMenu = () => {
+		setGameMode(null);
+		setScore(null);
+		setStage(STAGES.MENU);
+	};
 
 	const renderStage = () => {
 		switch (stage) {
-			case STAGES.BEFORE:
-				return <BeforeStage onStartGame={handleStartGame} />;
+			case STAGES.MENU:
+				return <MenuScreen onSelectMode={handleSelectMode} />;
 			case STAGES.PLAYING:
-				return <PlayingStage onEndGame={handleEndGame} />;
-			case STAGES.AFTER:
-				return <AfterStage onRestart={handleRestart} />;
+				return (
+					<PlayingStage
+						onEndGame={handleEndGame}
+						gameMode={gameMode}
+					/>
+				);
+			case STAGES.SCORE:
+				return (
+					<ScoreScreen
+						score={score}
+						onReturnToMenu={handleReturnToMenu}
+					/>
+				);
 			default:
-				return <BeforeStage onStartGame={handleStartGame} />;
+				return <MenuScreen onSelectMode={handleSelectMode} />;
 		}
 	};
 

@@ -12,5 +12,12 @@ const config = {
 		name: '@storybook/react-vite',
 		options: {},
 	},
+	viteFinal: async (config) => {
+		const viteConfig = await import('../config/vite.config.js');
+		return {
+			...config,
+			plugins: [...(config.plugins || []), ...(viteConfig.default.plugins || [])],
+		};
+	},
 };
 export default config;

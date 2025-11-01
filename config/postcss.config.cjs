@@ -1,5 +1,9 @@
+const { resolve } = require('path');
+
 module.exports = {
 	plugins: {
-		'@pandacss/dev/postcss': {},
+		'@pandacss/dev/postcss': {
+			configPath: resolve(__dirname, 'panda.config.mjs'),
+		},
 	},
 };

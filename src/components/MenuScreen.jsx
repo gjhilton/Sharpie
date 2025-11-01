@@ -1,7 +1,7 @@
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import { GAME_MODES } from '../constants/stages.js';
-import logo from '../../artwork/sharpielogo.svg';
+import logo from '../artwork/Branding/sharpielogo.svg';
 
 const Logo = () => (
 	<div

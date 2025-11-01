@@ -1,13 +1,18 @@
 {
-	"permissions": {
-		"allow": [
-			"Bash(npx storybook@latest init:*)",
-			"Bash(ls:*)",
-			"Bash(npm run dev:*)",
-			"Bash(npm run build:*)",
-			"Bash(npm run build-storybook:*)",
-			"Bash(npm run lint)"
-		],
-		"deny": []
-	}
+  "permissions": {
+    "allow": [
+      "Bash(npx storybook@latest init:*)",
+      "Bash(ls:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run build-storybook:*)",
+      "Bash(npm run lint)",
+      "Bash(cat:*)",
+      "Bash(npm install:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(npm run generate-favicons:*)",
+      "WebSearch"
+    ],
+    "deny": []
+  }
 }

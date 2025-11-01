@@ -2,8 +2,8 @@ import { useRef, useState } from 'react';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
-const KB = ({ keyCallback }) => {
-	const [layout, setLayout] = useState('default');
+const KB = ({ keyCallback, initialLayout = 'default' }) => {
+	const [layout, setLayout] = useState(initialLayout);
 	const keyboard = useRef();
 
 	const handleShift = () => {

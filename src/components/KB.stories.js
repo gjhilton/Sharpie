@@ -12,6 +12,11 @@ export default {
       action: 'key pressed',
       description: 'Function called when a key is pressed',
     },
+    initialLayout: {
+      control: 'select',
+      options: ['default', 'shift'],
+      description: 'Initial keyboard layout (default for lowercase, shift for uppercase)',
+    },
   },
 };
 
@@ -23,6 +28,19 @@ export const WithCallback = {
   args: {
     keyCallback: (key) => {
       console.log('Key pressed:', key);
+    },
+  },
+};
+
+export const ShiftLayout = {
+  args: {
+    initialLayout: 'shift',
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Keyboard with uppercase letters displayed by default (useful for Majuscule mode)',
+      },
     },
   },
 };

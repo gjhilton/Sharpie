@@ -3,6 +3,7 @@ import { css } from '../../styled-system/css';
 import StageButton from './StageButton.jsx';
 import KB from './KB.jsx';
 import Card from './Card.jsx';
+import { CHARACTER_SETS, GAME_MODES } from '../constants/stages.js';
 
 const STATUS = {
 	NONE: 'none',
@@ -128,16 +129,20 @@ const StatusDisplay = ({
 	return <div>{renderStatus()}</div>;
 };
 
-const getRandomLetter = () => {
-	const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const getRandomLetter = (characters) => {
 	const randomIndex = Math.floor(Math.random() * characters.length);
 	return characters[randomIndex];
 };
 
-const PlayingStage = ({ onEndGame }) => {
-	const [currentLetter, setCurrentLetter] = useState(getRandomLetter());
+const PlayingStage = ({ onEndGame, gameMode }) => {
+	const characters = CHARACTER_SETS[gameMode];
+	const [currentLetter, setCurrentLetter] = useState(getRandomLetter(characters));
 	const [attempt, setAttempt] = useState(null);
 	const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE);
+	const [correctCount, setCorrectCount] = useState(0);
+	const [incorrectCount, setIncorrectCount] = useState(0);
+	const startTimeRef = useRef(Date.now());
+
 	const getStatus = attemptValue => {
 		if (!attemptValue) return STATUS.NONE;
 		return attemptValue === currentLetter
@@ -152,14 +157,22 @@ const PlayingStage = ({ onEndGame }) => {
 
 	useEffect(() => {
 		if (attempt === null && attemptStatus === STATUS.NONE) {
-			const newLetter = getRandomLetter();
+			const newLetter = getRandomLetter(characters);
 			setCurrentLetter(newLetter);
 		}
-	}, [attempt, attemptStatus]);
+	}, [attempt, attemptStatus, characters]);
 
 	useEffect(() => {
 		if (attempt !== null) {
-			setAttemptStatus(getStatus(attempt));
+			const status = getStatus(attempt);
+			setAttemptStatus(status);
+
+			// Update score counts
+			if (status === STATUS.CORRECT) {
+				setCorrectCount(prev => prev + 1);
+			} else if (status === STATUS.INCORRECT) {
+				setIncorrectCount(prev => prev + 1);
+			}
 		} else {
 			setAttemptStatus(STATUS.NONE);
 		}
@@ -188,7 +201,10 @@ const PlayingStage = ({ onEndGame }) => {
 					opacity: attempt ? 0.01 : 1,
 				})}
 			>
-				<KB keyCallback={attempt ? disableKeyPress : handleKeyPress} />
+				<KB
+					keyCallback={attempt ? disableKeyPress : handleKeyPress}
+					initialLayout={gameMode === GAME_MODES.MAJUSCULE ? 'shift' : 'default'}
+				/>
 			</div>
 
 			<div
@@ -199,7 +215,27 @@ const PlayingStage = ({ onEndGame }) => {
 					margin: '2rem 0',
 				})}
 			>
-				<StageButton onClick={onEndGame} label="End Game" />
+				<StageButton
+					onClick={() => {
+						const endTime = Date.now();
+						const timeElapsed = Math.round(
+							(endTime - startTimeRef.current) / 1000
+						); // in seconds
+						const total = correctCount + incorrectCount;
+						const percentage =
+							total > 0
+								? Math.round((correctCount / total) * 100)
+								: 0;
+
+						onEndGame({
+							correct: correctCount,
+							incorrect: incorrectCount,
+							percentage,
+							timeElapsed,
+						});
+					}}
+					label="End Game"
+				/>
 			</div>
 		</div>
 	);

@@ -14,8 +14,7 @@ export const Default = {
 	parameters: {
 		docs: {
 			description: {
-				story:
-					'The complete application showing the full flow: Menu → Playing → Score → Menu. Click through the interface to test the complete user journey.',
+				story: 'The complete application showing the full flow: Menu → Playing → Score → Menu. Click through the interface to test the complete user journey.',
 			},
 		},
 	},

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { css } from '../../styled-system/css';
-import StageButton from './StageButton.jsx';
+import Button from './Button.jsx';
 import KB from './KB.jsx';
 import Card from './Card.jsx';
 import { CHARACTER_SETS, GAME_MODES } from '../constants/stages.js';
@@ -38,7 +38,7 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => (
 				margin: '2rem 0',
 			})}
 		>
-			<StageButton onClick={handleNextLetter} label="Next" />
+			<Button onClick={handleNextLetter} label="Next" />
 		</div>
 	</div>
 );
@@ -80,7 +80,7 @@ const IncorrectAnswer = ({ solution, attempt, handleNextLetter }) => (
 				margin: '2rem 0',
 			})}
 		>
-			<StageButton onClick={handleNextLetter} label="Next" />
+			<Button onClick={handleNextLetter} label="Next" />
 		</div>
 	</div>
 );
@@ -129,14 +129,16 @@ const StatusDisplay = ({
 	return <div>{renderStatus()}</div>;
 };
 
-const getRandomLetter = (characters) => {
+const getRandomLetter = characters => {
 	const randomIndex = Math.floor(Math.random() * characters.length);
 	return characters[randomIndex];
 };
 
 const PlayingStage = ({ onEndGame, gameMode }) => {
 	const characters = CHARACTER_SETS[gameMode];
-	const [currentLetter, setCurrentLetter] = useState(getRandomLetter(characters));
+	const [currentLetter, setCurrentLetter] = useState(
+		getRandomLetter(characters)
+	);
 	const [attempt, setAttempt] = useState(null);
 	const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE);
 	const [correctCount, setCorrectCount] = useState(0);
@@ -203,7 +205,9 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 			>
 				<KB
 					keyCallback={attempt ? disableKeyPress : handleKeyPress}
-					initialLayout={gameMode === GAME_MODES.MAJUSCULE ? 'shift' : 'default'}
+					initialLayout={
+						gameMode === GAME_MODES.MAJUSCULE ? 'shift' : 'default'
+					}
 				/>
 			</div>
 
@@ -215,7 +219,7 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 					margin: '2rem 0',
 				})}
 			>
-				<StageButton
+				<Button
 					onClick={() => {
 						const endTime = Date.now();
 						const timeElapsed = Math.round(

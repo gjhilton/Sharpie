@@ -1,5 +1,5 @@
 import { css } from '../../styled-system/css';
-import StageButton from './StageButton.jsx';
+import Button from './Button.jsx';
 
 const ScoreScreen = ({ score, onReturnToMenu }) => {
 	const { correct, incorrect, percentage, timeElapsed } = score;
@@ -171,7 +171,7 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 					marginTop: '2rem',
 				})}
 			>
-				<StageButton onClick={onReturnToMenu} label="Return to Menu" />
+				<Button onClick={onReturnToMenu} label="Return to Menu" />
 			</div>
 		</div>
 	);

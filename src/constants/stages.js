@@ -16,5 +16,6 @@ export const CHARACTER_SETS = {
 	[GAME_MODES.MAJUSCULE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
 	[GAME_MODES.MINUSCULE]: 'abcdefghijklmnopqrstuvwxyz',
 	[GAME_MODES.EXTRAS]: '0123456789!@#$%&*(),.?;:\'"-',
-	[GAME_MODES.ALL]: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*(),.?;:\'"-',
+	[GAME_MODES.ALL]:
+		'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*(),.?;:\'"-',
 };

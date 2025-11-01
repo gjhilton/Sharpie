@@ -12,11 +12,13 @@ export default {
 		gameMode: {
 			control: 'select',
 			options: Object.values(GAME_MODES),
-			description: 'The selected game mode that determines which characters appear',
+			description:
+				'The selected game mode that determines which characters appear',
 		},
 		onEndGame: {
 			action: 'game ended',
-			description: 'Function called when End Game button is clicked with score data',
+			description:
+				'Function called when End Game button is clicked with score data',
 		},
 	},
 };

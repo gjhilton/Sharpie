@@ -1,6 +1,6 @@
 import { css } from '../../styled-system/css';
 
-const StageButton = ({ onClick, label }) => (
+const Button = ({ onClick, label }) => (
 	<button
 		className={css({
 			border: '1px solid black',
@@ -14,4 +14,4 @@ const StageButton = ({ onClick, label }) => (
 	</button>
 );
 
-export default StageButton;
+export default Button;

@@ -15,7 +15,8 @@ export default {
 		},
 		onReturnToMenu: {
 			action: 'return to menu',
-			description: 'Function called when Return to Menu button is clicked',
+			description:
+				'Function called when Return to Menu button is clicked',
 		},
 	},
 };

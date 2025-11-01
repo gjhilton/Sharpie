@@ -1,75 +1,85 @@
 import { css } from '../../styled-system/css';
-import StageButton from './StageButton.jsx';
+import Button from './Button.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 import logo from '../../artwork/sharpielogo.svg';
 
+const Logo = () => (
+	<div
+		className={css({
+			marginBottom: '2rem',
+		})}
+	>
+		<img
+			src={logo}
+			alt="Sharpie Logo"
+			className={css({
+				maxWidth: '400px',
+				width: '100%',
+				height: 'auto',
+			})}
+		/>
+	</div>
+);
+
+const Intro = () => (
+	<div
+		className={css({
+			display: 'none',
+		})}
+	>
+		A beginner-level workout in identifying secretary hand letterforms.
+	</div>
+);
+
+const Menu = ({ onSelectMode }) => (
+	<div
+		className={css({
+			display: 'grid',
+			gridTemplateColumns: '1fr 1fr',
+			gap: '1rem',
+			maxWidth: '600px',
+			margin: '0 auto',
+		})}
+	>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+			label="Majuscule"
+		/>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+			label="Minuscule"
+		/>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.EXTRAS)}
+			label="Extras"
+		/>
+		<Button onClick={() => onSelectMode(GAME_MODES.ALL)} label="All" />
+	</div>
+);
+
+const Credit = () => (
+	<div
+		className={css({
+			fontSize: '0.8rem',
+			marginTop: '1rem',
+		})}
+	>
+		Concept, code &amp; design (also all mistakes) copyright g.j.hilton /
+		funeral games &copy;2025; MSS images ownership as noted
+	</div>
+);
+
 const MenuScreen = ({ onSelectMode }) => {
 	return (
-		<div>
-			<div
-				className={css({
-					textAlign: 'center',
-					marginBottom: '2rem',
-				})}
-			>
-				<img
-					src={logo}
-					alt="Sharpie Logo"
-					className={css({
-						maxWidth: '400px',
-						width: '100%',
-						height: 'auto',
-					})}
-				/>
-			</div>
-			<h1
-				className={css({
-					fontSize: '3rem',
-					textAlign: 'center',
-					marginBottom: '2rem',
-				})}
-			>
-				Select Game Mode
-			</h1>
-			<div
-				className={css({
-					display: 'grid',
-					gridTemplateColumns: '1fr 1fr',
-					gap: '1rem',
-					maxWidth: '600px',
-					margin: '0 auto',
-				})}
-			>
-				<StageButton
-					onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-					label="Majuscule"
-				/>
-				<StageButton
-					onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-					label="Minuscule"
-				/>
-				<StageButton
-					onClick={() => onSelectMode(GAME_MODES.EXTRAS)}
-					label="Extras"
-				/>
-				<StageButton
-					onClick={() => onSelectMode(GAME_MODES.ALL)}
-					label="All"
-				/>
-			</div>
-			<div
-				className={css({
-					marginTop: '2rem',
-					textAlign: 'center',
-					color: '#666',
-					fontSize: '0.9rem',
-				})}
-			>
-				<p>Majuscule: Uppercase letters (A-Z)</p>
-				<p>Minuscule: Lowercase letters (a-z)</p>
-				<p>Extras: Numbers and punctuation</p>
-				<p>All: Everything combined</p>
-			</div>
+		<div
+			className={css({
+				textAlign: 'center',
+			})}
+		>
+			<Logo />
+			<Intro />
+			<Menu onSelectMode={onSelectMode} />
+			<Credit />
 		</div>
 	);
 };

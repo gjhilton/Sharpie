@@ -26,6 +26,7 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 	<button
 		className={css({
 			opacity: disabled ? 0.5 : 1,
+			cursor: disabled ? 'not-allowed' : 'pointer',
 			border: hero ? '3px solid black' : '1px solid black',
 			fontSize: 'xl',
 			fontWeight: hero ? 900 : 400,
@@ -34,6 +35,7 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 			textTransform: hero ? 'uppercase' : 'none',
 		})}
 		onClick={onClick}
+		disabled={disabled}
 	>
 		<ButtonLabel text={label} />
 		<ButtonLabelAux text={sublabel} />

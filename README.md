@@ -1,4 +1,4 @@
-# Sharpie
+![image](/artwork/logo.jpg)
 
 A beginner-level workout in identifying secretary hand letterforms.
 

@@ -20,6 +20,11 @@ export const DB = {
 					source: "joscelyn"
 				},
 				{
+					img: "a2.png",
+					character: "a",
+					source: "joscelyn"
+				},
+				{
 					img: "b.png",
 					character: "b",
 					source: "joscelyn"

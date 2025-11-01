@@ -1,10 +1,14 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
+const SPECIAL_KEYS = {
+	SHIFT: '{shift}',
+	LOCK: '{lock}',
+};
+
 const KB = ({ keyCallback, initialLayout = 'default' }) => {
 	const [layout, setLayout] = useState(initialLayout);
-	const keyboard = useRef();
 
 	const handleShift = () => {
 		const newLayoutName = layout === 'default' ? 'shift' : 'default';
@@ -12,8 +16,7 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 	};
 
 	const onKeyPress = button => {
-		console.log('keypress');
-		if (button === '{shift}' || button === '{lock}') {
+		if (button === SPECIAL_KEYS.SHIFT || button === SPECIAL_KEYS.LOCK) {
 			handleShift();
 		} else {
 			keyCallback(button);
@@ -23,7 +26,6 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 	return (
 		<div>
 			<Keyboard
-				keyboardRef={r => (keyboard.current = r)}
 				layoutName={layout}
 				onKeyPress={onKeyPress}
 				layout={{

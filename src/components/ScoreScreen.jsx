@@ -1,17 +1,76 @@
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 
+const formatTime = seconds => {
+	const mins = Math.floor(seconds / 60);
+	const secs = seconds % 60;
+	if (mins > 0) {
+		return `${mins}m ${secs}s`;
+	}
+	return `${secs}s`;
+};
+
+const StatCard = ({ label, value, bgColor, textColor }) => (
+	<div
+		className={css({
+			display: 'flex',
+			justifyContent: 'space-between',
+			alignItems: 'center',
+			padding: '1rem',
+			backgroundColor: bgColor,
+			borderRadius: '8px',
+		})}
+	>
+		<span
+			className={css({
+				fontSize: '1.2rem',
+				fontWeight: 'bold',
+				color: textColor,
+			})}
+		>
+			{label}
+		</span>
+		<span
+			className={css({
+				fontSize: '2rem',
+				fontWeight: 'bold',
+				color: textColor,
+			})}
+		>
+			{value}
+		</span>
+	</div>
+);
+
 const ScoreScreen = ({ score, onReturnToMenu }) => {
 	const { correct, incorrect, percentage, timeElapsed } = score;
 
-	const formatTime = seconds => {
-		const mins = Math.floor(seconds / 60);
-		const secs = seconds % 60;
-		if (mins > 0) {
-			return `${mins}m ${secs}s`;
-		}
-		return `${secs}s`;
-	};
+	const stats = [
+		{
+			label: 'Correct Answers',
+			value: correct,
+			bgColor: '#e8f5e9',
+			textColor: '#2e7d32',
+		},
+		{
+			label: 'Incorrect Answers',
+			value: incorrect,
+			bgColor: '#ffebee',
+			textColor: '#c62828',
+		},
+		{
+			label: 'Accuracy',
+			value: `${percentage}%`,
+			bgColor: '#e3f2fd',
+			textColor: '#1565c0',
+		},
+		{
+			label: 'Time Taken',
+			value: formatTime(timeElapsed),
+			bgColor: '#fff3e0',
+			textColor: '#ef6c00',
+		},
+	];
 
 	return (
 		<div>
@@ -42,125 +101,15 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 						gap: '1.5rem',
 					})}
 				>
-					<div
-						className={css({
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '1rem',
-							backgroundColor: '#e8f5e9',
-							borderRadius: '8px',
-						})}
-					>
-						<span
-							className={css({
-								fontSize: '1.2rem',
-								fontWeight: 'bold',
-								color: '#2e7d32',
-							})}
-						>
-							Correct Answers
-						</span>
-						<span
-							className={css({
-								fontSize: '2rem',
-								fontWeight: 'bold',
-								color: '#2e7d32',
-							})}
-						>
-							{correct}
-						</span>
-					</div>
-
-					<div
-						className={css({
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '1rem',
-							backgroundColor: '#ffebee',
-							borderRadius: '8px',
-						})}
-					>
-						<span
-							className={css({
-								fontSize: '1.2rem',
-								fontWeight: 'bold',
-								color: '#c62828',
-							})}
-						>
-							Incorrect Answers
-						</span>
-						<span
-							className={css({
-								fontSize: '2rem',
-								fontWeight: 'bold',
-								color: '#c62828',
-							})}
-						>
-							{incorrect}
-						</span>
-					</div>
-
-					<div
-						className={css({
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '1rem',
-							backgroundColor: '#e3f2fd',
-							borderRadius: '8px',
-						})}
-					>
-						<span
-							className={css({
-								fontSize: '1.2rem',
-								fontWeight: 'bold',
-								color: '#1565c0',
-							})}
-						>
-							Accuracy
-						</span>
-						<span
-							className={css({
-								fontSize: '2rem',
-								fontWeight: 'bold',
-								color: '#1565c0',
-							})}
-						>
-							{percentage}%
-						</span>
-					</div>
-
-					<div
-						className={css({
-							display: 'flex',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-							padding: '1rem',
-							backgroundColor: '#fff3e0',
-							borderRadius: '8px',
-						})}
-					>
-						<span
-							className={css({
-								fontSize: '1.2rem',
-								fontWeight: 'bold',
-								color: '#ef6c00',
-							})}
-						>
-							Time Taken
-						</span>
-						<span
-							className={css({
-								fontSize: '2rem',
-								fontWeight: 'bold',
-								color: '#ef6c00',
-							})}
-						>
-							{formatTime(timeElapsed)}
-						</span>
-					</div>
+					{stats.map((stat, index) => (
+						<StatCard
+							key={index}
+							label={stat.label}
+							value={stat.value}
+							bgColor={stat.bgColor}
+							textColor={stat.textColor}
+						/>
+					))}
 				</div>
 			</div>
 

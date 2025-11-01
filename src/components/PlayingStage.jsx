@@ -13,19 +13,17 @@ const STATUS = {
 	INCORRECT: 'incorrect',
 };
 
-const Unanswered = ({ solution, handleKeyPress }) => (
-	<div>
-		<Card
-			graph={solution.graph}
-			imagePath={solution.imagePath}
-		/>
-	</div>
+const Unanswered = ({ solution }) => (
+	<Card
+		graph={solution.graph}
+		imagePath={solution.imagePath}
+	/>
 );
 
 const CorrectAnswer = ({ solution, handleNextLetter }) => (
-	<div>
+	<>
 		<Card
-			title={'Correct'}
+			title="Correct"
 			graph={solution.graph}
 			imagePath={solution.imagePath}
 			caption={solution.graph.character}
@@ -50,15 +48,15 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => (
 		>
 			<Button onClick={handleNextLetter} label="Next" />
 		</div>
-	</div>
+	</>
 );
 
 const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter }) => (
-	<div>
+	<>
 		<div className={css({ display: 'flex' })}>
 			<div className={css({ flex: 1 })}>
 				<Card
-					title={'Correct answer'}
+					title="Correct answer"
 					graph={solution.graph}
 					imagePath={solution.imagePath}
 					caption={solution.graph.character}
@@ -66,7 +64,7 @@ const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter
 			</div>
 			<div className={css({ flex: 1 })}>
 				<Card
-					title={'Your answer'}
+					title="Your answer"
 					imagePath={attemptImagePath}
 					caption={attempt}
 				/>
@@ -93,7 +91,7 @@ const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter
 		>
 			<Button onClick={handleNextLetter} label="Next" />
 		</div>
-	</div>
+	</>
 );
 
 const StatusDisplay = ({
@@ -104,42 +102,32 @@ const StatusDisplay = ({
 	attempt,
 	attemptImagePath,
 }) => {
-	const renderStatus = () => {
-		switch (status) {
-			case STATUS.NONE:
-				return (
-					<Unanswered
-						handleKeyPress={handleKeyPress}
-						solution={solution}
-					/>
-				);
-			case STATUS.CORRECT:
-				return (
-					<CorrectAnswer
-						solution={solution}
-						handleNextLetter={handleNextLetter}
-					/>
-				);
-			case STATUS.INCORRECT:
-				return (
-					<IncorrectAnswer
-						attempt={attempt}
-						attemptImagePath={attemptImagePath}
-						solution={solution}
-						handleNextLetter={handleNextLetter}
-					/>
-				);
-			default:
-				return (
-					<Unanswered
-						handleKeyPress={handleKeyPress}
-						solution={solution}
-					/>
-				);
-		}
-	};
+	switch (status) {
+		case STATUS.CORRECT:
+			return (
+				<CorrectAnswer
+					solution={solution}
+					handleNextLetter={handleNextLetter}
+				/>
+			);
+		case STATUS.INCORRECT:
+			return (
+				<IncorrectAnswer
+					attempt={attempt}
+					attemptImagePath={attemptImagePath}
+					solution={solution}
+					handleNextLetter={handleNextLetter}
+				/>
+			);
+		case STATUS.NONE:
+		default:
+			return <Unanswered solution={solution} />;
+	}
+};
 
-	return <div>{renderStatus()}</div>;
+const getGraphSetTitle = (gameMode) => {
+	if (gameMode === GAME_MODES.ALL) return null;
+	return gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
 };
 
 const getGraphsForGameMode = (gameMode) => {
@@ -147,7 +135,7 @@ const getGraphsForGameMode = (gameMode) => {
 		const enabledGraphSets = db.getEnabledGraphSets(DB);
 		return db.flattenGraphs(enabledGraphSets);
 	}
-	const title = gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
+	const title = getGraphSetTitle(gameMode);
 	const graphSet = db.findGraphSetByTitle(DB, title);
 	return db.getGraphs(graphSet);
 };
@@ -160,7 +148,7 @@ const getRandomSolution = (graphs, graphSetTitle) => {
 
 const PlayingStage = ({ onEndGame, gameMode }) => {
 	const graphs = getGraphsForGameMode(gameMode);
-	const graphSetTitle = gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
+	const graphSetTitle = getGraphSetTitle(gameMode);
 	const [currentSolution, setCurrentSolution] = useState(
 		getRandomSolution(graphs, graphSetTitle)
 	);
@@ -217,8 +205,18 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 		}
 	};
 
-	const disableKeyPress = () => {
-		// Disabled state - no action needed
+	const handleEndGame = () => {
+		const endTime = Date.now();
+		const timeElapsed = Math.round((endTime - startTimeRef.current) / 1000);
+		const total = correctCount + incorrectCount;
+		const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+
+		onEndGame({
+			correct: correctCount,
+			incorrect: incorrectCount,
+			percentage,
+			timeElapsed,
+		});
 	};
 
 	return (
@@ -238,7 +236,7 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 				})}
 			>
 				<KB
-					keyCallback={attempt ? disableKeyPress : handleKeyPress}
+					keyCallback={attempt ? undefined : handleKeyPress}
 					initialLayout={
 						gameMode === GAME_MODES.MAJUSCULE ? 'shift' : 'default'
 					}
@@ -253,27 +251,7 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 					margin: '2rem 0',
 				})}
 			>
-				<Button
-					onClick={() => {
-						const endTime = Date.now();
-						const timeElapsed = Math.round(
-							(endTime - startTimeRef.current) / 1000
-						); // in seconds
-						const total = correctCount + incorrectCount;
-						const percentage =
-							total > 0
-								? Math.round((correctCount / total) * 100)
-								: 0;
-
-						onEndGame({
-							correct: correctCount,
-							incorrect: incorrectCount,
-							percentage,
-							timeElapsed,
-						});
-					}}
-					label="End Game"
-				/>
+				<Button onClick={handleEndGame} label="End Game" />
 			</div>
 		</div>
 	);

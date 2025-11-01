@@ -228,10 +228,28 @@ describe('getImagePath', () => {
 		expect(result).toBe('/data/joscelyn-brev/and.png');
 	});
 
-	test('defaults to minuscules for unknown graphSet', () => {
+	test('auto-detects minuscule when graphSetTitle is null', () => {
 		const graph = { img: 'x.png', character: 'x' };
-		const result = db.getImagePath(graph, 'unknown');
+		const result = db.getImagePath(graph, null);
 		expect(result).toBe('/data/joscelyn-min/x.png');
+	});
+
+	test('auto-detects majuscule when graphSetTitle is null', () => {
+		const graph = { img: 'x.png', character: 'X' };
+		const result = db.getImagePath(graph, null);
+		expect(result).toBe('/data/joscelyn-maj/x.png');
+	});
+
+	test('auto-detects numeral when graphSetTitle is null', () => {
+		const graph = { img: '5.png', character: '5' };
+		const result = db.getImagePath(graph, null);
+		expect(result).toBe('/data/joscelyn-num/5.png');
+	});
+
+	test('auto-detects brevigraph when graphSetTitle is null', () => {
+		const graph = { img: 'and.png', character: '&' };
+		const result = db.getImagePath(graph, null);
+		expect(result).toBe('/data/joscelyn-brev/and.png');
 	});
 });
 

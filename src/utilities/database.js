@@ -52,7 +52,22 @@ export const getImagePath = (graph, graphSetTitle) => {
 		'Numerals': 'joscelyn-num',
 		'Brevigraphs': 'joscelyn-brev'
 	}
-	const folder = folderMap[graphSetTitle] || 'joscelyn-min'
+
+	// If graphSetTitle is not provided, detect from character
+	let folder = folderMap[graphSetTitle]
+	if (!folder) {
+		const char = graph.character
+		if (char >= 'a' && char <= 'z') {
+			folder = 'joscelyn-min'
+		} else if (char >= 'A' && char <= 'Z') {
+			folder = 'joscelyn-maj'
+		} else if (char >= '0' && char <= '9') {
+			folder = 'joscelyn-num'
+		} else {
+			folder = 'joscelyn-brev'
+		}
+	}
+
 	return `/data/${folder}/${graph.img}`
 }
 

@@ -1,5 +1,8 @@
 import { css } from '../../styled-system/css';
 
+const DEFAULT_TITLE = 'Identify the letterform';
+const DEFAULT_CAPTION = '?';
+
 const Card = ({ title, graph, letter, caption, imagePath }) => (
 	<div
 		className={css({
@@ -9,12 +12,12 @@ const Card = ({ title, graph, letter, caption, imagePath }) => (
 			padding: '1rem',
 		})}
 	>
-		<div>{title ? title : 'Identify the letterform'}</div>
+		<div>{title || DEFAULT_TITLE}</div>
 		<div>
 			{imagePath ? (
 				<img
 					src={imagePath}
-					alt={graph?.character || letter}
+					alt={caption || letter || graph?.character}
 					className={css({
 						maxWidth: '100%',
 						height: 'auto',
@@ -40,7 +43,7 @@ const Card = ({ title, graph, letter, caption, imagePath }) => (
 				padding: '1rem',
 			})}
 		>
-			{caption ? caption : '?'}
+			{caption || DEFAULT_CAPTION}
 		</div>
 	</div>
 );

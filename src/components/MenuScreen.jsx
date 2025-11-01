@@ -33,13 +33,11 @@ const Intro = () => (
 
 const Menu = ({ onSelectMode }) => (
 	<div>
-		<div>
-			<Button
-				hero={true}
-				onClick={() => onSelectMode(GAME_MODES.ALL)}
-				label="Start"
-			/>
-		</div>
+		<Button
+			hero
+			onClick={() => onSelectMode(GAME_MODES.ALL)}
+			label="Start"
+		/>
 		<div>
 			<p>Or practice only:</p>
 		</div>
@@ -61,12 +59,8 @@ const Menu = ({ onSelectMode }) => (
 				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
 				label="MAJUSCULES"
 			/>
-			<Button label="Numerals" sublabel="(coming soon)" disabled="true" />
-			<Button
-				label="Brevigraphs"
-				sublabel="(coming soon)"
-				disabled="true"
-			/>
+			<Button label="Numerals" sublabel="(coming soon)" disabled />
+			<Button label="Brevigraphs" sublabel="(coming soon)" disabled />
 		</div>
 	</div>
 );
@@ -83,19 +77,17 @@ const Credit = () => (
 	</div>
 );
 
-const MenuScreen = ({ onSelectMode }) => {
-	return (
-		<div
-			className={css({
-				textAlign: 'center',
-			})}
-		>
-			<Logo />
-			<Intro />
-			<Menu onSelectMode={onSelectMode} />
-			<Credit />
-		</div>
-	);
-};
+const MenuScreen = ({ onSelectMode }) => (
+	<div
+		className={css({
+			textAlign: 'center',
+		})}
+	>
+		<Logo />
+		<Intro />
+		<Menu onSelectMode={onSelectMode} />
+		<Credit />
+	</div>
+);
 
 export default MenuScreen;

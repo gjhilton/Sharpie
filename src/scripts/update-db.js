@@ -138,7 +138,7 @@ ${majusculeEntries.map(entry => `				{
  */
 async function main() {
 	try {
-		console.log('🚀 Starting Joscelyn assets import...\n');
+		console.log('🚀 Starting update-db...\n');
 		console.log('=' .repeat(60));
 
 		const results = [];

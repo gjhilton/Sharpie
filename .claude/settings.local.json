@@ -11,7 +11,9 @@
       "Bash(npm install:*)",
       "Bash(npm uninstall:*)",
       "Bash(npm run generate-favicons:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(chmod:*)",
+      "Bash(npm run import-joscelyn:*)"
     ],
     "deny": []
   }

@@ -17,3 +17,7 @@ npm run lint          # Run ESLint
 npm run format        # Format code with Prettier
 npm run storybook     # Run Storybook
 ```
+
+### Asset creation workflow
+
+Use photoshop file > automate > generator plugins > image assets

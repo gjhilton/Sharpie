@@ -21,7 +21,4 @@ export const Default = {
 
 export const Interactive = {
 	args: {},
-	play: async ({ canvasElement }) => {
-		// This story can be used for interactive testing
-	},
 };

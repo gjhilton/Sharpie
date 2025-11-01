@@ -13,7 +13,7 @@ const Logo = () => (
 			src={logo}
 			alt="Sharpie Logo"
 			className={css({
-				maxWidth: '400px',
+				maxWidth: '300px',
 				width: '100%',
 				height: 'auto',
 			})}
@@ -24,36 +24,50 @@ const Logo = () => (
 const Intro = () => (
 	<div
 		className={css({
-			display: 'none',
+			fontSize: 'xl',
 		})}
 	>
-		A beginner-level workout in identifying secretary hand letterforms.
+		A beginner-level workout to drill identifying secretary hand letters.
 	</div>
 );
 
 const Menu = ({ onSelectMode }) => (
-	<div
-		className={css({
-			display: 'grid',
-			gridTemplateColumns: '1fr 1fr',
-			gap: '1rem',
-			maxWidth: '600px',
-			margin: '0 auto',
-		})}
-	>
-		<Button
-			onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-			label="Majuscule"
-		/>
-		<Button
-			onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-			label="Minuscule"
-		/>
-		<Button
-			onClick={() => onSelectMode(GAME_MODES.EXTRAS)}
-			label="Extras"
-		/>
-		<Button onClick={() => onSelectMode(GAME_MODES.ALL)} label="All" />
+	<div>
+		<div>
+			<Button
+				hero={true}
+				onClick={() => onSelectMode(GAME_MODES.ALL)}
+				label="Start"
+			/>
+		</div>
+		<div>
+			<p>Or practice only:</p>
+		</div>
+		<div
+			className={css({
+				display: 'grid',
+				gridTemplateColumns: '1fr 1fr',
+				gap: '1rem',
+				rowGap: '0.2rem',
+				maxWidth: '600px',
+				margin: '0 auto',
+			})}
+		>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+				label="minuscules"
+			/>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+				label="MAJUSCULES"
+			/>
+			<Button label="Numerals" sublabel="(coming soon)" disabled="true" />
+			<Button
+				label="Brevigraphs"
+				sublabel="(coming soon)"
+				disabled="true"
+			/>
+		</div>
 	</div>
 );
 

@@ -13,7 +13,8 @@
       "Bash(npm run generate-favicons:*)",
       "WebSearch",
       "Bash(chmod:*)",
-      "Bash(npm run import-joscelyn:*)"
+      "Bash(npm run import-joscelyn:*)",
+      "Bash(npm run test:run:*)"
     ],
     "deny": []
   }

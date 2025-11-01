@@ -13,7 +13,10 @@
 		"storybook": "storybook dev -p 6006",
 		"build-storybook": "storybook build",
 		"generate-favicons": "vite build",
-		"import-joscelyn": "node scripts/import-joscelyn.js"
+		"import-joscelyn": "node scripts/import-joscelyn.js",
+		"test": "vitest",
+		"test:run": "vitest run",
+		"test:watch": "vitest watch"
 	},
 	"dependencies": {
 		"react": "^19.1.1",

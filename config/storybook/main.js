@@ -1,6 +1,6 @@
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
-	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
+	stories: ['../../src/**/*.mdx', '../../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
 	addons: [
 		'@chromatic-com/storybook',
 		'@storybook/addon-docs',
@@ -13,7 +13,7 @@ const config = {
 		options: {},
 	},
 	viteFinal: async (config) => {
-		const viteConfig = await import('../config/vite.config.js');
+		const viteConfig = await import('../vite.config.js');
 		return {
 			...config,
 			plugins: [...(config.plugins || []), ...(viteConfig.default.plugins || [])],

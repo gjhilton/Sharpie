@@ -158,6 +158,7 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const startTimeRef = useRef(Date.now());
+	const historyRef = useRef([]);
 
 	const getStatus = attemptValue => {
 		if (!attemptValue) return STATUS.NONE;
@@ -183,6 +184,15 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 		if (attempt !== null) {
 			const status = getStatus(attempt);
 			setAttemptStatus(status);
+
+			// Record to history
+			historyRef.current.push({
+				graph: currentSolution.graph,
+				imagePath: currentSolution.imagePath,
+				userAnswer: attempt,
+				correctAnswer: currentSolution.graph.character,
+				isCorrect: status === STATUS.CORRECT,
+			});
 
 			// Update score counts
 			if (status === STATUS.CORRECT) {
@@ -211,11 +221,33 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 		const total = correctCount + incorrectCount;
 		const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
 
+		// Process mistakes: filter incorrect, deduplicate, sort
+		const incorrectAttempts = historyRef.current.filter(h => !h.isCorrect);
+		const uniqueMistakes = [];
+		const seen = new Set();
+
+		incorrectAttempts.forEach(attempt => {
+			const key = `${attempt.graph.character}-${attempt.graph.img}`;
+			if (!seen.has(key)) {
+				seen.add(key);
+				uniqueMistakes.push({
+					graph: attempt.graph,
+					imagePath: attempt.imagePath,
+				});
+			}
+		});
+
+		// Sort alphabetically by character
+		uniqueMistakes.sort((a, b) =>
+			a.graph.character.localeCompare(b.graph.character)
+		);
+
 		onEndGame({
 			correct: correctCount,
 			incorrect: incorrectCount,
 			percentage,
 			timeElapsed,
+			mistakes: uniqueMistakes,
 		});
 	};
 

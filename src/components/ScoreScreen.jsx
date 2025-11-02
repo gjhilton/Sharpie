@@ -42,8 +42,40 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 	</div>
 );
 
+const MistakeCard = ({ graph, imagePath }) => (
+	<div
+		className={css({
+			border: '2px solid #ffcdd2',
+			borderRadius: '8px',
+			padding: '1rem',
+			backgroundColor: '#fff',
+			textAlign: 'center',
+		})}
+	>
+		<img
+			src={imagePath}
+			alt={graph.character}
+			className={css({
+				maxWidth: '100%',
+				height: 'auto',
+				padding: '1rem',
+			})}
+		/>
+		<div
+			className={css({
+				fontSize: '1.5rem',
+				fontWeight: 'bold',
+				color: '#c62828',
+				marginTop: '0.5rem',
+			})}
+		>
+			Correct: {graph.character}
+		</div>
+	</div>
+);
+
 const ScoreScreen = ({ score, onReturnToMenu }) => {
-	const { correct, incorrect, percentage, timeElapsed } = score;
+	const { correct, incorrect, percentage, timeElapsed, mistakes = [] } = score;
 
 	const stats = [
 		{
@@ -112,6 +144,45 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 					))}
 				</div>
 			</div>
+
+			{mistakes.length > 0 && (
+				<div
+					className={css({
+						maxWidth: '800px',
+						margin: '2rem auto 0',
+						padding: '2rem',
+						backgroundColor: '#f5f5f5',
+						borderRadius: '12px',
+						boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+					})}
+				>
+					<h2
+						className={css({
+							fontSize: '2rem',
+							textAlign: 'center',
+							marginBottom: '1.5rem',
+							color: '#c62828',
+						})}
+					>
+						Letters to Review
+					</h2>
+					<div
+						className={css({
+							display: 'grid',
+							gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+							gap: '1rem',
+						})}
+					>
+						{mistakes.map((mistake, index) => (
+							<MistakeCard
+								key={index}
+								graph={mistake.graph}
+								imagePath={mistake.imagePath}
+							/>
+						))}
+					</div>
+				</div>
+			)}
 
 			<div
 				className={css({

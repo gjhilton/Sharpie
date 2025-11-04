@@ -4,7 +4,7 @@ const ButtonLabel = ({ text }) => (
 	<span
 		className={css({
 			display: 'block',
-			fontSize: 'xl',
+			fontSize: 'l',
 		})}
 	>
 		{text}
@@ -25,6 +25,7 @@ const ButtonLabelAux = ({ text }) => (
 const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 	<button
 		className={css({
+			minWidth: { base: "100%", md: "200px" },
 			opacity: disabled ? 0.5 : 1,
 			cursor: disabled ? 'not-allowed' : 'pointer',
 			border: hero ? '3px solid black' : '1px solid black',

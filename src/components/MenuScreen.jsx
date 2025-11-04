@@ -7,7 +7,7 @@ import { GAME_MODES } from '../constants/stages.js';
 // Shared styles
 const textLeft = { textAlign: "left" };
 const sectionSpacing = { marginBottom: 12 }; // 3rem
-const bodyCopy = { fontSize: "xl", lineHeight: "1.6" }; // ~1.25rem with improved readability
+const bodyCopy = { fontSize: "m", lineHeight: "1.6" }; // ~1.25rem with improved readability
 const visuallyHidden = {
 	position: "absolute",
 	width: "1px",
@@ -45,11 +45,12 @@ const Main = () => <main className={css(sectionSpacing)}>
 	>
 		<div className={css({
 			...textLeft,
-			gridColumn: { base: "1", md: "1" },
+			gridColumn: "1/3",
 			gridRow: { base: "auto", md: "1" }
 		})}>
 			<h1 className={css({
-				fontSize: "2rem" 
+				fontSize: "xl" ,
+				lineHeight: "3rem"
 			})}>Hone your <span className={css({ fontFamily: "Joscelyn" })}>Secretary</span>.</h1>
 		</div>
 		<div className={css({
@@ -58,6 +59,18 @@ const Main = () => <main className={css(sectionSpacing)}>
 			gridRow: { base: "auto", md: "2" }
 		})}>
 			<p>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
+			<p className={css({
+			marginTop: "1rem"
+		})}>
+				<details>
+  <summary>more</summary>
+  <p>Many resources are available online to help you read secretary:</p>
+  <ul>
+	<li><a href="https://www.english.cam.ac.uk/ceres/ehoc/">English Handwriting Online 1500-1700</a></li>
+		<li><a href="https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand">Beinecke Library</a></li>
+		<li><a href="https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials">Scottish Handwriting</a></li>
+	</ul>
+</details></p>
 		</div>
 	</div>
 	<div className={css({ textAlign: "center" })}>
@@ -101,8 +114,7 @@ const Aside = () => <aside className={css(sectionSpacing)}>
 		role="note"
 		className={css({
 			...textLeft,
-			fontSize: "sm", // 0.875rem, close to 0.9rem
-			fontStyle: "italic"
+			fontSize: "m"
 		})}
 	>
 		Tip: 'Majuscule' is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.

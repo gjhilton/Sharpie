@@ -2,7 +2,7 @@ import { css } from '../../styled-system/css';
 import logo from '../artwork/Branding/sharpielogo.svg';
 
 export const SIZE = {
-	S: '200px',
+	S: '150px',
 	M: '300px',
 	L: '500px',
 };

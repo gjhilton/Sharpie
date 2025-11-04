@@ -33,6 +33,17 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 			padding: '1rem 3rem',
 			margin: '2rem 0',
 			textTransform: hero ? 'uppercase' : 'none',
+			transition: 'all 200ms ease-in-out',
+			_hover: disabled ? {} : {
+				transform: 'scale(1.02)'
+			},
+			_focusVisible: {
+				outline: '2px solid black',
+				outlineOffset: '2px'
+			},
+			_active: disabled ? {} : {
+				transform: 'scale(0.98)'
+			}
 		})}
 		onClick={onClick}
 		disabled={disabled}

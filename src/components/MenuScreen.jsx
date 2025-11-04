@@ -7,7 +7,18 @@ import { GAME_MODES } from '../constants/stages.js';
 // Shared styles
 const textLeft = { textAlign: "left" };
 const sectionSpacing = { marginBottom: 12 }; // 3rem
-const bodyCopy = { fontSize: "xl" }; // ~1.25rem, closest to 1.3125rem
+const bodyCopy = { fontSize: "xl", lineHeight: "1.6" }; // ~1.25rem with improved readability
+const visuallyHidden = {
+	position: "absolute",
+	width: "1px",
+	height: "1px",
+	padding: 0,
+	margin: "-1px",
+	overflow: "hidden",
+	clip: "rect(0, 0, 0, 0)",
+	whiteSpace: "nowrap",
+	border: 0
+};
 
 const Header = () => (
 	<header
@@ -38,8 +49,8 @@ const Main = () => <main className={css(sectionSpacing)}>
 			gridRow: { base: "auto", md: "1" }
 		})}>
 			<h1 className={css({
-				fontSize: "3xl" // 1.875rem, close to 2rem
-			})}>Hone your <span className="joscelyn">Secretary</span>.</h1>
+				fontSize: "2rem" 
+			})}>Hone your <span className={css({ fontFamily: "Joscelyn" })}>Secretary</span>.</h1>
 		</div>
 		<div className={css({
 			...textLeft,
@@ -59,6 +70,7 @@ const Main = () => <main className={css(sectionSpacing)}>
 </main>
 
 const Aside = () => <aside className={css(sectionSpacing)}>
+	<h2 className={css(visuallyHidden)}>Practice Options</h2>
 	<div className={css({
 		...textLeft,
 		...bodyCopy,
@@ -66,29 +78,34 @@ const Aside = () => <aside className={css(sectionSpacing)}>
 	})}>
 		Or practice just
 	</div>
-	<div className={css({
-		display: "flex",
-		flexDirection: { base: "column", sm: "row" },
-		gap: 4, // 1rem
-		justifyContent: "center",
-		mb: 6, // 1.5rem
-		alignItems: "center"
-	})}>
-		<Button
-			onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-			label="minuscules"
-		/>
-		<Button
-			onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-			label="MAJUSCULES"
-		/>
-	</div>
-	<div className={css({
-		...textLeft,
-		fontSize: "sm", // 0.875rem, close to 0.9rem
-		fontStyle: "italic"
-	})}>
-		Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.
+	<nav aria-label="Practice mode selection">
+		<div className={css({
+			display: "flex",
+			flexDirection: { base: "column", sm: "row" },
+			gap: 4, // 1rem
+			justifyContent: "center",
+			mb: 6, // 1.5rem
+			alignItems: "center"
+		})}>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+				label="minuscules"
+			/>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+				label="MAJUSCULES"
+			/>
+		</div>
+	</nav>
+	<div
+		role="note"
+		className={css({
+			...textLeft,
+			fontSize: "sm", // 0.875rem, close to 0.9rem
+			fontStyle: "italic"
+		})}
+	>
+		Tip: 'Majuscule' is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.
 	</div>
 </aside>
 

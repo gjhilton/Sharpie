@@ -1,8 +1,8 @@
-import Card from './Card';
+import Character from './Character';
 
 export default {
-	title: 'Components/Card',
-	component: Card,
+	title: 'Components/Character',
+	component: Character,
 	parameters: {
 		layout: 'centered',
 	},

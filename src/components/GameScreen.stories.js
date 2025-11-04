@@ -1,9 +1,9 @@
-import PlayingStage from './PlayingStage';
+import GameScreen from './GameScreen';
 import { GAME_MODES } from '../constants/stages';
 
 export default {
-	title: 'Screens/PlayingStage',
-	component: PlayingStage,
+	title: 'Screens/GameScreen',
+	component: GameScreen,
 	parameters: {
 		layout: 'fullscreen',
 	},

@@ -3,7 +3,7 @@ import '../style/App.css';
 import { css } from '../../styled-system/css';
 import { STAGES } from '../constants/stages.js';
 import MenuScreen from './MenuScreen.jsx';
-import PlayingStage from './PlayingStage.jsx';
+import GameScreen from './GameScreen.jsx';
 import ScoreScreen from './ScoreScreen.jsx';
 
 const App = () => {
@@ -33,7 +33,7 @@ const App = () => {
 				switch (stage) {
 					case STAGES.PLAYING:
 						return (
-							<PlayingStage
+							<GameScreen
 								onEndGame={handleEndGame}
 								gameMode={gameMode}
 							/>

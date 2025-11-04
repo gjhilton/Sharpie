@@ -3,7 +3,7 @@ import { css } from '../../styled-system/css';
 const DEFAULT_TITLE = 'Identify the letterform';
 const DEFAULT_CAPTION = '?';
 
-const Card = ({ title, graph, letter, caption, imagePath }) => (
+const Character = ({ title, graph, letter, caption, imagePath }) => (
 	<div
 		className={css({
 			maxWidth: '500px',
@@ -48,4 +48,4 @@ const Card = ({ title, graph, letter, caption, imagePath }) => (
 	</div>
 );
 
-export default Card;
+export default Character;

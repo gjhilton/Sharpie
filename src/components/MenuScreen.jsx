@@ -1,25 +1,7 @@
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
+import Logo from './Logo.jsx';
 import { GAME_MODES } from '../constants/stages.js';
-import logo from '../artwork/Branding/sharpielogo.svg';
-
-const Logo = () => (
-	<div
-		className={css({
-			marginBottom: '2rem',
-		})}
-	>
-		<img
-			src={logo}
-			alt="Sharpie Logo"
-			className={css({
-				maxWidth: '300px',
-				width: '100%',
-				height: 'auto',
-			})}
-		/>
-	</div>
-);
 
 const Intro = () => (
 	<div
@@ -83,7 +65,13 @@ const MenuScreen = ({ onSelectMode }) => (
 			textAlign: 'center',
 		})}
 	>
-		<Logo />
+		<div
+			className={css({
+				marginBottom: '2rem',
+			})}
+		>
+			<Logo />
+		</div>
 		<Intro />
 		<Menu onSelectMode={onSelectMode} />
 		<Credit />

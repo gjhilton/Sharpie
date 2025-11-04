@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import KB from './KB.jsx';
-import Card from './Card.jsx';
+import Character from './Character.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 import { DB } from '../data/DB.js';
 import * as db from '../utilities/database.js';
@@ -14,7 +14,7 @@ const STATUS = {
 };
 
 const Unanswered = ({ solution }) => (
-	<Card
+	<Character
 		graph={solution.graph}
 		imagePath={solution.imagePath}
 	/>
@@ -22,7 +22,7 @@ const Unanswered = ({ solution }) => (
 
 const CorrectAnswer = ({ solution, handleNextLetter }) => (
 	<>
-		<Card
+		<Character
 			title="Correct"
 			graph={solution.graph}
 			imagePath={solution.imagePath}
@@ -55,7 +55,7 @@ const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter
 	<>
 		<div className={css({ display: 'flex' })}>
 			<div className={css({ flex: 1 })}>
-				<Card
+				<Character
 					title="Correct answer"
 					graph={solution.graph}
 					imagePath={solution.imagePath}
@@ -63,7 +63,7 @@ const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter
 				/>
 			</div>
 			<div className={css({ flex: 1 })}>
-				<Card
+				<Character
 					title="Your answer"
 					imagePath={attemptImagePath}
 					caption={attempt}
@@ -146,7 +146,7 @@ const getRandomSolution = (graphs, graphSetTitle) => {
 	return { graph, imagePath };
 };
 
-const PlayingStage = ({ onEndGame, gameMode }) => {
+const GameScreen = ({ onEndGame, gameMode }) => {
 	const graphs = getGraphsForGameMode(gameMode);
 	const graphSetTitle = getGraphSetTitle(gameMode);
 	const [currentSolution, setCurrentSolution] = useState(
@@ -289,4 +289,4 @@ const PlayingStage = ({ onEndGame, gameMode }) => {
 	);
 };
 
-export default PlayingStage;
+export default GameScreen;

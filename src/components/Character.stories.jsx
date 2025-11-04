@@ -8,29 +8,59 @@ export default {
 	},
 	tags: ['autodocs'],
 	argTypes: {
-		title: {
-			control: 'text',
-			description: 'The title displayed at the top of the card',
-		},
-		caption: {
-			control: 'text',
-			description: 'The caption displayed below the image',
+		state: {
+			control: 'select',
+			options: ['awaitAnswer', 'correctAnswer', 'incorrectAnswer'],
+			description: 'The state of the character component',
 		},
 		imagePath: {
 			control: 'text',
-			description: 'Path to the image to display',
+			description: 'Path to a single image',
 		},
-		graph: {
+		imagePaths: {
 			control: 'object',
-			description: 'Graph object with character and img properties',
+			description: 'Array of image paths for slideshow',
+		},
+		character: {
+			control: 'text',
+			description: 'The character being displayed',
+		},
+		sourceLink: {
+			control: 'text',
+			description: 'Link to the image source',
+		},
+		sourceTitle: {
+			control: 'text',
+			description: 'Title of the image source',
 		},
 	},
 };
 
-export const WithImage = {
+export const AwaitAnswer = {
 	args: {
+		state: 'awaitAnswer',
 		imagePath: '/data/joscelyn-min/a.png',
-		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },
-		caption: 'a',
+	},
+};
+
+export const CorrectAnswer = {
+	args: {
+		state: 'correctAnswer',
+		imagePath: '/data/joscelyn-min/a.png',
+		character: 'a',
+		sourceLink: 'https://github.com/psb1558/Joscelyn-font/releases',
+		sourceTitle: 'Joscelyn typeface, drawn by Peter Baker (2019)',
+	},
+};
+
+export const IncorrectAnswer = {
+	args: {
+		state: 'incorrectAnswer',
+		imagePaths: [
+			'/data/joscelyn-min/b.png',
+			'/data/joscelyn-min/b2.png',
+			'/data/joscelyn-min/b3.png',
+		],
+		character: 'b',
 	},
 };

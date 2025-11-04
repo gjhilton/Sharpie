@@ -32,7 +32,7 @@ const Header = () => (
 	</header>
 );
 
-const Main = () => <main className={css(sectionSpacing)}>
+const Main = ({ onSelectMode }) => <main className={css(sectionSpacing)}>
 	<div
 		className={css({
 			display: "grid",
@@ -82,7 +82,7 @@ const Main = () => <main className={css(sectionSpacing)}>
 	</div>
 </main>
 
-const Aside = () => <aside className={css(sectionSpacing)}>
+const Aside = ({ onSelectMode }) => <aside className={css(sectionSpacing)}>
 	<h2 className={css(visuallyHidden)}>Practice Options</h2>
 	<div className={css({
 		...textLeft,
@@ -132,8 +132,8 @@ const MenuScreen = ({ onSelectMode }) => (
 		})}
 	>
 		<Header />
-		<Main />
-		<Aside />
+		<Main onSelectMode={onSelectMode} />
+		<Aside onSelectMode={onSelectMode} />
 		<SmallPrint/>
 	</div>
 );

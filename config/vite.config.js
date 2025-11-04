@@ -15,7 +15,7 @@ export default defineConfig({
 				plugins: [['babel-plugin-react-compiler']],
 			},
 		}),
-		favicons('./src/artwork/Branding/sharpieicon.svg'),
+		favicons(resolve(__dirname, '../src/artwork/Branding/sharpieicon.svg')),
 	],
 	css: {
 		postcss: resolve(__dirname, 'postcss.config.cjs'),

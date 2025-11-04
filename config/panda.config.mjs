@@ -18,7 +18,7 @@ export default defineConfig({
 					s: { value: '0.875rem' },   // 14px - tips, small UI
 					m: { value: '1.25rem' },    // 20px - body, buttons
 					l: { value: '1.375rem' },   // 22px - emphasis
-					xl: { value: '2.4rem' }       // 32px - headings, displays
+					xl: { value: '3rem' }       // 32px - headings, displays
 				},
 				fonts: {
 					joscelyn: { value: 'Joscelyn, serif' }

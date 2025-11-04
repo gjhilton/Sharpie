@@ -15,84 +15,78 @@ const STATUS = {
 
 const Unanswered = ({ solution }) => (
 	<Character
-		graph={solution.graph}
+		state="awaitAnswer"
 		imagePath={solution.imagePath}
 	/>
 );
 
-const CorrectAnswer = ({ solution, handleNextLetter }) => (
-	<>
-		<Character
-			title="Correct"
-			graph={solution.graph}
-			imagePath={solution.imagePath}
-			caption={solution.graph.character}
-		/>
-		<div
-			className={css({
-				textAlign: 'center',
-				color: 'green',
-				fontSize: 'xl',
-				margin: '1rem',
-			})}
-		>
-			✅
-		</div>
-		<div
-			className={css({
-				display: 'flex',
-				gap: '1rem',
-				justifyContent: 'center',
-				margin: '2rem 0',
-			})}
-		>
-			<Button onClick={handleNextLetter} label="Next" />
-		</div>
-	</>
-);
+const CorrectAnswer = ({ solution, handleNextLetter }) => {
+	const source = DB.sources[solution.graph.source];
+	const sourceLink = source?.sourceUri;
+	const sourceTitle = source?.title;
 
-const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter }) => (
-	<>
-		<div className={css({ display: 'flex' })}>
-			<div className={css({ flex: 1 })}>
-				<Character
-					title="Correct answer"
-					graph={solution.graph}
-					imagePath={solution.imagePath}
-					caption={solution.graph.character}
-				/>
+	return (
+		<>
+			<Character
+				state="correctAnswer"
+				imagePath={solution.imagePath}
+				character={solution.graph.character}
+				sourceLink={sourceLink}
+				sourceTitle={sourceTitle}
+			/>
+			<div
+				className={css({
+					display: 'flex',
+					gap: '1rem',
+					justifyContent: 'center',
+					margin: '2rem 0',
+				})}
+			>
+				<Button onClick={handleNextLetter} label="Next" />
 			</div>
-			<div className={css({ flex: 1 })}>
-				<Character
-					title="Your answer"
-					imagePath={attemptImagePath}
-					caption={attempt}
-				/>
-			</div>
-		</div>
+		</>
+	);
+};
 
-		<div
-			className={css({
-				textAlign: 'center',
-				color: 'red',
-				fontSize: 'xl',
-				margin: '1rem',
-			})}
-		>
-			❌
-		</div>
-		<div
-			className={css({
-				display: 'flex',
-				gap: '1rem',
-				justifyContent: 'center',
-				margin: '2rem 0',
-			})}
-		>
-			<Button onClick={handleNextLetter} label="Next" />
-		</div>
-	</>
-);
+const IncorrectAnswer = ({ solution, attempt, attemptImagePaths, handleNextLetter }) => {
+	const source = DB.sources[solution.graph.source];
+	const sourceLink = source?.sourceUri;
+	const sourceTitle = source?.title;
+
+	return (
+		<>
+			<div className={css({ display: 'flex', gap: '2rem' })}>
+				<div className={css({ flex: 1 })}>
+					<Character
+						state="correctAnswer"
+						imagePath={solution.imagePath}
+						character={solution.graph.character}
+						sourceLink={sourceLink}
+						sourceTitle={sourceTitle}
+					/>
+				</div>
+				<div className={css({ flex: 1 })}>
+					<Character
+						state="incorrectAnswer"
+						imagePaths={attemptImagePaths}
+						character={attempt}
+					/>
+				</div>
+			</div>
+
+			<div
+				className={css({
+					display: 'flex',
+					gap: '1rem',
+					justifyContent: 'center',
+					margin: '2rem 0',
+				})}
+			>
+				<Button onClick={handleNextLetter} label="Next" />
+			</div>
+		</>
+	);
+};
 
 const StatusDisplay = ({
 	handleNextLetter,
@@ -100,7 +94,7 @@ const StatusDisplay = ({
 	status,
 	solution,
 	attempt,
-	attemptImagePath,
+	attemptImagePaths,
 }) => {
 	switch (status) {
 		case STATUS.CORRECT:
@@ -114,7 +108,7 @@ const StatusDisplay = ({
 			return (
 				<IncorrectAnswer
 					attempt={attempt}
-					attemptImagePath={attemptImagePath}
+					attemptImagePaths={attemptImagePaths}
 					solution={solution}
 					handleNextLetter={handleNextLetter}
 				/>
@@ -153,7 +147,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 		getRandomSolution(graphs, graphSetTitle)
 	);
 	const [attempt, setAttempt] = useState(null);
-	const [attemptImagePath, setAttemptImagePath] = useState(null);
+	const [attemptImagePaths, setAttemptImagePaths] = useState([]);
 	const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE);
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
@@ -170,7 +164,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 	const handleNextLetter = () => {
 		setAttemptStatus(STATUS.NONE);
 		setAttempt(null);
-		setAttemptImagePath(null);
+		setAttemptImagePaths([]);
 	};
 
 	useEffect(() => {
@@ -209,9 +203,8 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 		setAttempt(button);
 		const attemptGraphs = graphs.filter(g => g.character === button);
 		if (attemptGraphs.length > 0) {
-			const attemptGraph = db.getRandomGraph(attemptGraphs);
-			const imagePath = db.getImagePath(attemptGraph, graphSetTitle);
-			setAttemptImagePath(imagePath);
+			const imagePaths = attemptGraphs.map(g => db.getImagePath(g, graphSetTitle));
+			setAttemptImagePaths(imagePaths);
 		}
 	};
 
@@ -259,7 +252,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 				status={attemptStatus}
 				solution={currentSolution}
 				attempt={attempt}
-				attemptImagePath={attemptImagePath}
+				attemptImagePaths={attemptImagePaths}
 			/>
 
 			<div

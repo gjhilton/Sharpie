@@ -1,4 +1,4 @@
-![image](/src/artwork/logo/sharpielogo.jpg)
+![image](/src/artwork/Branding/sharpielogo.jpg)
 
 A beginner-level workout to hone your skills identifying secretary hand letterforms.
 

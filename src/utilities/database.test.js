@@ -204,16 +204,17 @@ describe('getRandomGraph', () => {
 });
 
 describe('getImagePath', () => {
-	test('returns path with /data prefix for minuscule', () => {
+	test('returns path with BASE_URL and data prefix for minuscule', () => {
 		const graph = {
 			img: 'Joscelyn/joscelyn-min-assets/a.png',
 			character: 'a',
 		};
 		const result = db.getImagePath(graph);
+		// BASE_URL defaults to '/' in test environment
 		expect(result).toBe('/data/Joscelyn/joscelyn-min-assets/a.png');
 	});
 
-	test('returns path with /data prefix for MAJUSCULE', () => {
+	test('returns path with BASE_URL and data prefix for MAJUSCULE', () => {
 		const graph = {
 			img: 'Joscelyn/joscelyn-maj-assets/A.png',
 			character: 'A',
@@ -222,7 +223,7 @@ describe('getImagePath', () => {
 		expect(result).toBe('/data/Joscelyn/joscelyn-maj-assets/A.png');
 	});
 
-	test('returns path with /data prefix for different source', () => {
+	test('returns path with BASE_URL and data prefix for different source', () => {
 		const graph = {
 			img: 'BeauChesne-Baildon/BCB-AB-assets/b.png',
 			character: 'b',

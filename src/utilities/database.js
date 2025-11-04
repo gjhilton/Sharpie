@@ -48,7 +48,9 @@ export const getRandomGraph = graphs => {
 export const getImagePath = graph => {
 	// The img field now contains the full relative path
 	// e.g., "Joscelyn/joscelyn-min-assets/a.png"
-	return `/data/${graph.img}`;
+	// Use BASE_URL to support GitHub Pages deployment with base path
+	const baseUrl = import.meta.env.BASE_URL || '/';
+	return `${baseUrl}data/${graph.img}`;
 };
 
 export const flattenGraphs = graphSets => {

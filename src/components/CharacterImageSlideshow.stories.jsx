@@ -22,7 +22,8 @@ export default {
 		},
 		interval: {
 			control: 'number',
-			description: 'Milliseconds between slide transitions (default: 2000)',
+			description:
+				'Milliseconds between slide transitions (default: 2000)',
 		},
 	},
 };

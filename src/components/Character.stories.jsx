@@ -67,16 +67,27 @@ export const IncorrectAnswer = {
 
 export const AllStates = {
 	render: () => (
-		<div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+		<div
+			style={{
+				display: 'flex',
+				gap: '2rem',
+				flexWrap: 'wrap',
+				justifyContent: 'center',
+			}}
+		>
 			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>
-				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Await Answer</h3>
+				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>
+					Await Answer
+				</h3>
 				<Character
 					state="awaitAnswer"
 					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
 				/>
 			</div>
 			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>
-				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Correct Answer</h3>
+				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>
+					Correct Answer
+				</h3>
 				<Character
 					state="correctAnswer"
 					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
@@ -86,7 +97,9 @@ export const AllStates = {
 				/>
 			</div>
 			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>
-				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Incorrect Answer</h3>
+				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>
+					Incorrect Answer
+				</h3>
 				<Character
 					state="incorrectAnswer"
 					imagePaths={[

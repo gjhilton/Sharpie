@@ -14,10 +14,7 @@ const STATUS = {
 };
 
 const Unanswered = ({ solution }) => (
-	<Character
-		state="awaitAnswer"
-		imagePath={solution.imagePath}
-	/>
+	<Character state="awaitAnswer" imagePath={solution.imagePath} />
 );
 
 const CorrectAnswer = ({ solution, handleNextLetter }) => {
@@ -48,7 +45,12 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => {
 	);
 };
 
-const IncorrectAnswer = ({ solution, attempt, attemptImagePaths, handleNextLetter }) => {
+const IncorrectAnswer = ({
+	solution,
+	attempt,
+	attemptImagePaths,
+	handleNextLetter,
+}) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
@@ -119,12 +121,12 @@ const StatusDisplay = ({
 	}
 };
 
-const getGraphSetTitle = (gameMode) => {
+const getGraphSetTitle = gameMode => {
 	if (gameMode === GAME_MODES.ALL) return null;
 	return gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
 };
 
-const getGraphsForGameMode = (gameMode) => {
+const getGraphsForGameMode = gameMode => {
 	if (gameMode === GAME_MODES.ALL) {
 		const enabledGraphSets = db.getEnabledGraphSets(DB);
 		return db.flattenGraphs(enabledGraphSets);
@@ -134,7 +136,7 @@ const getGraphsForGameMode = (gameMode) => {
 	return db.getGraphs(graphSet);
 };
 
-const getRandomSolution = (graphs) => {
+const getRandomSolution = graphs => {
 	const graph = db.getRandomGraph(graphs);
 	const imagePath = db.getImagePath(graph);
 	return { graph, imagePath };
@@ -212,7 +214,8 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 		const endTime = Date.now();
 		const timeElapsed = Math.round((endTime - startTimeRef.current) / 1000);
 		const total = correctCount + incorrectCount;
-		const percentage = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+		const percentage =
+			total > 0 ? Math.round((correctCount / total) * 100) : 0;
 
 		// Process mistakes: filter incorrect, deduplicate, sort
 		const incorrectAttempts = historyRef.current.filter(h => !h.isCorrect);

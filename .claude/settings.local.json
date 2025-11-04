@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(find:*)",
-      "Bash(npm run update-db:*)"
+      "Bash(npm run update-db:*)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(npm run format:*)",
+      "Bash(npm run lint)",
+      "Bash(npm run test:run:*)"
     ],
     "deny": [],
     "ask": []

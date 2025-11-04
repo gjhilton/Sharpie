@@ -129,9 +129,13 @@ describe('generateSourcesObject', () => {
 				sourceName: 'Joscelyn',
 				assetFolderName: 'joscelyn-min-assets',
 				graphEntries: [
-					{ source: 'Joscelyn', character: 'a', category: 'minuscules' }
-				]
-			}
+					{
+						source: 'Joscelyn',
+						character: 'a',
+						category: 'minuscules',
+					},
+				],
+			},
 		];
 
 		const result = generateSourcesObject(entries);
@@ -139,7 +143,7 @@ describe('generateSourcesObject', () => {
 		expect(result).toHaveProperty('Joscelyn');
 		expect(result.Joscelyn).toEqual({
 			title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
-			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'
+			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
 		});
 	});
 
@@ -149,9 +153,13 @@ describe('generateSourcesObject', () => {
 				sourceName: 'BeauChesne-Baildon',
 				assetFolderName: 'BCB-AB-assets',
 				graphEntries: [
-					{ source: 'BeauChesne-Baildon', character: 'A', category: 'MAJUSCULES' }
-				]
-			}
+					{
+						source: 'BeauChesne-Baildon',
+						character: 'A',
+						category: 'MAJUSCULES',
+					},
+				],
+			},
 		];
 
 		const result = generateSourcesObject(entries);
@@ -159,7 +167,7 @@ describe('generateSourcesObject', () => {
 		expect(result).toHaveProperty('BeauChesne-Baildon');
 		expect(result['BeauChesne-Baildon']).toEqual({
 			title: 'BeauChesne-Baildon writing book',
-			sourceUri: 'https://example.com/beaucheche-baildon'
+			sourceUri: 'https://example.com/beaucheche-baildon',
 		});
 	});
 
@@ -169,9 +177,13 @@ describe('generateSourcesObject', () => {
 				sourceName: 'NewSource',
 				assetFolderName: 'new-assets',
 				graphEntries: [
-					{ source: 'NewSource', character: 'x', category: 'minuscules' }
-				]
-			}
+					{
+						source: 'NewSource',
+						character: 'x',
+						category: 'minuscules',
+					},
+				],
+			},
 		];
 
 		const result = generateSourcesObject(entries);
@@ -179,7 +191,7 @@ describe('generateSourcesObject', () => {
 		expect(result).toHaveProperty('NewSource');
 		expect(result.NewSource).toEqual({
 			title: 'NewSource source',
-			sourceUri: 'https://example.com/newsource'
+			sourceUri: 'https://example.com/newsource',
 		});
 	});
 
@@ -189,16 +201,24 @@ describe('generateSourcesObject', () => {
 				sourceName: 'Joscelyn',
 				assetFolderName: 'joscelyn-min-assets',
 				graphEntries: [
-					{ source: 'Joscelyn', character: 'a', category: 'minuscules' }
-				]
+					{
+						source: 'Joscelyn',
+						character: 'a',
+						category: 'minuscules',
+					},
+				],
 			},
 			{
 				sourceName: 'BeauChesne-Baildon',
 				assetFolderName: 'BCB-AB-assets',
 				graphEntries: [
-					{ source: 'BeauChesne-Baildon', character: 'A', category: 'MAJUSCULES' }
-				]
-			}
+					{
+						source: 'BeauChesne-Baildon',
+						character: 'A',
+						category: 'MAJUSCULES',
+					},
+				],
+			},
 		];
 
 		const result = generateSourcesObject(entries);
@@ -214,16 +234,24 @@ describe('generateSourcesObject', () => {
 				sourceName: 'Joscelyn',
 				assetFolderName: 'joscelyn-min-assets',
 				graphEntries: [
-					{ source: 'Joscelyn', character: 'a', category: 'minuscules' }
-				]
+					{
+						source: 'Joscelyn',
+						character: 'a',
+						category: 'minuscules',
+					},
+				],
 			},
 			{
 				sourceName: 'Joscelyn',
 				assetFolderName: 'joscelyn-maj-assets',
 				graphEntries: [
-					{ source: 'Joscelyn', character: 'A', category: 'MAJUSCULES' }
-				]
-			}
+					{
+						source: 'Joscelyn',
+						character: 'A',
+						category: 'MAJUSCULES',
+					},
+				],
+			},
 		];
 
 		const result = generateSourcesObject(entries);
@@ -250,24 +278,24 @@ describe('generateGraphSets', () => {
 						character: 'a',
 						source: 'Joscelyn',
 						category: 'minuscules',
-						relativePath: 'Joscelyn/joscelyn-min-assets/a.png'
+						relativePath: 'Joscelyn/joscelyn-min-assets/a.png',
 					},
 					{
 						img: 'A.png',
 						character: 'A',
 						source: 'Joscelyn',
 						category: 'MAJUSCULES',
-						relativePath: 'Joscelyn/joscelyn-maj-assets/A.png'
+						relativePath: 'Joscelyn/joscelyn-maj-assets/A.png',
 					},
 					{
 						img: '1.png',
 						character: '1',
 						source: 'Joscelyn',
 						category: 'Others',
-						relativePath: 'Joscelyn/joscelyn-num-assets/1.png'
-					}
-				]
-			}
+						relativePath: 'Joscelyn/joscelyn-num-assets/1.png',
+					},
+				],
+			},
 		];
 
 		const result = generateGraphSets(entries);
@@ -289,16 +317,16 @@ describe('generateGraphSets', () => {
 						character: 'a',
 						source: 'Joscelyn',
 						category: 'minuscules',
-						relativePath: 'Joscelyn/joscelyn-min-assets/a.png'
-					}
-				]
-			}
+						relativePath: 'Joscelyn/joscelyn-min-assets/a.png',
+					},
+				],
+			},
 		];
 
 		const result = generateGraphSets(entries);
 
-		expect(result[0].enabled).toBe(true);  // minuscules
-		expect(result[1].enabled).toBe(true);  // MAJUSCULES
+		expect(result[0].enabled).toBe(true); // minuscules
+		expect(result[1].enabled).toBe(true); // MAJUSCULES
 		expect(result[2].enabled).toBe(false); // Others
 	});
 
@@ -313,24 +341,24 @@ describe('generateGraphSets', () => {
 						character: 'z',
 						source: 'Test',
 						category: 'minuscules',
-						relativePath: 'Test/test-assets/z.png'
+						relativePath: 'Test/test-assets/z.png',
 					},
 					{
 						img: 'a.png',
 						character: 'a',
 						source: 'Test',
 						category: 'minuscules',
-						relativePath: 'Test/test-assets/a.png'
+						relativePath: 'Test/test-assets/a.png',
 					},
 					{
 						img: 'm.png',
 						character: 'm',
 						source: 'Test',
 						category: 'minuscules',
-						relativePath: 'Test/test-assets/m.png'
-					}
-				]
-			}
+						relativePath: 'Test/test-assets/m.png',
+					},
+				],
+			},
 		];
 
 		const result = generateGraphSets(entries);
@@ -352,16 +380,18 @@ describe('generateGraphSets', () => {
 						character: 'a',
 						source: 'Joscelyn',
 						category: 'minuscules',
-						relativePath: 'Joscelyn/joscelyn-min-assets/a.png'
-					}
-				]
-			}
+						relativePath: 'Joscelyn/joscelyn-min-assets/a.png',
+					},
+				],
+			},
 		];
 
 		const result = generateGraphSets(entries);
 		const minuscules = result.find(gs => gs.title === 'minuscules');
 
-		expect(minuscules.graphs[0].img).toBe('Joscelyn/joscelyn-min-assets/a.png');
+		expect(minuscules.graphs[0].img).toBe(
+			'Joscelyn/joscelyn-min-assets/a.png'
+		);
 	});
 
 	it('should handle empty entries', () => {
@@ -384,9 +414,9 @@ describe('generateGraphSets', () => {
 						character: 'a',
 						source: 'Joscelyn',
 						category: 'minuscules',
-						relativePath: 'Joscelyn/joscelyn-min-assets/a.png'
-					}
-				]
+						relativePath: 'Joscelyn/joscelyn-min-assets/a.png',
+					},
+				],
 			},
 			{
 				sourceName: 'BeauChesne-Baildon',
@@ -397,10 +427,10 @@ describe('generateGraphSets', () => {
 						character: 'b',
 						source: 'BeauChesne-Baildon',
 						category: 'minuscules',
-						relativePath: 'BeauChesne-Baildon/BCB-AB-assets/b.png'
-					}
-				]
-			}
+						relativePath: 'BeauChesne-Baildon/BCB-AB-assets/b.png',
+					},
+				],
+			},
 		];
 
 		const result = generateGraphSets(entries);
@@ -416,19 +446,23 @@ describe('formatSourceEntry', () => {
 	it('should format a source entry with proper indentation', () => {
 		const result = formatSourceEntry('Joscelyn', {
 			title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
-			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'
+			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
 		});
 
 		expect(result).toContain('\t\t"Joscelyn": {');
-		expect(result).toContain("\t\t\ttitle: 'Joscelyn typeface, drawn by Peter Baker (2019)',");
-		expect(result).toContain("\t\t\tsourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'");
+		expect(result).toContain(
+			"\t\t\ttitle: 'Joscelyn typeface, drawn by Peter Baker (2019)',"
+		);
+		expect(result).toContain(
+			"\t\t\tsourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'"
+		);
 		expect(result).toContain('\t\t}');
 	});
 
 	it('should handle source names with hyphens', () => {
 		const result = formatSourceEntry('BeauChesne-Baildon', {
 			title: 'BeauChesne-Baildon writing book',
-			sourceUri: 'https://example.com/beaucheche-baildon'
+			sourceUri: 'https://example.com/beaucheche-baildon',
 		});
 
 		expect(result).toContain('\t\t"BeauChesne-Baildon": {');
@@ -440,13 +474,15 @@ describe('formatGraphEntry', () => {
 		const graph = {
 			img: 'Joscelyn/joscelyn-min-assets/a.png',
 			character: 'a',
-			source: 'Joscelyn'
+			source: 'Joscelyn',
 		};
 
 		const result = formatGraphEntry(graph);
 
 		expect(result).toContain('\t\t\t\t{');
-		expect(result).toContain('\t\t\t\t\timg: "Joscelyn/joscelyn-min-assets/a.png",');
+		expect(result).toContain(
+			'\t\t\t\t\timg: "Joscelyn/joscelyn-min-assets/a.png",'
+		);
 		expect(result).toContain('\t\t\t\t\tcharacter: "a",');
 		expect(result).toContain('\t\t\t\t\tsource: "Joscelyn"');
 		expect(result).toContain('\t\t\t\t}');
@@ -456,7 +492,7 @@ describe('formatGraphEntry', () => {
 		const graph = {
 			img: 'test.png',
 			character: 'x',
-			source: 'Test'
+			source: 'Test',
 		};
 
 		const result = formatGraphEntry(graph);
@@ -476,9 +512,9 @@ describe('formatGraphSetEntry', () => {
 				{
 					img: 'Joscelyn/joscelyn-min-assets/a.png',
 					character: 'a',
-					source: 'Joscelyn'
-				}
-			]
+					source: 'Joscelyn',
+				},
+			],
 		};
 
 		const result = formatGraphSetEntry(graphSet);
@@ -495,7 +531,7 @@ describe('formatGraphSetEntry', () => {
 		const graphSet = {
 			title: 'Others',
 			enabled: false,
-			graphs: []
+			graphs: [],
 		};
 
 		const result = formatGraphSetEntry(graphSet);
@@ -512,18 +548,20 @@ describe('formatGraphSetEntry', () => {
 				{
 					img: 'a.png',
 					character: 'a',
-					source: 'Test'
+					source: 'Test',
 				},
 				{
 					img: 'b.png',
 					character: 'b',
-					source: 'Test'
-				}
-			]
+					source: 'Test',
+				},
+			],
 		};
 
 		const result = formatGraphSetEntry(graphSet);
-		const graphEntries = result.split(',\n').filter(line => line.includes('img:'));
+		const graphEntries = result
+			.split(',\n')
+			.filter(line => line.includes('img:'));
 
 		expect(graphEntries).toHaveLength(2);
 	});
@@ -534,8 +572,8 @@ describe('formatDBContent', () => {
 		const sources = {
 			Joscelyn: {
 				title: 'Joscelyn typeface',
-				sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'
-			}
+				sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
+			},
 		};
 
 		const graphSets = [
@@ -546,10 +584,10 @@ describe('formatDBContent', () => {
 					{
 						img: 'Joscelyn/joscelyn-min-assets/a.png',
 						character: 'a',
-						source: 'Joscelyn'
-					}
-				]
-			}
+						source: 'Joscelyn',
+					},
+				],
+			},
 		];
 
 		const result = formatDBContent(sources, graphSets);
@@ -579,14 +617,16 @@ describe('formatDBContent', () => {
 	it('should format multiple sources with commas between them', () => {
 		const sources = {
 			Source1: { title: 'Source 1', sourceUri: 'https://example.com/1' },
-			Source2: { title: 'Source 2', sourceUri: 'https://example.com/2' }
+			Source2: { title: 'Source 2', sourceUri: 'https://example.com/2' },
 		};
 
 		const result = formatDBContent(sources, []);
 
 		expect(result).toContain('"Source1": {');
 		expect(result).toContain('"Source2": {');
-		expect(result.match(/"Source1"[\s\S]*?,\n[\s\S]*?"Source2"/)).toBeTruthy();
+		expect(
+			result.match(/"Source1"[\s\S]*?,\n[\s\S]*?"Source2"/)
+		).toBeTruthy();
 	});
 
 	it('should format multiple graphSets with commas between them', () => {
@@ -594,13 +634,13 @@ describe('formatDBContent', () => {
 			{
 				title: 'minuscules',
 				enabled: true,
-				graphs: []
+				graphs: [],
 			},
 			{
 				title: 'MAJUSCULES',
 				enabled: true,
-				graphs: []
-			}
+				graphs: [],
+			},
 		];
 
 		const result = formatDBContent({}, graphSets);

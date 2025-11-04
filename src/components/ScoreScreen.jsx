@@ -75,7 +75,13 @@ const MistakeCard = ({ graph, imagePath }) => (
 );
 
 const ScoreScreen = ({ score, onReturnToMenu }) => {
-	const { correct, incorrect, percentage, timeElapsed, mistakes = [] } = score;
+	const {
+		correct,
+		incorrect,
+		percentage,
+		timeElapsed,
+		mistakes = [],
+	} = score;
 
 	const stats = [
 		{
@@ -169,7 +175,8 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 					<div
 						className={css({
 							display: 'grid',
-							gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
+							gridTemplateColumns:
+								'repeat(auto-fill, minmax(150px, 1fr))',
 							gap: '1rem',
 						})}
 					>

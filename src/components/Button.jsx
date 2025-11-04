@@ -25,7 +25,7 @@ const ButtonLabelAux = ({ text }) => (
 const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 	<button
 		className={css({
-			minWidth: { base: "100%", md: "200px" },
+			minWidth: { base: '100%', md: '200px' },
 			opacity: disabled ? 0.5 : 1,
 			cursor: disabled ? 'not-allowed' : 'pointer',
 			border: hero ? '3px solid black' : '1px solid black',
@@ -35,16 +35,20 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 			margin: '2rem 0',
 			textTransform: hero ? 'uppercase' : 'none',
 			transition: 'all 200ms ease-in-out',
-			_hover: disabled ? {} : {
-				transform: 'scale(1.02)'
-			},
+			_hover: disabled
+				? {}
+				: {
+						transform: 'scale(1.02)',
+					},
 			_focusVisible: {
 				outline: '2px solid black',
-				outlineOffset: '2px'
+				outlineOffset: '2px',
 			},
-			_active: disabled ? {} : {
-				transform: 'scale(0.98)'
-			}
+			_active: disabled
+				? {}
+				: {
+						transform: 'scale(0.98)',
+					},
 		})}
 		onClick={onClick}
 		disabled={disabled}

@@ -14,6 +14,6 @@ View locally at <code>http://192.168.1.198:8080/</code>
 
 ### Asset creation workflow
 
-1) Use photoshop file > automate > generator plugins > image assets
+1. Use photoshop file > automate > generator plugins > image assets
 
-2) Run npm run update-db to regenerate DB.js
+2. Run npm run update-db to regenerate DB.js

@@ -15,15 +15,15 @@ export default defineConfig({
 		extend: {
 			tokens: {
 				fontSizes: {
-					s: { value: '0.875rem' },   // 14px - tips, small UI
-					m: { value: '1.25rem' },    // 20px - body, buttons
-					l: { value: '1.375rem' },   // 22px - emphasis
-					xl: { value: '3rem' }       // 32px - headings, displays
+					s: { value: '0.875rem' }, // 14px - tips, small UI
+					m: { value: '1.25rem' }, // 20px - body, buttons
+					l: { value: '1.375rem' }, // 22px - emphasis
+					xl: { value: '3rem' }, // 32px - headings, displays
 				},
 				fonts: {
-					joscelyn: { value: 'Joscelyn, serif' }
-				}
-			}
+					joscelyn: { value: 'Joscelyn, serif' },
+				},
+			},
 		},
 	},
 

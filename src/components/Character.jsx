@@ -2,7 +2,14 @@ import { css } from '../../styled-system/css';
 import CharacterImage from './CharacterImage.jsx';
 import CharacterImageSlideshow from './CharacterImageSlideshow.jsx';
 
-const Character = ({ state, imagePath, imagePaths, character, sourceLink, sourceTitle }) => {
+const Character = ({
+	state,
+	imagePath,
+	imagePaths,
+	character,
+	sourceLink,
+	sourceTitle,
+}) => {
 	if (state === 'awaitAnswer') {
 		return <CharacterImage imagePath={imagePath} />;
 	}

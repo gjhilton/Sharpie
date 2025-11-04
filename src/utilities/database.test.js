@@ -5,12 +5,12 @@ const mockDB = {
 	sources: {
 		hill: {
 			title: 'William Hill',
-			sourceUri: 'http://example.com'
+			sourceUri: 'http://example.com',
 		},
 		joscelyn: {
 			title: 'Joscelyn',
-			sourceUri: 'http://example.com'
-		}
+			sourceUri: 'http://example.com',
+		},
 	},
 	graphSets: [
 		{
@@ -18,10 +18,10 @@ const mockDB = {
 			enabled: true,
 			graphs: [
 				{ img: 'a.png', character: 'a', source: 'joscelyn' },
-				{ img: 'b.png', character: 'b', source: 'joscelyn' }
-			]
-		}
-	]
+				{ img: 'b.png', character: 'b', source: 'joscelyn' },
+			],
+		},
+	],
 };
 
 describe('getAllSources', () => {
@@ -110,8 +110,8 @@ describe('getAllCharacters', () => {
 			graphs: [
 				{ character: 'a', img: 'a1.png', source: 'hill' },
 				{ character: 'b', img: 'b.png', source: 'hill' },
-				{ character: 'a', img: 'a2.png', source: 'joscelyn' }
-			]
+				{ character: 'a', img: 'a2.png', source: 'joscelyn' },
+			],
 		};
 		const result = db.getAllCharacters(graphSetWithDupes);
 		expect(result).toEqual(['a', 'b']);
@@ -141,8 +141,8 @@ describe('getAllGraphsForCharacter', () => {
 			graphs: [
 				{ character: 'a', img: 'a1.png', source: 'hill' },
 				{ character: 'b', img: 'b.png', source: 'hill' },
-				{ character: 'a', img: 'a2.png', source: 'joscelyn' }
-			]
+				{ character: 'a', img: 'a2.png', source: 'joscelyn' },
+			],
 		};
 		const result = db.getAllGraphsForCharacter(graphSetWithDupes, 'a');
 		expect(result).toHaveLength(2);
@@ -165,8 +165,8 @@ describe('getAllGraphs', () => {
 			graphs: [
 				{ character: 'a', img: 'a1.png', source: 'hill' },
 				{ character: 'b', img: 'b.png', source: 'hill' },
-				{ character: 'a', img: 'a2.png', source: 'joscelyn' }
-			]
+				{ character: 'a', img: 'a2.png', source: 'joscelyn' },
+			],
 		};
 		const result = db.getAllGraphs(graphSetWithDupes);
 		expect(result.a).toHaveLength(2);
@@ -196,7 +196,7 @@ describe('getRandomGraph', () => {
 	test('returns a graph from the array', () => {
 		const graphs = [
 			{ character: 'a', img: 'a.png' },
-			{ character: 'b', img: 'b.png' }
+			{ character: 'b', img: 'b.png' },
 		];
 		const result = db.getRandomGraph(graphs);
 		expect(graphs).toContain(result);
@@ -204,52 +204,40 @@ describe('getRandomGraph', () => {
 });
 
 describe('getImagePath', () => {
-	test('builds path for minuscules', () => {
-		const graph = { img: 'a.png', character: 'a' };
-		const result = db.getImagePath(graph, 'minuscules');
-		expect(result).toBe('/data/joscelyn-min/a.png');
+	test('returns path with /data prefix for minuscule', () => {
+		const graph = {
+			img: 'Joscelyn/joscelyn-min-assets/a.png',
+			character: 'a',
+		};
+		const result = db.getImagePath(graph);
+		expect(result).toBe('/data/Joscelyn/joscelyn-min-assets/a.png');
 	});
 
-	test('builds path for MAJUSCULES', () => {
-		const graph = { img: 'a.png', character: 'A' };
-		const result = db.getImagePath(graph, 'MAJUSCULES');
-		expect(result).toBe('/data/joscelyn-maj/a.png');
+	test('returns path with /data prefix for MAJUSCULE', () => {
+		const graph = {
+			img: 'Joscelyn/joscelyn-maj-assets/A.png',
+			character: 'A',
+		};
+		const result = db.getImagePath(graph);
+		expect(result).toBe('/data/Joscelyn/joscelyn-maj-assets/A.png');
 	});
 
-	test('builds path for Numerals', () => {
-		const graph = { img: '1.png', character: '1' };
-		const result = db.getImagePath(graph, 'Numerals');
-		expect(result).toBe('/data/joscelyn-num/1.png');
+	test('returns path with /data prefix for different source', () => {
+		const graph = {
+			img: 'BeauChesne-Baildon/BCB-AB-assets/b.png',
+			character: 'b',
+		};
+		const result = db.getImagePath(graph);
+		expect(result).toBe('/data/BeauChesne-Baildon/BCB-AB-assets/b.png');
 	});
 
-	test('builds path for Brevigraphs', () => {
-		const graph = { img: 'and.png', character: '&' };
-		const result = db.getImagePath(graph, 'Brevigraphs');
-		expect(result).toBe('/data/joscelyn-brev/and.png');
-	});
-
-	test('auto-detects minuscule when graphSetTitle is null', () => {
-		const graph = { img: 'x.png', character: 'x' };
-		const result = db.getImagePath(graph, null);
-		expect(result).toBe('/data/joscelyn-min/x.png');
-	});
-
-	test('auto-detects majuscule when graphSetTitle is null', () => {
-		const graph = { img: 'x.png', character: 'X' };
-		const result = db.getImagePath(graph, null);
-		expect(result).toBe('/data/joscelyn-maj/x.png');
-	});
-
-	test('auto-detects numeral when graphSetTitle is null', () => {
-		const graph = { img: '5.png', character: '5' };
-		const result = db.getImagePath(graph, null);
-		expect(result).toBe('/data/joscelyn-num/5.png');
-	});
-
-	test('auto-detects brevigraph when graphSetTitle is null', () => {
-		const graph = { img: 'and.png', character: '&' };
-		const result = db.getImagePath(graph, null);
-		expect(result).toBe('/data/joscelyn-brev/and.png');
+	test('handles different file naming conventions', () => {
+		const graph = {
+			img: 'Joscelyn/joscelyn-min-assets/a1.png',
+			character: 'a',
+		};
+		const result = db.getImagePath(graph);
+		expect(result).toBe('/data/Joscelyn/joscelyn-min-assets/a1.png');
 	});
 });
 
@@ -267,8 +255,8 @@ describe('getEnabledGraphSets', () => {
 			...mockDB,
 			graphSets: [
 				...mockDB.graphSets,
-				{ title: 'disabled', enabled: false, graphs: [] }
-			]
+				{ title: 'disabled', enabled: false, graphs: [] },
+			],
 		};
 		const result = db.getEnabledGraphSets(mockDBWithDisabled);
 		expect(result).toHaveLength(1);
@@ -305,8 +293,8 @@ describe('Edge cases and defensive tests', () => {
 		const allDisabled = {
 			graphSets: [
 				{ title: 'a', enabled: false, graphs: [] },
-				{ title: 'b', enabled: false, graphs: [] }
-			]
+				{ title: 'b', enabled: false, graphs: [] },
+			],
 		};
 		const result = db.getEnabledGraphSets(allDisabled);
 		expect(result).toEqual([]);

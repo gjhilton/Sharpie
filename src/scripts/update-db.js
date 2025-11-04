@@ -125,7 +125,7 @@ async function processAssetDirectory(assetPath) {
 			character: character,
 			source: sourceName,
 			category: category,
-			relativePath: `${sourceName}/${assetFolderName}/${file}`
+			relativePath: `${sourceName}/${assetFolderName}/${file}`,
 		});
 
 		console.log(`     ✓ Copied ${file} → ${character} (${category})`);
@@ -134,7 +134,7 @@ async function processAssetDirectory(assetPath) {
 	return {
 		sourceName,
 		assetFolderName,
-		graphEntries
+		graphEntries,
 	};
 }
 
@@ -159,17 +159,17 @@ export function generateSourcesObject(allEntries) {
 		if (sourceName === 'Joscelyn') {
 			sources[sourceName] = {
 				title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
-				sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'
+				sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
 			};
 		} else if (sourceName === 'BeauChesne-Baildon') {
 			sources[sourceName] = {
 				title: 'BeauChesne-Baildon writing book',
-				sourceUri: 'https://example.com/beaucheche-baildon' // TODO: Add correct URI
+				sourceUri: 'https://example.com/beaucheche-baildon', // TODO: Add correct URI
 			};
 		} else {
 			sources[sourceName] = {
 				title: `${sourceName} source`,
-				sourceUri: `https://example.com/${sourceName.toLowerCase()}`
+				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
 			};
 		}
 	});
@@ -183,9 +183,9 @@ export function generateSourcesObject(allEntries) {
  */
 export function generateGraphSets(allEntries) {
 	const categorizedGraphs = {
-		'minuscules': [],
-		'MAJUSCULES': [],
-		'Others': []
+		minuscules: [],
+		MAJUSCULES: [],
+		Others: [],
 	};
 
 	// Group all graphs by category
@@ -194,14 +194,16 @@ export function generateGraphSets(allEntries) {
 			categorizedGraphs[graph.category].push({
 				img: graph.relativePath,
 				character: graph.character,
-				source: graph.source
+				source: graph.source,
 			});
 		});
 	});
 
 	// Sort graphs within each category
 	Object.keys(categorizedGraphs).forEach(category => {
-		categorizedGraphs[category].sort((a, b) => a.character.localeCompare(b.character));
+		categorizedGraphs[category].sort((a, b) =>
+			a.character.localeCompare(b.character)
+		);
 	});
 
 	// Build graphSets array
@@ -209,18 +211,18 @@ export function generateGraphSets(allEntries) {
 		{
 			title: 'minuscules',
 			enabled: true,
-			graphs: categorizedGraphs['minuscules']
+			graphs: categorizedGraphs['minuscules'],
 		},
 		{
 			title: 'MAJUSCULES',
 			enabled: true,
-			graphs: categorizedGraphs['MAJUSCULES']
+			graphs: categorizedGraphs['MAJUSCULES'],
 		},
 		{
 			title: 'Others',
 			enabled: false,
-			graphs: categorizedGraphs['Others']
-		}
+			graphs: categorizedGraphs['Others'],
+		},
 	];
 }
 
@@ -301,7 +303,7 @@ async function writeDB(sources, graphSets) {
 async function main() {
 	try {
 		console.log('🚀 Starting dynamic update-db...\n');
-		console.log('=' .repeat(60));
+		console.log('='.repeat(60));
 		console.log(`Scanning: ${GRAPHS_DIR}`);
 
 		// Find all asset directories
@@ -339,7 +341,6 @@ async function main() {
 		console.log(`\n   TOTAL: ${totalImages} images processed`);
 		console.log(`   Sources: ${Object.keys(sources).join(', ')}`);
 		console.log('\n' + '='.repeat(60));
-
 	} catch (error) {
 		console.error('❌ Error:', error.message);
 		console.error(error.stack);

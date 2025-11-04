@@ -35,7 +35,6 @@ export const MinusculeMode = {
 	},
 };
 
-
 export const AllMode = {
 	args: {
 		gameMode: GAME_MODES.ALL,

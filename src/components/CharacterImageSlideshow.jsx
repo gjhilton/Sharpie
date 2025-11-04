@@ -1,7 +1,12 @@
 import { useState, useEffect } from 'react';
 import CharacterImage from './CharacterImage.jsx';
 
-const CharacterImageSlideshow = ({ imagePaths, caption, graph, interval = 2000 }) => {
+const CharacterImageSlideshow = ({
+	imagePaths,
+	caption,
+	graph,
+	interval = 2000,
+}) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
 	useEffect(() => {

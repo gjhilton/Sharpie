@@ -26,9 +26,12 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 
 	// Handle physical keyboard
 	useEffect(() => {
-		const handleKeyDown = (event) => {
+		const handleKeyDown = event => {
 			// Ignore if target is an input element
-			if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+			if (
+				event.target.tagName === 'INPUT' ||
+				event.target.tagName === 'TEXTAREA'
+			) {
 				return;
 			}
 
@@ -45,7 +48,7 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 			}
 		};
 
-		const handleKeyUp = (event) => {
+		const handleKeyUp = event => {
 			// Switch back to default layout when shift is released
 			if (event.key === 'Shift') {
 				setLayout('default');
@@ -80,15 +83,15 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 					],
 				}}
 				buttonTheme={[
-            {
-              class: "hg-red",
-              buttons: "Q W E R T Y q w e r t y"
-            },
-            {
-              class: "hg-highlight",
-              buttons: "Q q"
-            }
-          ]}
+					{
+						class: 'hg-red',
+						buttons: 'Q W E R T Y q w e r t y',
+					},
+					{
+						class: 'hg-highlight',
+						buttons: 'Q q',
+					},
+				]}
 			/>
 		</div>
 	);

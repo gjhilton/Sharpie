@@ -12,12 +12,7 @@ const config = {
 		name: '@storybook/react-vite',
 		options: {},
 	},
-	viteFinal: async (config) => {
-		const viteConfig = await import('../vite.config.js');
-		return {
-			...config,
-			plugins: [...(config.plugins || []), ...(viteConfig.default.plugins || [])],
-		};
-	},
+	// No viteFinal needed - let Storybook use its default React config
+	// Don't import vite.config.js to avoid React Compiler conflicts
 };
 export default config;

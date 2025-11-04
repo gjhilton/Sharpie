@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
 
@@ -9,6 +9,7 @@ const SPECIAL_KEYS = {
 
 const KB = ({ keyCallback, initialLayout = 'default' }) => {
 	const [layout, setLayout] = useState(initialLayout);
+	const keyboardRef = useRef(null);
 
 	const handleShift = () => {
 		const newLayoutName = layout === 'default' ? 'shift' : 'default';
@@ -23,13 +24,49 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 		}
 	};
 
+	// Handle physical keyboard
+	useEffect(() => {
+		const handleKeyDown = (event) => {
+			// Ignore if target is an input element
+			if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+				return;
+			}
+
+			// Handle shift key for layout switching
+			if (event.key === 'Shift') {
+				setLayout('shift');
+				return;
+			}
+
+			// Only handle letter keys
+			if (event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
+				event.preventDefault();
+				keyCallback(event.key);
+			}
+		};
+
+		const handleKeyUp = (event) => {
+			// Switch back to default layout when shift is released
+			if (event.key === 'Shift') {
+				setLayout('default');
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		window.addEventListener('keyup', handleKeyUp);
+
+		return () => {
+			window.removeEventListener('keydown', handleKeyDown);
+			window.removeEventListener('keyup', handleKeyUp);
+		};
+	}, [keyCallback]);
+
 	return (
 		<div>
 			<Keyboard
+				keyboardRef={r => (keyboardRef.current = r)}
 				layoutName={layout}
 				onKeyPress={onKeyPress}
-				physicalKeyboardHighlight={true}
-				physicalKeyboardHighlightPress={true}
 				layout={{
 					default: [
 						'q w e r t y u i o p',

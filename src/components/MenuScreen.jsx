@@ -4,65 +4,6 @@ import Logo, { SIZE } from './Logo.jsx';
 import SmallPrint from './SmallPrint.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 
-const Intro = () => (
-	<div
-		className={css({
-			fontSize: 'xl',
-			marginBottom: '2rem',
-		})}
-	>
-		A beginner-level workout to drill identifying secretary hand letters.
-	</div>
-);
-
-const Menu = ({ onSelectMode }) => (
-	<div
-		className={css({
-			marginBottom: '2rem',
-		})}
-	>
-		<div
-			className={css({
-				marginBottom: '2rem',
-			})}
-		>
-			<Button
-				hero
-				onClick={() => onSelectMode(GAME_MODES.ALL)}
-				label="Start"
-			/>
-		</div>
-		<div
-			className={css({
-				marginBottom: '1rem',
-			})}
-		>
-			<p>Or practice only:</p>
-		</div>
-		<div
-			className={css({
-				display: 'grid',
-				gridTemplateColumns: '1fr 1fr',
-				gap: '1rem',
-				rowGap: '0.2rem',
-				maxWidth: '600px',
-				margin: '0 auto',
-			})}
-		>
-			<Button
-				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-				label="minuscules"
-			/>
-			<Button
-				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-				label="MAJUSCULES"
-			/>
-			<Button label="Numerals" sublabel="(coming soon)" disabled />
-			<Button label="Brevigraphs" sublabel="(coming soon)" disabled />
-		</div>
-	</div>
-);
-
 const Credit = () => (
 	<SmallPrint>
 		Concept, code &amp; design (also all mistakes) copyright g.j.hilton /
@@ -77,9 +18,82 @@ const Header = () => (
 			marginBottom: '2rem',
 		})}
 	>
-		<Logo size="l" />
+		<Logo size={SIZE.S} />
 	</header>
 );
+
+const Main = () => <main className={css({
+		})}>
+	<div
+		className={css({
+			display: "grid",
+			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+			gap: "2rem",
+			marginBottom: "2rem",
+			fontSize: "1.3125rem"
+		})}
+	>
+		<div className={css({
+			textAlign: "left"
+		})}>
+			<h1 className={css({
+				fontSize: '2rem'
+			})}>Hone your <span className="joscelyn">Secretary</span>.</h1>
+		</div>
+		<div></div>
+	</div>
+	<div
+		className={css({
+			display: "grid",
+			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+			gap: "2rem",
+			marginBottom: "2rem"
+		})}
+	>
+		<div></div>
+		<div className={css({
+			textAlign: "left"
+		})}>
+			<p className={css({
+				
+			})}>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
+		</div>
+	</div>
+	<div
+		className={css({
+			textAlign: "center"
+		})}
+	>
+		<Button
+			hero
+			onClick={() => onSelectMode(GAME_MODES.ALL)}
+			label="Start"
+		/>
+	</div>
+</main>
+
+const Aside = () => <aside>
+		<div className={css({
+			textAlign: "left"
+		})}>
+			Or practice just
+			</div>
+			<div>
+					<Button
+				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+				label="minuscules"
+			/>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+				label="MAJUSCULES"
+			/>
+			</div>
+					<div className={css({
+			textAlign: "left"
+		})}>
+			Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print: 'minuscule, lowercase')
+			</div>
+	</aside>
 
 const MenuScreen = ({ onSelectMode }) => (
 	<div
@@ -91,7 +105,9 @@ const MenuScreen = ({ onSelectMode }) => (
 		})}
 	>
 		<Header />
-		
+		<Main />
+		<Aside />
+		<SmallPrint/>
 	</div>
 );
 

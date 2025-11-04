@@ -7,10 +7,13 @@ const SmallPrint = ({ children, className }) => (
 			css({
 				fontSize: '0.8rem',
 				marginTop: '1rem',
+				fontStyle:"italic"
 			})
 		}
 	>
-		{children}
+		Concept, design and code copyright ©2025 g.j.hilton / <a href="http://funeralgames.co.uk">funeral games</a>, <br/>
+		Manucript context copyright as shown inline.
+
 	</div>
 );
 

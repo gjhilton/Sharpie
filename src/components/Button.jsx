@@ -29,7 +29,7 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 			opacity: disabled ? 0.5 : 1,
 			cursor: disabled ? 'not-allowed' : 'pointer',
 			border: hero ? '3px solid black' : '1px solid black',
-			fontSize: 'xl',
+			fontSize: 'm',
 			fontWeight: hero ? 900 : 400,
 			padding: '1rem 3rem',
 			margin: '2rem 0',

@@ -40,6 +40,16 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 						'{shift} Z X C V B N M {shift}',
 					],
 				}}
+				buttonTheme={[
+            {
+              class: "hg-red",
+              buttons: "Q W E R T Y q w e r t y"
+            },
+            {
+              class: "hg-highlight",
+              buttons: "Q q"
+            }
+          ]}
 			/>
 		</div>
 	);

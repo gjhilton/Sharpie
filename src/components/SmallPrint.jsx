@@ -5,7 +5,7 @@ const SmallPrint = ({ children, className }) => (
 		className={
 			className ||
 			css({
-				fontSize: '0.8rem',
+				fontSize: 's',
 				marginTop: '1rem',
 				fontStyle:"italic"
 			})

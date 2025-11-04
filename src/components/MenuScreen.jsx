@@ -51,7 +51,7 @@ const Main = () => <main className={css(sectionSpacing)}>
 			<h1 className={css({
 				fontSize: "xl" ,
 				lineHeight: "3rem"
-			})}>Hone your <span className={css({ fontFamily: "Joscelyn" })}>Secretary</span>.</h1>
+			})}>Hone your <span className={css({ fontFamily: "joscelyn" })}>Secretary</span>.</h1>
 		</div>
 		<div className={css({
 			...textLeft,

@@ -23,7 +23,7 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 	>
 		<span
 			className={css({
-				fontSize: '1.2rem',
+				fontSize: 'm',
 				fontWeight: 'bold',
 				color: textColor,
 			})}
@@ -32,7 +32,7 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 		</span>
 		<span
 			className={css({
-				fontSize: '2rem',
+				fontSize: 'xl',
 				fontWeight: 'bold',
 				color: textColor,
 			})}
@@ -63,7 +63,7 @@ const MistakeCard = ({ graph, imagePath }) => (
 		/>
 		<div
 			className={css({
-				fontSize: '1.5rem',
+				fontSize: 'm',
 				fontWeight: 'bold',
 				color: '#c62828',
 				marginTop: '0.5rem',
@@ -108,7 +108,7 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 		<div>
 			<h1
 				className={css({
-					fontSize: '3rem',
+					fontSize: 'xl',
 					textAlign: 'center',
 					marginBottom: '2rem',
 					color: '#333',
@@ -158,7 +158,7 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 				>
 					<h2
 						className={css({
-							fontSize: '2rem',
+							fontSize: 'xl',
 							textAlign: 'center',
 							marginBottom: '1.5rem',
 							color: '#c62828',

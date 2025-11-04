@@ -32,7 +32,7 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => (
 			className={css({
 				textAlign: 'center',
 				color: 'green',
-				fontSize: '4rem',
+				fontSize: 'xl',
 				margin: '1rem',
 			})}
 		>
@@ -75,7 +75,7 @@ const IncorrectAnswer = ({ solution, attempt, attemptImagePath, handleNextLetter
 			className={css({
 				textAlign: 'center',
 				color: 'red',
-				fontSize: '4rem',
+				fontSize: 'xl',
 				margin: '1rem',
 			})}
 		>

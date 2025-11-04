@@ -25,21 +25,20 @@ const Character = ({ title, graph, letter, caption, imagePath }) => (
 					})}
 				/>
 			) : (
-				<div className="joscelyn">
-					<div
-						className={css({
-							fontSize: '10rem',
-							padding: '3rem 1rem',
-						})}
-					>
-						{letter}
-					</div>
+				<div
+					className={css({
+						fontFamily: 'joscelyn',
+						fontSize: 'xl',
+						padding: '3rem 1rem',
+					})}
+				>
+					{letter}
 				</div>
 			)}
 		</div>
 		<div
 			className={css({
-				fontSize: '2rem',
+				fontSize: 'xl',
 				padding: '1rem',
 			})}
 		>

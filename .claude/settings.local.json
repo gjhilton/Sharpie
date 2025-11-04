@@ -8,7 +8,15 @@
       "Bash(git commit:*)",
       "Bash(npm run format:*)",
       "Bash(npm run lint)",
-      "Bash(npm run test:run:*)"
+      "Bash(npm run test:run:*)",
+      "Bash(git remote get-url:*)",
+      "Bash(gh workflow:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(cat:*)",
+      "Bash(npx panda:*)",
+      "Bash(git push:*)",
+      "WebFetch(domain:gjhilton.github.io)"
     ],
     "deny": [],
     "ask": []

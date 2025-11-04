@@ -4,6 +4,8 @@ A beginner-level workout to hone your skills identifying secretary hand letterfo
 
 Status: 🚨 🚧 (very) under construction: expect carnage 🚧 🚨
 
+Work in progress:   https://gjhilton.github.io/Sharpie/
+
 ## Development notes
 
 ```bash

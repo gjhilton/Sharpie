@@ -23,40 +23,33 @@ const Header = () => (
 );
 
 const Main = () => <main className={css({
-		})}>
+		marginBottom: "3rem"
+	})}>
 	<div
 		className={css({
 			display: "grid",
 			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+			gridTemplateRows: "auto auto",
 			gap: "2rem",
 			marginBottom: "2rem",
-			
+			fontSize: "1.3125rem"
 		})}
 	>
 		<div className={css({
-			textAlign: "left"
+			textAlign: "left",
+			gridColumn: "1",
+			gridRow: "1"
 		})}>
 			<h1 className={css({
 				fontSize: '2rem'
 			})}>Hone your <span className="joscelyn">Secretary</span>.</h1>
 		</div>
-		<div></div>
-	</div>
-	<div
-		className={css({
-			display: "grid",
-			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-			gap: "2rem",
-			marginBottom: "2rem"
-		})}
-	>
-		<div></div>
 		<div className={css({
-			textAlign: "left"
+			textAlign: "left",
+			gridColumn: "2",
+			gridRow: "2"
 		})}>
-			<p className={css({
-				fontSize: "1.3125rem"
-			})}>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
+			<p>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
 		</div>
 	</div>
 	<div
@@ -72,19 +65,23 @@ const Main = () => <main className={css({
 	</div>
 </main>
 
-const Aside = () => <aside>
+const Aside = () => <aside className={css({
+		marginBottom: "3rem"
+	})}>
 		<div className={css({
 			textAlign: "left",
-			fontSize: "1.3125rem"
+			fontSize: "1.3125rem",
+			marginBottom: "1rem"
 		})}>
 			Or practice just
-			</div>
-			<div className={css({
-				display: "flex",
-				gap: "1rem",
-				justifyContent: "center"
-			})}>
-					<Button
+		</div>
+		<div className={css({
+			display: "flex",
+			gap: "1rem",
+			justifyContent: "center",
+			marginBottom: "1.5rem"
+		})}>
+			<Button
 				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
 				label="minuscules"
 			/>
@@ -92,12 +89,14 @@ const Aside = () => <aside>
 				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
 				label="MAJUSCULES"
 			/>
-			</div>
-					<div className={css({
-			textAlign: "left"
+		</div>
+		<div className={css({
+			textAlign: "left",
+			fontSize: "0.9rem",
+			fontStyle: "italic"
 		})}>
 			Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.
-			</div>
+		</div>
 	</aside>
 
 const MenuScreen = ({ onSelectMode }) => (

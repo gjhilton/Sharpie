@@ -4,59 +4,51 @@ import Logo, { SIZE } from './Logo.jsx';
 import SmallPrint from './SmallPrint.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 
-const Credit = () => (
-	<SmallPrint>
-		Concept, code &amp; design (also all mistakes) copyright g.j.hilton /
-		funeral games &copy;2025; MSS images ownership as noted
-	</SmallPrint>
-);
+// Shared styles
+const textLeft = { textAlign: "left" };
+const sectionSpacing = { marginBottom: 12 }; // 3rem
+const bodyCopy = { fontSize: "xl" }; // ~1.25rem, closest to 1.3125rem
 
 const Header = () => (
 	<header
 		className={css({
-			padding: '2rem 0',
-			marginBottom: '2rem',
+			py: 8, // 2rem
+			mb: 8, // 2rem
 		})}
 	>
 		<Logo size={SIZE.S} />
 	</header>
 );
 
-const Main = () => <main className={css({
-		marginBottom: "3rem"
-	})}>
+const Main = () => <main className={css(sectionSpacing)}>
 	<div
 		className={css({
 			display: "grid",
 			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
 			gridTemplateRows: "auto auto",
-			gap: "2rem",
-			marginBottom: "2rem",
-			fontSize: "1.3125rem"
+			gap: 8, // 2rem
+			mb: 8, // 2rem
+			...bodyCopy
 		})}
 	>
 		<div className={css({
-			textAlign: "left",
+			...textLeft,
 			gridColumn: "1",
 			gridRow: "1"
 		})}>
 			<h1 className={css({
-				fontSize: '2rem'
+				fontSize: "3xl" // 1.875rem, close to 2rem
 			})}>Hone your <span className="joscelyn">Secretary</span>.</h1>
 		</div>
 		<div className={css({
-			textAlign: "left",
+			...textLeft,
 			gridColumn: "2",
 			gridRow: "2"
 		})}>
 			<p>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
 		</div>
 	</div>
-	<div
-		className={css({
-			textAlign: "center"
-		})}
-	>
+	<div className={css({ textAlign: "center" })}>
 		<Button
 			hero
 			onClick={() => onSelectMode(GAME_MODES.ALL)}
@@ -65,47 +57,45 @@ const Main = () => <main className={css({
 	</div>
 </main>
 
-const Aside = () => <aside className={css({
-		marginBottom: "3rem"
+const Aside = () => <aside className={css(sectionSpacing)}>
+	<div className={css({
+		...textLeft,
+		...bodyCopy,
+		mb: 4 // 1rem
 	})}>
-		<div className={css({
-			textAlign: "left",
-			fontSize: "1.3125rem",
-			marginBottom: "1rem"
-		})}>
-			Or practice just
-		</div>
-		<div className={css({
-			display: "flex",
-			gap: "1rem",
-			justifyContent: "center",
-			marginBottom: "1.5rem"
-		})}>
-			<Button
-				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-				label="minuscules"
-			/>
-			<Button
-				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-				label="MAJUSCULES"
-			/>
-		</div>
-		<div className={css({
-			textAlign: "left",
-			fontSize: "0.9rem",
-			fontStyle: "italic"
-		})}>
-			Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.
-		</div>
-	</aside>
+		Or practice just
+	</div>
+	<div className={css({
+		display: "flex",
+		gap: 4, // 1rem
+		justifyContent: "center",
+		mb: 6 // 1.5rem
+	})}>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+			label="minuscules"
+		/>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+			label="MAJUSCULES"
+		/>
+	</div>
+	<div className={css({
+		...textLeft,
+		fontSize: "sm", // 0.875rem, close to 0.9rem
+		fontStyle: "italic"
+	})}>
+		Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.
+	</div>
+</aside>
 
 const MenuScreen = ({ onSelectMode }) => (
 	<div
 		className={css({
 			maxWidth: '900px',
-			margin: '0 auto',
+			mx: 'auto',
 			textAlign: 'center',
-			padding: '1rem',
+			p: 4, // 1rem
 		})}
 	>
 		<Header />

@@ -11,6 +11,7 @@ const config = {
 		name: '@storybook/react-vite',
 		options: {},
 	},
+	staticDirs: ['../../public'],
 	// No viteFinal needed - let Storybook use its default React config
 	// Don't import vite.config.js to avoid React Compiler conflicts
 };

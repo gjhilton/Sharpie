@@ -1,24 +1,20 @@
-import Character from './Character';
+import CharacterImage from './CharacterImage';
 
 export default {
-	title: 'Components/Character',
-	component: Character,
+	title: 'Components/CharacterImage',
+	component: CharacterImage,
 	parameters: {
 		layout: 'centered',
 	},
 	tags: ['autodocs'],
 	argTypes: {
-		title: {
-			control: 'text',
-			description: 'The title displayed at the top of the card',
-		},
-		caption: {
-			control: 'text',
-			description: 'The caption displayed below the image',
-		},
 		imagePath: {
 			control: 'text',
 			description: 'Path to the image to display',
+		},
+		caption: {
+			control: 'text',
+			description: 'The caption for the image alt text',
 		},
 		graph: {
 			control: 'object',
@@ -27,7 +23,7 @@ export default {
 	},
 };
 
-export const WithImage = {
+export const Default = {
 	args: {
 		imagePath: '/data/joscelyn-min/a.png',
 		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },

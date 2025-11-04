@@ -1,9 +1,10 @@
 import { css } from '../../styled-system/css';
+import CharacterImage from './CharacterImage.jsx';
 
 const DEFAULT_TITLE = 'Identify the letterform';
 const DEFAULT_CAPTION = '?';
 
-const Character = ({ title, graph, letter, caption, imagePath }) => (
+const Character = ({ title, graph, caption, imagePath }) => (
 	<div
 		className={css({
 			maxWidth: '500px',
@@ -13,29 +14,7 @@ const Character = ({ title, graph, letter, caption, imagePath }) => (
 		})}
 	>
 		<div>{title || DEFAULT_TITLE}</div>
-		<div>
-			{imagePath ? (
-				<img
-					src={imagePath}
-					alt={caption || letter || graph?.character}
-					className={css({
-						maxWidth: '100%',
-						height: 'auto',
-						padding: '3rem 1rem',
-					})}
-				/>
-			) : (
-				<div
-					className={css({
-						fontFamily: 'joscelyn',
-						fontSize: 'xl',
-						padding: '3rem 1rem',
-					})}
-				>
-					{letter}
-				</div>
-			)}
-		</div>
+		<CharacterImage imagePath={imagePath} caption={caption} graph={graph} />
 		<div
 			className={css({
 				fontSize: 'xl',

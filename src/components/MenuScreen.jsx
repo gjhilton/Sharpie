@@ -1,12 +1,14 @@
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
-import Logo from './Logo.jsx';
+import Logo, { SIZE } from './Logo.jsx';
+import SmallPrint from './SmallPrint.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 
 const Intro = () => (
 	<div
 		className={css({
 			fontSize: 'xl',
+			marginBottom: '2rem',
 		})}
 	>
 		A beginner-level workout to drill identifying secretary hand letters.
@@ -14,13 +16,27 @@ const Intro = () => (
 );
 
 const Menu = ({ onSelectMode }) => (
-	<div>
-		<Button
-			hero
-			onClick={() => onSelectMode(GAME_MODES.ALL)}
-			label="Start"
-		/>
-		<div>
+	<div
+		className={css({
+			marginBottom: '2rem',
+		})}
+	>
+		<div
+			className={css({
+				marginBottom: '2rem',
+			})}
+		>
+			<Button
+				hero
+				onClick={() => onSelectMode(GAME_MODES.ALL)}
+				label="Start"
+			/>
+		</div>
+		<div
+			className={css({
+				marginBottom: '1rem',
+			})}
+		>
 			<p>Or practice only:</p>
 		</div>
 		<div
@@ -48,33 +64,34 @@ const Menu = ({ onSelectMode }) => (
 );
 
 const Credit = () => (
-	<div
-		className={css({
-			fontSize: '0.8rem',
-			marginTop: '1rem',
-		})}
-	>
+	<SmallPrint>
 		Concept, code &amp; design (also all mistakes) copyright g.j.hilton /
 		funeral games &copy;2025; MSS images ownership as noted
-	</div>
+	</SmallPrint>
+);
+
+const Header = () => (
+	<header
+		className={css({
+			padding: '2rem 0',
+			marginBottom: '2rem',
+		})}
+	>
+		<Logo size="l" />
+	</header>
 );
 
 const MenuScreen = ({ onSelectMode }) => (
 	<div
 		className={css({
+			maxWidth: '900px',
+			margin: '0 auto',
 			textAlign: 'center',
+			padding: '1rem',
 		})}
 	>
-		<div
-			className={css({
-				marginBottom: '2rem',
-			})}
-		>
-			<Logo />
-		</div>
-		<Intro />
-		<Menu onSelectMode={onSelectMode} />
-		<Credit />
+		<Header />
+		
 	</div>
 );
 

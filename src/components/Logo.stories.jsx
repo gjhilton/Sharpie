@@ -1,4 +1,5 @@
-import Logo from './Logo';
+import React from 'react';
+import Logo, { SIZE } from './Logo';
 
 export default {
 	title: 'Components/Logo',
@@ -10,7 +11,8 @@ export default {
 	argTypes: {
 		size: {
 			control: 'text',
-			description: 'Maximum width of the logo (CSS size value)',
+			description:
+				'Logo size: use "s", "m", or "l" constants, or provide custom CSS size value',
 		},
 		className: {
 			control: 'text',
@@ -19,29 +21,25 @@ export default {
 	},
 };
 
-export const Default = {
-	args: {},
-};
-
 export const Small = {
 	args: {
-		size: '150px',
+		size: 's',
 	},
 };
 
 export const Medium = {
 	args: {
-		size: '300px',
+		size: 'm',
 	},
 };
 
 export const Large = {
 	args: {
-		size: '500px',
+		size: 'l',
 	},
 };
 
-export const ExtraLarge = {
+export const CustomSize = {
 	args: {
 		size: '800px',
 	},
@@ -52,10 +50,12 @@ export const Responsive = {
 		size: '100%',
 	},
 	decorators: [
-		Story => (
-			<div style={{ maxWidth: '400px' }}>
-				<Story />
-			</div>
-		),
+		function (Story) {
+			return (
+				<div style={{ maxWidth: '400px' }}>
+					<Story />
+				</div>
+			);
+		},
 	],
 };

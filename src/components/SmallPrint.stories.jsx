@@ -1,3 +1,4 @@
+import React from 'react';
 import SmallPrint from './SmallPrint';
 
 export default {
@@ -37,11 +38,13 @@ export const LongerText = {
 			'This is a longer piece of small print text that might wrap to multiple lines. It demonstrates how the component handles longer content while maintaining the smaller font size.',
 	},
 	decorators: [
-		Story => (
-			<div style={{ maxWidth: '400px' }}>
-				<Story />
-			</div>
-		),
+		function (Story) {
+			return (
+				<div style={{ maxWidth: '400px' }}>
+					<Story />
+				</div>
+			);
+		},
 	],
 };
 

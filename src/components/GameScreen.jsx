@@ -134,9 +134,9 @@ const getGraphsForGameMode = (gameMode) => {
 	return db.getGraphs(graphSet);
 };
 
-const getRandomSolution = (graphs, graphSetTitle) => {
+const getRandomSolution = (graphs) => {
 	const graph = db.getRandomGraph(graphs);
-	const imagePath = db.getImagePath(graph, graphSetTitle);
+	const imagePath = db.getImagePath(graph);
 	return { graph, imagePath };
 };
 
@@ -144,7 +144,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 	const graphs = getGraphsForGameMode(gameMode);
 	const graphSetTitle = getGraphSetTitle(gameMode);
 	const [currentSolution, setCurrentSolution] = useState(
-		getRandomSolution(graphs, graphSetTitle)
+		getRandomSolution(graphs)
 	);
 	const [attempt, setAttempt] = useState(null);
 	const [attemptImagePaths, setAttemptImagePaths] = useState([]);
@@ -203,7 +203,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 		setAttempt(button);
 		const attemptGraphs = graphs.filter(g => g.character === button);
 		if (attemptGraphs.length > 0) {
-			const imagePaths = attemptGraphs.map(g => db.getImagePath(g, graphSetTitle));
+			const imagePaths = attemptGraphs.map(g => db.getImagePath(g));
 			setAttemptImagePaths(imagePaths);
 		}
 	};

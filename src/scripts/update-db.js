@@ -1,136 +1,298 @@
 #!/usr/bin/env node
 
 import { readdir, copyFile, mkdir, writeFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const projectRoot = join(__dirname, '..');
+const projectRoot = join(__dirname, '../..');
 
+const GRAPHS_DIR = join(projectRoot, 'src/artwork/Graphs');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
-
-// Configuration for both asset types
-const ASSET_CONFIGS = [
-	{
-		name: 'minuscules',
-		sourceDir: join(projectRoot, 'src/artwork/Joscelyn/joscelyn-min-assets'),
-		destDir: join(projectRoot, 'public/data/joscelyn-min'),
-		transformCharacter: (filename) => filename.replace('.png', ''), // a.png -> "a"
-		graphSetTitle: 'minuscules'
-	},
-	{
-		name: 'majuscules',
-		sourceDir: join(projectRoot, 'src/artwork/Joscelyn/joscelyn-maj-assets'),
-		destDir: join(projectRoot, 'public/data/joscelyn-maj'),
-		transformCharacter: (filename) => filename.replace('.png', '').toUpperCase(), // a.png -> "A"
-		graphSetTitle: 'MAJUSCULES'
-	}
-];
+const PUBLIC_DATA_DIR = join(projectRoot, 'public/data');
 
 /**
- * Copy images from source to destination directory
+ * Recursively find all *-assets directories
  */
-async function copyImages(config) {
-	console.log(`\n📁 Processing ${config.name}...`);
-	console.log(`   Creating destination directory: ${config.destDir}`);
+async function findAssetDirectories(dir) {
+	const results = [];
 
-	// Create destination directory if it doesn't exist
-	if (!existsSync(config.destDir)) {
-		await mkdir(config.destDir, { recursive: true });
+	try {
+		const entries = await readdir(dir, { withFileTypes: true });
+
+		for (const entry of entries) {
+			if (entry.isDirectory()) {
+				const fullPath = join(dir, entry.name);
+
+				// Check if this directory ends with -assets
+				if (entry.name.endsWith('-assets')) {
+					results.push(fullPath);
+				}
+
+				// Recursively search subdirectories
+				const subResults = await findAssetDirectories(fullPath);
+				results.push(...subResults);
+			}
+		}
+	} catch (error) {
+		console.error(`Error reading directory ${dir}:`, error.message);
 	}
 
-	console.log(`   Reading source files from: ${config.sourceDir}`);
-	const files = await readdir(config.sourceDir);
+	return results;
+}
+
+/**
+ * Extract character from filename (first letter, case sensitive)
+ * Pure function - exported for testing
+ */
+export function extractCharacter(filename) {
+	const nameWithoutExt = filename.replace('.png', '');
+	return nameWithoutExt.charAt(0);
+}
+
+/**
+ * Determine graphSet category based on character
+ * A-Z → MAJUSCULES, a-z → minuscules, other → Others
+ * Pure function - exported for testing
+ */
+export function categorizeCharacter(char) {
+	if (char >= 'A' && char <= 'Z') {
+		return 'MAJUSCULES';
+	} else if (char >= 'a' && char <= 'z') {
+		return 'minuscules';
+	} else {
+		return 'Others';
+	}
+}
+
+/**
+ * Get parent directory name (source name)
+ * Pure function - exported for testing
+ */
+export function getSourceName(assetPath) {
+	const parentDir = dirname(assetPath);
+	return basename(parentDir);
+}
+
+/**
+ * Get asset folder name
+ * Pure function - exported for testing
+ */
+export function getAssetFolderName(assetPath) {
+	return basename(assetPath);
+}
+
+/**
+ * Process a single asset directory
+ */
+async function processAssetDirectory(assetPath) {
+	const sourceName = getSourceName(assetPath);
+	const assetFolderName = getAssetFolderName(assetPath);
+	const destDir = join(PUBLIC_DATA_DIR, sourceName, assetFolderName);
+
+	console.log(`\n📁 Processing ${sourceName}/${assetFolderName}...`);
+
+	// Create destination directory
+	if (!existsSync(destDir)) {
+		await mkdir(destDir, { recursive: true });
+		console.log(`   Created destination: ${destDir}`);
+	}
+
+	// Read PNG files
+	const files = await readdir(assetPath);
 	const imageFiles = files.filter(f => f.endsWith('.png'));
 
-	console.log(`   Found ${imageFiles.length} images to copy`);
+	console.log(`   Found ${imageFiles.length} images`);
 
-	// Copy each file
+	// Process each image
+	const graphEntries = [];
+
 	for (const file of imageFiles) {
-		const sourcePath = join(config.sourceDir, file);
-		const destPath = join(config.destDir, file);
+		const sourcePath = join(assetPath, file);
+		const destPath = join(destDir, file);
+
+		// Copy file
 		await copyFile(sourcePath, destPath);
-		console.log(`     ✓ Copied ${file}`);
+
+		// Extract character and categorize
+		const character = extractCharacter(file);
+		const category = categorizeCharacter(character);
+
+		graphEntries.push({
+			img: file,
+			character: character,
+			source: sourceName,
+			category: category,
+			relativePath: `${sourceName}/${assetFolderName}/${file}`
+		});
+
+		console.log(`     ✓ Copied ${file} → ${character} (${category})`);
 	}
 
-	return imageFiles;
+	return {
+		sourceName,
+		assetFolderName,
+		graphEntries
+	};
 }
 
 /**
- * Generate graph entries for DB.js
+ * Generate sources object for DB
+ * Pure function - exported for testing
  */
-function generateGraphEntries(imageFiles, config) {
-	return imageFiles
-		.map(filename => {
-			const character = config.transformCharacter(filename);
-			return {
-				img: filename,
-				character: character,
-				source: 'joscelyn'
+export function generateSourcesObject(allEntries) {
+	const sources = {};
+	const sourceNames = new Set();
+
+	// Collect unique source names
+	allEntries.forEach(entry => {
+		entry.graphEntries.forEach(graph => {
+			sourceNames.add(graph.source);
+		});
+	});
+
+	// Generate source entries
+	sourceNames.forEach(sourceName => {
+		// Use existing known sources or generate placeholder
+		if (sourceName === 'Joscelyn') {
+			sources[sourceName] = {
+				title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
+				sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'
 			};
-		})
-		.sort((a, b) => a.character.localeCompare(b.character));
+		} else if (sourceName === 'BeauChesne-Baildon') {
+			sources[sourceName] = {
+				title: 'BeauChesne-Baildon writing book',
+				sourceUri: 'https://example.com/beaucheche-baildon' // TODO: Add correct URI
+			};
+		} else {
+			sources[sourceName] = {
+				title: `${sourceName} source`,
+				sourceUri: `https://example.com/${sourceName.toLowerCase()}`
+			};
+		}
+	});
+
+	return sources;
 }
 
 /**
- * Update DB.js with new entries
+ * Generate graphSets array for DB
+ * Pure function - exported for testing
  */
-async function updateDB(minusculeEntries, majusculeEntries) {
-	console.log('\n📝 Updating DB.js...');
+export function generateGraphSets(allEntries) {
+	const categorizedGraphs = {
+		'minuscules': [],
+		'MAJUSCULES': [],
+		'Others': []
+	};
 
-	// Generate DB structure with both sets
-	const newDB = `export const DB = {
-	sources: {
-		hill: {
-			title: 'Commonplace Book of William Hill (1574 or 1575)',
-			sourceUri: 'https://search.library.yale.edu/catalog/9970402713408651'
-		},
-		joscelyn: {
-			title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
-			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases'
-		}
-	},
-	graphSets: [
+	// Group all graphs by category
+	allEntries.forEach(entry => {
+		entry.graphEntries.forEach(graph => {
+			categorizedGraphs[graph.category].push({
+				img: graph.relativePath,
+				character: graph.character,
+				source: graph.source
+			});
+		});
+	});
+
+	// Sort graphs within each category
+	Object.keys(categorizedGraphs).forEach(category => {
+		categorizedGraphs[category].sort((a, b) => a.character.localeCompare(b.character));
+	});
+
+	// Build graphSets array
+	return [
 		{
-			title: "minuscules",
+			title: 'minuscules',
 			enabled: true,
-			graphs: [
-${minusculeEntries.map(entry => `				{
-					img: "${entry.img}",
-					character: "${entry.character}",
-					source: "${entry.source}"
-				}`).join(',\n')}
-			]
+			graphs: categorizedGraphs['minuscules']
 		},
 		{
-			title: "MAJUSCULES",
+			title: 'MAJUSCULES',
 			enabled: true,
-			graphs: [
-${majusculeEntries.map(entry => `				{
-					img: "${entry.img}",
-					character: "${entry.character}",
-					source: "${entry.source}"
-				}`).join(',\n')}
-			]
+			graphs: categorizedGraphs['MAJUSCULES']
 		},
 		{
-			title: "Numerals",
+			title: 'Others',
 			enabled: false,
-			graphs: []
-		},
-		{
-			title: "Brevigraphs",
-			enabled: false,
-			graphs: []
+			graphs: categorizedGraphs['Others']
 		}
-	]
+	];
+}
+
+/**
+ * Format a single source entry (pure function)
+ */
+export function formatSourceEntry(key, value) {
+	return `\t\t"${key}": {
+\t\t\ttitle: '${value.title}',
+\t\t\tsourceUri: '${value.sourceUri}'
+\t\t}`;
+}
+
+/**
+ * Format a single graph entry (pure function)
+ */
+export function formatGraphEntry(graph) {
+	return `\t\t\t\t{
+\t\t\t\t\timg: "${graph.img}",
+\t\t\t\t\tcharacter: "${graph.character}",
+\t\t\t\t\tsource: "${graph.source}"
+\t\t\t\t}`;
+}
+
+/**
+ * Format a single graphSet entry (pure function)
+ */
+export function formatGraphSetEntry(graphSet) {
+	const graphsStr = graphSet.graphs
+		.map(graph => formatGraphEntry(graph))
+		.join(',\n');
+
+	return `\t\t{
+\t\t\ttitle: "${graphSet.title}",
+\t\t\tenabled: ${graphSet.enabled},
+\t\t\tgraphs: [
+${graphsStr}
+\t\t\t]
+\t\t}`;
+}
+
+/**
+ * Format complete DB content (pure function)
+ */
+export function formatDBContent(sources, graphSets) {
+	const sourcesStr = Object.entries(sources)
+		.map(([key, value]) => formatSourceEntry(key, value))
+		.join(',\n');
+
+	const graphSetsStr = graphSets
+		.map(graphSet => formatGraphSetEntry(graphSet))
+		.join(',\n');
+
+	return `export const DB = {
+\tsources: {
+${sourcesStr}
+\t},
+\tgraphSets: [
+${graphSetsStr}
+\t]
 };
 `;
+}
 
-	await writeFile(DB_PATH, newDB, 'utf-8');
-	console.log('  ✓ DB.js updated successfully!');
+/**
+ * Generate and write DB.js file
+ */
+async function writeDB(sources, graphSets) {
+	console.log('\n📝 Generating DB.js...');
+	const dbContent = formatDBContent(sources, graphSets);
+	await writeFile(DB_PATH, dbContent, 'utf-8');
+	console.log('  ✓ DB.js written successfully!');
 }
 
 /**
@@ -138,38 +300,44 @@ ${majusculeEntries.map(entry => `				{
  */
 async function main() {
 	try {
-		console.log('🚀 Starting update-db...\n');
+		console.log('🚀 Starting dynamic update-db...\n');
 		console.log('=' .repeat(60));
+		console.log(`Scanning: ${GRAPHS_DIR}`);
 
-		const results = [];
+		// Find all asset directories
+		const assetDirs = await findAssetDirectories(GRAPHS_DIR);
+		console.log(`\nFound ${assetDirs.length} asset directories:`);
+		assetDirs.forEach(dir => console.log(`  - ${dir}`));
 
-		// Process both minuscules and majuscules
-		for (const config of ASSET_CONFIGS) {
-			const imageFiles = await copyImages(config);
-			const graphEntries = generateGraphEntries(imageFiles, config);
-			results.push({
-				config,
-				imageFiles,
-				graphEntries
-			});
+		// Process each directory
+		const allEntries = [];
+		for (const assetDir of assetDirs) {
+			const result = await processAssetDirectory(assetDir);
+			allEntries.push(result);
 		}
 
-		// Update DB.js with both sets
-		const minusculeEntries = results[0].graphEntries;
-		const majusculeEntries = results[1].graphEntries;
-		await updateDB(minusculeEntries, majusculeEntries);
+		// Generate DB structure
+		const sources = generateSourcesObject(allEntries);
+		const graphSets = generateGraphSets(allEntries);
 
+		// Write DB.js
+		await writeDB(sources, graphSets);
+
+		// Print summary
 		console.log('\n' + '='.repeat(60));
 		console.log('✅ All done!\n');
 		console.log('📊 Summary:');
 
-		for (const result of results) {
-			console.log(`\n   ${result.config.name.toUpperCase()}:`);
-			console.log(`   - ${result.imageFiles.length} images copied to ${result.config.destDir}`);
-			console.log(`   - ${result.graphEntries.length} entries added to DB.js`);
-			console.log(`   - Characters: ${result.graphEntries.map(e => e.character).join(', ')}`);
-		}
+		let totalImages = 0;
+		graphSets.forEach(graphSet => {
+			console.log(`\n   ${graphSet.title.toUpperCase()}:`);
+			console.log(`   - ${graphSet.graphs.length} images`);
+			console.log(`   - Enabled: ${graphSet.enabled}`);
+			totalImages += graphSet.graphs.length;
+		});
 
+		console.log(`\n   TOTAL: ${totalImages} images processed`);
+		console.log(`   Sources: ${Object.keys(sources).join(', ')}`);
 		console.log('\n' + '='.repeat(60));
 
 	} catch (error) {

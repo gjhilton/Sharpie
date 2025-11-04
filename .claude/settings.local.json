@@ -1,29 +1,10 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx storybook@latest init:*)",
-      "Bash(ls:*)",
-      "Bash(npm run dev:*)",
-      "Bash(npm run build:*)",
-      "Bash(npm run build-storybook:*)",
-      "Bash(npm run lint)",
-      "Bash(cat:*)",
-      "Bash(npm install:*)",
-      "Bash(npm uninstall:*)",
-      "Bash(npm run generate-favicons:*)",
-      "WebSearch",
-      "Bash(chmod:*)",
-      "Bash(npm run import-joscelyn:*)",
-      "Bash(npm run test:run:*)",
-      "Bash(npm run storybook:*)",
-      "Bash(npx panda:*)",
-      "Bash(npm run format:*)",
-      "Bash(lsof:*)",
-      "Bash(xargs kill:*)",
-      "Bash(for file in *.stories.js)",
-      "Bash(do mv \"$file\" \"$file%.js.jsx\")",
-      "Bash(done)"
+      "Bash(find:*)",
+      "Bash(npm run update-db:*)"
     ],
-    "deny": []
+    "deny": [],
+    "ask": []
   }
 }

@@ -45,30 +45,10 @@ export const getRandomGraph = graphs => {
 	return graphs[randomIndex]
 }
 
-export const getImagePath = (graph, graphSetTitle) => {
-	const folderMap = {
-		'minuscules': 'joscelyn-min',
-		'MAJUSCULES': 'joscelyn-maj',
-		'Numerals': 'joscelyn-num',
-		'Brevigraphs': 'joscelyn-brev'
-	}
-
-	// If graphSetTitle is not provided, detect from character
-	let folder = folderMap[graphSetTitle]
-	if (!folder) {
-		const char = graph.character
-		if (char >= 'a' && char <= 'z') {
-			folder = 'joscelyn-min'
-		} else if (char >= 'A' && char <= 'Z') {
-			folder = 'joscelyn-maj'
-		} else if (char >= '0' && char <= '9') {
-			folder = 'joscelyn-num'
-		} else {
-			folder = 'joscelyn-brev'
-		}
-	}
-
-	return `/data/${folder}/${graph.img}`
+export const getImagePath = (graph) => {
+	// The img field now contains the full relative path
+	// e.g., "Joscelyn/joscelyn-min-assets/a.png"
+	return `/data/${graph.img}`
 }
 
 export const flattenGraphs = graphSets => {

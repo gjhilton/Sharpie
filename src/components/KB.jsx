@@ -28,6 +28,8 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 			<Keyboard
 				layoutName={layout}
 				onKeyPress={onKeyPress}
+				physicalKeyboardHighlight={true}
+				physicalKeyboardHighlightPress={true}
 				layout={{
 					default: [
 						'q w e r t y u i o p',

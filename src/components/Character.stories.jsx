@@ -64,3 +64,42 @@ export const IncorrectAnswer = {
 		character: 'b',
 	},
 };
+
+export const AllStates = {
+	render: () => (
+		<div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>
+				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Await Answer</h3>
+				<Character
+					state="awaitAnswer"
+					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
+				/>
+			</div>
+			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>
+				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Correct Answer</h3>
+				<Character
+					state="correctAnswer"
+					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
+					character="a"
+					sourceLink="https://github.com/psb1558/Joscelyn-font/releases"
+					sourceTitle="Joscelyn typeface, drawn by Peter Baker (2019)"
+				/>
+			</div>
+			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>
+				<h3 style={{ textAlign: 'center', marginBottom: '1rem' }}>Incorrect Answer</h3>
+				<Character
+					state="incorrectAnswer"
+					imagePaths={[
+						'/data/Joscelyn/joscelyn-min-assets/b.png',
+						'/data/BeauChesne-Baildon/BCB-AB-assets/b3.png',
+						'/data/BeauChesne-Baildon/BCB-AB-assets/b4.png',
+					]}
+					character="b"
+				/>
+			</div>
+		</div>
+	),
+	parameters: {
+		layout: 'fullscreen',
+	},
+};

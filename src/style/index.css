@@ -14,6 +14,28 @@
 	background: transparent !important;
 }
 
-.joscelyn {
-	font-family: 'Joscelyn';
+a {
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px dotted red;
+	display: inline-block;
+}
+p, ul {
+	margin: 1rem 0;
+}
+
+.simple-keyboard {
+	max-width:40rem;
+	margin: 0 auto;
+}
+
+.simple-keyboard.hg-theme-default .hg-button {
+  background: white;
+  color: black;
+  border-radius: 0;
+    border: 1px solid black;
+	padding: 1rem;
+	box-shadow: none;
+	font-weight:500;
+	min-height:3.5rem
 }

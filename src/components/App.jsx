@@ -3,10 +3,10 @@ import '../style/App.css';
 import { css } from '../../styled-system/css';
 import { STAGES } from '../constants/stages.js';
 import MenuScreen from './MenuScreen.jsx';
-import PlayingStage from './PlayingStage.jsx';
+import GameScreen from './GameScreen.jsx';
 import ScoreScreen from './ScoreScreen.jsx';
 
-function App() {
+const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
 	const [gameMode, setGameMode] = useState(null);
 	const [score, setScore] = useState(null);
@@ -27,30 +27,30 @@ function App() {
 		setStage(STAGES.MENU);
 	};
 
-	const renderStage = () => {
-		switch (stage) {
-			case STAGES.MENU:
-				return <MenuScreen onSelectMode={handleSelectMode} />;
-			case STAGES.PLAYING:
-				return (
-					<PlayingStage
-						onEndGame={handleEndGame}
-						gameMode={gameMode}
-					/>
-				);
-			case STAGES.SCORE:
-				return (
-					<ScoreScreen
-						score={score}
-						onReturnToMenu={handleReturnToMenu}
-					/>
-				);
-			default:
-				return <MenuScreen onSelectMode={handleSelectMode} />;
-		}
-	};
-
-	return <div className={css({ margin: '1rem' })}>{renderStage()}</div>;
-}
+	return (
+		<div className={css({ margin: '1rem' })}>
+			{(() => {
+				switch (stage) {
+					case STAGES.PLAYING:
+						return (
+							<GameScreen
+								onEndGame={handleEndGame}
+								gameMode={gameMode}
+							/>
+						);
+					case STAGES.SCORE:
+						return (
+							<ScoreScreen
+								score={score}
+								onReturnToMenu={handleReturnToMenu}
+							/>
+						);
+					default:
+						return <MenuScreen onSelectMode={handleSelectMode} />;
+				}
+			})()}
+		</div>
+	);
+};
 
 export default App;

@@ -4,14 +4,17 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
-		"build": "vite build",
-		"lint": "eslint .",
-		"preview": "vite preview",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"storybook": "storybook dev -p 6006",
-		"build-storybook": "storybook build"
+		"dev": "vite --config config/vite.config.js",
+		"build": "vite build --config config/vite.config.js",
+		"lint": "eslint . --config config/eslint.config.js",
+		"preview": "vite preview --config config/vite.config.js",
+		"format": "prettier --write . --config config/.prettierrc --ignore-path config/.prettierignore",
+		"storybook": "storybook dev -p 6006 -c config/storybook",
+		"build-storybook": "storybook build -c config/storybook",
+		"test": "vitest --config config/vitest.config.js",
+		"test:run": "vitest run --config config/vitest.config.js",
+		"test:watch": "vitest watch --config config/vitest.config.js",
+		"update-db": "node src/scripts/update-db.js"
 	},
 	"dependencies": {
 		"react": "^19.1.1",
@@ -22,6 +25,7 @@
 		"@chromatic-com/storybook": "^4.1.1",
 		"@eslint/js": "^9.36.0",
 		"@pandacss/dev": "^1.4.0",
+		"@peterek/vite-plugin-favicons": "^2.1.0",
 		"@storybook/addon-a11y": "^9.1.10",
 		"@storybook/addon-docs": "^9.1.10",
 		"@storybook/addon-onboarding": "^9.1.10",
@@ -30,19 +34,19 @@
 		"@types/react": "^19.1.13",
 		"@types/react-dom": "^19.1.9",
 		"@vitejs/plugin-react": "^5.0.3",
+		"@vitest/browser": "^3.2.4",
+		"@vitest/coverage-v8": "^3.2.4",
 		"babel-plugin-react-compiler": "^19.1.0-rc.3",
 		"eslint": "^9.36.0",
 		"eslint-plugin-react-hooks": "^5.2.0",
 		"eslint-plugin-react-refresh": "^0.4.20",
 		"eslint-plugin-storybook": "^9.1.10",
 		"globals": "^16.4.0",
+		"playwright": "^1.55.1",
 		"prettier": "^3.6.2",
 		"prop-types": "^15.8.1",
 		"storybook": "^9.1.10",
 		"vite": "^7.1.7",
-		"vitest": "^3.2.4",
-		"@vitest/browser": "^3.2.4",
-		"playwright": "^1.55.1",
-		"@vitest/coverage-v8": "^3.2.4"
+		"vitest": "^3.2.4"
 	}
 }

@@ -1,6 +1,6 @@
-![image](/artwork/logo.jpg)
+![image](/src/artwork/logo/sharpielogo.jpg)
 
-A beginner-level workout in identifying secretary hand letterforms.
+A beginner-level workout to hone your skills identifying secretary hand letterforms.
 
 Status: 🚨 🚧 (very) under construction: expect carnage 🚧 🚨
 
@@ -10,10 +10,10 @@ Status: 🚨 🚧 (very) under construction: expect carnage 🚧 🚨
 npm run dev -- --host --port 8080
 ```
 
-http://192.168.1.198:8080/
+View locally at <code>http://192.168.1.198:8080/</code>
 
-```bash
-npm run lint          # Run ESLint
-npm run format        # Format code with Prettier
-npm run storybook     # Run Storybook
-```
+### Asset creation workflow
+
+1) Use photoshop file > automate > generator plugins > image assets
+
+2) Run npm run update-db to regenerate DB.js

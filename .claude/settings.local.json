@@ -20,7 +20,9 @@
       "Bash(curl:*)",
       "Bash(npm run build:*)",
       "Bash(git checkout:*)",
-      "Bash(git merge:*)"
+      "Bash(git merge:*)",
+      "Bash(npm run build-storybook:*)",
+      "Bash(npx eslint:*)"
     ],
     "deny": [],
     "ask": []

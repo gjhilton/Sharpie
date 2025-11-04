@@ -30,7 +30,7 @@ const Main = () => <main className={css({
 			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
 			gap: "2rem",
 			marginBottom: "2rem",
-			fontSize: "1.3125rem"
+			
 		})}
 	>
 		<div className={css({
@@ -55,7 +55,7 @@ const Main = () => <main className={css({
 			textAlign: "left"
 		})}>
 			<p className={css({
-				
+				fontSize: "1.3125rem"
 			})}>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
 		</div>
 	</div>
@@ -74,11 +74,16 @@ const Main = () => <main className={css({
 
 const Aside = () => <aside>
 		<div className={css({
-			textAlign: "left"
+			textAlign: "left",
+			fontSize: "1.3125rem"
 		})}>
 			Or practice just
 			</div>
-			<div>
+			<div className={css({
+				display: "flex",
+				gap: "1rem",
+				justifyContent: "center"
+			})}>
 					<Button
 				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
 				label="minuscules"
@@ -91,7 +96,7 @@ const Aside = () => <aside>
 					<div className={css({
 			textAlign: "left"
 		})}>
-			Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print: 'minuscule, lowercase')
+			Tip: 'Majuscule" is the manuscript equivalent of 'uppercase' in print; 'minuscule', 'lowercase'.
 			</div>
 	</aside>
 

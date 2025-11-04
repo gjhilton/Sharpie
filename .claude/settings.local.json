@@ -16,7 +16,11 @@
       "Bash(cat:*)",
       "Bash(npx panda:*)",
       "Bash(git push:*)",
-      "WebFetch(domain:gjhilton.github.io)"
+      "WebFetch(domain:gjhilton.github.io)",
+      "Bash(curl:*)",
+      "Bash(npm run build:*)",
+      "Bash(git checkout:*)",
+      "Bash(git merge:*)"
     ],
     "deny": [],
     "ask": []

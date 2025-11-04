@@ -14,6 +14,7 @@ const Header = () => (
 		className={css({
 			py: 8, // 2rem
 			mb: 8, // 2rem
+			textAlign: "center"
 		})}
 	>
 		<Logo size={SIZE.S} />
@@ -24,8 +25,8 @@ const Main = () => <main className={css(sectionSpacing)}>
 	<div
 		className={css({
 			display: "grid",
-			gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-			gridTemplateRows: "auto auto",
+			gridTemplateColumns: { base: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+			gridTemplateRows: { base: "auto", md: "auto auto" },
 			gap: 8, // 2rem
 			mb: 8, // 2rem
 			...bodyCopy
@@ -33,8 +34,8 @@ const Main = () => <main className={css(sectionSpacing)}>
 	>
 		<div className={css({
 			...textLeft,
-			gridColumn: "1",
-			gridRow: "1"
+			gridColumn: { base: "1", md: "1" },
+			gridRow: { base: "auto", md: "1" }
 		})}>
 			<h1 className={css({
 				fontSize: "3xl" // 1.875rem, close to 2rem
@@ -42,8 +43,8 @@ const Main = () => <main className={css(sectionSpacing)}>
 		</div>
 		<div className={css({
 			...textLeft,
-			gridColumn: "2",
-			gridRow: "2"
+			gridColumn: { base: "1", md: "2" },
+			gridRow: { base: "auto", md: "2" }
 		})}>
 			<p>Sharpie helps you drill recognising letters written in the secretary hand used in the sixteenth and seventeenth centuries.</p>
 		</div>
@@ -67,9 +68,11 @@ const Aside = () => <aside className={css(sectionSpacing)}>
 	</div>
 	<div className={css({
 		display: "flex",
+		flexDirection: { base: "column", sm: "row" },
 		gap: 4, // 1rem
 		justifyContent: "center",
-		mb: 6 // 1.5rem
+		mb: 6, // 1.5rem
+		alignItems: "center"
 	})}>
 		<Button
 			onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
@@ -92,10 +95,11 @@ const Aside = () => <aside className={css(sectionSpacing)}>
 const MenuScreen = ({ onSelectMode }) => (
 	<div
 		className={css({
-			maxWidth: '900px',
+			maxWidth: { base: "100%", md: "900px" },
 			mx: 'auto',
 			textAlign: 'center',
-			p: 4, // 1rem
+			px: 8, // 2rem horizontal padding
+			py: 4, // 1rem vertical padding
 		})}
 	>
 		<Header />

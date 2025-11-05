@@ -10,7 +10,33 @@ const Character = ({
 	sourceLink,
 	sourceTitle,
 }) => {
-	if (state === 'awaitAnswer') {
+	return(
+
+		
+	 <div className={css({ height: "300px", width: "300px", position: "relative" })}>
+      <div className={css({ position: "relative" })}>
+        <img src="http://192.168.1.198:6006/data/joscelyn-min/a.png" />
+        <div className={css({
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+		  mixBlendMode: "lighten",
+          height: "100%",
+          backgroundColor: "red"
+        })}></div>
+      </div>
+    </div>
+
+	)
+};
+
+export default Character;
+
+
+/*
+
+if (state === 'awaitAnswer') {
 		return <CharacterImage imagePath={imagePath} />;
 	}
 
@@ -104,6 +130,6 @@ const Character = ({
 	}
 
 	return null;
-};
 
-export default Character;
+
+	*/

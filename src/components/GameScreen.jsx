@@ -23,7 +23,10 @@ const KB_DISABLED_OPACITY = 0.01;
 
 const Unanswered = ({ solution }) => (
 	<div className={css({ display: 'flex', justifyContent: 'center' })}>
-		<Character state={CHARACTER_STATE.AWAIT_ANSWER} imagePath={solution.imagePath} />
+		<Character
+			state={CHARACTER_STATE.AWAIT_ANSWER}
+			imagePath={solution.imagePath}
+		/>
 	</div>
 );
 
@@ -78,16 +81,16 @@ const IncorrectAnswer = ({
 				})}
 			>
 				<Character
+					state={CHARACTER_STATE.INCORRECT_ANSWER}
+					imagePaths={attemptImagePaths}
+					character={attempt}
+				/>
+				<Character
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
 					character={solution.graph.character}
 					sourceLink={sourceLink}
 					sourceTitle={sourceTitle}
-				/>
-				<Character
-					state={CHARACTER_STATE.INCORRECT_ANSWER}
-					imagePaths={attemptImagePaths}
-					character={attempt}
 				/>
 			</div>
 

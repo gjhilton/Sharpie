@@ -1,44 +1,48 @@
-const Icon = props => {
-	const styles = {
-		path: {
-			stroke: props.colour ? props.colour : 'currentColor',
-			strokeWidth: props.weight
-		},
-		svg: {
-			display: 'inline-block',
-			fill: 'none',
-			strokeLinecap: 'round',
-			strokeMiterlimit: '10',
-			verticalAlign: 'middle'
-		}
-	}
+import { css } from '../../styled-system/css';
+
+const Icon = ({ icon, size = 24, colour = 'currentColor', weight = 2, className = '' }) => {
+	const svgStyles = {
+		display: 'inline-block',
+		fill: 'none',
+		strokeLinecap: 'round',
+		strokeMiterlimit: '10',
+		verticalAlign: 'middle',
+	};
+
+	const pathStyles = {
+		stroke: colour,
+		strokeWidth: weight,
+	};
 
 	return (
 		<svg
-			className='Icon'
-			style={styles.svg}
-			width={`${props.size}px`}
-			height={`${props.size}px`}
+			style={svgStyles}
+			className={className}
+			width={`${size}px`}
+			height={`${size}px`}
 			viewBox='0 0 24 24'
+			aria-hidden="true"
+			role="img"
 		>
-			<path vectorEffect='non-scaling-stroke' style={styles.path} d={props.icon.path} />
+			<path
+				vectorEffect='non-scaling-stroke'
+				style={pathStyles}
+				d={icon.path}
+			/>
 		</svg>
-	)
-}
+	);
+};
 
 export default Icon
 
 export const ICON_TYPE = {
 	CROSS: {
-		names: [],
-		path: 'M12 2a10 10 0 1 0 0 20 10 10 0 1 0 0-20zM8.5 8.9l7 6.9m-7 0l7-6.9'
+		path: 'M6 6l12 12M18 6L6 18'
 	},
 	INFO: {
-		names: [],
 		path: 'M12 11v5m0-7V8m0-6a10 10 0 1 0 0 20 10 10 0 1 0 0-20z'
 	},
 	TICK: {
-		names: [],
 		path: 'M4 13l5 5L20 7'
 	},
 }

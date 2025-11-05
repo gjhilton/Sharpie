@@ -1,7 +1,9 @@
 import { css } from '../../styled-system/css';
 
 const CharacterImage = ({ imagePath, caption, graph }) => (
-	<div>
+	<div className={css({
+				background: "white"
+			})}>
 		<img
 			src={imagePath}
 			alt={caption || graph?.character}

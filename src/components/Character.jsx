@@ -12,6 +12,32 @@ const RedOverlay = () =>  <div className={css({
           backgroundColor: "red"
         })}></div>
 
+const Source = ({sourceTitle, sourceLink}) =>  <div className={css({
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+		    display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "flex-end"
+        })}>
+
+			  <span className={css({
+								fontSize:"0.8rem"
+							})}><a
+							href={sourceLink}
+							target="_blank"
+							rel="noopener noreferrer"
+							className={css({
+								color: 'blue',
+								textDecoration: 'underline',
+							})}
+						>
+							{sourceTitle || 'Source'}
+						</a></span>
+		</div>
+
 const Character = ({
 	state,
 	imagePath,
@@ -25,8 +51,12 @@ const Character = ({
 		
 	 <div className={css({ height: "300px", width: "300px", position: "relative" })}>
       <div className={css({ position: "relative" })}>
-        <img src="http://192.168.1.198:6006/data/joscelyn-min/a.png" />
+		{state!== 'awaitAnswer' && <div  className={css({ position: "absolute", padding:"1rem", fontSize: "24px", fontWeight: "900" })}>{character}</div>}
+       { imagePath ? <CharacterImage imagePath={imagePath} />  :
+	   <CharacterImageSlideshow imagePaths={imagePaths} />}
        { state==='incorrectAnswer' && <RedOverlay />}
+{ state==='correctAnswer' && <Source sourceTitle={sourceTitle} sourceLink={sourceLink}/>}
+	  
       </div>
     </div>
 
@@ -34,104 +64,3 @@ const Character = ({
 };
 
 export default Character;
-
-
-/*
-
-if (state === 'awaitAnswer') {
-		return <CharacterImage imagePath={imagePath} />;
-	}
-
-	if (state === 'correctAnswer') {
-		return (
-			<div
-				className={css({
-					maxWidth: '500px',
-					margin: '1rem auto 2rem',
-					border: '2px solid green',
-					padding: '1rem',
-				})}
-			>
-				<div
-					className={css({
-						fontSize: 'xl',
-						padding: '1rem',
-						textAlign: 'center',
-					})}
-				>
-					{character}
-				</div>
-				<CharacterImage imagePath={imagePath} />
-				<div
-					className={css({
-						textAlign: 'center',
-						color: 'green',
-						fontSize: 'xl',
-						margin: '1rem',
-					})}
-				>
-					✅
-				</div>
-				{sourceLink && (
-					<div
-						className={css({
-							textAlign: 'center',
-							fontSize: 's',
-							padding: '0.5rem',
-						})}
-					>
-						<a
-							href={sourceLink}
-							target="_blank"
-							rel="noopener noreferrer"
-							className={css({
-								color: 'blue',
-								textDecoration: 'underline',
-							})}
-						>
-							{sourceTitle || 'Source'}
-						</a>
-					</div>
-				)}
-			</div>
-		);
-	}
-
-	if (state === 'incorrectAnswer') {
-		return (
-			<div
-				className={css({
-					maxWidth: '500px',
-					margin: '1rem auto 2rem',
-					border: '2px solid red',
-					padding: '1rem',
-				})}
-			>
-				<div
-					className={css({
-						fontSize: 'xl',
-						padding: '1rem',
-						textAlign: 'center',
-					})}
-				>
-					{character}
-				</div>
-				<CharacterImageSlideshow imagePaths={imagePaths} />
-				<div
-					className={css({
-						textAlign: 'center',
-						color: 'red',
-						fontSize: 'xl',
-						margin: '1rem',
-					})}
-				>
-					❌
-				</div>
-			</div>
-		);
-	}
-
-	return null;
-
-
-	*/

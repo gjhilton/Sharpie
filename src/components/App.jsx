@@ -28,7 +28,7 @@ const App = () => {
 	};
 
 	return (
-		<div className={css({ margin: '1rem' })}>
+		<div>
 			{(() => {
 				switch (stage) {
 					case STAGES.PLAYING:

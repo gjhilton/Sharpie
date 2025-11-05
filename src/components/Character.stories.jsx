@@ -1,4 +1,4 @@
-import Character from './Character';
+import Character, { CHARACTER_STATE } from './Character';
 
 export default {
 	title: 'Components/Character',
@@ -10,7 +10,7 @@ export default {
 	argTypes: {
 		state: {
 			control: 'select',
-			options: ['awaitAnswer', 'correctAnswer', 'incorrectAnswer'],
+			options: Object.values(CHARACTER_STATE),
 			description: 'The state of the character component',
 		},
 		imagePath: {
@@ -38,14 +38,14 @@ export default {
 
 export const AwaitAnswer = {
 	args: {
-		state: 'awaitAnswer',
+		state: CHARACTER_STATE.AWAIT_ANSWER,
 		imagePath: '/data/joscelyn-min/a.png',
 	},
 };
 
 export const CorrectAnswer = {
 	args: {
-		state: 'correctAnswer',
+		state: CHARACTER_STATE.CORRECT_ANSWER,
 		imagePath: '/data/joscelyn-min/a.png',
 		character: 'a',
 		sourceLink: 'https://github.com/psb1558/Joscelyn-font/releases',
@@ -55,7 +55,7 @@ export const CorrectAnswer = {
 
 export const IncorrectAnswer = {
 	args: {
-		state: 'incorrectAnswer',
+		state: CHARACTER_STATE.INCORRECT_ANSWER,
 		imagePaths: [
 			'/data/joscelyn-min/b.png',
 			'/data/joscelyn-min/b2.png',
@@ -80,7 +80,7 @@ export const AllStates = {
 					Await Answer
 				</h3>
 				<Character
-					state="awaitAnswer"
+					state={CHARACTER_STATE.AWAIT_ANSWER}
 					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
 				/>
 			</div>
@@ -89,7 +89,7 @@ export const AllStates = {
 					Correct Answer
 				</h3>
 				<Character
-					state="correctAnswer"
+					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
 					character="a"
 					sourceLink="https://github.com/psb1558/Joscelyn-font/releases"
@@ -101,7 +101,7 @@ export const AllStates = {
 					Incorrect Answer
 				</h3>
 				<Character
-					state="incorrectAnswer"
+					state={CHARACTER_STATE.INCORRECT_ANSWER}
 					imagePaths={[
 						'/data/Joscelyn/joscelyn-min-assets/b.png',
 						'/data/BeauChesne-Baildon/BCB-AB-assets/b3.png',

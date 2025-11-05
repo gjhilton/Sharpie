@@ -2,19 +2,29 @@ import { useState, useEffect, useRef } from 'react';
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import KB from './KB.jsx';
-import Character from './Character.jsx';
+import Character, { CHARACTER_STATE } from './Character.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 import { DB } from '../data/DB.js';
 import * as db from '../utilities/database.js';
 
-const STATUS = {
+export const STATUS = {
 	NONE: 'none',
 	CORRECT: 'correct',
 	INCORRECT: 'incorrect',
 };
 
+const SPACING = {
+	SECTION_GAP: '2rem',
+	BUTTON_GAP: '1rem',
+	CHARACTER_GAP: '2rem',
+};
+
+const KB_DISABLED_OPACITY = 0.01;
+
 const Unanswered = ({ solution }) => (
-	<Character state="awaitAnswer" imagePath={solution.imagePath} />
+	<div className={css({ display: 'flex', justifyContent: 'center' })}>
+		<Character state={CHARACTER_STATE.AWAIT_ANSWER} imagePath={solution.imagePath} />
+	</div>
 );
 
 const CorrectAnswer = ({ solution, handleNextLetter }) => {
@@ -24,19 +34,21 @@ const CorrectAnswer = ({ solution, handleNextLetter }) => {
 
 	return (
 		<>
-			<Character
-				state="correctAnswer"
-				imagePath={solution.imagePath}
-				character={solution.graph.character}
-				sourceLink={sourceLink}
-				sourceTitle={sourceTitle}
-			/>
+			<div className={css({ display: 'flex', justifyContent: 'center' })}>
+				<Character
+					state={CHARACTER_STATE.CORRECT_ANSWER}
+					imagePath={solution.imagePath}
+					character={solution.graph.character}
+					sourceLink={sourceLink}
+					sourceTitle={sourceTitle}
+				/>
+			</div>
 			<div
 				className={css({
 					display: 'flex',
-					gap: '1rem',
+					gap: SPACING.BUTTON_GAP,
 					justifyContent: 'center',
-					margin: '2rem 0',
+					marginTop: SPACING.SECTION_GAP,
 				})}
 			>
 				<Button onClick={handleNextLetter} label="Next" />
@@ -57,31 +69,34 @@ const IncorrectAnswer = ({
 
 	return (
 		<>
-			<div className={css({ display: 'flex', gap: '2rem' })}>
-				<div className={css({ flex: 1 })}>
-					<Character
-						state="correctAnswer"
-						imagePath={solution.imagePath}
-						character={solution.graph.character}
-						sourceLink={sourceLink}
-						sourceTitle={sourceTitle}
-					/>
-				</div>
-				<div className={css({ flex: 1 })}>
-					<Character
-						state="incorrectAnswer"
-						imagePaths={attemptImagePaths}
-						character={attempt}
-					/>
-				</div>
+			<div
+				className={css({
+					display: 'flex',
+					gap: SPACING.CHARACTER_GAP,
+					justifyContent: 'center',
+					alignItems: 'flex-start',
+				})}
+			>
+				<Character
+					state={CHARACTER_STATE.CORRECT_ANSWER}
+					imagePath={solution.imagePath}
+					character={solution.graph.character}
+					sourceLink={sourceLink}
+					sourceTitle={sourceTitle}
+				/>
+				<Character
+					state={CHARACTER_STATE.INCORRECT_ANSWER}
+					imagePaths={attemptImagePaths}
+					character={attempt}
+				/>
 			</div>
 
 			<div
 				className={css({
 					display: 'flex',
-					gap: '1rem',
+					gap: SPACING.BUTTON_GAP,
 					justifyContent: 'center',
-					margin: '2rem 0',
+					marginTop: SPACING.SECTION_GAP,
 				})}
 			>
 				<Button onClick={handleNextLetter} label="Next" />
@@ -248,7 +263,15 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 	};
 
 	return (
-		<div>
+		<div
+			className={css({
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				gap: SPACING.SECTION_GAP,
+				padding: SPACING.SECTION_GAP,
+			})}
+		>
 			<StatusDisplay
 				handleNextLetter={handleNextLetter}
 				handleKeyPress={handleKeyPress}
@@ -260,7 +283,10 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 
 			<div
 				className={css({
-					opacity: attempt ? 0.01 : 1,
+					opacity: attempt ? KB_DISABLED_OPACITY : 1,
+					width: '100%',
+					display: 'flex',
+					justifyContent: 'center',
 				})}
 			>
 				<KB
@@ -274,9 +300,8 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 			<div
 				className={css({
 					display: 'flex',
-					gap: '1rem',
+					gap: SPACING.BUTTON_GAP,
 					justifyContent: 'center',
-					margin: '2rem 0',
 				})}
 			>
 				<Button onClick={handleEndGame} label="End Game" />

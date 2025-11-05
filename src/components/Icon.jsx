@@ -1,6 +1,12 @@
 import { css } from '../../styled-system/css';
 
-const Icon = ({ icon, size = 24, colour = 'currentColor', weight = 2, className = '' }) => {
+const Icon = ({
+	icon,
+	size = 24,
+	colour = 'currentColor',
+	weight = 2,
+	className = '',
+}) => {
 	const svgStyles = {
 		display: 'inline-block',
 		fill: 'none',
@@ -20,12 +26,12 @@ const Icon = ({ icon, size = 24, colour = 'currentColor', weight = 2, className 
 			className={className}
 			width={`${size}px`}
 			height={`${size}px`}
-			viewBox='0 0 24 24'
+			viewBox="0 0 24 24"
 			aria-hidden="true"
 			role="img"
 		>
 			<path
-				vectorEffect='non-scaling-stroke'
+				vectorEffect="non-scaling-stroke"
 				style={pathStyles}
 				d={icon.path}
 			/>
@@ -33,16 +39,16 @@ const Icon = ({ icon, size = 24, colour = 'currentColor', weight = 2, className 
 	);
 };
 
-export default Icon
+export default Icon;
 
 export const ICON_TYPE = {
 	CROSS: {
-		path: 'M6 6l12 12M18 6L6 18'
+		path: 'M6 6l12 12M18 6L6 18',
 	},
 	INFO: {
-		path: 'M12 11v5m0-7V8m0-6a10 10 0 1 0 0 20 10 10 0 1 0 0-20z'
+		path: 'M12 11v5m0-7V8m0-6a10 10 0 1 0 0 20 10 10 0 1 0 0-20z',
 	},
 	TICK: {
-		path: 'M4 13l5 5L20 7'
+		path: 'M4 13l5 5L20 7',
 	},
-}
+};

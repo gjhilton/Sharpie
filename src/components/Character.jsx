@@ -4,14 +4,11 @@ import CharacterImageSlideshow from './CharacterImageSlideshow.jsx';
 import Icon, { ICON_TYPE } from './Icon.jsx';
 
 const CHARACTER_SIZE = '300px';
-
-const OVERLAY_POSITION_STYLE = {
-	position: 'absolute',
-	top: 0,
-	left: 0,
-	width: '100%',
-	height: '100%',
-};
+const CHARACTER_LABEL_FONT_SIZE = '24px';
+const CHARACTER_LABEL_FONT_WEIGHT = '900';
+const CHARACTER_LABEL_PADDING = '1rem';
+const CHARACTER_ICON_GAP = '0.25rem';
+const SOURCE_FONT_SIZE = '0.8rem';
 
 export const CHARACTER_STATE = {
 	AWAIT_ANSWER: 'awaitAnswer',
@@ -22,23 +19,33 @@ export const CHARACTER_STATE = {
 const RedOverlay = () => (
 	<div
 		className={css({
-			...OVERLAY_POSITION_STYLE,
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			width: '100%',
+			height: '100%',
 			mixBlendMode: 'lighten',
 			backgroundColor: 'red',
 		})}
+		role="img"
+		aria-live="polite"
+		aria-label="Incorrect answer"
 	/>
 );
 
 const Source = ({ sourceTitle, sourceLink }) => (
 	<div
 		className={css({
-			...OVERLAY_POSITION_STYLE,
+			position: 'absolute',
+			top: 0,
+			left: 0,
+			width: '100%',
+			height: '100%',
 			display: 'flex',
-			justifyContent: 'flex-start',
 			alignItems: 'flex-end',
 		})}
 	>
-		<span className={css({ fontSize: '0.8rem' })}>
+		<span className={css({ fontSize: SOURCE_FONT_SIZE })}>
 			{sourceTitle} (
 			<a href={sourceLink} target="_blank" rel="noopener noreferrer">
 				source
@@ -48,7 +55,14 @@ const Source = ({ sourceTitle, sourceLink }) => (
 	</div>
 );
 
-const Character = ({ state, imagePath, imagePaths, character, sourceLink, sourceTitle }) => {
+const Character = ({
+	state,
+	imagePath,
+	imagePaths,
+	character,
+	sourceLink,
+	sourceTitle,
+}) => {
 	return (
 		<div
 			className={css({
@@ -62,21 +76,34 @@ const Character = ({ state, imagePath, imagePaths, character, sourceLink, source
 				<div
 					className={css({
 						position: 'absolute',
-						padding: '1rem',
-						fontSize: '24px',
-						fontWeight: '900',
+						padding: CHARACTER_LABEL_PADDING,
+						fontSize: CHARACTER_LABEL_FONT_SIZE,
+						fontWeight: CHARACTER_LABEL_FONT_WEIGHT,
 						display: 'flex',
-						gap: '0.25rem',
+						gap: CHARACTER_ICON_GAP,
 						alignItems: 'center',
 					})}
+					aria-label={`Character ${character}: ${state === CHARACTER_STATE.CORRECT_ANSWER ? 'correct' : 'incorrect'} answer`}
 				>
 					{character}
-					<Icon icon={state === CHARACTER_STATE.CORRECT_ANSWER ? ICON_TYPE.TICK : ICON_TYPE.CROSS} />
+					<Icon
+						icon={
+							state === CHARACTER_STATE.CORRECT_ANSWER
+								? ICON_TYPE.TICK
+								: ICON_TYPE.CROSS
+						}
+					/>
 				</div>
 			)}
-			{imagePath ? <CharacterImage imagePath={imagePath} /> : <CharacterImageSlideshow imagePaths={imagePaths} />}
+			{imagePath ? (
+				<CharacterImage imagePath={imagePath} />
+			) : (
+				<CharacterImageSlideshow imagePaths={imagePaths} />
+			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
-			{state === CHARACTER_STATE.CORRECT_ANSWER && <Source sourceTitle={sourceTitle} sourceLink={sourceLink} />}
+			{state === CHARACTER_STATE.CORRECT_ANSWER && (
+				<Source sourceTitle={sourceTitle} sourceLink={sourceLink} />
+			)}
 		</div>
 	);
 };

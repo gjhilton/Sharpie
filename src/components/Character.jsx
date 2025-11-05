@@ -3,67 +3,79 @@ import CharacterImage from './CharacterImage.jsx';
 import CharacterImageSlideshow from './CharacterImageSlideshow.jsx';
 import Icon, { ICON_TYPE } from './Icon.jsx';
 
-const RedOverlay = () =>  <div className={css({
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-		  mixBlendMode: "lighten",
-          height: "100%",
-          backgroundColor: "red"
-        })}></div>
+const CHARACTER_SIZE = '300px';
 
-const Source = ({sourceTitle, sourceLink}) =>  <div className={css({
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-		    display: "flex",
-  justifyContent: "flex-start",
-  alignItems: "flex-end"
-        })}>
+const OVERLAY_POSITION_STYLE = {
+	position: 'absolute',
+	top: 0,
+	left: 0,
+	width: '100%',
+	height: '100%',
+};
 
-			  <span className={css({
-								fontSize:"0.8rem"
-							})}><a
-							href={sourceLink}
-							target="_blank"
-							rel="noopener noreferrer"
-							className={css({
-								color: 'blue',
-								textDecoration: 'underline',
-							})}
-						>
-							{sourceTitle || 'Source'}
-						</a></span>
+export const CHARACTER_STATE = {
+	AWAIT_ANSWER: 'awaitAnswer',
+	CORRECT_ANSWER: 'correctAnswer',
+	INCORRECT_ANSWER: 'incorrectAnswer',
+};
+
+const RedOverlay = () => (
+	<div
+		className={css({
+			...OVERLAY_POSITION_STYLE,
+			mixBlendMode: 'lighten',
+			backgroundColor: 'red',
+		})}
+	/>
+);
+
+const Source = ({ sourceTitle, sourceLink }) => (
+	<div
+		className={css({
+			...OVERLAY_POSITION_STYLE,
+			display: 'flex',
+			justifyContent: 'flex-start',
+			alignItems: 'flex-end',
+		})}
+	>
+		<span className={css({ fontSize: '0.8rem' })}>
+			{sourceTitle} (
+			<a href={sourceLink} target="_blank" rel="noopener noreferrer">
+				source
+			</a>
+			)
+		</span>
+	</div>
+);
+
+const Character = ({ state, imagePath, imagePaths, character, sourceLink, sourceTitle }) => {
+	return (
+		<div className={css({ 
+		minHeight: CHARACTER_SIZE,
+		height: CHARACTER_SIZE, width: CHARACTER_SIZE, position: 'relative' })}>
+			<div className={css({ position: 'relative' })}>
+				{state !== CHARACTER_STATE.AWAIT_ANSWER && (
+					<div
+						className={css({
+							position: 'absolute',
+							padding: '1rem',
+							fontSize: '24px',
+							fontWeight: '900',
+							display: 'flex',
+							gap: '0.25rem',
+							alignItems: 'center',
+						})}
+					>
+						{character}
+						<Icon icon={state === CHARACTER_STATE.CORRECT_ANSWER ? ICON_TYPE.TICK : ICON_TYPE.CROSS} />
+					</div>
+				)}
+				{imagePath ? <CharacterImage imagePath={imagePath} /> : <CharacterImageSlideshow imagePaths={imagePaths} />}
+				{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
+				{state === CHARACTER_STATE.CORRECT_ANSWER && <Source sourceTitle={sourceTitle} sourceLink={sourceLink} />}
+			</div>
 		</div>
-
-const Character = ({
-	state,
-	imagePath,
-	imagePaths,
-	character,
-	sourceLink,
-	sourceTitle,
-}) => {
-	return(
-
-		
-	 <div className={css({ height: "300px", width: "300px", position: "relative" })}>
-      <div className={css({ position: "relative" })}>
-		{state !== 'awaitAnswer' && <div  className={css({ position: "absolute", padding:"1rem", fontSize: "24px", fontWeight: "900" })}>{character}
-			<Icon icon={state === "correctAnswer" ? ICON_TYPE.TICK : ICON_TYPE.CROSS} />
-		</div>}
-       { imagePath ? <CharacterImage imagePath={imagePath} />  :
-	   <CharacterImageSlideshow imagePaths={imagePaths} />}
-       { state==='incorrectAnswer' && <RedOverlay />}
-{ state==='correctAnswer' && <Source sourceTitle={sourceTitle} sourceLink={sourceLink}/>}
-	  
-      </div>
-    </div>
-
-	)
+	);
 };
 
 export default Character;

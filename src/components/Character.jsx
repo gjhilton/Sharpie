@@ -2,6 +2,16 @@ import { css } from '../../styled-system/css';
 import CharacterImage from './CharacterImage.jsx';
 import CharacterImageSlideshow from './CharacterImageSlideshow.jsx';
 
+const RedOverlay = () =>  <div className={css({
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+		  mixBlendMode: "lighten",
+          height: "100%",
+          backgroundColor: "red"
+        })}></div>
+
 const Character = ({
 	state,
 	imagePath,
@@ -16,15 +26,7 @@ const Character = ({
 	 <div className={css({ height: "300px", width: "300px", position: "relative" })}>
       <div className={css({ position: "relative" })}>
         <img src="http://192.168.1.198:6006/data/joscelyn-min/a.png" />
-        <div className={css({
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-		  mixBlendMode: "lighten",
-          height: "100%",
-          backgroundColor: "red"
-        })}></div>
+       { state==='incorrectAnswer' && <RedOverlay />}
       </div>
     </div>
 

@@ -50,30 +50,33 @@ const Source = ({ sourceTitle, sourceLink }) => (
 
 const Character = ({ state, imagePath, imagePaths, character, sourceLink, sourceTitle }) => {
 	return (
-		<div className={css({ 
-		minHeight: CHARACTER_SIZE,
-		height: CHARACTER_SIZE, width: CHARACTER_SIZE, position: 'relative' })}>
-			<div className={css({ position: 'relative' })}>
-				{state !== CHARACTER_STATE.AWAIT_ANSWER && (
-					<div
-						className={css({
-							position: 'absolute',
-							padding: '1rem',
-							fontSize: '24px',
-							fontWeight: '900',
-							display: 'flex',
-							gap: '0.25rem',
-							alignItems: 'center',
-						})}
-					>
-						{character}
-						<Icon icon={state === CHARACTER_STATE.CORRECT_ANSWER ? ICON_TYPE.TICK : ICON_TYPE.CROSS} />
-					</div>
-				)}
-				{imagePath ? <CharacterImage imagePath={imagePath} /> : <CharacterImageSlideshow imagePaths={imagePaths} />}
-				{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
-				{state === CHARACTER_STATE.CORRECT_ANSWER && <Source sourceTitle={sourceTitle} sourceLink={sourceLink} />}
-			</div>
+		<div
+			className={css({
+				minHeight: CHARACTER_SIZE,
+				height: CHARACTER_SIZE,
+				width: CHARACTER_SIZE,
+				position: 'relative',
+			})}
+		>
+			{state !== CHARACTER_STATE.AWAIT_ANSWER && (
+				<div
+					className={css({
+						position: 'absolute',
+						padding: '1rem',
+						fontSize: '24px',
+						fontWeight: '900',
+						display: 'flex',
+						gap: '0.25rem',
+						alignItems: 'center',
+					})}
+				>
+					{character}
+					<Icon icon={state === CHARACTER_STATE.CORRECT_ANSWER ? ICON_TYPE.TICK : ICON_TYPE.CROSS} />
+				</div>
+			)}
+			{imagePath ? <CharacterImage imagePath={imagePath} /> : <CharacterImageSlideshow imagePaths={imagePaths} />}
+			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
+			{state === CHARACTER_STATE.CORRECT_ANSWER && <Source sourceTitle={sourceTitle} sourceLink={sourceLink} />}
 		</div>
 	);
 };

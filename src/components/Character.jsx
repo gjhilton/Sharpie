@@ -1,6 +1,7 @@
 import { css } from '../../styled-system/css';
 import CharacterImage from './CharacterImage.jsx';
 import CharacterImageSlideshow from './CharacterImageSlideshow.jsx';
+import Icon, { ICON_TYPE } from './Icon.jsx';
 
 const RedOverlay = () =>  <div className={css({
           position: "absolute",
@@ -51,7 +52,9 @@ const Character = ({
 		
 	 <div className={css({ height: "300px", width: "300px", position: "relative" })}>
       <div className={css({ position: "relative" })}>
-		{state!== 'awaitAnswer' && <div  className={css({ position: "absolute", padding:"1rem", fontSize: "24px", fontWeight: "900" })}>{character}</div>}
+		{state !== 'awaitAnswer' && <div  className={css({ position: "absolute", padding:"1rem", fontSize: "24px", fontWeight: "900" })}>{character}
+			<Icon icon={state === "correctAnswer" ? ICON_TYPE.TICK : ICON_TYPE.CROSS} />
+		</div>}
        { imagePath ? <CharacterImage imagePath={imagePath} />  :
 	   <CharacterImageSlideshow imagePaths={imagePaths} />}
        { state==='incorrectAnswer' && <RedOverlay />}

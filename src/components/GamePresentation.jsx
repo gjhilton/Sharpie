@@ -1,9 +1,9 @@
-import { css } from '../../../styled-system/css';
-import Button from '../Button.jsx';
-import KB from '../KB.jsx';
-import Character, { CHARACTER_STATE } from '../Character.jsx';
-import { STATUS } from '../../utilities/gameLogic.js';
-import { DB } from '../../data/DB.js';
+import { css } from '../../styled-system/css';
+import Button from './Button.jsx';
+import KB from './KB.jsx';
+import Character, { CHARACTER_STATE } from './Character.jsx';
+import { STATUS } from '../utilities/gameLogic.js';
+import { DB } from '../data/DB.js';
 
 const SPACING = {
 	SECTION_GAP: '2rem',

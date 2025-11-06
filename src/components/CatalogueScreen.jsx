@@ -100,8 +100,7 @@ const ImageWithInfo = ({ character, graph }) => {
 						alignItems: 'center',
 						justifyContent: 'center',
 						padding: '0.5rem',
-						border: '1px solid #ddd',
-						borderRadius: '4px',
+						border: '0',
 						cursor: 'pointer',
 						transition: 'border-color 0.2s',
 						'&:hover': {

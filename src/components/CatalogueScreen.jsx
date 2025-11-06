@@ -162,7 +162,7 @@ const GraphSetSection = ({ title, characters }) => (
 		className={css({
 			display: 'flex',
 			flexDirection: 'column',
-			gap: SPACING.CHARACTER_GAP,
+			gap: '5rem',
 		})}
 	>
 		<h2

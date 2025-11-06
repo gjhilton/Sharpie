@@ -168,12 +168,26 @@ const Aside = ({ onSelectMode, onShowCatalogue }) => (
 		<div
 			className={css({
 				textAlign: 'center',
+				...bodyCopy,
 			})}
 		>
-			<Button
-				onClick={onShowCatalogue}
-				label="View Character Catalogue"
-			/>
+			<a
+				href="#"
+				onClick={e => {
+					e.preventDefault();
+					onShowCatalogue();
+				}}
+				className={css({
+					color: 'inherit',
+					textDecoration: 'underline',
+					cursor: 'pointer',
+					'&:hover': {
+						textDecoration: 'none',
+					},
+				})}
+			>
+				View Character Catalogue
+			</a>
 		</div>
 	</aside>
 );

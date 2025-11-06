@@ -36,7 +36,7 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 			textTransform: hero ? 'uppercase' : 'none',
 			transition: 'all 200ms ease-in-out',
 			_hover: disabled
-				? {}
+				? undefined
 				: {
 						transform: 'scale(1.02)',
 					},
@@ -45,7 +45,7 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 				outlineOffset: '2px',
 			},
 			_active: disabled
-				? {}
+				? undefined
 				: {
 						transform: 'scale(0.98)',
 					},
@@ -54,7 +54,7 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 		disabled={disabled}
 	>
 		<ButtonLabel text={label} />
-		<ButtonLabelAux text={sublabel} />
+		{sublabel && <ButtonLabelAux text={sublabel} />}
 	</button>
 );
 

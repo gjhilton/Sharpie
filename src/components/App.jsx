@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import '../style/App.css';
-import { css } from '../../styled-system/css';
 import { STAGES } from '../constants/stages.js';
 import MenuScreen from './MenuScreen.jsx';
 import GameScreen from './GameScreen.jsx';
@@ -32,41 +31,32 @@ const App = () => {
 		setStage(STAGES.CATALOGUE);
 	};
 
-	return (
-		<div>
-			{(() => {
-				switch (stage) {
-					case STAGES.PLAYING:
-						return (
-							<GameScreen
-								onEndGame={handleEndGame}
-								gameMode={gameMode}
-							/>
-						);
-					case STAGES.SCORE:
-						return (
-							<ScoreScreen
-								score={score}
-								onReturnToMenu={handleReturnToMenu}
-							/>
-						);
-					case STAGES.CATALOGUE:
-						return (
-							<CatalogueScreen
-								onReturnToMenu={handleReturnToMenu}
-							/>
-						);
-					default:
-						return (
-							<MenuScreen
-								onSelectMode={handleSelectMode}
-								onShowCatalogue={handleShowCatalogue}
-							/>
-						);
-				}
-			})()}
-		</div>
-	);
+	const renderScreen = () => {
+		switch (stage) {
+			case STAGES.PLAYING:
+				return (
+					<GameScreen onEndGame={handleEndGame} gameMode={gameMode} />
+				);
+			case STAGES.SCORE:
+				return (
+					<ScoreScreen
+						score={score}
+						onReturnToMenu={handleReturnToMenu}
+					/>
+				);
+			case STAGES.CATALOGUE:
+				return <CatalogueScreen onReturnToMenu={handleReturnToMenu} />;
+			default:
+				return (
+					<MenuScreen
+						onSelectMode={handleSelectMode}
+						onShowCatalogue={handleShowCatalogue}
+					/>
+				);
+		}
+	};
+
+	return <div>{renderScreen()}</div>;
 };
 
 export default App;

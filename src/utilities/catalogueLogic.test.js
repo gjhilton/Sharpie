@@ -99,7 +99,7 @@ describe('catalogueLogic', () => {
 			expect(result[1].title).toBe('MAJUSCULES');
 		});
 
-		it('should handle empty graphsets', () => {
+		it('should filter out empty graphsets', () => {
 			const mockGraphSets = [
 				{
 					title: 'empty',
@@ -113,8 +113,34 @@ describe('catalogueLogic', () => {
 			const result =
 				catalogueLogic.groupGraphsByGraphSetAndCharacter(mockGraphSets);
 
-			expect(result).toHaveLength(1);
-			expect(result[0].characters).toHaveLength(0);
+			expect(result).toHaveLength(0);
+		});
+
+		it('should filter out empty graphsets but keep non-empty ones', () => {
+			const mockGraphSets = [
+				{
+					title: 'minuscules',
+					graphs: [{ character: 'a', img: 'a1.png', source: 'test' }],
+				},
+				{
+					title: 'empty',
+					graphs: [],
+				},
+				{
+					title: 'MAJUSCULES',
+					graphs: [{ character: 'A', img: 'A1.png', source: 'test' }],
+				},
+			];
+
+			db.getGraphs.mockImplementation(gs => gs.graphs);
+			db.getTitle.mockImplementation(gs => gs.title);
+
+			const result =
+				catalogueLogic.groupGraphsByGraphSetAndCharacter(mockGraphSets);
+
+			expect(result).toHaveLength(2);
+			expect(result[0].title).toBe('minuscules');
+			expect(result[1].title).toBe('MAJUSCULES');
 		});
 
 		it('should be case-sensitive in sorting', () => {

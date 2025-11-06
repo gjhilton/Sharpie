@@ -121,7 +121,7 @@ const Main = ({ onSelectMode }) => (
 	</main>
 );
 
-const Aside = ({ onSelectMode }) => (
+const Aside = ({ onSelectMode, onShowCatalogue }) => (
 	<aside className={css(sectionSpacing)}>
 		<h2 className={css(visuallyHidden)}>Practice Options</h2>
 		<div
@@ -159,15 +159,26 @@ const Aside = ({ onSelectMode }) => (
 			className={css({
 				...textLeft,
 				fontSize: 'm',
+				mb: 6, // 1.5rem
 			})}
 		>
 			Tip: 'Majuscule' is the manuscript equivalent of 'uppercase' in
 			print; 'minuscule', 'lowercase'.
 		</div>
+		<div
+			className={css({
+				textAlign: 'center',
+			})}
+		>
+			<Button
+				onClick={onShowCatalogue}
+				label="View Character Catalogue"
+			/>
+		</div>
 	</aside>
 );
 
-const MenuScreen = ({ onSelectMode }) => (
+const MenuScreen = ({ onSelectMode, onShowCatalogue }) => (
 	<div
 		className={css({
 			maxWidth: { base: '100%', md: '900px' },
@@ -179,7 +190,7 @@ const MenuScreen = ({ onSelectMode }) => (
 	>
 		<Header />
 		<Main onSelectMode={onSelectMode} />
-		<Aside onSelectMode={onSelectMode} />
+		<Aside onSelectMode={onSelectMode} onShowCatalogue={onShowCatalogue} />
 		<SmallPrint />
 	</div>
 );

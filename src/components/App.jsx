@@ -5,6 +5,7 @@ import { STAGES } from '../constants/stages.js';
 import MenuScreen from './MenuScreen.jsx';
 import GameScreen from './GameScreen.jsx';
 import ScoreScreen from './ScoreScreen.jsx';
+import CatalogueScreen from './CatalogueScreen.jsx';
 
 const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
@@ -27,6 +28,10 @@ const App = () => {
 		setStage(STAGES.MENU);
 	};
 
+	const handleShowCatalogue = () => {
+		setStage(STAGES.CATALOGUE);
+	};
+
 	return (
 		<div>
 			{(() => {
@@ -45,8 +50,19 @@ const App = () => {
 								onReturnToMenu={handleReturnToMenu}
 							/>
 						);
+					case STAGES.CATALOGUE:
+						return (
+							<CatalogueScreen
+								onReturnToMenu={handleReturnToMenu}
+							/>
+						);
 					default:
-						return <MenuScreen onSelectMode={handleSelectMode} />;
+						return (
+							<MenuScreen
+								onSelectMode={handleSelectMode}
+								onShowCatalogue={handleShowCatalogue}
+							/>
+						);
 				}
 			})()}
 		</div>

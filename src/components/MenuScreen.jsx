@@ -186,7 +186,7 @@ const Aside = ({ onSelectMode, onShowCatalogue }) => (
 					},
 				})}
 			>
-				View Character Catalogue
+				View all specimen characters
 			</a>
 		</div>
 	</aside>

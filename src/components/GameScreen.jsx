@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { DB } from '../data/DB.js';
 import * as gameLogic from '../utilities/gameLogic.js';
-import { GamePresentation } from './GamePresentation.jsx';
+import { GamePresentation } from './GameScreen/GamePresentation.jsx';
 
 export const STATUS = gameLogic.STATUS;
 

@@ -19,12 +19,12 @@ const CharacterImages = ({ character, graphs }) => (
 			display: 'flex',
 			flexDirection: 'column',
 			gap: SPACING.IMAGE_GAP,
-			alignItems: 'center',
+			alignItems: 'left',
 		})}
 	>
 		<h3
 			className={css({
-				fontSize: '2rem',
+				fontSize: 'l',
 				fontWeight: 'bold',
 				margin: 0,
 			})}
@@ -36,7 +36,7 @@ const CharacterImages = ({ character, graphs }) => (
 				display: 'flex',
 				flexWrap: 'wrap',
 				gap: SPACING.IMAGE_GAP,
-				justifyContent: 'center',
+				justifyContent: 'left',
 			})}
 		>
 			{graphs.map((graph, idx) => {
@@ -101,11 +101,11 @@ const GraphSetSection = ({ title, characters }) => (
 	>
 		<h2
 			className={css({
-				fontSize: '2.5rem',
+				fontSize: 'l',
 				fontWeight: 'bold',
 				margin: 0,
-				textAlign: 'center',
-				borderBottom: '2px solid #333',
+				textAlign: 'left',
+				borderBottom: '2px solid black',
 				paddingBottom: '0.5rem',
 			})}
 		>

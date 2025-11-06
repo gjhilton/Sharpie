@@ -44,6 +44,20 @@ async function findAssetDirectories(dir) {
 }
 
 /**
+ * Sanitize filename by replacing special characters
+ * Pure function - exported for testing
+ */
+export function sanitizeFilename(filename) {
+	// Replace $ with -dollar, & with -and, etc.
+	return filename
+		.replace(/\$/g, '-dollar')
+		.replace(/&/g, '-and')
+		.replace(/'/g, '')
+		.replace(/"/g, '')
+		.replace(/\s+/g, '-');
+}
+
+/**
  * Extract character from filename (first letter, case sensitive)
  * Pure function - exported for testing
  */
@@ -110,10 +124,11 @@ async function processAssetDirectory(assetPath) {
 	const graphEntries = [];
 
 	for (const file of imageFiles) {
+		const sanitizedFile = sanitizeFilename(file);
 		const sourcePath = join(assetPath, file);
-		const destPath = join(destDir, file);
+		const destPath = join(destDir, sanitizedFile);
 
-		// Copy file
+		// Copy file with sanitized name
 		await copyFile(sourcePath, destPath);
 
 		// Extract character and categorize
@@ -121,14 +136,20 @@ async function processAssetDirectory(assetPath) {
 		const category = categorizeCharacter(character);
 
 		graphEntries.push({
-			img: file,
+			img: sanitizedFile,
 			character: character,
 			source: sourceName,
 			category: category,
-			relativePath: `${sourceName}/${assetFolderName}/${file}`,
+			relativePath: `${sourceName}/${assetFolderName}/${sanitizedFile}`,
 		});
 
-		console.log(`     ✓ Copied ${file} → ${character} (${category})`);
+		if (file !== sanitizedFile) {
+			console.log(
+				`     ✓ Copied ${file} → ${sanitizedFile} → ${character} (${category})`
+			);
+		} else {
+			console.log(`     ✓ Copied ${file} → ${character} (${category})`);
+		}
 	}
 
 	return {

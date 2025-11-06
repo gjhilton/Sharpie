@@ -12,6 +12,10 @@ export default {
 			action: 'mode selected',
 			description: 'Function called when a game mode is selected',
 		},
+		onShowCatalogue: {
+			action: 'show catalogue',
+			description: 'Function called when the catalogue button is clicked',
+		},
 	},
 };
 

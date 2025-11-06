@@ -2,6 +2,7 @@ export const STAGES = {
 	MENU: 'menu',
 	PLAYING: 'playing',
 	SCORE: 'score',
+	CATALOGUE: 'catalogue',
 };
 
 export const GAME_MODES = {

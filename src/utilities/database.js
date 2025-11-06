@@ -40,8 +40,8 @@ export const findGraphSetByTitle = (db, title) => {
 	return graphSets.find(gs => getTitle(gs) === title);
 };
 
-export const getRandomGraph = graphs => {
-	const randomIndex = Math.floor(Math.random() * graphs.length);
+export const getRandomGraph = (graphs, randomFn = Math.random) => {
+	const randomIndex = Math.floor(randomFn() * graphs.length);
 	return graphs[randomIndex];
 };
 

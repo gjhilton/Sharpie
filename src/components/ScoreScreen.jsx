@@ -45,10 +45,7 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 const MistakeCard = ({ graph, imagePath }) => (
 	<div
 		className={css({
-			border: '2px solid #ffcdd2',
-			borderRadius: '8px',
 			padding: '1rem',
-			backgroundColor: '#fff',
 			textAlign: 'center',
 		})}
 	>
@@ -65,11 +62,11 @@ const MistakeCard = ({ graph, imagePath }) => (
 			className={css({
 				fontSize: 'm',
 				fontWeight: 'bold',
-				color: '#c62828',
+
 				marginTop: '0.5rem',
 			})}
 		>
-			Correct: {graph.character}
+			{graph.character}
 		</div>
 	</div>
 );
@@ -87,50 +84,29 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 		{
 			label: 'Correct Answers',
 			value: correct,
-			bgColor: '#e8f5e9',
-			textColor: '#2e7d32',
 		},
 		{
 			label: 'Incorrect Answers',
 			value: incorrect,
-			bgColor: '#ffebee',
-			textColor: '#c62828',
+			textColor: '#ff0000',
 		},
 		{
 			label: 'Accuracy',
 			value: `${percentage}%`,
-			bgColor: '#e3f2fd',
-			textColor: '#1565c0',
 		},
 		{
 			label: 'Time Taken',
 			value: formatTime(timeElapsed),
-			bgColor: '#fff3e0',
-			textColor: '#ef6c00',
 		},
 	];
 
 	return (
 		<div>
-			<h1
-				className={css({
-					fontSize: 'xl',
-					textAlign: 'center',
-					marginBottom: '2rem',
-					color: '#333',
-				})}
-			>
-				Game Complete!
-			</h1>
-
 			<div
 				className={css({
 					maxWidth: '600px',
 					margin: '0 auto',
 					padding: '2rem',
-					backgroundColor: '#f5f5f5',
-					borderRadius: '12px',
-					boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
 				})}
 			>
 				<div
@@ -157,17 +133,14 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 						maxWidth: '800px',
 						margin: '2rem auto 0',
 						padding: '2rem',
-						backgroundColor: '#f5f5f5',
-						borderRadius: '12px',
-						boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
 					})}
 				>
 					<h2
 						className={css({
-							fontSize: 'xl',
-							textAlign: 'center',
+							fontSize: 'l',
+							textAlign: 'left',
 							marginBottom: '1.5rem',
-							color: '#c62828',
+							fontWeight: 'bold',
 						})}
 					>
 						Letters to Review

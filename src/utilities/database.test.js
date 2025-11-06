@@ -201,6 +201,35 @@ describe('getRandomGraph', () => {
 		const result = db.getRandomGraph(graphs);
 		expect(graphs).toContain(result);
 	});
+
+	test('uses custom random function when provided', () => {
+		const graphs = [
+			{ character: 'a', img: 'a.png' },
+			{ character: 'b', img: 'b.png' },
+			{ character: 'c', img: 'c.png' },
+		];
+
+		// Seeded random always returns 0.5, which should select index 1
+		const seededRandom = () => 0.5;
+		const result = db.getRandomGraph(graphs, seededRandom);
+
+		expect(result).toEqual({ character: 'b', img: 'b.png' });
+	});
+
+	test('is deterministic with seeded random function', () => {
+		const graphs = [
+			{ character: 'a', img: 'a.png' },
+			{ character: 'b', img: 'b.png' },
+			{ character: 'c', img: 'c.png' },
+		];
+
+		const seededRandom = () => 0.1;
+		const result1 = db.getRandomGraph(graphs, seededRandom);
+		const result2 = db.getRandomGraph(graphs, seededRandom);
+
+		expect(result1).toEqual(result2);
+		expect(result1).toEqual({ character: 'a', img: 'a.png' });
+	});
 });
 
 describe('getImagePath', () => {

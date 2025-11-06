@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite --config config/vite.config.js",
+		"dev:host": "vite --config config/vite.config.js --host --port 8080",
 		"build": "vite build --config config/vite.config.js",
 		"lint": "eslint . --config config/eslint.config.js",
 		"preview": "vite preview --config config/vite.config.js",
@@ -14,7 +15,8 @@
 		"test": "vitest --config config/vitest.config.js",
 		"test:run": "vitest run --config config/vitest.config.js",
 		"test:watch": "vitest watch --config config/vitest.config.js",
-		"update-db": "node src/scripts/update-db.js"
+		"update-db": "node src/scripts/update-db.js",
+		"copy-images": "node src/scripts/copy-images.js"
 	},
 	"dependencies": {
 		"react": "^19.1.1",

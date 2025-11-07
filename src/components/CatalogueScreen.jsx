@@ -27,7 +27,7 @@ const Popover = ({ children, content, isVisible }) => (
 					transform: 'translateX(-50%)',
 					marginBottom: '0.5rem',
 					padding: '0.5rem 0.75rem',
-					background: '#333',
+					background: '#000',
 					color: 'white',
 					borderRadius: '4px',
 					fontSize: '0.875rem',

@@ -4,112 +4,77 @@ import Logo, { SIZE } from './Logo.jsx';
 import SmallPrint from './SmallPrint.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 
-// Shared styles
-const textLeft = { textAlign: 'left' };
-const sectionSpacing = { marginBottom: 12 }; // 3rem
-const bodyCopy = { fontSize: 'm', lineHeight: '1.6' }; // ~1.25rem with improved readability
-const visuallyHidden = {
-	position: 'absolute',
-	width: '1px',
-	height: '1px',
-	padding: 0,
-	margin: '-1px',
-	overflow: 'hidden',
-	clip: 'rect(0, 0, 0, 0)',
-	whiteSpace: 'nowrap',
-	border: 0,
+const SPACING = {
+	SECTION_GAP: '2rem',
 };
+
+const MenuScreen = ({ onSelectMode, onShowCatalogue }) => (
+	<div
+		className={css({
+			display: 'flex',
+			flexDirection: 'column',
+			gap: SPACING.SECTION_GAP,
+			padding: SPACING.SECTION_GAP,
+			maxWidth: '1200px',
+			margin: '0 auto',
+		})}
+	>
+		<Header />
+		<main>
+			<Overview onSelectMode={onSelectMode} />
+			<Guide
+				onShowCatalogue={onShowCatalogue}
+				onSelectMode={onSelectMode}
+			/>
+			<NextSteps />
+		</main>
+		<SmallPrint />
+	</div>
+);
 
 const Header = () => (
 	<header
 		className={css({
-			py: 8, // 2rem
-			mb: 8, // 2rem
 			textAlign: 'center',
+			marginBottom: '1rem'
 		})}
 	>
-		<Logo size={SIZE.S} />
+		<Logo size={SIZE.M} />
 	</header>
 );
 
-const Main = ({ onSelectMode }) => (
-	<main className={css(sectionSpacing)}>
-		<div
+const Overview = ({ onSelectMode }) => (
+	<section
+		className={css({
+			display: 'flex',
+			flexDirection: 'column',
+			gap: '1rem',
+			marginBottom: '1rem',
+		})}
+	>
+		<h2
 			className={css({
-				display: 'grid',
-				gridTemplateColumns: {
-					base: '1fr',
-					md: 'repeat(2, minmax(0, 1fr))',
-				},
-				gridTemplateRows: { base: 'auto', md: 'auto auto' },
-				gap: 8, // 2rem
-				mb: 8, // 2rem
-				...bodyCopy,
+				fontSize: 'l',
+				fontWeight: 'bold',
+				margin: 0,
+				textAlign: 'left',
+				borderBottom: '2px solid black',
+				paddingBottom: '0.5rem',
 			})}
 		>
-			<div
-				className={css({
-					...textLeft,
-					gridColumn: '1/3',
-					gridRow: { base: 'auto', md: '1' },
-				})}
-			>
-				<h1
-					className={css({
-						fontSize: 'xl',
-						lineHeight: '3rem',
-					})}
-				>
-					Hone your{' '}
-					<span className={css({ fontFamily: 'joscelyn' })}>
-						Secretary
-					</span>
-					.
-				</h1>
-			</div>
-			<div
-				className={css({
-					...textLeft,
-					gridColumn: { base: '1', md: '2' },
-					gridRow: { base: 'auto', md: '2' },
-				})}
-			>
-				<p>
-					Sharpie helps you drill recognising letters written in the
-					secretary hand used in the sixteenth and seventeenth
-					centuries.
-				</p>
-				<p
-					className={css({
-						marginTop: '1rem',
-					})}
-				>
-					<details>
-						<summary>more</summary>
-						<p>
-							Many resources are available online to help you read
-							secretary:
-						</p>
-						<ul>
-							<li>
-								<a href="https://www.english.cam.ac.uk/ceres/ehoc/">
-									English Handwriting Online 1500-1700
-								</a>
-							</li>
-							<li>
-								<a href="https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand">
-									Beinecke Library
-								</a>
-							</li>
-							<li>
-								<a href="https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials">
-									Scottish Handwriting
-								</a>
-							</li>
-						</ul>
-					</details>
-				</p>
-			</div>
+			Hone your{' '}
+			<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>{' '}
+			skills
+		</h2>
+		<div
+			className={css({
+				maxWidth: '600px',
+				fontSize: 'l',
+			})}
+		>
+			<p>
+				Sharpie helps you sharpen your eye for recognising letters written in the <em>secretary hand</em> used in the sixteenth and seventeenth centuries.
+			</p>
 		</div>
 		<div className={css({ textAlign: 'center' })}>
 			<Button
@@ -118,95 +83,171 @@ const Main = ({ onSelectMode }) => (
 				label="Start"
 			/>
 		</div>
-	</main>
+	</section>
 );
 
-const Aside = ({ onSelectMode, onShowCatalogue }) => (
-	<aside className={css(sectionSpacing)}>
-		<h2 className={css(visuallyHidden)}>Practice Options</h2>
-		<div
-			className={css({
-				...textLeft,
-				...bodyCopy,
-				mb: 4, // 1rem
-			})}
-		>
-			Or practice just
-		</div>
-		<nav aria-label="Practice mode selection">
-			<div
-				className={css({
-					display: 'flex',
-					flexDirection: { base: 'column', sm: 'row' },
-					gap: 4, // 1rem
-					justifyContent: 'center',
-					mb: 6, // 1.5rem
-					alignItems: 'center',
-				})}
-			>
-				<Button
-					onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-					label="minuscules"
-				/>
-				<Button
-					onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-					label="MAJUSCULES"
-				/>
-			</div>
-		</nav>
-		<div
-			role="note"
-			className={css({
-				...textLeft,
-				fontSize: 'm',
-				mb: 6, // 1.5rem
-			})}
-		>
-			Tip: 'Majuscule' is the manuscript equivalent of 'uppercase' in
-			print; 'minuscule', 'lowercase'.
-		</div>
-		<div
-			className={css({
-				textAlign: 'center',
-				...bodyCopy,
-			})}
-		>
-			<a
-				href="#"
-				onClick={e => {
-					e.preventDefault();
-					onShowCatalogue();
-				}}
-				className={css({
-					color: 'inherit',
-					textDecoration: 'underline',
-					cursor: 'pointer',
-					'&:hover': {
-						textDecoration: 'none',
-					},
-				})}
-			>
-				View all specimen characters
-			</a>
-		</div>
-	</aside>
-);
-
-const MenuScreen = ({ onSelectMode, onShowCatalogue }) => (
-	<div
+const Guide = ({ onSelectMode, onShowCatalogue }) => (
+	<section
 		className={css({
-			maxWidth: { base: '100%', md: '900px' },
-			mx: 'auto',
-			textAlign: 'center',
-			px: 8, // 2rem horizontal padding
-			py: 4, // 1rem vertical padding
+			display: 'flex',
+			flexDirection: 'column',
+			gap: '1rem',
 		})}
 	>
-		<Header />
-		<Main onSelectMode={onSelectMode} />
-		<Aside onSelectMode={onSelectMode} onShowCatalogue={onShowCatalogue} />
-		<SmallPrint />
-	</div>
+		<h2
+			className={css({
+				fontSize: 'l',
+				fontWeight: 'bold',
+				margin: 0,
+				textAlign: 'left',
+				borderBottom: '2px solid black',
+				paddingBottom: '0.5rem',
+			})}
+		>
+			How to use
+		</h2>
+		<div
+			className={css({
+				maxWidth: '600px',
+				fontSize: 'l',
+			})}
+		>
+			<ol
+				className={css({
+					listStyleType: 'lower-roman',
+					marginLeft: '2rem',
+				})}
+			>
+				<li>
+					You will be shown a character - a <em>graph</em>, as
+					palaeographers call it - written in the secretary hand
+				</li>
+				<li>
+					Use your computer keyboard or the onscreen keyboard to enter
+					the graph you see
+				</li>
+				<li>See feedback about your answer: correcr or incorrect.</li>
+				<li>Hit 'next' to see another graph</li>
+				<li>
+					Exit at any time by clicking the 'End game' button to view a
+					summary of your score, and recap of any graphs identified
+					wrongly
+				</li>
+			</ol>
+			<p
+				className={css({
+					marginTop: '1rem',
+				})}
+			>
+				You can practice just <em>majuscules</em> (the manuscript
+				equivalent of print "uppercase") or <em>minuscules</em>{' '}
+				(≈"lowercase")
+			</p>
+		</div>
+		<div
+			className={css({
+				display: 'flex',
+				flexDirection: { base: 'column', sm: 'row' },
+				gap: 4, // 1rem
+				justifyContent: 'center',
+				mb: 6, // 1.5rem
+				alignItems: 'center',
+			})}
+		>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+				label="minuscules"
+			/>
+			<Button
+				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+				label="MAJUSCULES"
+			/>
+		</div>
+		<div
+			className={css({
+				maxWidth: '600px',
+				fontSize: 'l',
+			})}
+		>
+			<p
+				className={css({
+					marginTop: '1rem',
+				})}
+			>
+				You can also{' '}
+				<a
+					href="#"
+					onClick={e => {
+						e.preventDefault();
+						onShowCatalogue();
+					}}
+					className={css({
+						color: 'inherit',
+						textDecoration: 'underline',
+						cursor: 'pointer',
+						'&:hover': {
+							textDecoration: 'none',
+						},
+					})}
+				>
+					view all specimen characters
+				</a>
+				.
+			</p>
+		</div>
+	</section>
+);
+
+const NextSteps = () => (
+	<section
+		className={css({
+			display: 'flex',
+			flexDirection: 'column',
+			gap: '1rem',
+			marginBottom: '1rem',
+		})}
+	>
+		<h2
+			className={css({
+				fontSize: 'l',
+				fontWeight: 'bold',
+				margin: 0,
+				textAlign: 'left',
+				borderBottom: '2px solid black',
+				paddingBottom: '0.5rem',
+			})}
+		>
+			Next steps
+		</h2>
+		<div
+			className={css({
+				maxWidth: '600px',
+				fontSize: 'l',
+			})}
+		>
+			<p>
+				Many resources are available online to help you read secretary
+				hand:
+			</p>
+			<ul>
+				<li>
+					<a href="https://www.english.cam.ac.uk/ceres/ehoc/">
+						English Handwriting Online 1500-1700
+					</a>
+				</li>
+				<li>
+					<a href="https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand">
+						Beinecke Library
+					</a>
+				</li>
+				<li>
+					<a href="https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials">
+						Scottish Handwriting
+					</a>
+				</li>
+			</ul>
+		</div>
+	</section>
 );
 
 export default MenuScreen;

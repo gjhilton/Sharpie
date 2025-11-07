@@ -7,10 +7,17 @@ import { GAME_MODES } from '../constants/stages.js';
 const Header = () => (
 	<header
 		className={css({
-			textAlign: 'center',
-			margin: '3rem 0',
-		})}
+		margin: '2rem 0',
+	  desktop: { 
+	  	display: 'grid',
+      gridTemplateColumns: '1fr 2fr',
+      gap: '2rem',
+      alignItems: 'start',
+	}
+      
+    })}
 	>
+	<div></div>
 		<Logo size={SIZE.S} />
 	</header>
 );

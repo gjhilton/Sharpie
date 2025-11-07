@@ -33,7 +33,7 @@ const Input = ({ id, type = 'text', name, required = false }) => (
 		className={css({
 			padding: '0.75rem',
 			fontSize: 'm',
-			border: '2px solid black',
+			border: '1px solid black',
 			borderRadius: '4px',
 			backgroundColor: 'white',
 			'&:focus': {
@@ -53,8 +53,7 @@ const Textarea = ({ id, name, required = false }) => (
 		className={css({
 			padding: '0.75rem',
 			fontSize: 'm',
-			border: '2px solid black',
-			borderRadius: '4px',
+			border: '1px solid black',
 			backgroundColor: 'white',
 			resize: 'vertical',
 			fontFamily: 'inherit',
@@ -68,11 +67,10 @@ const Textarea = ({ id, name, required = false }) => (
 
 const ThankYouMessage = ({ onReturnToMenu }) => (
 	<>
-		<PageTitle>Thank you for your feedback!</PageTitle>
+		<PageTitle>Thank you.</PageTitle>
 		<div>
 			<Paragraph>
-				Your message has been received. We appreciate you taking the
-				time to help us improve.
+			Your message has been received. Thank you for helping improve Sharpie.
 			</Paragraph>
 			<Button onClick={onReturnToMenu} label="Return to Menu" />
 		</div>
@@ -86,9 +84,9 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 		return (
 			<PageWidth>
 				<ThankYouMessage onReturnToMenu={onReturnToMenu} />
-				<div className={css({ gridColumn: '1 / -1' })}>
-					<SmallPrint onShowFeedback={onShowFeedback} />
-				</div>
+				
+					<SmallPrint />
+
 			</PageWidth>
 		);
 	}
@@ -99,8 +97,7 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 
 			<Section title={null}>
 				<Paragraph>
-					Have a bug to report, content to flag, or a suggestion to
-					make? We'd love to hear from you.
+				Found a problem? Have suggestions to help us improve? We'd love to hear from you.
 				</Paragraph>
 
 				<form
@@ -120,6 +117,8 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 						/>
 					</FormField>
 
+					
+					
 					<FormField label="Email Address">
 						<Input id="email" type="email" name="email" required />
 						<ValidationError
@@ -138,6 +137,15 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 						/>
 					</FormField>
 
+					<FormField label="What browser and OS are you using?">
+					<Input id="platform" type="text" name="platform" />
+						<ValidationError
+							prefix="Platform"
+							field="platform"
+							errors={state.errors}
+						/>
+					</FormField>
+					
 					<div
 						className={css({
 							display: 'flex',
@@ -146,12 +154,13 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 						})}
 					>
 						<Button
+						hero
 							type="submit"
 							disabled={state.submitting}
 							label={
 								state.submitting
 									? 'Sending...'
-									: 'Send Feedback'
+									: 'Send'
 							}
 						/>
 						<Button onClick={onReturnToMenu} label="Cancel" />
@@ -159,9 +168,9 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 				</form>
 			</Section>
 
-			<div className={css({ gridColumn: '1 / -1' })}>
-				<SmallPrint onShowFeedback={onShowFeedback} />
-			</div>
+		
+				<SmallPrint />
+	
 		</PageWidth>
 	);
 };

@@ -1,6 +1,7 @@
 import { css } from '../../styled-system/css';
 import { useState, useEffect, useRef } from 'react';
 import Button from './Button.jsx';
+import SmallPrint from './SmallPrint.jsx';
 import { DB } from '../data/DB.js';
 import * as db from '../utilities/database.js';
 import * as catalogueLogic from '../utilities/catalogueLogic.js';
@@ -236,6 +237,7 @@ const CatalogueScreen = ({ onReturnToMenu }) => {
 					/>
 				))}
 			</div>
+			<SmallPrint />
 		</div>
 	);
 };

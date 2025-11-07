@@ -45,9 +45,6 @@ export const ICON_TYPE = {
 	CROSS: {
 		path: 'M6 6l12 12M18 6L6 18',
 	},
-	INFO: {
-		path: 'M12 11v5m0-7V8m0-6a10 10 0 1 0 0 20 10 10 0 1 0 0-20z',
-	},
 	TICK: {
 		path: 'M4 13l5 5L20 7',
 	},

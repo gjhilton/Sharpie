@@ -1,11 +1,28 @@
 import { css } from '../../styled-system/css';
 
-export const H1 = ({ children, className }) => (
+export const PageWidth = ({children}) => <div
+		className={css({
+			display: 'grid',
+			gridTemplateColumns: '1fr',
+			gap: '2rem',
+			maxWidth: '90%',
+			textAlign: 'left',
+			desktop: {
+				maxWidth: '800px',
+				gridTemplateColumns: '1fr 2fr',
+				columnGap: '3rem',
+				rowGap: '2rem',
+			},
+			margin: '2rem auto',
+		})}
+	>{children}</div>
+
+export const PageTitle = ({ children, className }) => (
 	<h1
 		className={
 			className ||
 			css({
-				fontSize: { base: '2rem', desktop: '3rem' },
+				fontSize: '2rem',
 				fontWeight: 'bold',
 				marginBottom: '1rem',
 				desktop: {
@@ -45,13 +62,6 @@ export const Paragraph = ({ children, className }) => (
 	>
 		{children}
 	</p>
-);
-
-export const PageTitle = () => (
-	<H1>
-		Hone your{' '}
-		<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>
-	</H1>
 );
 
 export const Section = ({ title, children }) => (

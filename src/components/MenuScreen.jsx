@@ -2,7 +2,7 @@ import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import Logo, { SIZE } from './Logo.jsx';
 import SmallPrint from './SmallPrint.jsx';
-import { PageTitle, Heading, Paragraph, Section } from './Layout.jsx';
+import { PageWidth, PageTitle, Heading, Paragraph, Section } from './Layout.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 
 const HeroButton = ({ onSelectMode }) => (
@@ -10,7 +10,6 @@ const HeroButton = ({ onSelectMode }) => (
 );
 
 const ModeButtons = ({ onSelectMode }) => (
-	<nav>
 		<div
 			className={css({
 				display: 'flex',
@@ -28,7 +27,6 @@ const ModeButtons = ({ onSelectMode }) => (
 				label="MAJUSCULES"
 			/>
 		</div>
-	</nav>
 );
 
 const CatalogueLink = ({ onShowCatalogue }) => (
@@ -52,26 +50,14 @@ const CatalogueLink = ({ onShowCatalogue }) => (
 );
 
 const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
-	<div
-		className={css({
-			display: 'grid',
-			gridTemplateColumns: '1fr',
-			gap: '2rem',
-			maxWidth: '90%',
-			textAlign: 'left',
-			desktop: {
-				maxWidth: '800px',
-				gridTemplateColumns: '1fr 2fr',
-				columnGap: '3rem',
-				rowGap: '2rem',
-			},
-			margin: '0 auto 2rem',
-		})}
-	>
+	<PageWidth>
 		<div></div>
 		<Logo size={SIZE.S} />
 
-		<Section title={<PageTitle />}>
+		<Section title={<PageTitle>
+		Hone your{' '}
+		<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>
+		</PageTitle>}>
 			<Paragraph>
 				Sharpie helps sharpen your eye for recognising letters written
 				in the <em>secretary hand</em> used in the sixteenth and
@@ -157,14 +143,10 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 			</ul>
 		</Section>
 
-		<div
-			className={css({
-				gridColumn: '1 / -1',
-			})}
-		>
+		
+			
 			<SmallPrint onShowFeedback={onShowFeedback} />
-		</div>
-	</div>
+	</PageWidth>
 );
 
 export default MenuScreen;

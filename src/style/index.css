@@ -21,10 +21,6 @@ a {
 	display: inline-block;
 }
 
-ul {
-	margin: 1rem 0;
-}
-
 .simple-keyboard {
 	max-width: 40rem;
 	margin: 0 auto;

@@ -1,6 +1,7 @@
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import SmallPrint from './SmallPrint.jsx';
+import { Heading } from './Layout.jsx';
 
 const formatTime = seconds => {
 	const mins = Math.floor(seconds / 60);
@@ -136,16 +137,14 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback }) => {
 						padding: '2rem',
 					})}
 				>
-					<h2
+					<Heading
 						className={css({
-							fontSize: 'l',
 							textAlign: 'left',
 							marginBottom: '1.5rem',
-							fontWeight: 'bold',
 						})}
 					>
 						Letters to Review
-					</h2>
+					</Heading>
 					<div
 						className={css({
 							display: 'grid',

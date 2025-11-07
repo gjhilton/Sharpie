@@ -3,6 +3,7 @@ export const STAGES = {
 	PLAYING: 'playing',
 	SCORE: 'score',
 	CATALOGUE: 'catalogue',
+	FEEDBACK: 'feedback',
 };
 
 export const GAME_MODES = {

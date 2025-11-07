@@ -187,7 +187,7 @@ const GraphSetSection = ({ title, characters }) => (
 	</div>
 );
 
-const CatalogueScreen = ({ onReturnToMenu }) => {
+const CatalogueScreen = ({ onReturnToMenu, onShowFeedback }) => {
 	const enabledGraphSets = db.getEnabledGraphSets(DB);
 	const catalogueData =
 		catalogueLogic.groupGraphsByGraphSetAndCharacter(enabledGraphSets);
@@ -237,7 +237,7 @@ const CatalogueScreen = ({ onReturnToMenu }) => {
 					/>
 				))}
 			</div>
-			<SmallPrint />
+			<SmallPrint onShowFeedback={onShowFeedback} />
 		</div>
 	);
 };

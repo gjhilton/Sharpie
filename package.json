@@ -18,6 +18,7 @@
 		"update-db": "node src/scripts/update-db.js"
 	},
 	"dependencies": {
+		"@formspree/react": "^3.0.0",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
 		"react-simple-keyboard": "^3.8.122"

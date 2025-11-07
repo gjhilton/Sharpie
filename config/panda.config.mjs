@@ -14,7 +14,7 @@ export default defineConfig({
 	theme: {
 		extend: {
 			breakpoints: {
-				'desktop': '860px'
+				desktop: '860px',
 			},
 			tokens: {
 				fontSizes: {

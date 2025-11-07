@@ -5,6 +5,7 @@ import MenuScreen from './MenuScreen.jsx';
 import GameScreen from './GameScreen.jsx';
 import ScoreScreen from './ScoreScreen.jsx';
 import CatalogueScreen from './CatalogueScreen.jsx';
+import FeedbackScreen from './FeedbackScreen.jsx';
 
 const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
@@ -31,6 +32,10 @@ const App = () => {
 		setStage(STAGES.CATALOGUE);
 	};
 
+	const handleShowFeedback = () => {
+		setStage(STAGES.FEEDBACK);
+	};
+
 	const renderScreen = () => {
 		switch (stage) {
 			case STAGES.PLAYING:
@@ -42,15 +47,29 @@ const App = () => {
 					<ScoreScreen
 						score={score}
 						onReturnToMenu={handleReturnToMenu}
+						onShowFeedback={handleShowFeedback}
 					/>
 				);
 			case STAGES.CATALOGUE:
-				return <CatalogueScreen onReturnToMenu={handleReturnToMenu} />;
+				return (
+					<CatalogueScreen
+						onReturnToMenu={handleReturnToMenu}
+						onShowFeedback={handleShowFeedback}
+					/>
+				);
+			case STAGES.FEEDBACK:
+				return (
+					<FeedbackScreen
+						onReturnToMenu={handleReturnToMenu}
+						onShowFeedback={handleShowFeedback}
+					/>
+				);
 			default:
 				return (
 					<MenuScreen
 						onSelectMode={handleSelectMode}
 						onShowCatalogue={handleShowCatalogue}
+						onShowFeedback={handleShowFeedback}
 					/>
 				);
 		}

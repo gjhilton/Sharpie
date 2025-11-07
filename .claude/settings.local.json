@@ -29,7 +29,8 @@
 			"Bash(npm run dev:host:*)",
 			"Bash(npm run copy-images:*)",
 			"Bash(node check-images.js:*)",
-			"Bash(awk:*)"
+			"Bash(awk:*)",
+			"Bash(npm install:*)"
 		],
 		"deny": [],
 		"ask": []

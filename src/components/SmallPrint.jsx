@@ -1,6 +1,6 @@
 import { css } from '../../styled-system/css';
 
-const SmallPrint = ({ children, className }) => (
+const SmallPrint = ({ children, className, onShowFeedback }) => (
 	<div
 		className={
 			className ||
@@ -14,6 +14,20 @@ const SmallPrint = ({ children, className }) => (
 		Concept, design and code copyright ©2025 g.j.hilton /{' '}
 		<a href="http://funeralgames.co.uk">funeral games</a>, <br />
 		Manucript context copyright as shown inline.
+		{onShowFeedback && (
+			<>
+				{' / '}
+				<a
+					href="#"
+					onClick={e => {
+						e.preventDefault();
+						onShowFeedback();
+					}}
+				>
+					send feedback
+				</a>
+			</>
+		)}
 	</div>
 );
 

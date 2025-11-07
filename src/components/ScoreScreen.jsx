@@ -1,5 +1,6 @@
 import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
+import SmallPrint from './SmallPrint.jsx';
 
 const formatTime = seconds => {
 	const mins = Math.floor(seconds / 60);
@@ -71,7 +72,7 @@ const MistakeCard = ({ graph, imagePath }) => (
 	</div>
 );
 
-const ScoreScreen = ({ score, onReturnToMenu }) => {
+const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback }) => {
 	const {
 		correct,
 		incorrect,
@@ -172,6 +173,16 @@ const ScoreScreen = ({ score, onReturnToMenu }) => {
 				})}
 			>
 				<Button onClick={onReturnToMenu} label="Return to Menu" />
+			</div>
+
+			<div
+				className={css({
+					maxWidth: '600px',
+					margin: '2rem auto',
+					padding: '0 2rem',
+				})}
+			>
+				<SmallPrint onShowFeedback={onShowFeedback} />
 			</div>
 		</div>
 	);

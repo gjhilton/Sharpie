@@ -4,6 +4,13 @@ node_modules/
 # Build outputs
 dist/
 build/
+storybook-static/
+
+# Generated code
+styled-system/
+
+# Artwork source files
+src/artwork/
 
 # Environment variables
 .env

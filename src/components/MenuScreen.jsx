@@ -7,46 +7,43 @@ import { GAME_MODES } from '../constants/stages.js';
 const Header = () => (
 	<header
 		className={css({
-		margin: '2rem 0',
-	  desktop: { 
-	  	display: 'grid',
-      gridTemplateColumns: '1fr 2fr',
-      gap: '2rem',
-      alignItems: 'start',
-	}
-      
-    })}
+			margin: '2rem 0',
+			desktop: {
+				display: 'grid',
+				gridTemplateColumns: '1fr 2fr',
+				gap: '2rem',
+				alignItems: 'start',
+			},
+		})}
 	>
-	<div></div>
+		<div></div>
 		<Logo size={SIZE.S} />
 	</header>
 );
 
 const TwoColumn = ({ title, children }) => (
-  <section
-    className={css({
-      marginBottom: '2rem',
-	  desktop: { 
-	  	display: 'grid',
-      gridTemplateColumns: '1fr 2fr',
-      gap: '2rem',
-      alignItems: 'start',
-	}
-      
-    })}
-  >
-  
-      {title}
-  
-    <div
-      className={css({
-        fontSize: 'l',
-		alignSelf: "start"
-      })}
-    >
-      {children}
-    </div>
-  </section>
+	<section
+		className={css({
+			marginBottom: '2rem',
+			desktop: {
+				display: 'grid',
+				gridTemplateColumns: '1fr 2fr',
+				gap: '2rem',
+				alignItems: 'start',
+			},
+		})}
+	>
+		{title}
+
+		<div
+			className={css({
+				fontSize: 'l',
+				alignSelf: 'start',
+			})}
+		>
+			{children}
+		</div>
+	</section>
 );
 
 const HeroButton = ({ onSelectMode }) => (
@@ -96,11 +93,13 @@ const CatalogueLink = ({ onShowCatalogue }) => (
 
 const Overview = ({ onSelectMode }) => (
 	<TwoColumn title={<PageTitle />}>
-		<p className={css({
-			marginBottom: "1rem"
-		})}>
-			Sharpie helps sharpen your eye for recognising letters written
-			in the <em>secretary hand</em> used in the sixteenth and seventeenth
+		<p
+			className={css({
+				marginBottom: '1rem',
+			})}
+		>
+			Sharpie helps sharpen your eye for recognising letters written in
+			the <em>secretary hand</em> used in the sixteenth and seventeenth
 			centuries.
 		</p>
 		<HeroButton onSelectMode={onSelectMode} />
@@ -112,8 +111,8 @@ const PageTitle = () => (
 		className={css({
 			fontSize: '3rem',
 			fontWeight: 'bold',
-			marginBottom: "2rem",
-			desktop: { lineHeight: '3rem', }
+			marginBottom: '2rem',
+			desktop: { lineHeight: '3rem' },
 		})}
 	>
 		Hone your{' '}
@@ -152,8 +151,7 @@ const Guide = ({ onSelectMode, onShowCatalogue }) => (
 			<li>Hit 'next' to see another graph</li>
 			<li>
 				Exit at any time by clicking the 'End game' button to view a
-				summary of your score, and recap graphs identified
-				wrongly
+				summary of your score, and recap graphs identified wrongly
 			</li>
 		</ol>
 	</TwoColumn>
@@ -195,14 +193,14 @@ const NextSteps = () => (
 	</TwoColumn>
 );
 
-const MenuScreen = ({ onSelectMode, onShowCatalogue }) => (
+const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 	<div
 		className={css({
 			display: 'flex',
 			flexDirection: 'column',
 			maxWidth: '90%',
 			desktop: {
-			maxWidth: '800px',
+				maxWidth: '800px',
 			},
 			margin: '0 auto 2rem',
 			textAlign: 'left',
@@ -218,7 +216,7 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue }) => (
 			/>
 			<NextSteps />
 		</main>
-		<SmallPrint />
+		<SmallPrint onShowFeedback={onShowFeedback} />
 	</div>
 );
 

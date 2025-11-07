@@ -2,7 +2,13 @@ import { css } from '../../styled-system/css';
 import Button from './Button.jsx';
 import Logo, { SIZE } from './Logo.jsx';
 import SmallPrint from './SmallPrint.jsx';
-import { PageWidth, PageTitle, Heading, Paragraph, Section } from './Layout.jsx';
+import {
+	PageWidth,
+	PageTitle,
+	Heading,
+	Paragraph,
+	Section,
+} from './Layout.jsx';
 import { GAME_MODES } from '../constants/stages.js';
 
 const HeroButton = ({ onSelectMode }) => (
@@ -10,23 +16,23 @@ const HeroButton = ({ onSelectMode }) => (
 );
 
 const ModeButtons = ({ onSelectMode }) => (
-		<div
-			className={css({
-				display: 'flex',
-				flexDirection: { base: 'column', sm: 'row' },
-				gap: '1rem',
-				marginBottom: '1.5rem',
-			})}
-		>
-			<Button
-				onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
-				label="minuscules"
-			/>
-			<Button
-				onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
-				label="MAJUSCULES"
-			/>
-		</div>
+	<div
+		className={css({
+			display: 'flex',
+			flexDirection: { base: 'column', sm: 'row' },
+			gap: '1rem',
+			marginBottom: '1.5rem',
+		})}
+	>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.MINUSCULE)}
+			label="minuscules"
+		/>
+		<Button
+			onClick={() => onSelectMode(GAME_MODES.MAJUSCULE)}
+			label="MAJUSCULES"
+		/>
+	</div>
 );
 
 const CatalogueLink = ({ onShowCatalogue }) => (
@@ -54,10 +60,16 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 		<div></div>
 		<Logo size={SIZE.S} />
 
-		<Section title={<PageTitle>
-		Hone your{' '}
-		<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>
-		</PageTitle>}>
+		<Section
+			title={
+				<PageTitle>
+					Hone your{' '}
+					<span className={css({ fontFamily: 'joscelyn' })}>
+						Secretary
+					</span>
+				</PageTitle>
+			}
+		>
 			<Paragraph>
 				Sharpie helps sharpen your eye for recognising letters written
 				in the <em>secretary hand</em> used in the sixteenth and
@@ -143,9 +155,7 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 			</ul>
 		</Section>
 
-		
-			
-			<SmallPrint onShowFeedback={onShowFeedback} />
+		<SmallPrint onShowFeedback={onShowFeedback} />
 	</PageWidth>
 );
 

@@ -1,6 +1,7 @@
 import { css } from '../../styled-system/css';
 
-export const PageWidth = ({children}) => <div
+export const PageWidth = ({ children }) => (
+	<div
 		className={css({
 			display: 'grid',
 			gridTemplateColumns: '1fr',
@@ -15,7 +16,10 @@ export const PageWidth = ({children}) => <div
 			},
 			margin: '2rem auto',
 		})}
-	>{children}</div>
+	>
+		{children}
+	</div>
+);
 
 export const PageTitle = ({ children, className }) => (
 	<h1

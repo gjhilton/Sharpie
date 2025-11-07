@@ -16,6 +16,10 @@ export default {
 			action: 'show catalogue',
 			description: 'Function called when the catalogue button is clicked',
 		},
+		onShowFeedback: {
+			action: 'show feedback',
+			description: 'Function called when the feedback link is clicked',
+		},
 	},
 };
 

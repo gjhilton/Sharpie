@@ -81,7 +81,7 @@ const CatalogueLink = ({ onShowCatalogue }) => (
 				onShowCatalogue();
 			}}
 		>
-			view all specimen characters
+			view all characters
 		</a>
 		.
 	</p>
@@ -110,8 +110,7 @@ const PageTitle = () => (
 		})}
 	>
 		Hone your{' '}
-		<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>{' '}
-		skills
+		<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>
 	</h1>
 );
 
@@ -156,8 +155,8 @@ const Guide = ({ onSelectMode, onShowCatalogue }) => (
 const Options = ({ onSelectMode, onShowCatalogue }) => (
 	<TwoColumn title={<H2>Options</H2>}>
 		<p>
-			You can practice just <em>majuscules</em> (the manuscript equivalent
-			of print "uppercase") or <em>minuscules</em> (≈"lowercase")
+			You can practice just <em>minuscules</em> (the manuscript equivalent
+			of print "lowercase") or <em>majuscules</em> (≈"uppercase")
 		</p>
 		<ModeButtons onSelectMode={onSelectMode} />
 		<CatalogueLink onShowCatalogue={onShowCatalogue} />

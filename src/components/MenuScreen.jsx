@@ -60,6 +60,15 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 		<div></div>
 		<Logo size={SIZE.S} />
 
+		<header
+		className={css({
+			gridColumn: '1 / -1',
+			marginTop: '4rem',
+		})}
+	>
+		<img alt="Secretary Hand" src="secretary_hand.gif"/>
+	
+	</header>
 		<Section
 			title={
 				<PageTitle>

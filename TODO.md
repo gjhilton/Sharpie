@@ -1,36 +1,65 @@
-# TODO
+# Proposed improvements
 
-Proposed improvements:
-
+## To do
 - [ ]	1. E2E Testing with Playwright (High Impact)
 - [ ]	2. Component Testing (Medium Impact)
 - [ ]	3. Test Coverage Reporting (Low Effort, High Value)
 - [ ]	4. Visual Regression Testing (Medium Impact)
 - [ ]	5. Enhanced CI/CD Pipeline (High Impact)
-- [ ]	<strike>6. Deployment Previews (Medium Impact)</strike>
-- [ ]	<strike>7. Performance Budgets (Low Impact)</strike>
-- [ ]	<strike>8. TypeScript Migration (High Effort, High Long-term Value)</strike>
+- [ ]	~~6. Deployment Previews (Medium Impact)~~
+- [ ]	~~7. Performance Budgets (Low Impact)~~
+- [ ]	~~8. TypeScript Migration (High Effort, High Long-term Value)~~
 - [ ]	9. Error Boundaries (Low Effort, High Value)
-- [ ]	<strike>10. Prop Validation (Low Effort)</strike>
+- [ ]	~~10. Prop Validation (Low Effort)~~
 - [ ]	11. Context API for State (Optional - only if app grows)
 - [ ]	12. Code Splitting & Lazy Loading (Medium Impact)
-- [ ]	<strike>13. Image Optimization (Medium Impact)</strike>
-- [ ]	<strike>14. Memoization Strategy (Low Impact - only if needed)</strike>
+- [ ]	~~13. Image Optimization (Medium Impact)~~
+- [ ]	~~14. Memoization Strategy (Low Impact - only if needed)~~
 - [ ]	15. Service Worker / PWA (Medium Effort)
 - [ ]	16. Automated Accessibility Testing (Medium Impact)
-- [ ]	<strike>17. Screen Reader Testing (High Impact)</strike>
-- [✅]	18. Color Contrast Fixes (Low Effort)
-- [ ]	<strike>19. Focus Management (Medium Effort)</strike>
-- [ ]	<strike>20. Contributing Guide (Low Effort, High Value)</strike>
-- [ ]	<strike>21. Component Documentation (Medium Effort)</strike>
-- [ ]	<strike>22. Architecture Documentation (Low Effort)</strike>
-- [ ]	<strike>23. API Documentation (Low Effort)</strike>
-- [ ]	<strike>24. Progress Tracking (Medium Effort)</strike>
-- [ ]	<strike>25. Difficulty Levels (Medium Effort)</strike>
-- [ ]	<strike>26. Timed Challenge Mode (Low Effort)</strike>
-- [ ]	<strike>27. Statistics Dashboard (Medium Effort)</strike>
-- [ ]	<strike>28. User Preferences (Low Effort)</strike>
-- [ ]	<strike>29. Spaced Repetition (High Effort, High Educational Value)</strike>
+- [ ]	~~17. Screen Reader Testing (High Impact)~~
+- [x]	18. Color Contrast Fixes (Low Effort)
+- [ ]	~~19. Focus Management (Medium Effort)~~
+- [ ]	~~20. Contributing Guide (Low Effort, High Value)~~
+- [ ]	~~21. Component Documentation (Medium Effort)~~
+- [ ]	~~22. Architecture Documentation (Low Effort)~~
+- [ ]	~~23. API Documentation (Low Effort)~~
+- [ ]	~~24. Progress Tracking (Medium Effort)~~
+- [ ]	~~25. Difficulty Levels (Medium Effort)~~
+- [ ]	~~26. Timed Challenge Mode (Low Effort)~~
+- [ ]	~~27. Statistics Dashboard (Medium Effort)~~
+- [ ]	~~28. User Preferences (Low Effort)~~
+- [ ]	~~29. Spaced Repetition (High Effort, High Educational Value)~~
+- [ ]	30. Better Error Messages (Low Effort)
+- [ ]	31. Development Tools (Low Effort)
+- [ ]	32. Pre-commit Hooks (Low Effort)
+- [ ]	33. Fix Missing Source URI (Immediate)
+
+## Won't do
+- ~~6. Deployment Previews (Medium Impact)~~
+- ~~7. Performance Budgets (Low Impact)~~
+- [ ]	~~8. TypeScript Migration (High Effort, High Long-term Value)~~
+- [ ]	9. Error Boundaries (Low Effort, High Value)
+- [ ]	~~10. Prop Validation (Low Effort)~~
+- [ ]	11. Context API for State (Optional - only if app grows)
+- [ ]	12. Code Splitting & Lazy Loading (Medium Impact)
+- [ ]	~~13. Image Optimization (Medium Impact)~~
+- [ ]	~~14. Memoization Strategy (Low Impact - only if needed)~~
+- [ ]	15. Service Worker / PWA (Medium Effort)
+- [ ]	16. Automated Accessibility Testing (Medium Impact)
+- [ ]	~~17. Screen Reader Testing (High Impact)~~
+- [x]	18. Color Contrast Fixes (Low Effort)
+- [ ]	~~19. Focus Management (Medium Effort)~~
+- [ ]	~~20. Contributing Guide (Low Effort, High Value)~~
+- [ ]	~~21. Component Documentation (Medium Effort)~~
+- [ ]	~~22. Architecture Documentation (Low Effort)~~
+- [ ]	~~23. API Documentation (Low Effort)~~
+- [ ]	~~24. Progress Tracking (Medium Effort)~~
+- [ ]	~~25. Difficulty Levels (Medium Effort)~~
+- [ ]	~~26. Timed Challenge Mode (Low Effort)~~
+- [ ]	~~27. Statistics Dashboard (Medium Effort)~~
+- [ ]	~~28. User Preferences (Low Effort)~~
+- [ ]	~~29. Spaced Repetition (High Effort, High Educational Value)~~
 - [ ]	30. Better Error Messages (Low Effort)
 - [ ]	31. Development Tools (Low Effort)
 - [ ]	32. Pre-commit Hooks (Low Effort)

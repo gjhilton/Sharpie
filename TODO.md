@@ -21,7 +21,6 @@
 - ~~6. Deployment Previews (Medium Impact)~~
 - ~~7. Performance Budgets (Low Impact)~~
 - ~~8. TypeScript Migration (High Effort, High Long-term Value)~~
-- ~~9. Error Boundaries (Low Effort, High Value)
 - ~~10. Prop Validation (Low Effort)~~
 - ~~13. Image Optimization (Medium Impact)~~
 - ~~14. Memoization Strategy (Low Impact - only if needed)~~

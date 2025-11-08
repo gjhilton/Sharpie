@@ -14,7 +14,6 @@
 - [ ]	4. Visual Regression Testing (Medium Impact)
 - [ ]	5. Enhanced CI/CD Pipeline (High Impact)
 - [ ]	9. Error Boundaries (Low Effort, High Value)
-- [ ]	11. Context API for State (Optional - only if app grows)
 - [ ]	12. Code Splitting & Lazy Loading (Medium Impact)
 - [ ]	15. Service Worker / PWA (Medium Effort)
 - [ ]	16. Automated Accessibility Testing (Medium Impact)
@@ -28,6 +27,7 @@
 - ~~7. Performance Budgets (Low Impact)~~
 - ~~8. TypeScript Migration (High Effort, High Long-term Value)~~
 - ~~10. Prop Validation (Low Effort)~~
+- ~~11. Context API for State (Optional - only if app grows)~~
 - ~~13. Image Optimization (Medium Impact)~~
 - ~~14. Memoization Strategy (Low Impact - only if needed)~~
 - ~~17. Screen Reader Testing (High Impact)~~

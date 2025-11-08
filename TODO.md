@@ -2,8 +2,9 @@
 
 ## 🔥 URGENT
 - [ ]	33. Fix Missing Source URI (Immediate)
-- [ ]	Refactor sources section of update-db
+- [x]	Refactor sources section of update-db
 - [ ]	Logo animation
+- [x]	Document asset creation process
 - [ ]	Homepage redesign
 
 ## ✅ To do

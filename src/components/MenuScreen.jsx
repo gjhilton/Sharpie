@@ -10,6 +10,7 @@ import {
 	Section,
 } from './Layout.jsx';
 import { GAME_MODES } from '../constants/stages.js';
+import sources from '../data/sources.json';
 
 const HeroButton = ({ onSelectMode }) => (
 	<Button hero onClick={() => onSelectMode(GAME_MODES.ALL)} label="Start" />
@@ -75,10 +76,17 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
     <figcaption
 	className={css({
 	margin: '1rem 0',
-	fontSttle: 'italic',
+	fontStyle: 'italic',
 			fontSize: 's',
 		})}
-	>“The secretarie Alphabete” Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First published 1570.</figcaption>
+	>{sources['BeauChesne-Baildon'].title}
+		<a
+			href={sources['BeauChesne-Baildon'].sourceUri}
+			target="_blank"
+			rel="noopener noreferrer"
+		> [source]
+		</a>
+	</figcaption>
 </figure>
 		
 		

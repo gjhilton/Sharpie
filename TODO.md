@@ -5,7 +5,7 @@
 - [x]	Refactor sources section of update-db
 - [ ]	Logo animation
 - [x]	Document asset creation process
-- [ ]	Homepage redesign
+- [x]	Homepage redesign
 
 ## ✅ To do
 - [ ]	1. E2E Testing with Playwright (High Impact)

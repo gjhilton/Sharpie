@@ -1,5 +1,11 @@
 # Proposed improvements
 
+## 🔥 URGENT
+- [ ]	33. Fix Missing Source URI (Immediate)
+- [ ]	Refactor sources section of update-db
+- [ ]	Logo animation
+- [ ]	Homepage redesign
+
 ## ✅ To do
 - [ ]	1. E2E Testing with Playwright (High Impact)
 - [ ]	2. Component Testing (Medium Impact)
@@ -15,9 +21,8 @@
 - [ ]	30. Better Error Messages (Low Effort)
 - [ ]	31. Development Tools (Low Effort)
 - [ ]	32. Pre-commit Hooks (Low Effort)
-- [ ]	33. Fix Missing Source URI (Immediate)
 
-## 🚫 Won't do
+## ⛔️ Won't do
 - ~~6. Deployment Previews (Medium Impact)~~
 - ~~7. Performance Budgets (Low Impact)~~
 - ~~8. TypeScript Migration (High Effort, High Long-term Value)~~

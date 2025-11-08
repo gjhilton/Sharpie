@@ -1,0 +1,14 @@
+{
+	"Joscelyn": {
+		"title": "Joscelyn typeface, drawn by Peter Baker (2019)",
+		"sourceUri": "https://github.com/psb1558/Joscelyn-font/releases"
+	},
+	"BeauChesne-Baildon": {
+		"title": "BeauChesne-Baildon writing book",
+		"sourceUri": "https://example.com/beaucheche-baildon"
+	},
+	"Hill": {
+		"title": "Hill source",
+		"sourceUri": "https://example.com/hill"
+	}
+}

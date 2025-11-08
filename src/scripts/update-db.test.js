@@ -123,6 +123,21 @@ describe('getAssetFolderName', () => {
 });
 
 describe('generateSourcesObject', () => {
+	const mockSourceMetadata = {
+		'Joscelyn': {
+			title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
+			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
+		},
+		'BeauChesne-Baildon': {
+			title: 'BeauChesne-Baildon writing book',
+			sourceUri: 'https://example.com/beaucheche-baildon',
+		},
+		'Hill': {
+			title: 'Hill source',
+			sourceUri: 'https://example.com/hill',
+		},
+	};
+
 	it('should generate sources from single Joscelyn entry', () => {
 		const entries = [
 			{
@@ -138,7 +153,7 @@ describe('generateSourcesObject', () => {
 			},
 		];
 
-		const result = generateSourcesObject(entries);
+		const result = generateSourcesObject(entries, mockSourceMetadata);
 
 		expect(result).toHaveProperty('Joscelyn');
 		expect(result.Joscelyn).toEqual({
@@ -162,7 +177,7 @@ describe('generateSourcesObject', () => {
 			},
 		];
 
-		const result = generateSourcesObject(entries);
+		const result = generateSourcesObject(entries, mockSourceMetadata);
 
 		expect(result).toHaveProperty('BeauChesne-Baildon');
 		expect(result['BeauChesne-Baildon']).toEqual({
@@ -186,13 +201,19 @@ describe('generateSourcesObject', () => {
 			},
 		];
 
-		const result = generateSourcesObject(entries);
+		// Mock console.warn to check if warning is shown
+		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+		const result = generateSourcesObject(entries, mockSourceMetadata);
 
 		expect(result).toHaveProperty('NewSource');
 		expect(result.NewSource).toEqual({
 			title: 'NewSource source',
 			sourceUri: 'https://example.com/newsource',
 		});
+		expect(warnSpy).toHaveBeenCalledWith('⚠️  Source "NewSource" not found in sources.json, using placeholder');
+
+		warnSpy.mockRestore();
 	});
 
 	it('should handle multiple sources', () => {
@@ -221,7 +242,7 @@ describe('generateSourcesObject', () => {
 			},
 		];
 
-		const result = generateSourcesObject(entries);
+		const result = generateSourcesObject(entries, mockSourceMetadata);
 
 		expect(Object.keys(result)).toHaveLength(2);
 		expect(result).toHaveProperty('Joscelyn');
@@ -254,15 +275,44 @@ describe('generateSourcesObject', () => {
 			},
 		];
 
-		const result = generateSourcesObject(entries);
+		const result = generateSourcesObject(entries, mockSourceMetadata);
 
 		expect(Object.keys(result)).toHaveLength(1);
 		expect(result).toHaveProperty('Joscelyn');
 	});
 
 	it('should handle empty entries array', () => {
-		const result = generateSourcesObject([]);
+		const result = generateSourcesObject([], mockSourceMetadata);
 		expect(result).toEqual({});
+	});
+
+	it('should work with empty metadata object (all placeholders)', () => {
+		const entries = [
+			{
+				sourceName: 'TestSource',
+				assetFolderName: 'test-assets',
+				graphEntries: [
+					{
+						source: 'TestSource',
+						character: 't',
+						category: 'minuscules',
+					},
+				],
+			},
+		];
+
+		const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+		const result = generateSourcesObject(entries, {});
+
+		expect(result).toHaveProperty('TestSource');
+		expect(result.TestSource).toEqual({
+			title: 'TestSource source',
+			sourceUri: 'https://example.com/testsource',
+		});
+		expect(warnSpy).toHaveBeenCalled();
+
+		warnSpy.mockRestore();
 	});
 });
 
@@ -612,6 +662,12 @@ describe('formatDBContent', () => {
 	it('should include newline at end of file', () => {
 		const result = formatDBContent({}, []);
 		expect(result.endsWith('\n')).toBe(true);
+	});
+
+	it('should include warning comment at top of file', () => {
+		const result = formatDBContent({}, []);
+		expect(result).toMatch(/^\/\/ This is a generated file\. Do not edit\./);
+		expect(result).toContain('Run `npm run update-db` to regenerate');
 	});
 
 	it('should format multiple sources with commas between them', () => {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readdir, copyFile, mkdir, writeFile } from 'fs/promises';
+import { readdir, copyFile, mkdir, writeFile, readFile } from 'fs/promises';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
@@ -12,6 +12,7 @@ const projectRoot = join(__dirname, '../..');
 const GRAPHS_DIR = join(projectRoot, 'src/artwork/Graphs');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
 const PUBLIC_DATA_DIR = join(projectRoot, 'public/data');
+const SOURCES_JSON_PATH = join(projectRoot, 'src/data/sources.json');
 
 /**
  * Recursively find all *-assets directories
@@ -163,7 +164,7 @@ async function processAssetDirectory(assetPath) {
  * Generate sources object for DB
  * Pure function - exported for testing
  */
-export function generateSourcesObject(allEntries) {
+export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 	const sources = {};
 	const sourceNames = new Set();
 
@@ -176,18 +177,15 @@ export function generateSourcesObject(allEntries) {
 
 	// Generate source entries
 	sourceNames.forEach(sourceName => {
-		// Use existing known sources or generate placeholder
-		if (sourceName === 'Joscelyn') {
+		// Use metadata from JSON if available, otherwise generate placeholder
+		if (sourceMetadata[sourceName]) {
 			sources[sourceName] = {
-				title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
-				sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
-			};
-		} else if (sourceName === 'BeauChesne-Baildon') {
-			sources[sourceName] = {
-				title: 'BeauChesne-Baildon writing book',
-				sourceUri: 'https://example.com/beaucheche-baildon', // TODO: Add correct URI
+				title: sourceMetadata[sourceName].title,
+				sourceUri: sourceMetadata[sourceName].sourceUri,
 			};
 		} else {
+			// Fallback for sources not defined in JSON
+			console.warn(`⚠️  Source "${sourceName}" not found in sources.json, using placeholder`);
 			sources[sourceName] = {
 				title: `${sourceName} source`,
 				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
@@ -297,7 +295,10 @@ export function formatDBContent(sources, graphSets) {
 		.map(graphSet => formatGraphSetEntry(graphSet))
 		.join(',\n');
 
-	return `export const DB = {
+	return `// This is a generated file. Do not edit.
+// Run \`npm run update-db\` to regenerate.
+
+export const DB = {
 \tsources: {
 ${sourcesStr}
 \t},
@@ -327,6 +328,17 @@ async function main() {
 		console.log('='.repeat(60));
 		console.log(`Scanning: ${GRAPHS_DIR}`);
 
+		// Load source metadata from JSON
+		let sourceMetadata = {};
+		try {
+			const sourcesJsonContent = await readFile(SOURCES_JSON_PATH, 'utf-8');
+			sourceMetadata = JSON.parse(sourcesJsonContent);
+			console.log(`✓ Loaded source metadata from ${SOURCES_JSON_PATH}`);
+		} catch (error) {
+			console.warn(`⚠️  Could not load sources.json: ${error.message}`);
+			console.warn('   Will use placeholder metadata for all sources');
+		}
+
 		// Find all asset directories
 		const assetDirs = await findAssetDirectories(GRAPHS_DIR);
 		console.log(`\nFound ${assetDirs.length} asset directories:`);
@@ -340,7 +352,7 @@ async function main() {
 		}
 
 		// Generate DB structure
-		const sources = generateSourcesObject(allEntries);
+		const sources = generateSourcesObject(allEntries, sourceMetadata);
 		const graphSets = generateGraphSets(allEntries);
 
 		// Write DB.js

@@ -120,7 +120,6 @@ const ImageWithInfo = ({ character, graph }) => {
 							pointerEvents: 'none',
 						})}
 					/>
-					{imagePath}
 				</button>
 			</Popover>
 		</div>

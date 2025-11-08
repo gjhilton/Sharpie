@@ -1,7 +1,7 @@
 # Proposed improvements
 
 ## 🔥 URGENT
-- [ ]	33. Fix Missing Source URI (Immediate)
+- [x]	33. Fix Missing Source URI (Immediate)
 - [x]	Refactor sources section of update-db
 - [ ]	Logo animation
 - [x]	Document asset creation process

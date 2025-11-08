@@ -3,7 +3,7 @@
 ## 🔥 URGENT
 - [x]	33. Fix Missing Source URI (Immediate)
 - [x]	Refactor sources section of update-db
-- [ ]	Logo animation
+- [x]	Logo animation
 - [x]	Document asset creation process
 - [x]	Homepage redesign
 - [x]	Clean up duplicate files in repo

@@ -39,8 +39,8 @@ const Logo = ({ size = 'm'
 					strokeMiterlimit: 10,
 					strokeWidth: '10px',
 					strokeDasharray: '1411',
-					strokeDashoffset: '1200',
-					animation: 'logo-dash 5s linear forwards',
+					strokeDashoffset: '1411',
+					animation: 'logo-dash 1.5s ease-in forwards',
 				},
 			})}
 			style={{

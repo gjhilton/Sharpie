@@ -13,6 +13,15 @@ const Logo = ({ size = 'm'
 			display: 'inline-block',
 		})}
 	>
+		<style>
+			{`
+				@keyframes logo-dash {
+					to {
+						stroke-dashoffset: 0;
+					}
+				}
+			`}
+		</style>
 		<svg
 			version="1.1"
 			xmlns="http://www.w3.org/2000/svg"
@@ -28,15 +37,10 @@ const Logo = ({ size = 'm'
 					fill: 'none',
 					stroke: '#FF0000',
 					strokeMiterlimit: 10,
-					strokeWidth: '3px',
-					strokeDasharray: '1410.7931287385873',
-					strokeDashoffset: '1410.7931287385873',
-					animation: 'dash 5s linear forwards',
-				},
-				'@keyframes dash': {
-					to: {
-						strokeDashoffset: 0,
-					},
+					strokeWidth: '10px',
+					strokeDasharray: '1411',
+					strokeDashoffset: '1200',
+					animation: 'logo-dash 5s linear forwards',
 				},
 			})}
 			style={{

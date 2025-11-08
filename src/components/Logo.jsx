@@ -1,5 +1,5 @@
 import { css } from '../../styled-system/css';
-import logo from '../artwork/Branding/sharpielogo.svg';
+import logo from '../artwork/Branding/sharpielogo-line.svg';
 
 export const SIZE = {
 	S: '150px',
@@ -7,7 +7,8 @@ export const SIZE = {
 	L: '500px',
 };
 
-const Logo = ({ size = 'm', className }) => (
+const Logo = ({ size = 'm'
+}) => (
 	<div
 		className={css({
 			display: 'inline-block',
@@ -16,7 +17,11 @@ const Logo = ({ size = 'm', className }) => (
 		<img
 			src={logo}
 			alt="Sharpie Logo"
-			className={className}
+			className={
+			css({
+				
+			})
+			}
 			style={{
 				maxWidth: SIZE[size] || size,
 				width: '100%',

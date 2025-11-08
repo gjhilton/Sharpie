@@ -6,6 +6,7 @@
 - [ ]	Logo animation
 - [x]	Document asset creation process
 - [x]	Homepage redesign
+- [x]	Clean up duplicate files in repo
 
 ## ✅ To do
 - [ ]	1. E2E Testing with Playwright (High Impact)

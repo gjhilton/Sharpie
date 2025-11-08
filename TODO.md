@@ -20,7 +20,6 @@
 - [ ]	16. Automated Accessibility Testing (Medium Impact)
 - [x]	18. Color Contrast Fixes (Low Effort)
 - [ ]	30. Better Error Messages (Low Effort)
-- [ ]	31. Development Tools (Low Effort)
 - [ ]	32. Pre-commit Hooks (Low Effort)
 
 ## ⛔️ Won't do
@@ -43,6 +42,7 @@
 - ~~27. Statistics Dashboard (Medium Effort)~~
 - ~~28. User Preferences (Low Effort)~~
 - ~~29. Spaced Repetition (High Effort, High Educational Value)~~
+- ~~31. Development Tools (Low Effort)~~
 
 ### Testing & Quality Assurance
 

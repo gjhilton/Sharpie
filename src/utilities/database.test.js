@@ -17,8 +17,16 @@ const mockDB = {
 			title: 'minuscules',
 			enabled: true,
 			graphs: [
-				{ img: 'a.png', character: 'a', source: 'joscelyn' },
-				{ img: 'b.png', character: 'b', source: 'joscelyn' },
+				{ img: 'joscelyn/a.png', character: 'a', source: 'joscelyn' },
+				{ img: 'joscelyn/b.png', character: 'b', source: 'joscelyn' },
+			],
+		},
+		{
+			title: 'MAJUSCULES',
+			enabled: true,
+			graphs: [
+				{ img: 'joscelyn/A.png', character: 'A', source: 'joscelyn' },
+				{ img: 'joscelyn/B.png', character: 'B', source: 'joscelyn' },
 			],
 		},
 	],
@@ -274,8 +282,9 @@ describe('getImagePath', () => {
 describe('flattenGraphs', () => {
 	test('flattens graphs from multiple graphSets', () => {
 		const result = db.flattenGraphs(mockDB.graphSets);
-		expect(result).toHaveLength(2);
+		expect(result).toHaveLength(4); // 2 minuscules + 2 MAJUSCULES
 		expect(result[0]).toEqual(mockDB.graphSets[0].graphs[0]);
+		expect(result[2]).toEqual(mockDB.graphSets[1].graphs[0]);
 	});
 });
 
@@ -289,8 +298,110 @@ describe('getEnabledGraphSets', () => {
 			],
 		};
 		const result = db.getEnabledGraphSets(mockDBWithDisabled);
-		expect(result).toHaveLength(1);
+		expect(result).toHaveLength(2); // minuscules + MAJUSCULES (disabled one excluded)
 		expect(result.every(gs => gs.enabled)).toBe(true);
+	});
+});
+
+describe('Case sensitivity tests', () => {
+	test('getAllCharacters returns lowercase and uppercase as separate characters', () => {
+		const minusculesResult = db.getAllCharacters(mockDB.graphSets[0]);
+		const majusculesResult = db.getAllCharacters(mockDB.graphSets[1]);
+
+		expect(minusculesResult).toEqual(['a', 'b']);
+		expect(majusculesResult).toEqual(['A', 'B']);
+	});
+
+	test('getAllGraphsForCharacter is case-sensitive for lowercase', () => {
+		const minusculesGraphSet = mockDB.graphSets[0];
+		const resultLower = db.getAllGraphsForCharacter(minusculesGraphSet, 'a');
+		const resultUpper = db.getAllGraphsForCharacter(minusculesGraphSet, 'A');
+
+		expect(resultLower).toHaveLength(1);
+		expect(resultLower[0].character).toBe('a');
+		expect(resultLower[0].img).toBe('joscelyn/a.png');
+		expect(resultUpper).toEqual([]); // Should not find 'A' in minuscules
+	});
+
+	test('getAllGraphsForCharacter is case-sensitive for uppercase', () => {
+		const majusculesGraphSet = mockDB.graphSets[1];
+		const resultUpper = db.getAllGraphsForCharacter(majusculesGraphSet, 'A');
+		const resultLower = db.getAllGraphsForCharacter(majusculesGraphSet, 'a');
+
+		expect(resultUpper).toHaveLength(1);
+		expect(resultUpper[0].character).toBe('A');
+		expect(resultUpper[0].img).toBe('joscelyn/A.png');
+		expect(resultLower).toEqual([]); // Should not find 'a' in MAJUSCULES
+	});
+
+	test('four files (a.png, A.png, b.png, B.png) are treated as four different characters', () => {
+		const minusculesChars = db.getAllCharacters(mockDB.graphSets[0]);
+		const majusculesChars = db.getAllCharacters(mockDB.graphSets[1]);
+
+		const allChars = [...minusculesChars, ...majusculesChars];
+		expect(allChars).toEqual(['a', 'b', 'A', 'B']);
+		expect(new Set(allChars).size).toBe(4); // All unique
+	});
+
+	test('getAllGraphs groups by case-sensitive character keys', () => {
+		const minusculesResult = db.getAllGraphs(mockDB.graphSets[0]);
+		const majusculesResult = db.getAllGraphs(mockDB.graphSets[1]);
+
+		expect(minusculesResult).toHaveProperty('a');
+		expect(minusculesResult).toHaveProperty('b');
+		expect(minusculesResult).not.toHaveProperty('A');
+		expect(minusculesResult).not.toHaveProperty('B');
+
+		expect(majusculesResult).toHaveProperty('A');
+		expect(majusculesResult).toHaveProperty('B');
+		expect(majusculesResult).not.toHaveProperty('a');
+		expect(majusculesResult).not.toHaveProperty('b');
+	});
+
+	test('getImagePath works correctly for both minuscules and MAJUSCULES', () => {
+		const minusculeGraph = mockDB.graphSets[0].graphs[0];
+		const majusculeGraph = mockDB.graphSets[1].graphs[0];
+
+		const minusculePath = db.getImagePath(minusculeGraph);
+		const majusculePath = db.getImagePath(majusculeGraph);
+
+		expect(minusculePath).toBe('/data/joscelyn/a.png');
+		expect(majusculePath).toBe('/data/joscelyn/A.png');
+		expect(minusculePath).not.toBe(majusculePath);
+	});
+
+	test('flattenGraphs preserves case sensitivity across graphSets', () => {
+		const flattened = db.flattenGraphs(mockDB.graphSets);
+
+		const characters = flattened.map(g => g.character);
+		expect(characters).toContain('a');
+		expect(characters).toContain('A');
+		expect(characters).toContain('b');
+		expect(characters).toContain('B');
+		expect(characters).toHaveLength(4);
+	});
+
+	test('mixed case graphSet maintains case sensitivity', () => {
+		const mixedGraphSet = {
+			graphs: [
+				{ character: 'a', img: 'a1.png', source: 'source1' },
+				{ character: 'A', img: 'A1.png', source: 'source1' },
+				{ character: 'a', img: 'a2.png', source: 'source2' },
+				{ character: 'B', img: 'B1.png', source: 'source1' },
+			],
+		};
+
+		const chars = db.getAllCharacters(mixedGraphSet);
+		expect(chars).toEqual(['a', 'A', 'B']);
+		expect(chars).toHaveLength(3);
+
+		const lowerA = db.getAllGraphsForCharacter(mixedGraphSet, 'a');
+		const upperA = db.getAllGraphsForCharacter(mixedGraphSet, 'A');
+
+		expect(lowerA).toHaveLength(2);
+		expect(upperA).toHaveLength(1);
+		expect(lowerA[0].img).toBe('a1.png');
+		expect(upperA[0].img).toBe('A1.png');
 	});
 });
 

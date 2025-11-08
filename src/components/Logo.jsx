@@ -29,8 +29,8 @@ const Logo = ({ size = 'm'
 					stroke: '#F00',
 					strokeMiterlimit: 10,
 					strokeWidth: '6px',
-					strokeDasharray: '2849.780465261178',
-					strokeDashoffset: '2849.780465261178',
+					strokeDasharray: '20',
+					sstrokeDashoffset: '2849.780465261178',
 					animation: 'dash 5s linear forwards',
 				},
 				'@keyframes dash': {

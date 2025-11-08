@@ -57,16 +57,31 @@ const CatalogueLink = ({ onShowCatalogue }) => (
 
 const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 	<PageWidth>
-		<div></div>
-		<Logo size={SIZE.S} />
-
 		<header
 		className={css({
 			gridColumn: '1 / -1',
-			marginTop: '4rem',
 		})}
 	>
-		<img alt="Secretary Hand" src="secretary_hand.gif"/>
+	<div
+	className={css({
+
+			marginBottom: '2rem',
+		})}
+	>
+	<Logo size={SIZE.S} />
+	</div>
+	<figure>
+    <img alt="Secretary Hand" src="secretary_hand.gif"/>
+    <figcaption
+	className={css({
+	margin: '1rem 0',
+	fontSttle: 'italic',
+			fontSize: 's',
+		})}
+	>“The secretarie Alphabete” Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First published 1570.</figcaption>
+</figure>
+		
+		
 	
 	</header>
 		<Section

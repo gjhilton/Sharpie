@@ -36,7 +36,9 @@
 			"Bash(npm run test:e2e:*)",
 			"Bash(npx playwright install)",
 			"Bash(npm run test:coverage:*)",
-			"Bash(npx husky init)"
+			"Bash(npx husky init)",
+			"Bash(git config:*)",
+			"Bash(npm run prepare:*)"
 		],
 		"deny": [],
 		"ask": []

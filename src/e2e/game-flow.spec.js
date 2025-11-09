@@ -8,7 +8,7 @@ import {
 	isOnGameScreen,
 	isOnScoreScreen,
 	isOnMenuScreen,
-} from '../config/playwright/helpers/test-helpers.js';
+} from '../../config/playwright/helpers/test-helpers.js';
 
 test.describe('Game Flow', () => {
 	test.describe('All Mode (Start button)', () => {

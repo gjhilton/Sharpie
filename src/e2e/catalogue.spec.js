@@ -3,7 +3,7 @@ import {
 	navigateToCatalogue,
 	returnToMenu,
 	isOnMenuScreen,
-} from '../config/playwright/helpers/test-helpers.js';
+} from '../../config/playwright/helpers/test-helpers.js';
 
 test.describe('Catalogue Screen', () => {
 	test.beforeEach(async ({ page }) => {

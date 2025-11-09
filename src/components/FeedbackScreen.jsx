@@ -70,7 +70,8 @@ const ThankYouMessage = ({ onReturnToMenu }) => (
 		<PageTitle>Thank you.</PageTitle>
 		<div>
 			<Paragraph>
-			Your message has been received. Thank you for helping improve Sharpie.
+				Your message has been received. Thank you for helping improve
+				Sharpie.
 			</Paragraph>
 			<Button onClick={onReturnToMenu} label="Return to Menu" />
 		</div>
@@ -84,9 +85,8 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 		return (
 			<PageWidth>
 				<ThankYouMessage onReturnToMenu={onReturnToMenu} />
-				
-					<SmallPrint />
 
+				<SmallPrint />
 			</PageWidth>
 		);
 	}
@@ -97,7 +97,8 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 
 			<Section title={null}>
 				<Paragraph>
-				Found a problem? Have suggestions to help us improve? We'd love to hear from you.
+					Found a problem? Have suggestions to help us improve? We'd
+					love to hear from you.
 				</Paragraph>
 
 				<form
@@ -117,8 +118,6 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 						/>
 					</FormField>
 
-					
-					
 					<FormField label="Email Address">
 						<Input id="email" type="email" name="email" required />
 						<ValidationError
@@ -138,14 +137,14 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 					</FormField>
 
 					<FormField label="What browser and OS are you using?">
-					<Input id="platform" type="text" name="platform" />
+						<Input id="platform" type="text" name="platform" />
 						<ValidationError
 							prefix="Platform"
 							field="platform"
 							errors={state.errors}
 						/>
 					</FormField>
-					
+
 					<div
 						className={css({
 							display: 'flex',
@@ -154,23 +153,17 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 						})}
 					>
 						<Button
-						hero
+							hero
 							type="submit"
 							disabled={state.submitting}
-							label={
-								state.submitting
-									? 'Sending...'
-									: 'Send'
-							}
+							label={state.submitting ? 'Sending...' : 'Send'}
 						/>
 						<Button onClick={onReturnToMenu} label="Cancel" />
 					</div>
 				</form>
 			</Section>
 
-		
-				<SmallPrint />
-	
+			<SmallPrint />
 		</PageWidth>
 	);
 };

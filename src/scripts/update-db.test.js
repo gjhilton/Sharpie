@@ -124,7 +124,7 @@ describe('getAssetFolderName', () => {
 
 describe('generateSourcesObject', () => {
 	const mockSourceMetadata = {
-		'Joscelyn': {
+		Joscelyn: {
 			title: 'Joscelyn typeface, drawn by Peter Baker (2019)',
 			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
 		},
@@ -132,7 +132,7 @@ describe('generateSourcesObject', () => {
 			title: 'BeauChesne-Baildon writing book',
 			sourceUri: 'https://example.com/beaucheche-baildon',
 		},
-		'Hill': {
+		Hill: {
 			title: 'Hill source',
 			sourceUri: 'https://example.com/hill',
 		},
@@ -211,7 +211,9 @@ describe('generateSourcesObject', () => {
 			title: 'NewSource source',
 			sourceUri: 'https://example.com/newsource',
 		});
-		expect(warnSpy).toHaveBeenCalledWith('⚠️  Source "NewSource" not found in sources.json, using placeholder');
+		expect(warnSpy).toHaveBeenCalledWith(
+			'⚠️  Source "NewSource" not found in sources.json, using placeholder'
+		);
 
 		warnSpy.mockRestore();
 	});
@@ -666,7 +668,9 @@ describe('formatDBContent', () => {
 
 	it('should include warning comment at top of file', () => {
 		const result = formatDBContent({}, []);
-		expect(result).toMatch(/^\/\/ This is a generated file\. Do not edit\./);
+		expect(result).toMatch(
+			/^\/\/ This is a generated file\. Do not edit\./
+		);
 		expect(result).toContain('Run `npm run update-db` to regenerate');
 	});
 

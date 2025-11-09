@@ -5,12 +5,14 @@ node_modules/
 dist/
 build/
 storybook-static/
+coverage/
 
 # Generated code
 styled-system/
 
 # Artwork source files
-src/artwork/
+src/artwork
+src/artwork/**
 
 # Environment variables
 .env
@@ -35,3 +37,6 @@ Thumbs.db
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Playwright outputs
+playwright/

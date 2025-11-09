@@ -59,39 +59,38 @@ const CatalogueLink = ({ onShowCatalogue }) => (
 const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
 	<PageWidth>
 		<header
-		className={css({
-			gridColumn: '1 / -1',
-		})}
-	>
-	<div
-	className={css({
-
-			marginBottom: '2rem',
-		})}
-	>
-	<Logo size={SIZE.S} />
-	</div>
-	<figure>
-    <img alt="Secretary Hand" src="secretary_hand.gif"/>
-    <figcaption
-	className={css({
-	margin: '1rem 0',
-	fontStyle: 'italic',
-			fontSize: 's',
-		})}
-	>{sources['BeauChesne-Baildon'].title}
-		<a
-			href={sources['BeauChesne-Baildon'].sourceUri}
-			target="_blank"
-			rel="noopener noreferrer"
-		> [source]
-		</a>
-	</figcaption>
-</figure>
-		
-		
-	
-	</header>
+			className={css({
+				gridColumn: '1 / -1',
+			})}
+		>
+			<div
+				className={css({
+					marginBottom: '2rem',
+				})}
+			>
+				<Logo size={SIZE.S} />
+			</div>
+			<figure>
+				<img alt="Secretary Hand" src="secretary_hand.gif" />
+				<figcaption
+					className={css({
+						margin: '1rem 0',
+						fontStyle: 'italic',
+						fontSize: 's',
+					})}
+				>
+					{sources['BeauChesne-Baildon'].title}
+					<a
+						href={sources['BeauChesne-Baildon'].sourceUri}
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						{' '}
+						[source]
+					</a>
+				</figcaption>
+			</figure>
+		</header>
 		<Section
 			title={
 				<PageTitle>

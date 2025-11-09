@@ -30,3 +30,11 @@ styled-system-studio
 storybook-static
 /public/data
 src/data/DB.js
+
+## Playwright
+config/playwright/test-results/
+config/playwright/playwright-report/
+config/playwright/.cache/
+
+## Test coverage
+coverage/

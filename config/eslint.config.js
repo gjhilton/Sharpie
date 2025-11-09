@@ -11,6 +11,9 @@ export default defineConfig([
 		'styled-system',
 		'node_modules',
 		'.storybook',
+		'config/playwright/test-results',
+		'config/playwright/playwright-report',
+		'coverage',
 	]),
 	{
 		files: ['**/*.js'],

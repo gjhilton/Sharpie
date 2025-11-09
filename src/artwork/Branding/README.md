@@ -5,7 +5,9 @@ This directory contains the Sharpie logo and related tools.
 ## Files
 
 ### sharpielogo-line.svg
+
 The main logo file containing:
+
 - Black text paths for "Sharpie"
 - A red stroke path (class="red") that wraps around the text
 
@@ -14,9 +16,11 @@ The main logo file containing:
 Two helper tools were created to measure the exact length of the red path for animation purposes:
 
 ### measure-path.html (in project root)
+
 An HTML file that loads the SVG and calculates the path length using the browser's `getTotalLength()` API.
 
 **Usage:**
+
 ```bash
 open measure-path.html
 ```
@@ -24,14 +28,17 @@ open measure-path.html
 The page displays the calculated path length both on screen and in the console.
 
 ### measure-path.js (in project root)
+
 A Node.js script that programmatically calculates the path length using the `svg-path-properties` package.
 
 **Usage:**
+
 ```bash
 node measure-path.js
 ```
 
 **Output:**
+
 ```
 RED PATH LENGTH: 2849.780465261178
 ```
@@ -39,6 +46,7 @@ RED PATH LENGTH: 2849.780465261178
 ## Why Measure the Path?
 
 The red path in the logo uses a "drawing" animation effect created with CSS:
+
 - `stroke-dasharray` - Creates a dashed line pattern
 - `stroke-dashoffset` - Offsets the dash pattern to hide/reveal it
 

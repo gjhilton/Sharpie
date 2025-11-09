@@ -185,7 +185,9 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 			};
 		} else {
 			// Fallback for sources not defined in JSON
-			console.warn(`⚠️  Source "${sourceName}" not found in sources.json, using placeholder`);
+			console.warn(
+				`⚠️  Source "${sourceName}" not found in sources.json, using placeholder`
+			);
 			sources[sourceName] = {
 				title: `${sourceName} source`,
 				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
@@ -331,7 +333,10 @@ async function main() {
 		// Load source metadata from JSON
 		let sourceMetadata = {};
 		try {
-			const sourcesJsonContent = await readFile(SOURCES_JSON_PATH, 'utf-8');
+			const sourcesJsonContent = await readFile(
+				SOURCES_JSON_PATH,
+				'utf-8'
+			);
 			sourceMetadata = JSON.parse(sourcesJsonContent);
 			console.log(`✓ Loaded source metadata from ${SOURCES_JSON_PATH}`);
 		} catch (error) {

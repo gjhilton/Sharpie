@@ -13,7 +13,7 @@ test.describe('Menu Screen', () => {
 	test('should load the menu screen', async ({ page }) => {
 		await expect(page).toHaveTitle(/Sharpie/i);
 		await expect(
-			page.getByRole('heading', { name: /hone your/i }),
+			page.getByRole('heading', { name: /hone your/i })
 		).toBeVisible();
 	});
 
@@ -88,7 +88,9 @@ test.describe('Menu Screen', () => {
 		await expect(instructions).toBeVisible();
 
 		// Check for key instruction text
-		await expect(page.getByText(/use your computer keyboard/i)).toBeVisible();
+		await expect(
+			page.getByText(/use your computer keyboard/i)
+		).toBeVisible();
 	});
 
 	test('should have feedback link in small print', async ({ page }) => {
@@ -98,7 +100,9 @@ test.describe('Menu Screen', () => {
 
 	test('should navigate to feedback form', async ({ page }) => {
 		await navigateToFeedback(page);
-		await expect(page.getByRole('heading', { name: /send feedback/i })).toBeVisible();
+		await expect(
+			page.getByRole('heading', { name: /send feedback/i })
+		).toBeVisible();
 	});
 
 	test('should be on menu screen after initial load', async ({ page }) => {

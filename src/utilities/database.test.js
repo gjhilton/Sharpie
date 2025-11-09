@@ -314,8 +314,14 @@ describe('Case sensitivity tests', () => {
 
 	test('getAllGraphsForCharacter is case-sensitive for lowercase', () => {
 		const minusculesGraphSet = mockDB.graphSets[0];
-		const resultLower = db.getAllGraphsForCharacter(minusculesGraphSet, 'a');
-		const resultUpper = db.getAllGraphsForCharacter(minusculesGraphSet, 'A');
+		const resultLower = db.getAllGraphsForCharacter(
+			minusculesGraphSet,
+			'a'
+		);
+		const resultUpper = db.getAllGraphsForCharacter(
+			minusculesGraphSet,
+			'A'
+		);
 
 		expect(resultLower).toHaveLength(1);
 		expect(resultLower[0].character).toBe('a');
@@ -325,8 +331,14 @@ describe('Case sensitivity tests', () => {
 
 	test('getAllGraphsForCharacter is case-sensitive for uppercase', () => {
 		const majusculesGraphSet = mockDB.graphSets[1];
-		const resultUpper = db.getAllGraphsForCharacter(majusculesGraphSet, 'A');
-		const resultLower = db.getAllGraphsForCharacter(majusculesGraphSet, 'a');
+		const resultUpper = db.getAllGraphsForCharacter(
+			majusculesGraphSet,
+			'A'
+		);
+		const resultLower = db.getAllGraphsForCharacter(
+			majusculesGraphSet,
+			'a'
+		);
 
 		expect(resultUpper).toHaveLength(1);
 		expect(resultUpper[0].character).toBe('A');

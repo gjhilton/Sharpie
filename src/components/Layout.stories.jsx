@@ -21,8 +21,8 @@ export const PageWidthExample = {
 			<PageTitle>Example Title</PageTitle>
 			<div>
 				<Paragraph>
-					This demonstrates the PageWidth component with a 2-column grid
-					on desktop (1fr 2fr) and single column on mobile.
+					This demonstrates the PageWidth component with a 2-column
+					grid on desktop (1fr 2fr) and single column on mobile.
 				</Paragraph>
 				<Paragraph>
 					The left column contains titles, the right column contains

@@ -19,7 +19,9 @@ test.describe('Game Flow', () => {
 			expect(onGame).toBe(true);
 
 			// Verify character image is displayed
-			const characterImage = page.locator('img[alt="Character to identify"]').first();
+			const characterImage = page
+				.locator('img[alt="Character to identify"]')
+				.first();
 			await expect(characterImage).toBeVisible();
 		});
 
@@ -29,13 +31,13 @@ test.describe('Game Flow', () => {
 			// Check for essential game elements
 			// End Game button should always be visible
 			await expect(
-				page.getByRole('button', { name: /end game/i }),
+				page.getByRole('button', { name: /end game/i })
 			).toBeVisible();
 
 			// Next button only appears after answering
 			await answerQuestion(page, 'a');
 			await expect(
-				page.getByRole('button', { name: /next/i }),
+				page.getByRole('button', { name: /next/i })
 			).toBeVisible();
 
 			// Should have keyboard (either physical or on-screen)
@@ -78,7 +80,9 @@ test.describe('Game Flow', () => {
 			expect(onScore).toBe(true);
 
 			// Verify score is displayed
-			await expect(page.getByText('Correct Answers', { exact: true })).toBeVisible();
+			await expect(
+				page.getByText('Correct Answers', { exact: true })
+			).toBeVisible();
 		});
 
 		test('should return to menu from score screen', async ({ page }) => {
@@ -163,16 +167,20 @@ test.describe('Game Flow', () => {
 			await endGame(page);
 
 			// Check for score elements
-			await expect(page.getByText('Correct Answers', { exact: true })).toBeVisible();
+			await expect(
+				page.getByText('Correct Answers', { exact: true })
+			).toBeVisible();
 			await expect(page.getByText(/accuracy/i)).toBeVisible();
 
 			// Should have option to return to menu
 			await expect(
-				page.getByRole('button', { name: /return to menu/i }),
+				page.getByRole('button', { name: /return to menu/i })
 			).toBeVisible();
 		});
 
-		test('should show incorrectly answered characters', async ({ page }) => {
+		test('should show incorrectly answered characters', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'all');
 
 			// Answer incorrectly on purpose

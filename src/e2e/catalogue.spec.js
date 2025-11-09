@@ -50,7 +50,9 @@ test.describe('Catalogue Screen', () => {
 	});
 
 	test('should have a return to menu button', async ({ page }) => {
-		const returnButton = page.getByRole('button', { name: /return to menu/i });
+		const returnButton = page.getByRole('button', {
+			name: /return to menu/i,
+		});
 		await expect(returnButton).toBeVisible();
 		await expect(returnButton).toBeEnabled();
 	});
@@ -102,8 +104,8 @@ test.describe('Catalogue Screen', () => {
 		await page.keyboard.press('Tab');
 
 		// Focus should be on an interactive element
-		const focusedElement = await page.evaluate(() =>
-			document.activeElement.tagName,
+		const focusedElement = await page.evaluate(
+			() => document.activeElement.tagName
 		);
 		expect(['BUTTON', 'A', 'INPUT']).toContain(focusedElement);
 	});

@@ -9,7 +9,7 @@
 		"build": "vite build --config config/vite.config.js",
 		"lint": "eslint . --config config/eslint.config.js",
 		"preview": "vite preview --config config/vite.config.js",
-		"format": "prettier --write . --config config/.prettierrc --ignore-path config/.prettierignore",
+		"format": "prettier --write --config config/.prettierrc --ignore-path config/.prettierignore '**/*.{js,jsx,json,css,md}' '!src/artwork/**'",
 		"storybook": "storybook dev -p 6006 -c config/storybook",
 		"build-storybook": "storybook build -c config/storybook",
 		"test": "vitest --config config/vitest.config.js",
@@ -26,11 +26,12 @@
 	"lint-staged": {
 		"*.js": [
 			"eslint --config config/eslint.config.js --fix",
-			"prettier --write --config config/.prettierrc"
+			"prettier --write --config config/.prettierrc --ignore-path config/.prettierignore"
 		],
 		"*.{json,md,css}": [
-			"prettier --write --config config/.prettierrc"
-		]
+			"prettier --write --config config/.prettierrc --ignore-path config/.prettierignore"
+		],
+		"src/artwork/**/*": []
 	},
 	"dependencies": {
 		"@formspree/react": "^3.0.0",

@@ -48,8 +48,8 @@ test.describe('Feedback Screen', () => {
 		await submitButton.click();
 
 		// HTML5 validation should prevent submission
-		const validationMessage = await emailInput.evaluate((el) =>
-			el.validationMessage,
+		const validationMessage = await emailInput.evaluate(
+			el => el.validationMessage
 		);
 		expect(validationMessage).toBeTruthy();
 	});
@@ -64,8 +64,8 @@ test.describe('Feedback Screen', () => {
 		await submitButton.click();
 
 		// Should show validation error
-		const validationMessage = await messageInput.evaluate((el) =>
-			el.validationMessage,
+		const validationMessage = await messageInput.evaluate(
+			el => el.validationMessage
 		);
 		expect(validationMessage).toBeTruthy();
 	});
@@ -73,12 +73,11 @@ test.describe('Feedback Screen', () => {
 	test('should accept valid form submission', async ({ page }) => {
 		const emailInput = page.locator('input[name="email"]');
 		const messageInput = page.locator('textarea[name="message"]');
-		const submitButton = page.getByRole('button', { name: /send/i });
 
 		// Fill form with valid data
 		await emailInput.fill('test@example.com');
 		await messageInput.fill(
-			'This is a test message from Playwright E2E tests.',
+			'This is a test message from Playwright E2E tests.'
 		);
 
 		// Note: We won't actually submit to avoid spamming the form service
@@ -118,8 +117,8 @@ test.describe('Feedback Screen', () => {
 		await page.keyboard.press('Tab'); // Back button
 
 		// Should be able to navigate the form
-		const focusedElement = await page.evaluate(() =>
-			document.activeElement.tagName,
+		const focusedElement = await page.evaluate(
+			() => document.activeElement.tagName
 		);
 		expect(['INPUT', 'TEXTAREA', 'BUTTON']).toContain(focusedElement);
 	});

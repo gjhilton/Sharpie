@@ -11,7 +11,8 @@ coverage/
 styled-system/
 
 # Artwork source files
-src/artwork/
+src/artwork
+src/artwork/**
 
 # Environment variables
 .env

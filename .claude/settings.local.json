@@ -38,7 +38,8 @@
 			"Bash(npm run test:coverage:*)",
 			"Bash(npx husky init)",
 			"Bash(git config:*)",
-			"Bash(npm run prepare:*)"
+			"Bash(npm run prepare:*)",
+			"Bash(npx prettier:*)"
 		],
 		"deny": [],
 		"ask": []

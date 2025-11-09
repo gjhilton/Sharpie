@@ -15,6 +15,10 @@
 		"test": "vitest --config config/vitest.config.js",
 		"test:run": "vitest run --config config/vitest.config.js",
 		"test:watch": "vitest watch --config config/vitest.config.js",
+		"test:e2e": "playwright test --config config/playwright.config.js",
+		"test:e2e:ui": "playwright test --config config/playwright.config.js --ui",
+		"test:e2e:headed": "playwright test --config config/playwright.config.js --headed",
+		"test:e2e:codegen": "playwright codegen http://localhost:5173/Sharpie/",
 		"update-db": "node src/scripts/update-db.js"
 	},
 	"dependencies": {
@@ -24,10 +28,12 @@
 		"react-simple-keyboard": "^3.8.122"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "^4.11.0",
 		"@chromatic-com/storybook": "^4.1.1",
 		"@eslint/js": "^9.36.0",
 		"@pandacss/dev": "^1.4.0",
 		"@peterek/vite-plugin-favicons": "^2.1.0",
+		"@playwright/test": "^1.56.1",
 		"@storybook/addon-a11y": "^9.1.10",
 		"@storybook/addon-docs": "^9.1.10",
 		"@storybook/addon-onboarding": "^9.1.10",

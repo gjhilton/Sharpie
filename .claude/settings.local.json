@@ -32,7 +32,9 @@
       "Bash(awk:*)",
       "Bash(npm install:*)",
       "Bash(open:*)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(npm run test:e2e:*)",
+      "Bash(npx playwright install)"
     ],
     "deny": [],
     "ask": []

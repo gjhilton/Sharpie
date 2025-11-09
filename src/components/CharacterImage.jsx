@@ -14,7 +14,7 @@ const CharacterImage = ({ imagePath, caption, graph }) => (
 	>
 		<img
 			src={imagePath}
-			alt={caption || graph?.character}
+			alt={caption || 'Character to identify'}
 			className={css({
 				maxWidth: '100%',
 				maxHeight: '100%',

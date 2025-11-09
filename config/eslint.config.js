@@ -13,6 +13,7 @@ export default defineConfig([
 		'.storybook',
 		'config/playwright/test-results',
 		'config/playwright/playwright-report',
+		'coverage',
 	]),
 	{
 		files: ['**/*.js'],

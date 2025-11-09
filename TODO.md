@@ -12,24 +12,23 @@
 - [ ]	1. E2E Testing with Playwright (High Impact)
 - [ ]	2. Component Testing (Medium Impact)
 - [ ]	3. Test Coverage Reporting (Low Effort, High Value)
-- [ ]	4. Visual Regression Testing (Medium Impact)
 - [ ]	5. Enhanced CI/CD Pipeline (High Impact)
-- [ ]	9. Error Boundaries (Low Effort, High Value)
 - [ ]	12. Code Splitting & Lazy Loading (Medium Impact)
-- [ ]	15. Service Worker / PWA (Medium Effort)
-- [ ]	16. Automated Accessibility Testing (Medium Impact)
 - [x]	18. Color Contrast Fixes (Low Effort)
-- [ ]	30. Better Error Messages (Low Effort)
 - [ ]	32. Pre-commit Hooks (Low Effort)
 
 ## ⛔️ Won't do
+- ~~4. Visual Regression Testing (Medium Impact)~~
 - ~~6. Deployment Previews (Medium Impact)~~
 - ~~7. Performance Budgets (Low Impact)~~
 - ~~8. TypeScript Migration (High Effort, High Long-term Value)~~
+- ~~9. Error Boundaries (Low Effort, High Value)~~
 - ~~10. Prop Validation (Low Effort)~~
 - ~~11. Context API for State (Optional - only if app grows)~~
 - ~~13. Image Optimization (Medium Impact)~~
 - ~~14. Memoization Strategy (Low Impact - only if needed)~~
+- ~~15. Service Worker / PWA (Medium Effort)~~
+- ~~16. Automated Accessibility Testing (Medium Impact)~~
 - ~~17. Screen Reader Testing (High Impact)~~
 - ~~19. Focus Management (Medium Effort)~~
 - ~~20. Contributing Guide (Low Effort, High Value)~~
@@ -42,6 +41,7 @@
 - ~~27. Statistics Dashboard (Medium Effort)~~
 - ~~28. User Preferences (Low Effort)~~
 - ~~29. Spaced Repetition (High Effort, High Educational Value)~~
+- ~~30. Better Error Messages (Low Effort)~~
 - ~~31. Development Tools (Low Effort)~~
 
 ### Testing & Quality Assurance

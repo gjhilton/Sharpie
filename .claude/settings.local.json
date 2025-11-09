@@ -40,7 +40,11 @@
 			"Bash(git config:*)",
 			"Bash(npm run prepare:*)",
 			"Bash(npx prettier:*)",
-			"Bash(npm test:*)"
+			"Bash(npm test:*)",
+			"Bash(npx storybook@latest upgrade)",
+			"Bash(npm info:*)",
+			"Bash(npx storybook:*)",
+			"Bash(timeout 30 npm run storybook:*)"
 		],
 		"deny": [],
 		"ask": []

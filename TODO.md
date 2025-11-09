@@ -9,7 +9,7 @@
 - [x]	Clean up duplicate files in repo
 
 ## ✅ To do
-- [ ]	1. E2E Testing with Playwright (High Impact)
+- [x]	1. E2E Testing with Playwright (High Impact)
 - [ ]	2. Component Testing (Medium Impact)
 - [ ]	3. Test Coverage Reporting (Low Effort, High Value)
 - [ ]	5. Enhanced CI/CD Pipeline (High Impact)

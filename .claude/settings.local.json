@@ -39,7 +39,8 @@
 			"Bash(npx husky init)",
 			"Bash(git config:*)",
 			"Bash(npm run prepare:*)",
-			"Bash(npx prettier:*)"
+			"Bash(npx prettier:*)",
+			"Bash(npm test:*)"
 		],
 		"deny": [],
 		"ask": []

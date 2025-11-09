@@ -11,8 +11,8 @@
 ## ✅ To do
 - [x]	1. E2E Testing with Playwright (High Impact)
 - [ ]	2. Component Testing (Medium Impact)
-- [ ]	3. Test Coverage Reporting (Low Effort, High Value)
-- [ ]	5. Enhanced CI/CD Pipeline (High Impact)
+- [x]	3. Test Coverage Reporting (Low Effort, High Value)
+- [x]	5. Enhanced CI/CD Pipeline (High Impact)
 - [ ]	12. Code Splitting & Lazy Loading (Medium Impact)
 - [x]	18. Color Contrast Fixes (Low Effort)
 - [ ]	32. Pre-commit Hooks (Low Effort)

@@ -72,9 +72,13 @@ export default defineConfig({
 
 	/* Run your local dev server before starting the tests */
 	webServer: {
-		command: 'npm run dev',
-		url: 'http://localhost:5175/Sharpie/',
+		command: process.env.CI ? 'npm run preview' : 'npm run dev',
+		url: process.env.CI
+			? 'http://localhost:4173/Sharpie/'
+			: 'http://localhost:5175/Sharpie/',
 		reuseExistingServer: !process.env.CI, // In CI, always start fresh; locally reuse existing
 		timeout: 120 * 1000,
+		stdout: 'pipe',
+		stderr: 'pipe',
 	},
 });

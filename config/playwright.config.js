@@ -74,7 +74,7 @@ export default defineConfig({
 	webServer: {
 		command: 'npm run dev',
 		url: 'http://localhost:5175/Sharpie/',
-		reuseExistingServer: true, // Always reuse - dev server is usually already running
+		reuseExistingServer: !process.env.CI, // In CI, always start fresh; locally reuse existing
 		timeout: 120 * 1000,
 	},
 });

@@ -1,4 +1,5 @@
 import { css } from '../../styled-system/css';
+import { useEffect } from 'react';
 import Button from './Button.jsx';
 import KB from './KB.jsx';
 import Character, { CHARACTER_STATE } from './Character.jsx';
@@ -26,6 +27,18 @@ export const CorrectAnswer = ({ solution, onNext }) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
+
+	useEffect(() => {
+		const handleKeyDown = e => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				onNext();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [onNext]);
 
 	return (
 		<>
@@ -61,6 +74,18 @@ export const IncorrectAnswer = ({
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
+
+	useEffect(() => {
+		const handleKeyDown = e => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				onNext();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [onNext]);
 
 	return (
 		<>

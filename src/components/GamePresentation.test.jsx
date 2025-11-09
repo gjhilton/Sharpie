@@ -159,6 +159,16 @@ describe('CorrectAnswer', () => {
 		expect(onNext).toHaveBeenCalledTimes(1);
 	});
 
+	it('should call onNext when Enter key is pressed', async () => {
+		const onNext = vi.fn();
+		const user = userEvent.setup();
+		render(<CorrectAnswer solution={mockSolution} onNext={onNext} />);
+
+		await user.keyboard('{Enter}');
+
+		expect(onNext).toHaveBeenCalledTimes(1);
+	});
+
 	it('should handle missing source gracefully', () => {
 		const solutionWithMissingSource = {
 			...mockSolution,
@@ -340,6 +350,23 @@ describe('IncorrectAnswer', () => {
 
 		const nextButton = screen.getByRole('button', { name: /next/i });
 		await user.click(nextButton);
+
+		expect(onNext).toHaveBeenCalledTimes(1);
+	});
+
+	it('should call onNext when Enter key is pressed', async () => {
+		const onNext = vi.fn();
+		const user = userEvent.setup();
+		render(
+			<IncorrectAnswer
+				solution={mockSolution}
+				attempt={mockAttempt}
+				attemptImagePaths={mockAttemptImagePaths}
+				onNext={onNext}
+			/>
+		);
+
+		await user.keyboard('{Enter}');
 
 		expect(onNext).toHaveBeenCalledTimes(1);
 	});

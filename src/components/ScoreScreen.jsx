@@ -1,4 +1,5 @@
 import { css } from '../../styled-system/css';
+import { useEffect } from 'react';
 import Button from './Button.jsx';
 import SmallPrint from './SmallPrint.jsx';
 import { Heading } from './Layout.jsx';
@@ -81,6 +82,18 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback }) => {
 		timeElapsed,
 		mistakes = [],
 	} = score;
+
+	useEffect(() => {
+		const handleKeyDown = e => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				onReturnToMenu();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [onReturnToMenu]);
 
 	const stats = [
 		{

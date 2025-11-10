@@ -8,6 +8,21 @@ export const STATUS = {
 };
 
 /**
+ * Doubled letter pairs for historical mode
+ * In secretary hand, I/J and U/V were not distinguished
+ */
+export const DOUBLED_LETTERS = {
+	i: 'j',
+	j: 'i',
+	I: 'J',
+	J: 'I',
+	u: 'v',
+	v: 'u',
+	U: 'V',
+	V: 'U',
+};
+
+/**
  * Gets the title for a graph set based on game mode
  */
 export const getGraphSetTitle = gameMode => {
@@ -55,10 +70,29 @@ export const createRandomSolution = (graphs, randomFn = Math.random) => {
 
 /**
  * Checks if an attempt matches the correct answer
+ * @param {string} attempt - The user's guess
+ * @param {string} correctAnswer - The correct answer
+ * @param {boolean} doubledLetterMode - Whether I/J and U/V should be treated as the same
+ * @returns {object} - { status, acceptedAsDoubled }
  */
-export const checkAttempt = (attempt, correctAnswer) => {
-	if (!attempt) return STATUS.NONE;
-	return attempt === correctAnswer ? STATUS.CORRECT : STATUS.INCORRECT;
+export const checkAttempt = (
+	attempt,
+	correctAnswer,
+	doubledLetterMode = false
+) => {
+	if (!attempt) return { status: STATUS.NONE, acceptedAsDoubled: false };
+
+	// Direct match
+	if (attempt === correctAnswer) {
+		return { status: STATUS.CORRECT, acceptedAsDoubled: false };
+	}
+
+	// Check doubled letter mode
+	if (doubledLetterMode && DOUBLED_LETTERS[correctAnswer] === attempt) {
+		return { status: STATUS.CORRECT, acceptedAsDoubled: true };
+	}
+
+	return { status: STATUS.INCORRECT, acceptedAsDoubled: false };
 };
 
 /**
@@ -80,12 +114,18 @@ export const createAttempt = (button, graphs) => {
 /**
  * Creates a history entry for an attempt
  */
-export const createHistoryEntry = (solution, userAnswer, isCorrect) => ({
+export const createHistoryEntry = (
+	solution,
+	userAnswer,
+	isCorrect,
+	acceptedAsDoubled = false
+) => ({
 	graph: solution.graph,
 	imagePath: solution.imagePath,
 	userAnswer,
 	correctAnswer: solution.graph.character,
 	isCorrect,
+	acceptedAsDoubled,
 });
 
 /**

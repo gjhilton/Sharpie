@@ -7,7 +7,11 @@ const SPECIAL_KEYS = {
 	LOCK: '{lock}',
 };
 
-const KB = ({ keyCallback, initialLayout = 'default' }) => {
+const KB = ({
+	keyCallback,
+	initialLayout = 'default',
+	doubledLetterMode = false,
+}) => {
 	const [layout, setLayout] = useState(initialLayout);
 	const keyboardRef = useRef(null);
 
@@ -82,24 +86,40 @@ const KB = ({ keyCallback, initialLayout = 'default' }) => {
 		});
 	}
 
+	const keyboardLayout = doubledLetterMode
+		? {
+				default: [
+					'q w e r t y u/v i/j o p',
+					'a s d f g h j/i k l',
+					'{shift} z x c v/u b n m {shift}',
+				],
+				shift: [
+					'Q W E R T Y U/V I/J O P',
+					'A S D F G H J/I K L',
+					'{shift} Z X C V/U B N M {shift}',
+				],
+			}
+		: {
+				default: [
+					'q w e r t y u i o p',
+					'a s d f g h j k l',
+					'{shift} z x c v b n m {shift}',
+				],
+				shift: [
+					'Q W E R T Y U I O P',
+					'A S D F G H J K L',
+					'{shift} Z X C V B N M {shift}',
+				],
+			};
+
 	return (
 		<div>
 			<Keyboard
+				key={doubledLetterMode ? 'doubled' : 'normal'}
 				keyboardRef={r => (keyboardRef.current = r)}
 				layoutName={layout}
 				onKeyPress={onKeyPress}
-				layout={{
-					default: [
-						'q w e r t y u i o p',
-						'a s d f g h j k l',
-						'{shift} z x c v b n m {shift}',
-					],
-					shift: [
-						'Q W E R T Y U I O P',
-						'A S D F G H J K L',
-						'{shift} Z X C V B N M {shift}',
-					],
-				}}
+				layout={keyboardLayout}
 				buttonTheme={buttonTheme}
 			/>
 		</div>

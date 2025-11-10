@@ -1,4 +1,5 @@
 import { css } from '../../styled-system/css';
+import { useEffect } from 'react';
 import Button from './Button.jsx';
 import KB from './KB.jsx';
 import Character, { CHARACTER_STATE } from './Character.jsx';
@@ -22,10 +23,22 @@ export const Unanswered = ({ solution }) => (
 	</div>
 );
 
-export const CorrectAnswer = ({ solution, onNext }) => {
+export const CorrectAnswer = ({ solution, onNext, acceptedAsDoubled }) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
+
+	useEffect(() => {
+		const handleKeyDown = e => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				onNext();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [onNext]);
 
 	return (
 		<>
@@ -38,6 +51,21 @@ export const CorrectAnswer = ({ solution, onNext }) => {
 					sourceTitle={sourceTitle}
 				/>
 			</div>
+			{acceptedAsDoubled && (
+				<div
+					className={css({
+						textAlign: 'center',
+						marginTop: '1rem',
+						padding: '0.75rem',
+						backgroundColor: '#e8f5e9',
+						borderRadius: '4px',
+						fontSize: 's',
+					})}
+				>
+					Accepted: In secretary hand, I and J were the same letter,
+					as were U and V
+				</div>
+			)}
 			<div
 				className={css({
 					display: 'flex',
@@ -61,6 +89,18 @@ export const IncorrectAnswer = ({
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
+
+	useEffect(() => {
+		const handleKeyDown = e => {
+			if (e.key === 'Enter') {
+				e.preventDefault();
+				onNext();
+			}
+		};
+
+		window.addEventListener('keydown', handleKeyDown);
+		return () => window.removeEventListener('keydown', handleKeyDown);
+	}, [onNext]);
 
 	return (
 		<>
@@ -105,11 +145,18 @@ export const StatusDisplay = ({
 	solution,
 	attempt,
 	attemptImagePaths,
+	acceptedAsDoubled,
 	onNext,
 }) => {
 	switch (status) {
 		case STATUS.CORRECT:
-			return <CorrectAnswer solution={solution} onNext={onNext} />;
+			return (
+				<CorrectAnswer
+					solution={solution}
+					onNext={onNext}
+					acceptedAsDoubled={acceptedAsDoubled}
+				/>
+			);
 		case STATUS.INCORRECT:
 			return (
 				<IncorrectAnswer
@@ -130,6 +177,8 @@ export const GamePresentation = ({
 	attempt,
 	attemptImagePaths,
 	attemptStatus,
+	acceptedAsDoubled,
+	doubledLetterMode,
 	initialKeyboardLayout,
 	onKeyPress,
 	onNextLetter,
@@ -149,6 +198,7 @@ export const GamePresentation = ({
 			solution={currentSolution}
 			attempt={attempt}
 			attemptImagePaths={attemptImagePaths}
+			acceptedAsDoubled={acceptedAsDoubled}
 			onNext={onNextLetter}
 		/>
 
@@ -163,6 +213,7 @@ export const GamePresentation = ({
 			<KB
 				keyCallback={attempt ? undefined : onKeyPress}
 				initialLayout={initialKeyboardLayout}
+				doubledLetterMode={doubledLetterMode}
 			/>
 		</div>
 

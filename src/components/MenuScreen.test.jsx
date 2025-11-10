@@ -91,7 +91,7 @@ describe('MenuScreen', () => {
 			);
 
 			const sections = screen.getAllByTestId('section');
-			expect(sections).toHaveLength(4); // Hero, How to use, Options, Next steps
+			expect(sections).toHaveLength(5); // Hero, Settings, How to use, Options, Next steps
 		});
 	});
 
@@ -220,7 +220,10 @@ describe('MenuScreen', () => {
 			await user.click(startButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.ALL,
+				false
+			);
 		});
 	});
 
@@ -357,7 +360,10 @@ describe('MenuScreen', () => {
 			await user.click(minusculesButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MINUSCULE);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.MINUSCULE,
+				false
+			);
 		});
 
 		it('should call onSelectMode with GAME_MODES.MAJUSCULE when MAJUSCULES button is clicked', async () => {
@@ -377,7 +383,10 @@ describe('MenuScreen', () => {
 			await user.click(majusculesButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MAJUSCULE);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.MAJUSCULE,
+				false
+			);
 		});
 
 		it('should render "view all characters" link', () => {
@@ -704,19 +713,28 @@ describe('MenuScreen', () => {
 
 			const startButton = screen.getByRole('button', { name: 'Start' });
 			await user.click(startButton);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.ALL,
+				false
+			);
 
 			const minusculesButton = screen.getByRole('button', {
 				name: 'minuscules',
 			});
 			await user.click(minusculesButton);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MINUSCULE);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.MINUSCULE,
+				false
+			);
 
 			const majusculesButton = screen.getByRole('button', {
 				name: 'MAJUSCULES',
 			});
 			await user.click(majusculesButton);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MAJUSCULE);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.MAJUSCULE,
+				false
+			);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(3);
 		});

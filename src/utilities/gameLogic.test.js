@@ -203,27 +203,140 @@ describe('gameLogic', () => {
 	describe('checkAttempt', () => {
 		it('should return NONE when attempt is null', () => {
 			const result = gameLogic.checkAttempt(null, 'a');
-			expect(result).toBe(gameLogic.STATUS.NONE);
+			expect(result).toEqual({
+				status: gameLogic.STATUS.NONE,
+				acceptedAsDoubled: false,
+			});
 		});
 
 		it('should return NONE when attempt is undefined', () => {
 			const result = gameLogic.checkAttempt(undefined, 'a');
-			expect(result).toBe(gameLogic.STATUS.NONE);
+			expect(result).toEqual({
+				status: gameLogic.STATUS.NONE,
+				acceptedAsDoubled: false,
+			});
 		});
 
 		it('should return CORRECT when attempt matches correct answer', () => {
 			const result = gameLogic.checkAttempt('a', 'a');
-			expect(result).toBe(gameLogic.STATUS.CORRECT);
+			expect(result).toEqual({
+				status: gameLogic.STATUS.CORRECT,
+				acceptedAsDoubled: false,
+			});
 		});
 
 		it('should return INCORRECT when attempt does not match correct answer', () => {
 			const result = gameLogic.checkAttempt('b', 'a');
-			expect(result).toBe(gameLogic.STATUS.INCORRECT);
+			expect(result).toEqual({
+				status: gameLogic.STATUS.INCORRECT,
+				acceptedAsDoubled: false,
+			});
 		});
 
 		it('should be case-sensitive', () => {
 			const result = gameLogic.checkAttempt('A', 'a');
-			expect(result).toBe(gameLogic.STATUS.INCORRECT);
+			expect(result).toEqual({
+				status: gameLogic.STATUS.INCORRECT,
+				acceptedAsDoubled: false,
+			});
+		});
+
+		describe('doubled letter mode', () => {
+			it('should accept i for j when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('i', 'j', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept j for i when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('j', 'i', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept I for J when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('I', 'J', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept J for I when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('J', 'I', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept u for v when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('u', 'v', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept v for u when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('v', 'u', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept U for V when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('U', 'V', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should accept V for U when mode is enabled', () => {
+				const result = gameLogic.checkAttempt('V', 'U', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.CORRECT,
+					acceptedAsDoubled: true,
+				});
+			});
+
+			it('should NOT accept i for j when mode is disabled', () => {
+				const result = gameLogic.checkAttempt('i', 'j', false);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.INCORRECT,
+					acceptedAsDoubled: false,
+				});
+			});
+
+			it('should NOT accept u for v when mode is disabled', () => {
+				const result = gameLogic.checkAttempt('u', 'v', false);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.INCORRECT,
+					acceptedAsDoubled: false,
+				});
+			});
+
+			it('should still reject unrelated incorrect letters in doubled mode', () => {
+				const result = gameLogic.checkAttempt('x', 'j', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.INCORRECT,
+					acceptedAsDoubled: false,
+				});
+			});
+
+			it('should not accept lowercase for uppercase in doubled mode', () => {
+				const result = gameLogic.checkAttempt('i', 'J', true);
+				expect(result).toEqual({
+					status: gameLogic.STATUS.INCORRECT,
+					acceptedAsDoubled: false,
+				});
+			});
 		});
 	});
 
@@ -299,6 +412,33 @@ describe('gameLogic', () => {
 				userAnswer: 'b',
 				correctAnswer: 'a',
 				isCorrect: false,
+				acceptedAsDoubled: false,
+			});
+		});
+
+		it('should create a history entry with acceptedAsDoubled flag', () => {
+			const solution = {
+				graph: { character: 'j', img: 'j1.png', source: 'test' },
+				imagePath: '/data/j1.png',
+			};
+			const userAnswer = 'i';
+			const isCorrect = true;
+			const acceptedAsDoubled = true;
+
+			const entry = gameLogic.createHistoryEntry(
+				solution,
+				userAnswer,
+				isCorrect,
+				acceptedAsDoubled
+			);
+
+			expect(entry).toEqual({
+				graph: solution.graph,
+				imagePath: solution.imagePath,
+				userAnswer: 'i',
+				correctAnswer: 'j',
+				isCorrect: true,
+				acceptedAsDoubled: true,
 			});
 		});
 	});

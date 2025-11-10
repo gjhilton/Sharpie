@@ -11,6 +11,7 @@ vi.mock('./GamePresentation.jsx', () => ({
 		attempt,
 		attemptImagePaths,
 		attemptStatus,
+		acceptedAsDoubled,
 		initialKeyboardLayout,
 		onKeyPress,
 		onNextLetter,
@@ -22,6 +23,9 @@ vi.mock('./GamePresentation.jsx', () => ({
 			</div>
 			<div data-testid="attempt">{attempt}</div>
 			<div data-testid="attempt-status">{attemptStatus}</div>
+			<div data-testid="accepted-as-doubled">
+				{acceptedAsDoubled ? 'true' : 'false'}
+			</div>
 			<div data-testid="attempt-image-paths">
 				{attemptImagePaths.join(',')}
 			</div>
@@ -109,7 +113,10 @@ describe('GameScreen', () => {
 		mockGetGraphsForGameMode.mockReturnValue(mockGraphs);
 		mockCreateRandomSolution.mockReturnValue(mockSolution);
 		mockShouldCreateNewSolution.mockReturnValue(false);
-		mockCheckAttempt.mockReturnValue('correct');
+		mockCheckAttempt.mockReturnValue({
+			status: 'correct',
+			acceptedAsDoubled: false,
+		});
 		mockCreateHistoryEntry.mockReturnValue({
 			solution: mockSolution,
 			attempt: 'a',
@@ -257,7 +264,10 @@ describe('GameScreen', () => {
 
 		it('should reset attemptStatus to NONE', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -333,7 +343,10 @@ describe('GameScreen', () => {
 
 		it('should call calculateGameStats with correct parameters', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -383,7 +396,10 @@ describe('GameScreen', () => {
 	describe('Correct Answers', () => {
 		it('should increment correctCount when answer is correct', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -409,7 +425,10 @@ describe('GameScreen', () => {
 
 		it('should call checkAttempt with correct parameters', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -418,13 +437,16 @@ describe('GameScreen', () => {
 			await user.click(screen.getByTestId('key-press-btn'));
 
 			await waitFor(() => {
-				expect(mockCheckAttempt).toHaveBeenCalledWith('a', 'a');
+				expect(mockCheckAttempt).toHaveBeenCalledWith('a', 'a', false);
 			});
 		});
 
 		it('should create history entry for correct answer', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -436,7 +458,8 @@ describe('GameScreen', () => {
 				expect(mockCreateHistoryEntry).toHaveBeenCalledWith(
 					mockSolution,
 					'a',
-					true
+					true,
+					false
 				);
 			});
 		});
@@ -445,7 +468,10 @@ describe('GameScreen', () => {
 	describe('Incorrect Answers', () => {
 		it('should increment incorrectCount when answer is incorrect', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('incorrect');
+			mockCheckAttempt.mockReturnValue({
+				status: 'incorrect',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -468,7 +494,10 @@ describe('GameScreen', () => {
 
 		it('should create history entry for incorrect answer', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('incorrect');
+			mockCheckAttempt.mockReturnValue({
+				status: 'incorrect',
+				acceptedAsDoubled: false,
+			});
 			mockCreateHistoryEntry.mockReturnValue({
 				solution: mockSolution,
 				attempt: 'b',
@@ -485,6 +514,7 @@ describe('GameScreen', () => {
 				expect(mockCreateHistoryEntry).toHaveBeenCalledWith(
 					mockSolution,
 					'a',
+					false,
 					false
 				);
 			});
@@ -492,7 +522,10 @@ describe('GameScreen', () => {
 
 		it('should update attemptStatus to INCORRECT', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('incorrect');
+			mockCheckAttempt.mockReturnValue({
+				status: 'incorrect',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -517,7 +550,10 @@ describe('GameScreen', () => {
 			};
 
 			mockShouldCreateNewSolution.mockReturnValue(false);
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			const { rerender } = render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -548,7 +584,10 @@ describe('GameScreen', () => {
 
 		it('should call shouldCreateNewSolution with attempt and status', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -633,7 +672,10 @@ describe('GameScreen', () => {
 	describe('Multiple Attempts', () => {
 		it('should track multiple correct answers', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />
@@ -669,13 +711,19 @@ describe('GameScreen', () => {
 			);
 
 			// Correct attempt
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 			await user.click(screen.getByTestId('key-press-btn'));
 			await waitFor(() => expect(mockCheckAttempt).toHaveBeenCalled());
 			await user.click(screen.getByTestId('next-letter-btn'));
 
 			// Incorrect attempt
-			mockCheckAttempt.mockReturnValue('incorrect');
+			mockCheckAttempt.mockReturnValue({
+				status: 'incorrect',
+				acceptedAsDoubled: false,
+			});
 			mockCheckAttempt.mockClear();
 			await user.click(screen.getByTestId('key-press-btn'));
 			await waitFor(() => expect(mockCheckAttempt).toHaveBeenCalled());
@@ -692,7 +740,10 @@ describe('GameScreen', () => {
 
 		it('should accumulate history entries for all attempts', async () => {
 			const user = userEvent.setup();
-			mockCheckAttempt.mockReturnValue('correct');
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAsDoubled: false,
+			});
 
 			render(
 				<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />

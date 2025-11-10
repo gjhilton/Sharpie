@@ -134,7 +134,8 @@ const KB = ({
         },
         "& .hg-button": {
           height: { base: "40px", sm: "50px" },
-          fontSize: { base: "11px", sm: "15px" },
+          fontSize: { base: "18px" },
+          fontWeight: { base: "bold !important", sm: "normal" },
           minWidth: { base: "10px", sm: "30px" },
           padding: { base: "0", sm: "5px" },
           margin: { base: "0", sm: "6px" },

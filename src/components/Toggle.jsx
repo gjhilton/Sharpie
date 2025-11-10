@@ -18,18 +18,9 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 				display: 'flex',
 				alignItems: 'center',
 				gap: '0.75rem',
+				marginBottom: "1rem"
 			})}
 		>
-			<label
-				htmlFor={id}
-				className={css({
-					fontSize: 'm',
-					cursor: disabled ? 'not-allowed' : 'pointer',
-					opacity: disabled ? 0.5 : 1,
-				})}
-			>
-				{label}
-			</label>
 			<button
 				id={id}
 				role="switch"
@@ -43,14 +34,14 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 					width: '51px',
 					height: '31px',
 					borderRadius: '31px',
-					backgroundColor: checked ? '#34C759' : '#E5E5EA',
+					backgroundColor: checked ? 'red' : '#E5E5EA',
 					border: 'none',
 					cursor: disabled ? 'not-allowed' : 'pointer',
 					transition: 'background-color 0.25s ease-in-out',
 					opacity: disabled ? 0.5 : 1,
 					flexShrink: 0,
 					'&:focus': {
-						outline: '2px solid #007AFF',
+						outline: '2px solid red',
 						outlineOffset: '2px',
 					},
 					'&:active:not(:disabled)': {
@@ -73,6 +64,16 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 					})}
 				/>
 			</button>
+			<label
+				htmlFor={id}
+				className={css({
+					fontSize: 'm',
+					cursor: disabled ? 'not-allowed' : 'pointer',
+					opacity: disabled ? 0.5 : 1,
+				})}
+			>
+				{label}
+			</label>
 		</div>
 	);
 };

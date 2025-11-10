@@ -10,12 +10,12 @@ import FeedbackScreen from './FeedbackScreen.jsx';
 const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
 	const [gameMode, setGameMode] = useState(null);
-	const [doubledLetterMode, setDoubledLetterMode] = useState(null);
+	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(null);
 	const [score, setScore] = useState(null);
 
-	const handleSelectMode = (mode, doubledLetterModeValue) => {
+	const handleSelectMode = (mode, twentyFourLetterAlphabetValue) => {
 		setGameMode(mode);
-		setDoubledLetterMode(doubledLetterModeValue);
+		setTwentyFourLetterAlphabet(twentyFourLetterAlphabetValue);
 		setStage(STAGES.PLAYING);
 	};
 
@@ -45,7 +45,7 @@ const App = () => {
 					<GameScreen
 						onEndGame={handleEndGame}
 						gameMode={gameMode}
-						doubledLetterMode={doubledLetterMode}
+						twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 					/>
 				);
 			case STAGES.SCORE:

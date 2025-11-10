@@ -10,7 +10,7 @@ const SPECIAL_KEYS = {
 const KB = ({
 	keyCallback,
 	initialLayout = 'default',
-	doubledLetterMode = false,
+	twentyFourLetterAlphabet = false,
 }) => {
 	const [layout, setLayout] = useState(initialLayout);
 	const keyboardRef = useRef(null);
@@ -86,7 +86,7 @@ const KB = ({
 		});
 	}
 
-	const keyboardLayout = doubledLetterMode
+	const keyboardLayout = twentyFourLetterAlphabet
 		? {
 				default: [
 					'q w e r t y u/v i/j o p',
@@ -115,7 +115,7 @@ const KB = ({
 	return (
 		<div>
 			<Keyboard
-				key={doubledLetterMode ? 'doubled' : 'normal'}
+				key={twentyFourLetterAlphabet ? 'twentyFour' : 'twentySix'}
 				keyboardRef={r => (keyboardRef.current = r)}
 				layoutName={layout}
 				onKeyPress={onKeyPress}

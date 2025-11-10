@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Doubled Letter Mode Feature', () => {
+test.describe('24-Letter Alphabet Feature', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
 	});
@@ -17,7 +17,7 @@ test.describe('Doubled Letter Mode Feature', () => {
 			await expect(settingsHeading).toBeVisible();
 
 			// Check for toggle label
-			const toggleLabel = page.getByText('I/J & U/V Mode');
+			const toggleLabel = page.getByText('24-letter alphabet');
 			await expect(toggleLabel).toBeVisible();
 
 			// Check for explanation text
@@ -28,14 +28,18 @@ test.describe('Doubled Letter Mode Feature', () => {
 		});
 
 		test('toggle should be OFF by default', async ({ page }) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 			await expect(toggle).toHaveAttribute('aria-checked', 'false');
 		});
 
 		test('toggle should switch from OFF to ON when clicked', async ({
 			page,
 		}) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 
 			// Initially OFF
 			await expect(toggle).toHaveAttribute('aria-checked', 'false');
@@ -48,7 +52,9 @@ test.describe('Doubled Letter Mode Feature', () => {
 		test('toggle should switch from ON to OFF when clicked twice', async ({
 			page,
 		}) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 
 			// Turn ON
 			await toggle.click();
@@ -62,7 +68,9 @@ test.describe('Doubled Letter Mode Feature', () => {
 		test('toggle should be keyboard accessible with Space key', async ({
 			page,
 		}) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 
 			// Focus the toggle
 			await toggle.focus();
@@ -79,7 +87,9 @@ test.describe('Doubled Letter Mode Feature', () => {
 		test('toggle should be keyboard accessible with Enter key', async ({
 			page,
 		}) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 
 			// Focus the toggle
 			await toggle.focus();
@@ -91,11 +101,13 @@ test.describe('Doubled Letter Mode Feature', () => {
 	});
 
 	test.describe('Keyboard Labels', () => {
-		test('keyboard should show doubled letters when mode is ON', async ({
+		test('keyboard should show combined letters when mode is ON', async ({
 			page,
 		}) => {
-			// Turn on doubled letter mode
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			// Turn on 24-letter alphabet mode
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 			await toggle.click();
 
 			// Start game
@@ -140,19 +152,21 @@ test.describe('Doubled Letter Mode Feature', () => {
 		});
 	});
 
-	test.describe('Gameplay with Doubled Letter Mode', () => {
-		test('should accept doubled letter when mode is ON', async ({
+	test.describe('Gameplay with 24-Letter Alphabet', () => {
+		test('should accept alternate letter when mode is ON', async ({
 			page,
 		}) => {
 			// This test is tricky because we don't know which letter will appear
-			// We'll turn on the mode and play a few rounds to try to hit a doubled letter case
+			// We'll turn on the mode and play a few rounds to try to hit an alternate letter case
 
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 			await toggle.click();
 
 			await page.getByRole('button', { name: 'Start' }).click();
 
-			// Try multiple times to find a case where we can test doubled letters
+			// Try multiple times to find a case where we can test alternate letters
 			for (let attempt = 0; attempt < 10; attempt++) {
 				// Wait for the game screen
 				await page.waitForSelector('.simple-keyboard', {
@@ -199,7 +213,7 @@ test.describe('Doubled Letter Mode Feature', () => {
 			}
 		});
 
-		test('should NOT accept doubled letter when mode is OFF', async ({
+		test('should NOT accept alternate letter when mode is OFF', async ({
 			page,
 		}) => {
 			// Mode is OFF by default
@@ -229,7 +243,7 @@ test.describe('Doubled Letter Mode Feature', () => {
 						.isVisible()
 						.catch(() => false);
 
-					// Should NEVER show the doubled letter acceptance message when mode is OFF
+					// Should NEVER show the alternate letter acceptance message when mode is OFF
 					expect(messageVisible).toBe(false);
 
 					await nextButton.click();
@@ -247,7 +261,9 @@ test.describe('Doubled Letter Mode Feature', () => {
 
 	test.describe('Mode Persistence', () => {
 		test('mode should reset to OFF on page reload', async ({ page }) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 
 			// Turn ON
 			await toggle.click();
@@ -258,7 +274,7 @@ test.describe('Doubled Letter Mode Feature', () => {
 
 			// Should be OFF again
 			const toggleAfterReload = page.getByRole('switch', {
-				name: 'I/J & U/V Mode',
+				name: '24-letter alphabet',
 			});
 			await expect(toggleAfterReload).toHaveAttribute(
 				'aria-checked',
@@ -268,15 +284,17 @@ test.describe('Doubled Letter Mode Feature', () => {
 	});
 
 	test.describe('Integration with Game Modes', () => {
-		test('doubled letter mode should work with minuscules game', async ({
+		test('24-letter alphabet should work with minuscules game', async ({
 			page,
 		}) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 			await toggle.click();
 
 			await page.getByRole('button', { name: 'minuscules' }).click();
 
-			// Keyboard should be visible and show doubled letters in lowercase only
+			// Keyboard should be visible and show combined letters in lowercase only
 			await page.waitForSelector('.simple-keyboard', {
 				state: 'visible',
 			});
@@ -288,15 +306,17 @@ test.describe('Doubled Letter Mode Feature', () => {
 			expect(keyboardText).toMatch(/[u]\/[v]/);
 		});
 
-		test('doubled letter mode should work with MAJUSCULES game', async ({
+		test('24-letter alphabet should work with MAJUSCULES game', async ({
 			page,
 		}) => {
-			const toggle = page.getByRole('switch', { name: 'I/J & U/V Mode' });
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
 			await toggle.click();
 
 			await page.getByRole('button', { name: 'MAJUSCULES' }).click();
 
-			// Wait for keyboard and check for uppercase doubled letters
+			// Wait for keyboard and check for uppercase combined letters
 			await page.waitForSelector('.simple-keyboard', {
 				state: 'visible',
 			});

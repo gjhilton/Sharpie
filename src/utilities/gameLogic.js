@@ -8,7 +8,7 @@ export const STATUS = {
 };
 
 /**
- * Doubled letter pairs for historical mode
+ * Letter pairs for 24-letter alphabet mode
  * In secretary hand, I/J and U/V were not distinguished
  */
 export const DOUBLED_LETTERS = {
@@ -72,27 +72,30 @@ export const createRandomSolution = (graphs, randomFn = Math.random) => {
  * Checks if an attempt matches the correct answer
  * @param {string} attempt - The user's guess
  * @param {string} correctAnswer - The correct answer
- * @param {boolean} doubledLetterMode - Whether I/J and U/V should be treated as the same
- * @returns {object} - { status, acceptedAsDoubled }
+ * @param {boolean} twentyFourLetterAlphabet - Whether I/J and U/V should be treated as the same
+ * @returns {object} - { status, acceptedAs24Letter }
  */
 export const checkAttempt = (
 	attempt,
 	correctAnswer,
-	doubledLetterMode = false
+	twentyFourLetterAlphabet = false
 ) => {
-	if (!attempt) return { status: STATUS.NONE, acceptedAsDoubled: false };
+	if (!attempt) return { status: STATUS.NONE, acceptedAs24Letter: false };
 
 	// Direct match
 	if (attempt === correctAnswer) {
-		return { status: STATUS.CORRECT, acceptedAsDoubled: false };
+		return { status: STATUS.CORRECT, acceptedAs24Letter: false };
 	}
 
-	// Check doubled letter mode
-	if (doubledLetterMode && DOUBLED_LETTERS[correctAnswer] === attempt) {
-		return { status: STATUS.CORRECT, acceptedAsDoubled: true };
+	// Check 24-letter alphabet mode
+	if (
+		twentyFourLetterAlphabet &&
+		DOUBLED_LETTERS[correctAnswer] === attempt
+	) {
+		return { status: STATUS.CORRECT, acceptedAs24Letter: true };
 	}
 
-	return { status: STATUS.INCORRECT, acceptedAsDoubled: false };
+	return { status: STATUS.INCORRECT, acceptedAs24Letter: false };
 };
 
 /**
@@ -118,14 +121,14 @@ export const createHistoryEntry = (
 	solution,
 	userAnswer,
 	isCorrect,
-	acceptedAsDoubled = false
+	acceptedAs24Letter = false
 ) => ({
 	graph: solution.graph,
 	imagePath: solution.imagePath,
 	userAnswer,
 	correctAnswer: solution.graph.character,
 	isCorrect,
-	acceptedAsDoubled,
+	acceptedAs24Letter,
 });
 
 /**

@@ -11,7 +11,7 @@ vi.mock('./GamePresentation.jsx', () => ({
 		attempt,
 		attemptImagePaths,
 		attemptStatus,
-		acceptedAsDoubled,
+		acceptedAs24Letter,
 		initialKeyboardLayout,
 		onKeyPress,
 		onNextLetter,
@@ -23,8 +23,8 @@ vi.mock('./GamePresentation.jsx', () => ({
 			</div>
 			<div data-testid="attempt">{attempt}</div>
 			<div data-testid="attempt-status">{attemptStatus}</div>
-			<div data-testid="accepted-as-doubled">
-				{acceptedAsDoubled ? 'true' : 'false'}
+			<div data-testid="accepted-as-24-letter">
+				{acceptedAs24Letter ? 'true' : 'false'}
 			</div>
 			<div data-testid="attempt-image-paths">
 				{attemptImagePaths.join(',')}
@@ -115,7 +115,7 @@ describe('GameScreen', () => {
 		mockShouldCreateNewSolution.mockReturnValue(false);
 		mockCheckAttempt.mockReturnValue({
 			status: 'correct',
-			acceptedAsDoubled: false,
+			acceptedAs24Letter: false,
 		});
 		mockCreateHistoryEntry.mockReturnValue({
 			solution: mockSolution,
@@ -266,7 +266,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -345,7 +345,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -398,7 +398,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -427,7 +427,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -445,7 +445,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -470,7 +470,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'incorrect',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -496,7 +496,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'incorrect',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 			mockCreateHistoryEntry.mockReturnValue({
 				solution: mockSolution,
@@ -524,7 +524,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'incorrect',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -552,7 +552,7 @@ describe('GameScreen', () => {
 			mockShouldCreateNewSolution.mockReturnValue(false);
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			const { rerender } = render(
@@ -586,7 +586,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -674,7 +674,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(
@@ -713,7 +713,7 @@ describe('GameScreen', () => {
 			// Correct attempt
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 			await user.click(screen.getByTestId('key-press-btn'));
 			await waitFor(() => expect(mockCheckAttempt).toHaveBeenCalled());
@@ -722,7 +722,7 @@ describe('GameScreen', () => {
 			// Incorrect attempt
 			mockCheckAttempt.mockReturnValue({
 				status: 'incorrect',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 			mockCheckAttempt.mockClear();
 			await user.click(screen.getByTestId('key-press-btn'));
@@ -742,7 +742,7 @@ describe('GameScreen', () => {
 			const user = userEvent.setup();
 			mockCheckAttempt.mockReturnValue({
 				status: 'correct',
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 
 			render(

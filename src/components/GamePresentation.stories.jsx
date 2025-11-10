@@ -36,8 +36,8 @@ export const AwaitingAnswer = {
 		attempt: null,
 		attemptImagePaths: [],
 		attemptStatus: STATUS.NONE,
-		acceptedAsDoubled: false,
-		doubledLetterMode: false,
+		acceptedAs24Letter: false,
+		twentyFourLetterAlphabet: false,
 		initialKeyboardLayout: 'default',
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
@@ -51,8 +51,8 @@ export const CorrectAnswerNormal = {
 		attempt: 'i',
 		attemptImagePaths: ['/data/Joscelyn/joscelyn-minuscule-assets/i.png'],
 		attemptStatus: STATUS.CORRECT,
-		acceptedAsDoubled: false,
-		doubledLetterMode: false,
+		acceptedAs24Letter: false,
+		twentyFourLetterAlphabet: false,
 		initialKeyboardLayout: 'default',
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
@@ -60,14 +60,14 @@ export const CorrectAnswerNormal = {
 	},
 };
 
-export const CorrectAnswerDoubledLetterMode = {
+export const CorrectAnswerWith24LetterAlphabet = {
 	args: {
 		currentSolution: mockSolutionJ,
 		attempt: 'i',
 		attemptImagePaths: ['/data/Joscelyn/joscelyn-minuscule-assets/i.png'],
 		attemptStatus: STATUS.CORRECT,
-		acceptedAsDoubled: true,
-		doubledLetterMode: true,
+		acceptedAs24Letter: true,
+		twentyFourLetterAlphabet: true,
 		initialKeyboardLayout: 'default',
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
@@ -81,8 +81,8 @@ export const IncorrectAnswerExample = {
 		attempt: 'j',
 		attemptImagePaths: ['/data/Joscelyn/joscelyn-minuscule-assets/j.png'],
 		attemptStatus: STATUS.INCORRECT,
-		acceptedAsDoubled: false,
-		doubledLetterMode: false,
+		acceptedAs24Letter: false,
+		twentyFourLetterAlphabet: false,
 		initialKeyboardLayout: 'default',
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
@@ -90,14 +90,14 @@ export const IncorrectAnswerExample = {
 	},
 };
 
-export const WithDoubledLetterKeyboard = {
+export const With24LetterKeyboard = {
 	args: {
 		currentSolution: mockSolution,
 		attempt: null,
 		attemptImagePaths: [],
 		attemptStatus: STATUS.NONE,
-		acceptedAsDoubled: false,
-		doubledLetterMode: true,
+		acceptedAs24Letter: false,
+		twentyFourLetterAlphabet: true,
 		initialKeyboardLayout: 'default',
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
@@ -111,17 +111,17 @@ export const CorrectAnswerComponent = {
 		<CorrectAnswer
 			solution={mockSolution}
 			onNext={() => console.log('Next clicked')}
-			acceptedAsDoubled={false}
+			acceptedAs24Letter={false}
 		/>
 	),
 };
 
-export const CorrectAnswerWith24LetterMode = {
+export const CorrectAnswerComponent24Letter = {
 	render: () => (
 		<CorrectAnswer
 			solution={mockSolutionJ}
 			onNext={() => console.log('Next clicked')}
-			acceptedAsDoubled={true}
+			acceptedAs24Letter={true}
 		/>
 	),
 };

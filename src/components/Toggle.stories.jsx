@@ -51,11 +51,11 @@ export const DisabledChecked = {
 	},
 };
 
-export const DoubledLetterMode = {
+export const TwentyFourLetterAlphabet = {
 	render: ToggleWithState,
 	args: {
-		id: 'doubled-letter-mode',
-		label: 'I/J & U/V Mode',
+		id: 'twenty-four-letter-alphabet',
+		label: '24-letter alphabet',
 		checked: false,
 	},
 };

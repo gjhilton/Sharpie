@@ -14,15 +14,15 @@ import {
 import { GAME_MODES } from '../constants/stages.js';
 import sources from '../data/sources.json';
 
-const HeroButton = ({ onSelectMode, doubledLetterMode }) => (
+const HeroButton = ({ onSelectMode, twentyFourLetterAlphabet }) => (
 	<Button
 		hero
-		onClick={() => onSelectMode(GAME_MODES.ALL, doubledLetterMode)}
+		onClick={() => onSelectMode(GAME_MODES.ALL, twentyFourLetterAlphabet)}
 		label="Start"
 	/>
 );
 
-const ModeButtons = ({ onSelectMode, doubledLetterMode }) => (
+const ModeButtons = ({ onSelectMode, twentyFourLetterAlphabet }) => (
 	<div
 		className={css({
 			display: 'flex',
@@ -33,13 +33,13 @@ const ModeButtons = ({ onSelectMode, doubledLetterMode }) => (
 	>
 		<Button
 			onClick={() =>
-				onSelectMode(GAME_MODES.MINUSCULE, doubledLetterMode)
+				onSelectMode(GAME_MODES.MINUSCULE, twentyFourLetterAlphabet)
 			}
 			label="minuscules"
 		/>
 		<Button
 			onClick={() =>
-				onSelectMode(GAME_MODES.MAJUSCULE, doubledLetterMode)
+				onSelectMode(GAME_MODES.MAJUSCULE, twentyFourLetterAlphabet)
 			}
 			label="MAJUSCULES"
 		/>
@@ -67,7 +67,7 @@ const CatalogueLink = ({ onShowCatalogue }) => (
 );
 
 const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => {
-	const [doubledLetterMode, setDoubledLetterMode] = useState(false);
+	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(false);
 
 	return (
 		<PageWidth>
@@ -121,7 +121,7 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => {
 				</Paragraph>
 				<HeroButton
 					onSelectMode={onSelectMode}
-					doubledLetterMode={doubledLetterMode}
+					twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 				/>
 			</Section>
 
@@ -161,7 +161,7 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => {
 				</Paragraph>
 				<ModeButtons
 					onSelectMode={onSelectMode}
-					doubledLetterMode={doubledLetterMode}
+					twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 				/>
 				<CatalogueLink onShowCatalogue={onShowCatalogue} />
 			</Section>
@@ -177,11 +177,11 @@ const MenuScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => {
 					})}
 				>
 					<Toggle
-						id="doubled-letter-mode"
-						label="24 letter alphabet"
-						checked={doubledLetterMode}
-						onChange={setDoubledLetterMode}
-					/> 
+						id="twenty-four-letter-alphabet"
+						label="24-letter alphabet"
+						checked={twentyFourLetterAlphabet}
+						onChange={setTwentyFourLetterAlphabet}
+					/>
 				</div>
 				<Paragraph>
 					When this option is enabled, if you are shown a 'J' and answer 'I', that answer will be accepted.

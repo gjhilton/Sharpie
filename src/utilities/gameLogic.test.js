@@ -205,7 +205,7 @@ describe('gameLogic', () => {
 			const result = gameLogic.checkAttempt(null, 'a');
 			expect(result).toEqual({
 				status: gameLogic.STATUS.NONE,
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 		});
 
@@ -213,7 +213,7 @@ describe('gameLogic', () => {
 			const result = gameLogic.checkAttempt(undefined, 'a');
 			expect(result).toEqual({
 				status: gameLogic.STATUS.NONE,
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 		});
 
@@ -221,7 +221,7 @@ describe('gameLogic', () => {
 			const result = gameLogic.checkAttempt('a', 'a');
 			expect(result).toEqual({
 				status: gameLogic.STATUS.CORRECT,
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 		});
 
@@ -229,7 +229,7 @@ describe('gameLogic', () => {
 			const result = gameLogic.checkAttempt('b', 'a');
 			expect(result).toEqual({
 				status: gameLogic.STATUS.INCORRECT,
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 		});
 
@@ -237,16 +237,16 @@ describe('gameLogic', () => {
 			const result = gameLogic.checkAttempt('A', 'a');
 			expect(result).toEqual({
 				status: gameLogic.STATUS.INCORRECT,
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 		});
 
-		describe('doubled letter mode', () => {
+		describe('24-letter alphabet mode', () => {
 			it('should accept i for j when mode is enabled', () => {
 				const result = gameLogic.checkAttempt('i', 'j', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -254,7 +254,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('j', 'i', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -262,7 +262,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('I', 'J', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -270,7 +270,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('J', 'I', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -278,7 +278,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('u', 'v', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -286,7 +286,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('v', 'u', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -294,7 +294,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('U', 'V', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -302,7 +302,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('V', 'U', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.CORRECT,
-					acceptedAsDoubled: true,
+					acceptedAs24Letter: true,
 				});
 			});
 
@@ -310,7 +310,7 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('i', 'j', false);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.INCORRECT,
-					acceptedAsDoubled: false,
+					acceptedAs24Letter: false,
 				});
 			});
 
@@ -318,23 +318,23 @@ describe('gameLogic', () => {
 				const result = gameLogic.checkAttempt('u', 'v', false);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.INCORRECT,
-					acceptedAsDoubled: false,
+					acceptedAs24Letter: false,
 				});
 			});
 
-			it('should still reject unrelated incorrect letters in doubled mode', () => {
+			it('should still reject unrelated incorrect letters in 24-letter alphabet mode', () => {
 				const result = gameLogic.checkAttempt('x', 'j', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.INCORRECT,
-					acceptedAsDoubled: false,
+					acceptedAs24Letter: false,
 				});
 			});
 
-			it('should not accept lowercase for uppercase in doubled mode', () => {
+			it('should not accept lowercase for uppercase in 24-letter alphabet mode', () => {
 				const result = gameLogic.checkAttempt('i', 'J', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.INCORRECT,
-					acceptedAsDoubled: false,
+					acceptedAs24Letter: false,
 				});
 			});
 		});
@@ -412,24 +412,24 @@ describe('gameLogic', () => {
 				userAnswer: 'b',
 				correctAnswer: 'a',
 				isCorrect: false,
-				acceptedAsDoubled: false,
+				acceptedAs24Letter: false,
 			});
 		});
 
-		it('should create a history entry with acceptedAsDoubled flag', () => {
+		it('should create a history entry with acceptedAs24Letter flag', () => {
 			const solution = {
 				graph: { character: 'j', img: 'j1.png', source: 'test' },
 				imagePath: '/data/j1.png',
 			};
 			const userAnswer = 'i';
 			const isCorrect = true;
-			const acceptedAsDoubled = true;
+			const acceptedAs24Letter = true;
 
 			const entry = gameLogic.createHistoryEntry(
 				solution,
 				userAnswer,
 				isCorrect,
-				acceptedAsDoubled
+				acceptedAs24Letter
 			);
 
 			expect(entry).toEqual({
@@ -438,7 +438,7 @@ describe('gameLogic', () => {
 				userAnswer: 'i',
 				correctAnswer: 'j',
 				isCorrect: true,
-				acceptedAsDoubled: true,
+				acceptedAs24Letter: true,
 			});
 		});
 	});

@@ -23,7 +23,7 @@ export const Unanswered = ({ solution }) => (
 	</div>
 );
 
-export const CorrectAnswer = ({ solution, onNext, acceptedAsDoubled }) => {
+export const CorrectAnswer = ({ solution, onNext, acceptedAs24Letter }) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
@@ -51,7 +51,7 @@ export const CorrectAnswer = ({ solution, onNext, acceptedAsDoubled }) => {
 					sourceTitle={sourceTitle}
 				/>
 			</div>
-			{acceptedAsDoubled && (
+			{acceptedAs24Letter && (
 				<div
 					className={css({
 						textAlign: 'center',
@@ -65,7 +65,7 @@ export const CorrectAnswer = ({ solution, onNext, acceptedAsDoubled }) => {
 						margin: "auto"
 					})}
 				>
-					Accepted: Using 24-letter alphanbet, so I and J and U and V are interchangeable
+					Accepted: Using 24-letter alphabet, so I and J and U and V are interchangeable
 				</div>
 			)}
 			<div
@@ -147,7 +147,7 @@ export const StatusDisplay = ({
 	solution,
 	attempt,
 	attemptImagePaths,
-	acceptedAsDoubled,
+	acceptedAs24Letter,
 	onNext,
 }) => {
 	switch (status) {
@@ -156,7 +156,7 @@ export const StatusDisplay = ({
 				<CorrectAnswer
 					solution={solution}
 					onNext={onNext}
-					acceptedAsDoubled={acceptedAsDoubled}
+					acceptedAs24Letter={acceptedAs24Letter}
 				/>
 			);
 		case STATUS.INCORRECT:
@@ -179,8 +179,8 @@ export const GamePresentation = ({
 	attempt,
 	attemptImagePaths,
 	attemptStatus,
-	acceptedAsDoubled,
-	doubledLetterMode,
+	acceptedAs24Letter,
+	twentyFourLetterAlphabet,
 	initialKeyboardLayout,
 	onKeyPress,
 	onNextLetter,
@@ -200,7 +200,7 @@ export const GamePresentation = ({
 			solution={currentSolution}
 			attempt={attempt}
 			attemptImagePaths={attemptImagePaths}
-			acceptedAsDoubled={acceptedAsDoubled}
+			acceptedAs24Letter={acceptedAs24Letter}
 			onNext={onNextLetter}
 		/>
 
@@ -215,7 +215,7 @@ export const GamePresentation = ({
 			<KB
 				keyCallback={attempt ? undefined : onKeyPress}
 				initialLayout={initialKeyboardLayout}
-				doubledLetterMode={doubledLetterMode}
+				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 			/>
 		</div>
 

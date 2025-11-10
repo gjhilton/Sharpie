@@ -57,13 +57,15 @@ export const CorrectAnswer = ({ solution, onNext, acceptedAsDoubled }) => {
 						textAlign: 'center',
 						marginTop: '1rem',
 						padding: '0.75rem',
-						backgroundColor: '#e8f5e9',
-						borderRadius: '4px',
+						color: "red",
+						border: "1px solid red",
 						fontSize: 's',
+						fontWeight: '600',
+						width: "300px",
+						margin: "auto"
 					})}
 				>
-					Accepted: In secretary hand, I and J were the same letter,
-					as were U and V
+					Accepted: Using 24-letter alphanbet, so I and J and U and V are interchangeable
 				</div>
 			)}
 			<div

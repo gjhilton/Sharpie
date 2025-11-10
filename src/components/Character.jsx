@@ -68,7 +68,7 @@ const Character = ({
 			className={css({
 				minHeight: CHARACTER_SIZE,
 				height: CHARACTER_SIZE,
-				width: CHARACTER_SIZE,
+				width: { base: '200px', sm: CHARACTER_SIZE },
 				position: 'relative',
 			})}
 		>

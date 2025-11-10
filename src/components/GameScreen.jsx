@@ -5,7 +5,7 @@ import { GamePresentation } from './GamePresentation.jsx';
 
 export const STATUS = gameLogic.STATUS;
 
-const GameScreen = ({ onEndGame, gameMode }) => {
+const GameScreen = ({ onEndGame, gameMode, twentyFourLetterAlphabet = false }) => {
 	const graphs = gameLogic.getGraphsForGameMode(DB, gameMode);
 	const [currentSolution, setCurrentSolution] = useState(
 		gameLogic.createRandomSolution(graphs)
@@ -13,6 +13,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 	const [attempt, setAttempt] = useState(null);
 	const [attemptImagePaths, setAttemptImagePaths] = useState([]);
 	const [attemptStatus, setAttemptStatus] = useState(STATUS.NONE);
+	const [acceptedAs24Letter, setAcceptedAs24Letter] = useState(false);
 	const [correctCount, setCorrectCount] = useState(0);
 	const [incorrectCount, setIncorrectCount] = useState(0);
 	const startTimeRef = useRef(Date.now());
@@ -22,6 +23,7 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 		setAttemptStatus(STATUS.NONE);
 		setAttempt(null);
 		setAttemptImagePaths([]);
+		setAcceptedAs24Letter(false);
 	};
 
 	useEffect(() => {
@@ -33,28 +35,31 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 
 	useEffect(() => {
 		if (attempt !== null) {
-			const status = gameLogic.checkAttempt(
+			const result = gameLogic.checkAttempt(
 				attempt,
-				currentSolution.graph.character
+				currentSolution.graph.character,
+				twentyFourLetterAlphabet
 			);
-			setAttemptStatus(status);
+			setAttemptStatus(result.status);
+			setAcceptedAs24Letter(result.acceptedAs24Letter);
 
 			const historyEntry = gameLogic.createHistoryEntry(
 				currentSolution,
 				attempt,
-				status === STATUS.CORRECT
+				result.status === STATUS.CORRECT,
+				result.acceptedAs24Letter
 			);
 			historyRef.current.push(historyEntry);
 
-			if (status === STATUS.CORRECT) {
+			if (result.status === STATUS.CORRECT) {
 				setCorrectCount(prev => prev + 1);
-			} else if (status === STATUS.INCORRECT) {
+			} else if (result.status === STATUS.INCORRECT) {
 				setIncorrectCount(prev => prev + 1);
 			}
 		} else {
 			setAttemptStatus(STATUS.NONE);
 		}
-	}, [attempt, currentSolution]);
+	}, [attempt, currentSolution, twentyFourLetterAlphabet]);
 
 	const handleKeyPress = button => {
 		setAttempt(button);
@@ -82,6 +87,8 @@ const GameScreen = ({ onEndGame, gameMode }) => {
 			attempt={attempt}
 			attemptImagePaths={attemptImagePaths}
 			attemptStatus={attemptStatus}
+			acceptedAs24Letter={acceptedAs24Letter}
+			twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 			initialKeyboardLayout={gameLogic.getInitialKeyboardLayout(gameMode)}
 			onKeyPress={handleKeyPress}
 			onNextLetter={handleNextLetter}

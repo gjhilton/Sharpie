@@ -8,6 +8,21 @@ export const STATUS = {
 };
 
 /**
+ * Letter pairs for 24-letter alphabet mode
+ * In secretary hand, I/J and U/V were not distinguished
+ */
+export const DOUBLED_LETTERS = {
+	i: 'j',
+	j: 'i',
+	I: 'J',
+	J: 'I',
+	u: 'v',
+	v: 'u',
+	U: 'V',
+	V: 'U',
+};
+
+/**
  * Gets the title for a graph set based on game mode
  */
 export const getGraphSetTitle = gameMode => {
@@ -55,10 +70,32 @@ export const createRandomSolution = (graphs, randomFn = Math.random) => {
 
 /**
  * Checks if an attempt matches the correct answer
+ * @param {string} attempt - The user's guess
+ * @param {string} correctAnswer - The correct answer
+ * @param {boolean} twentyFourLetterAlphabet - Whether I/J and U/V should be treated as the same
+ * @returns {object} - { status, acceptedAs24Letter }
  */
-export const checkAttempt = (attempt, correctAnswer) => {
-	if (!attempt) return STATUS.NONE;
-	return attempt === correctAnswer ? STATUS.CORRECT : STATUS.INCORRECT;
+export const checkAttempt = (
+	attempt,
+	correctAnswer,
+	twentyFourLetterAlphabet = false
+) => {
+	if (!attempt) return { status: STATUS.NONE, acceptedAs24Letter: false };
+
+	// Direct match
+	if (attempt === correctAnswer) {
+		return { status: STATUS.CORRECT, acceptedAs24Letter: false };
+	}
+
+	// Check 24-letter alphabet mode
+	if (
+		twentyFourLetterAlphabet &&
+		DOUBLED_LETTERS[correctAnswer] === attempt
+	) {
+		return { status: STATUS.CORRECT, acceptedAs24Letter: true };
+	}
+
+	return { status: STATUS.INCORRECT, acceptedAs24Letter: false };
 };
 
 /**
@@ -80,12 +117,18 @@ export const createAttempt = (button, graphs) => {
 /**
  * Creates a history entry for an attempt
  */
-export const createHistoryEntry = (solution, userAnswer, isCorrect) => ({
+export const createHistoryEntry = (
+	solution,
+	userAnswer,
+	isCorrect,
+	acceptedAs24Letter = false
+) => ({
 	graph: solution.graph,
 	imagePath: solution.imagePath,
 	userAnswer,
 	correctAnswer: solution.graph.character,
 	isCorrect,
+	acceptedAs24Letter,
 });
 
 /**

@@ -182,6 +182,7 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback }) => {
 					display: 'flex',
 					justifyContent: 'center',
 					marginTop: '2rem',
+				padding: { base: '0 2rem', sm: '0' },
 				})}
 			>
 				<Button onClick={onReturnToMenu} label="Return to Menu" />

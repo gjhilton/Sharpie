@@ -23,7 +23,7 @@ export const Unanswered = ({ solution }) => (
 	</div>
 );
 
-export const CorrectAnswer = ({ solution, onNext }) => {
+export const CorrectAnswer = ({ solution, onNext, acceptedAs24Letter }) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
@@ -51,6 +51,23 @@ export const CorrectAnswer = ({ solution, onNext }) => {
 					sourceTitle={sourceTitle}
 				/>
 			</div>
+			{acceptedAs24Letter && (
+				<div
+					className={css({
+						textAlign: 'center',
+						marginTop: '1rem',
+						padding: '0.75rem',
+						color: "red",
+						border: "1px solid red",
+						fontSize: 's',
+						fontWeight: '600',
+						width: "300px",
+						margin: "auto"
+					})}
+				>
+					Accepted: Using 24-letter alphabet, so I and J and U and V are interchangeable
+				</div>
+			)}
 			<div
 				className={css({
 					display: 'flex',
@@ -130,11 +147,18 @@ export const StatusDisplay = ({
 	solution,
 	attempt,
 	attemptImagePaths,
+	acceptedAs24Letter,
 	onNext,
 }) => {
 	switch (status) {
 		case STATUS.CORRECT:
-			return <CorrectAnswer solution={solution} onNext={onNext} />;
+			return (
+				<CorrectAnswer
+					solution={solution}
+					onNext={onNext}
+					acceptedAs24Letter={acceptedAs24Letter}
+				/>
+			);
 		case STATUS.INCORRECT:
 			return (
 				<IncorrectAnswer
@@ -155,6 +179,8 @@ export const GamePresentation = ({
 	attempt,
 	attemptImagePaths,
 	attemptStatus,
+	acceptedAs24Letter,
+	twentyFourLetterAlphabet,
 	initialKeyboardLayout,
 	onKeyPress,
 	onNextLetter,
@@ -166,7 +192,7 @@ export const GamePresentation = ({
 			flexDirection: 'column',
 			alignItems: 'center',
 			gap: SPACING.SECTION_GAP,
-			padding: SPACING.SECTION_GAP,
+			padding: { base: '2rem 0', sm: SPACING.SECTION_GAP },
 		})}
 	>
 		<StatusDisplay
@@ -174,6 +200,7 @@ export const GamePresentation = ({
 			solution={currentSolution}
 			attempt={attempt}
 			attemptImagePaths={attemptImagePaths}
+			acceptedAs24Letter={acceptedAs24Letter}
 			onNext={onNextLetter}
 		/>
 
@@ -188,6 +215,7 @@ export const GamePresentation = ({
 			<KB
 				keyCallback={attempt ? undefined : onKeyPress}
 				initialLayout={initialKeyboardLayout}
+				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 			/>
 		</div>
 

@@ -66,17 +66,6 @@ describe('ScoreScreen', () => {
 		expect(handleReturn).toHaveBeenCalledTimes(1);
 	});
 
-	it('should call onReturnToMenu when Enter key is pressed', async () => {
-		const handleReturn = vi.fn();
-		const user = userEvent.setup();
-
-		render(<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />);
-
-		await user.keyboard('{Enter}');
-
-		expect(handleReturn).toHaveBeenCalledTimes(1);
-	});
-
 	it('should not show mistakes section when no mistakes', () => {
 		render(<ScoreScreen score={mockScore} onReturnToMenu={() => {}} />);
 

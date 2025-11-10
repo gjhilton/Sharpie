@@ -6,13 +6,12 @@ test.describe('24-Letter Alphabet Feature', () => {
 	});
 
 	test.describe('Menu Screen - Settings Section', () => {
-		test('should display Settings section with toggle', async ({
+		test('should display 24-letter alphabet section with toggle', async ({
 			page,
 		}) => {
-			// Check for Settings heading
+			// Check for section heading
 			const settingsHeading = page.getByRole('heading', {
-				name: 'Settings',
-				level: 2,
+				name: /i \/ j & u \/ v/i,
 			});
 			await expect(settingsHeading).toBeVisible();
 
@@ -21,9 +20,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 			await expect(toggleLabel).toBeVisible();
 
 			// Check for explanation text
-			const explanation = page.getByText(
-				/In secretary hand.*not distinguished/i
-			);
+			const explanation = page.getByText(/During this era.*24 letters/i);
 			await expect(explanation).toBeVisible();
 		});
 
@@ -188,14 +185,14 @@ test.describe('24-Letter Alphabet Feature', () => {
 				if (nextVisible) {
 					// Check if the acceptance message is shown
 					const acceptedMessage = page.getByText(
-						/Accepted.*I and J were the same letter/i
+						/Accepted.*24-letter alphabet/i
 					);
 					const messageVisible = await acceptedMessage
 						.isVisible()
 						.catch(() => false);
 
 					if (messageVisible) {
-						// Success! We found a case where doubled letter was accepted
+						// Success! We found a case where alternate letter was accepted
 						await expect(acceptedMessage).toBeVisible();
 						break;
 					} else {
@@ -237,7 +234,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 
 				if (nextVisible) {
 					const acceptedMessage = page.getByText(
-						/Accepted.*I and J were the same letter/i
+						/Accepted.*24-letter alphabet/i
 					);
 					const messageVisible = await acceptedMessage
 						.isVisible()

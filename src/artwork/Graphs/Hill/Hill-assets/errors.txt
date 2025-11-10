@@ -1,9 +1,0 @@
-[11/10/2025, 5:54:20 PM] layer "B003.ong": Unsupported extension: ong
-[11/10/2025, 5:54:20 PM] layer "c024.png": Duplicate path: c024.png
-[11/10/2025, 5:54:20 PM] layer "D025.png": Duplicate path: D025.png
-[11/10/2025, 5:54:20 PM] layer "d027.png": Duplicate path: d027.png
-[11/10/2025, 5:54:20 PM] layer "p049.pmg": Unsupported extension: pmg
-[11/10/2025, 5:54:20 PM] layer "r056.pgm": Unsupported extension: pgm
-[11/10/2025, 5:54:20 PM] layer "T068.ppng": Unsupported extension: ppng
-[11/10/2025, 5:54:20 PM] layer "t069.pnp": Unsupported extension: pnp
-[11/10/2025, 5:54:20 PM] layer "v071.pngb": Unsupported extension: pngb

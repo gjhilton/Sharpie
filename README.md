@@ -1,6 +1,6 @@
 ![image](/src/artwork/Branding/sharpielogo.jpg)
 
-Sharpie, a letterform recognition game for beginner Early Modern palaeographers
+Sharpie, a letterform recognition game for apprentice Early Modern palaeographers
 
 ![Coverage](https://img.shields.io/badge/coverage-check%20CI-blue)
 

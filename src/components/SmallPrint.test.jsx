@@ -96,7 +96,7 @@ describe('SmallPrint', () => {
 		render(<SmallPrint />);
 
 		expect(
-			screen.getByText(/Manucript context copyright: as shown inline/i)
+			screen.getByText(/Manuscript context copyright: as shown inline/i)
 		).toBeInTheDocument();
 	});
 

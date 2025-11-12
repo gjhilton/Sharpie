@@ -1,6 +1,6 @@
 ![image](/src/artwork/Branding/sharpielogo.jpg)
 
-A beginner-level workout to hone your skills identifying secretary hand letterforms.
+Sharpie, a letterform recognition game for beginner Early Modern palaeographers
 
 ![Coverage](https://img.shields.io/badge/coverage-check%20CI-blue)
 

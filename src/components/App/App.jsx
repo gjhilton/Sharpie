@@ -14,7 +14,7 @@ const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
 	const [gameMode, setGameMode] = useState(null);
 	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(null);
-	const [showBaseline, setShowBaseline] = useState(false);
+	const [showBaseline, setShowBaseline] = useState(true);
 	const [score, setScore] = useState(null);
 
 	const handleSelectMode = (mode, twentyFourLetterAlphabetValue) => {

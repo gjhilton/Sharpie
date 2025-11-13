@@ -10,7 +10,7 @@ const LandingSectionBaselines = ({ showBaseline, setShowBaseline }) => {
 	const exampleImagePath = `${baseUrl}data/Joscelyn/joscelyn-majuscule-assets/S.png`;
 
 	return (
-		<Section title={<Heading>How baselines work</Heading>}>
+		<Section title={<Heading>Baselines</Heading>}>
 			<Paragraph>
 				Show the approximate baseline of the characters (can be useful for
 				distinguishing majuscule from minuscule).

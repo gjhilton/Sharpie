@@ -1,4 +1,5 @@
 import { css } from '../../styled-system/css';
+import { version } from '../utilities/version.js';
 
 const SmallPrint = ({ onShowFeedback }) => (
 	<footer
@@ -33,6 +34,16 @@ const SmallPrint = ({ onShowFeedback }) => (
 			©2025 g.j.hilton /{' '}
 			<a href="http://funeralgames.co.uk">funeral games</a>, <br />
 			Manuscript context copyright: as shown inline.
+		</div>
+
+		<div
+			className={css({
+				fontSize: 's',
+				marginTop: '0.5rem',
+				fontStyle: 'italic',
+			})}
+		>
+			v{version}
 		</div>
 	</footer>
 );

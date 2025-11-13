@@ -14,6 +14,11 @@ test.describe('Catalogue Screen', () => {
 		await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 	});
 
+	test('should display version number in footer', async ({ page }) => {
+		const version = page.getByText(/v\d+\.\d+\.\d+/);
+		await expect(version).toBeVisible();
+	});
+
 	test('should display character sets', async ({ page }) => {
 		// Should have sections for different character sets
 		const minusculesHeading = page.getByRole('heading', {

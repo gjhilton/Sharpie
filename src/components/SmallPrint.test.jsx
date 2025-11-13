@@ -141,4 +141,24 @@ describe('SmallPrint', () => {
 		const links = screen.getAllByRole('link');
 		expect(links).toHaveLength(2); // GitHub and funeral games only
 	});
+
+	it('displays version number', () => {
+		render(<SmallPrint />);
+
+		const version = screen.getByText(/v\d+\.\d+\.\d+/);
+		expect(version).toBeInTheDocument();
+	});
+
+	it('displays version 1.0.0', () => {
+		render(<SmallPrint />);
+
+		expect(screen.getByText('v1.0.0')).toBeInTheDocument();
+	});
+
+	it('version is in semantic versioning format', () => {
+		render(<SmallPrint />);
+
+		const versionText = screen.getByText(/^v\d+\.\d+\.\d+$/);
+		expect(versionText).toBeInTheDocument();
+	});
 });

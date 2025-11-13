@@ -98,6 +98,11 @@ test.describe('Menu Screen', () => {
 		await expect(feedbackLink).toBeVisible();
 	});
 
+	test('should display version number in footer', async ({ page }) => {
+		const version = page.getByText(/v\d+\.\d+\.\d+/);
+		await expect(version).toBeVisible();
+	});
+
 	test('should navigate to feedback form', async ({ page }) => {
 		await navigateToFeedback(page);
 		await expect(

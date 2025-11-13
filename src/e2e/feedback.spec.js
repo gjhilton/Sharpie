@@ -15,6 +15,11 @@ test.describe('Feedback Screen', () => {
 		await expect(page.locator('form')).toBeVisible();
 	});
 
+	test('should display version number in footer', async ({ page }) => {
+		const version = page.getByText(/v\d+\.\d+\.\d+/);
+		await expect(version).toBeVisible();
+	});
+
 	test('should have form heading', async ({ page }) => {
 		const heading = page.getByRole('heading', { level: 1 });
 		await expect(heading).toBeVisible();

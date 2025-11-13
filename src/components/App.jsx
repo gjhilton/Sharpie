@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import '../style/App.css';
 import { STAGES } from '../constants/stages.js';
 import MenuScreen from './MenuScreen.jsx';
-import GameScreen from './GameScreen.jsx';
-import ScoreScreen from './ScoreScreen.jsx';
-import CatalogueScreen from './CatalogueScreen.jsx';
-import FeedbackScreen from './FeedbackScreen.jsx';
+
+// Lazy load screens that aren't immediately needed
+const GameScreen = lazy(() => import('./GameScreen.jsx'));
+const ScoreScreen = lazy(() => import('./ScoreScreen.jsx'));
+const CatalogueScreen = lazy(() => import('./CatalogueScreen.jsx'));
+const FeedbackScreen = lazy(() => import('./FeedbackScreen.jsx'));
 
 const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
@@ -81,7 +83,11 @@ const App = () => {
 		}
 	};
 
-	return <div>{renderScreen()}</div>;
+	return (
+		<Suspense fallback={<div>Loading...</div>}>
+			<div>{renderScreen()}</div>
+		</Suspense>
+	);
 };
 
 export default App;

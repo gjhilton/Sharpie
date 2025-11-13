@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import App from './App.jsx';
@@ -100,7 +100,9 @@ describe('App Component', () => {
 
 			await user.click(screen.getByText('Select Easy Mode'));
 
-			expect(screen.getByTestId('game-screen')).toBeInTheDocument();
+			await waitFor(() => {
+				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
+			});
 			expect(screen.queryByTestId('menu-screen')).not.toBeInTheDocument();
 		});
 
@@ -129,9 +131,14 @@ describe('App Component', () => {
 			render(<App />);
 
 			await user.click(screen.getByText('Select Easy Mode'));
+			await waitFor(() => {
+				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
+			});
 			await user.click(screen.getByText('End Game'));
 
-			expect(screen.getByTestId('score-screen')).toBeInTheDocument();
+			await waitFor(() => {
+				expect(screen.getByTestId('score-screen')).toBeInTheDocument();
+			});
 			expect(screen.queryByTestId('game-screen')).not.toBeInTheDocument();
 		});
 
@@ -214,9 +221,14 @@ describe('App Component', () => {
 			render(<App />);
 
 			await user.click(screen.getByText('Show Catalogue'));
+			await waitFor(() => {
+				expect(screen.getByTestId('catalogue-screen')).toBeInTheDocument();
+			});
 			await user.click(screen.getByText('Return to Menu'));
 
-			expect(screen.getByTestId('menu-screen')).toBeInTheDocument();
+			await waitFor(() => {
+				expect(screen.getByTestId('menu-screen')).toBeInTheDocument();
+			});
 			expect(
 				screen.queryByTestId('catalogue-screen')
 			).not.toBeInTheDocument();
@@ -227,9 +239,14 @@ describe('App Component', () => {
 			render(<App />);
 
 			await user.click(screen.getByText('Show Feedback'));
+			await waitFor(() => {
+				expect(screen.getByTestId('feedback-screen')).toBeInTheDocument();
+			});
 			await user.click(screen.getByText('Return to Menu'));
 
-			expect(screen.getByTestId('menu-screen')).toBeInTheDocument();
+			await waitFor(() => {
+				expect(screen.getByTestId('menu-screen')).toBeInTheDocument();
+			});
 			expect(
 				screen.queryByTestId('feedback-screen')
 			).not.toBeInTheDocument();

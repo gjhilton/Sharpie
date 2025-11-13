@@ -1,7 +1,7 @@
 [
 	{
 		"version": "1.0.1",
-		"description": "Refactored landing screen into modular components. Renamed 'Next steps' to 'Next steps for learners'. Moved 'What's new' section to bottom of page."
+		"description": "Code splitting for faster page load / time to interactive; What's new secfion on landong page."
 	},
 	{
 		"version": "1.0.0",

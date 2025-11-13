@@ -30,7 +30,6 @@ const LandingSectionNews = () => {
 					<summary
 						className={css({
 							cursor: 'pointer',
-							fontWeight: 'bold',
 							marginBottom: '0.5rem',
 						})}
 					>

@@ -13,7 +13,7 @@ describe('LandingSectionBaselines', () => {
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(screen.getByText('How baselines work')).toBeInTheDocument();
+		expect(screen.getByText('Baselines')).toBeInTheDocument();
 	});
 
 	it('renders toggle with correct label', () => {

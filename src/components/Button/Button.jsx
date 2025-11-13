@@ -25,10 +25,9 @@ const ButtonLabelAux = ({ text }) => (
 const Button = ({ onClick, label, disabled, sublabel, hero }) => (
 	<button
 		className={css({
-			cursor: 'pointer',
+			cursor: disabled ? 'not-allowed' : 'pointer',
 			minWidth: { base: '100%', md: '200px' },
 			opacity: disabled ? 0.5 : 1,
-			cursor: disabled ? 'not-allowed' : 'pointer',
 			border: hero ? '3px solid black' : '1px solid black',
 			fontSize: 'm',
 			fontWeight: hero ? 900 : 400,

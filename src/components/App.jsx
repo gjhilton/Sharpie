@@ -2,6 +2,7 @@ import { useState, lazy, Suspense } from 'react';
 import '../style/App.css';
 import { STAGES } from '../constants/stages.js';
 import MenuScreen from './MenuScreen.jsx';
+import LoadingSpinner from './LoadingSpinner.jsx';
 
 // Lazy load screens that aren't immediately needed
 const GameScreen = lazy(() => import('./GameScreen.jsx'));
@@ -84,7 +85,7 @@ const App = () => {
 	};
 
 	return (
-		<Suspense fallback={<div>Loading...</div>}>
+		<Suspense fallback={<LoadingSpinner />}>
 			<div>{renderScreen()}</div>
 		</Suspense>
 	);

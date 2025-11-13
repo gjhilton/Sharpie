@@ -2,13 +2,15 @@ import { Section, Heading } from './Layout.jsx';
 import { css } from '../../styled-system/css';
 import changelog from '../data/changelog.json';
 
-const VersionEntry = ({ version, description }) => {
-	return (
-		<dl
+const DL = ({children}) => 	<dl
 			className={css({
 				marginBottom: '1rem',
 			})}
-		>
+		>{children}</dl>
+
+const VersionEntry = ({ version, description }) => {
+	return (
+	<>
 			<dt
 				className={css({
 					fontWeight: 'bold',
@@ -26,7 +28,7 @@ const VersionEntry = ({ version, description }) => {
 			>
 				{description}
 			</dd>
-		</dl>
+		</>
 	);
 };
 
@@ -37,10 +39,10 @@ const LandingSectionNews = () => {
 	return (
 		<Section title={<Heading>What's new</Heading>}>
 			{mostRecent && (
-				<VersionEntry
+				<DL><VersionEntry
 					version={mostRecent.version}
 					description={mostRecent.description}
-				/>
+				/></DL>
 			)}
 
 			{olderVersions.length > 0 && (
@@ -55,8 +57,9 @@ const LandingSectionNews = () => {
 							marginBottom: '0.5rem',
 						})}
 					>
-						Show more
+						Show all
 					</summary>
+					<DL>
 					{reversedOlderVersions.map(entry => (
 						<VersionEntry
 							key={entry.version}
@@ -64,6 +67,7 @@ const LandingSectionNews = () => {
 							description={entry.description}
 						/>
 					))}
+					</DL>
 				</details>
 			)}
 		</Section>

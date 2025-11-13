@@ -29,9 +29,9 @@ describe('LandingSectionNews', () => {
 		expect(details).toBeInTheDocument();
 	});
 
-	it('summary text is "Show more"', () => {
+	it('summary text is "Show all"', () => {
 		render(<LandingSectionNews />);
-		expect(screen.getByText('Show more')).toBeInTheDocument();
+		expect(screen.getByText('Show all')).toBeInTheDocument();
 	});
 
 	it('older versions appear inside details', () => {
@@ -47,11 +47,6 @@ describe('LandingSectionNews', () => {
 		const text = details?.textContent || '';
 		const index09 = text.indexOf('v0.9.0');
 		const index08 = text.indexOf('v0.8.0');
-		// Component reverses order, so oldest (0.8.0) appears first, then 0.9.0
-		// But actually we want oldest last, so let me check the actual positions
-		// Since array is reversed from [0.9.0, 0.8.0] to [0.8.0, 0.9.0],
-		// 0.8.0 comes BEFORE 0.9.0, so index08 < index09
-		// This means test expectation was backwards
 		expect(index09).toBeGreaterThan(index08);
 	});
 

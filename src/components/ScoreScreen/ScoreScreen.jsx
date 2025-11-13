@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Heading } from '@components/Layout/Layout.jsx';
+import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 
 const formatTime = seconds => {
 	const mins = Math.floor(seconds / 60);
@@ -45,27 +46,29 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 	</div>
 );
 
-const MistakeCard = ({ graph, imagePath }) => (
+const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	<div
 		className={css({
 			padding: '1rem',
 			textAlign: 'center',
 		})}
 	>
-		<img
-			src={imagePath}
-			alt={graph.character}
+		<div
 			className={css({
-				maxWidth: '100%',
-				height: 'auto',
-				padding: '1rem',
+				height: '150px',
+				marginBottom: '0.5rem',
 			})}
-		/>
+		>
+			<CharacterImage
+				imagePath={imagePath}
+				caption={graph.character}
+				showBaseline={showBaseline}
+			/>
+		</div>
 		<div
 			className={css({
 				fontSize: 'm',
 				fontWeight: 'bold',
-
 				marginTop: '0.5rem',
 			})}
 		>
@@ -74,7 +77,7 @@ const MistakeCard = ({ graph, imagePath }) => (
 	</div>
 );
 
-const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback }) => {
+const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) => {
 	const {
 		correct,
 		incorrect,
@@ -171,6 +174,7 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback }) => {
 								key={index}
 								graph={mistake.graph}
 								imagePath={mistake.imagePath}
+								showBaseline={showBaseline}
 							/>
 						))}
 					</div>

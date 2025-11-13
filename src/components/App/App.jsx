@@ -59,6 +59,7 @@ const App = () => {
 						score={score}
 						onReturnToMenu={handleReturnToMenu}
 						onShowFeedback={handleShowFeedback}
+					showBaseline={showBaseline}
 					/>
 				);
 			case STAGES.CATALOGUE:

@@ -141,4 +141,73 @@ describe('CharacterImage', () => {
 			unmount();
 		});
 	});
+
+	describe('baseline functionality', () => {
+		it('does not render baseline when showBaseline is false', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" showBaseline={false} />
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).not.toBeInTheDocument();
+		});
+
+		it('renders baseline when showBaseline is true', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" showBaseline={true} />
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).toBeInTheDocument();
+		});
+
+		it('uses default lightblue color for baseline', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" showBaseline={true} />
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).toHaveStyle({ borderBottom: '2px solid lightblue' });
+		});
+
+		it('uses custom baseline color when provided', () => {
+			const { container } = render(
+				<CharacterImage
+					imagePath="/test.jpg"
+					showBaseline={true}
+					baselineColor="black"
+				/>
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).toHaveStyle({ borderBottom: '2px solid black' });
+		});
+
+		it('positions baseline at 56.5% from top', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" showBaseline={true} />
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).toHaveStyle({ top: '56.5%' });
+		});
+
+		it('baseline has pointer-events none', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" showBaseline={true} />
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).toHaveStyle({ pointerEvents: 'none' });
+		});
+
+		it('baseline uses darken blend mode', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" showBaseline={true} />
+			);
+
+			const baseline = container.querySelector('[aria-hidden="true"]');
+			expect(baseline).toHaveStyle({ mixBlendMode: 'darken' });
+		});
+	});
 });

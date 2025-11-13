@@ -4,7 +4,7 @@ import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import LandingSectionHero from '@components/LandingSectionHero/LandingSectionHero.jsx';
 import LandingSectionHowToUse from '@components/LandingSectionHowToUse/LandingSectionHowToUse.jsx';
 import LandingSectionOptions from '@components/LandingSectionOptions/LandingSectionOptions.jsx';
-import LandingSectionSettings from '@components/LandingSectionSettings/LandingSectionSettings.jsx';
+import LandingSectionAlphabet from '@components/LandingSectionAlphabet/LandingSectionAlphabet.jsx';
 import LandingSectionBaselines from '@components/LandingSectionBaselines/LandingSectionBaselines.jsx';
 import LandingSectionNews from '@components/LandingSectionNews/LandingSectionNews.jsx';
 import LandingSectionNextSteps from '@components/LandingSectionNextSteps/LandingSectionNextSteps.jsx';
@@ -33,7 +33,7 @@ const LandingScreen = ({
 				onShowCatalogue={onShowCatalogue}
 			/>
 
-			<LandingSectionSettings
+			<LandingSectionAlphabet
 				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 				setTwentyFourLetterAlphabet={setTwentyFourLetterAlphabet}
 			/>

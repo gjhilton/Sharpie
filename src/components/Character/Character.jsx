@@ -97,11 +97,16 @@ const Character = ({
 				</div>
 			)}
 			{imagePath ? (
-				<CharacterImage imagePath={imagePath} showBaseline={showBaseline} />
+				<CharacterImage
+				imagePath={imagePath}
+				showBaseline={showBaseline}
+				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'black' : 'lightblue'}
+			/>
 			) : (
 				<CharacterImageSlideshow
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
+				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'black' : 'lightblue'}
 				/>
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}

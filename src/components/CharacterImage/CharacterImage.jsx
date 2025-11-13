@@ -1,6 +1,6 @@
 import { css } from '../../../styled-system/css';
 
-const CharacterImage = ({ imagePath, caption, graph, showBaseline = false }) => (
+const CharacterImage = ({ imagePath, caption, graph, showBaseline = false, baselineColor = 'lightblue' }) => (
 	<div
 		className={css({
 			background: 'white',
@@ -13,28 +13,41 @@ const CharacterImage = ({ imagePath, caption, graph, showBaseline = false }) => 
 			position: 'relative',
 		})}
 	>
-		<img
-			src={imagePath}
-			alt={caption || 'Character to identify'}
+		<div
 			className={css({
+				position: 'relative',
 				maxWidth: '100%',
 				maxHeight: '100%',
-				objectFit: 'contain',
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'center',
 			})}
-		/>
-		{showBaseline && (
-			<div
+		>
+			<img
+				src={imagePath}
+				alt={caption || 'Character to identify'}
 				className={css({
-					position: 'absolute',
-					top: '56.5%',
-					left: '0',
-					right: '0',
-					borderBottom: '4px dotted lightblue',
-					pointerEvents: 'none',
+					maxWidth: '100%',
+					maxHeight: '100%',
+					objectFit: 'contain',
+					display: 'block',
 				})}
-				aria-hidden="true"
 			/>
-		)}
+			{showBaseline && (
+				<div
+					className={css({
+						position: 'absolute',
+						top: '56.5%',
+						left: '0',
+						right: '0',
+						borderBottom: `2px solid ${baselineColor}`,
+						pointerEvents: 'none',
+						mixBlendMode: 'darken',
+					})}
+					aria-hidden="true"
+				/>
+			)}
+		</div>
 	</div>
 );
 

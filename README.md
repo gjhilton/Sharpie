@@ -2,10 +2,6 @@
 
 Sharpie, a letterform recognition game for apprentice Early Modern palaeographers
 
-![Coverage](https://img.shields.io/badge/coverage-check%20CI-blue)
-
-Status: 🚨 🚧 (very) under construction: expect carnage 🚧 🚨
-
 Work in progress: https://gjhilton.github.io/Sharpie/
 
 ## Development notes
@@ -16,7 +12,7 @@ Work in progress: https://gjhilton.github.io/Sharpie/
 npm run dev:host
 ```
 
-View at <code>http://192.168.1.198:8080/</code> (if you're gjh, and its running on FinisAfricæ)
+View at <code>http://192.168.1.198:8080/</code> (if you're gjh, and the app is running on FinisAfricæ)
 
 ### Asset creation workflow
 

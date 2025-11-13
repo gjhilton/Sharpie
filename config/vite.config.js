@@ -21,4 +21,14 @@ export default defineConfig({
 	css: {
 		postcss: resolve(__dirname, 'postcss.config.cjs'),
 	},
+	resolve: {
+		alias: {
+			'@': resolve(__dirname, '../src'),
+			'@components': resolve(__dirname, '../src/components'),
+			'@constants': resolve(__dirname, '../src/constants'),
+			'@data': resolve(__dirname, '../src/data'),
+			'@utilities': resolve(__dirname, '../src/utilities'),
+			'@style': resolve(__dirname, '../src/style'),
+		},
+	},
 });

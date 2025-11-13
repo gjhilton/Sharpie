@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { version } from './version.js';
+import { version } from '@utilities/version.js';
 import packageJson from '../../package.json';
 
 describe('version utility', () => {

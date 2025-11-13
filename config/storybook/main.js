@@ -1,3 +1,9 @@
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 /** @type { import('@storybook/react-vite').StorybookConfig } */
 const config = {
 	stories: [
@@ -15,7 +21,23 @@ const config = {
 		options: {},
 	},
 	staticDirs: ['../../public'],
-	// No viteFinal needed - let Storybook use its default React config
-	// Don't import vite.config.js to avoid React Compiler conflicts
+	async viteFinal(config) {
+		// Add path aliases without importing vite.config.js (to avoid React Compiler conflicts)
+		return {
+			...config,
+			resolve: {
+				...config.resolve,
+				alias: {
+					...config.resolve?.alias,
+					'@': resolve(__dirname, '../../src'),
+					'@components': resolve(__dirname, '../../src/components'),
+					'@constants': resolve(__dirname, '../../src/constants'),
+					'@data': resolve(__dirname, '../../src/data'),
+					'@utilities': resolve(__dirname, '../../src/utilities'),
+					'@style': resolve(__dirname, '../../src/style'),
+				},
+			},
+		};
+	},
 };
 export default config;

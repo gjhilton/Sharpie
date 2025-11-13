@@ -149,10 +149,10 @@ describe('SmallPrint', () => {
 		expect(version).toBeInTheDocument();
 	});
 
-	it('displays version 1.0.0', () => {
+	it('displays version 1.0.1', () => {
 		render(<SmallPrint />);
 
-		expect(screen.getByText('v1.0.0')).toBeInTheDocument();
+		expect(screen.getByText('v1.0.1')).toBeInTheDocument();
 	});
 
 	it('version is in semantic versioning format', () => {

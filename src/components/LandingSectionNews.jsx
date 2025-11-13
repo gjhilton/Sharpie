@@ -1,6 +1,34 @@
-import { Section, Heading, Paragraph } from './Layout.jsx';
+import { Section, Heading } from './Layout.jsx';
 import { css } from '../../styled-system/css';
 import changelog from '../data/changelog.json';
+
+const VersionEntry = ({ version, description }) => {
+	return (
+		<dl
+			className={css({
+				marginBottom: '1rem',
+			})}
+		>
+			<dt
+				className={css({
+					fontWeight: 'bold',
+					marginBottom: '0.25rem',
+				})}
+			>
+				v{version}
+			</dt>
+			<dd
+				className={css({
+					marginLeft: 0,
+					fontSize: 'm',
+					lineHeight: '1.6',
+				})}
+			>
+				{description}
+			</dd>
+		</dl>
+	);
+};
 
 const LandingSectionNews = () => {
 	const [mostRecent, ...olderVersions] = changelog;
@@ -9,16 +37,10 @@ const LandingSectionNews = () => {
 	return (
 		<Section title={<Heading>What's new</Heading>}>
 			{mostRecent && (
-				<div
-					className={css({
-						marginBottom: '1rem',
-					})}
-				>
-					<Paragraph>
-						<strong>v{mostRecent.version}</strong>
-					</Paragraph>
-					<Paragraph>{mostRecent.description}</Paragraph>
-				</div>
+				<VersionEntry
+					version={mostRecent.version}
+					description={mostRecent.description}
+				/>
 			)}
 
 			{olderVersions.length > 0 && (
@@ -36,17 +58,11 @@ const LandingSectionNews = () => {
 						Show more
 					</summary>
 					{reversedOlderVersions.map(entry => (
-						<div
+						<VersionEntry
 							key={entry.version}
-							className={css({
-								marginBottom: '1rem',
-							})}
-						>
-							<Paragraph>
-								<strong>v{entry.version}</strong>
-							</Paragraph>
-							<Paragraph>{entry.description}</Paragraph>
-						</div>
+							version={entry.version}
+							description={entry.description}
+						/>
 					))}
 				</details>
 			)}

@@ -21,7 +21,7 @@ describe('version utility', () => {
 		expect(version).toBe(packageJson.version);
 	});
 
-	it('should be version 1.0.0', () => {
-		expect(version).toBe('1.0.0');
+	it('should be version 1.0.1', () => {
+		expect(version).toBe('1.0.1');
 	});
 });

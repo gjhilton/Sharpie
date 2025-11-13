@@ -1,8 +1,8 @@
-import MenuScreen from './MenuScreen';
+import LandingScreen from './LandingScreen';
 
 export default {
-	title: 'Screens/MenuScreen',
-	component: MenuScreen,
+	title: 'Screens/LandingScreen',
+	component: LandingScreen,
 	parameters: {
 		layout: 'fullscreen',
 	},

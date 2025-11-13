@@ -5,7 +5,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 		await page.goto('/');
 	});
 
-	test.describe('Menu Screen - Settings Section', () => {
+	test.describe('Landing Screen - Settings Section', () => {
 		test('should display 24-letter alphabet section with toggle', async ({
 			page,
 		}) => {

@@ -1,7 +1,7 @@
 import { useState, lazy, Suspense } from 'react';
 import '../style/App.css';
 import { STAGES } from '../constants/stages.js';
-import MenuScreen from './MenuScreen.jsx';
+import LandingScreen from './LandingScreen.jsx';
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 // Lazy load screens that aren't immediately needed
@@ -75,7 +75,7 @@ const App = () => {
 				);
 			default:
 				return (
-					<MenuScreen
+					<LandingScreen
 						onSelectMode={handleSelectMode}
 						onShowCatalogue={handleShowCatalogue}
 						onShowFeedback={handleShowFeedback}

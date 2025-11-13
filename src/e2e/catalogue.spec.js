@@ -54,7 +54,7 @@ test.describe('Catalogue Screen', () => {
 		expect(count).toBeGreaterThan(0);
 	});
 
-	test('should have a return to menu button', async ({ page }) => {
+	test('should have a return to landing button', async ({ page }) => {
 		const returnButton = page.getByRole('button', {
 			name: /return to menu/i,
 		});
@@ -62,7 +62,7 @@ test.describe('Catalogue Screen', () => {
 		await expect(returnButton).toBeEnabled();
 	});
 
-	test('should return to menu when clicking back', async ({ page }) => {
+	test('should return to landing when clicking back', async ({ page }) => {
 		await returnToMenu(page);
 
 		const onMenu = await isOnMenuScreen(page);

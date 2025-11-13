@@ -1,16 +1,16 @@
 import { test, expect } from '@playwright/test';
 import {
-	isOnMenuScreen,
+	isOnLandingScreen,
 	navigateToCatalogue,
 	navigateToFeedback,
 } from '../../config/playwright/helpers/test-helpers.js';
 
-test.describe('Menu Screen', () => {
+test.describe('Landing Screen', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
 	});
 
-	test('should load the menu screen', async ({ page }) => {
+	test('should load the landing screen', async ({ page }) => {
 		await expect(page).toHaveTitle(/Sharpie/i);
 		await expect(
 			page.getByRole('heading', { name: /hone your/i })
@@ -99,7 +99,8 @@ test.describe('Menu Screen', () => {
 	});
 
 	test('should display version number in footer', async ({ page }) => {
-		const version = page.getByText(/v\d+\.\d+\.\d+/);
+		const footer = page.getByRole('contentinfo');
+		const version = footer.getByText(/v\d+\.\d+\.\d+/);
 		await expect(version).toBeVisible();
 	});
 
@@ -110,8 +111,8 @@ test.describe('Menu Screen', () => {
 		).toBeVisible();
 	});
 
-	test('should be on menu screen after initial load', async ({ page }) => {
-		const onMenu = await isOnMenuScreen(page);
-		expect(onMenu).toBe(true);
+	test('should be on landing screen after initial load', async ({ page }) => {
+		const onLanding = await isOnLandingScreen(page);
+		expect(onLanding).toBe(true);
 	});
 });

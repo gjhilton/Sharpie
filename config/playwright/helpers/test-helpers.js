@@ -67,10 +67,10 @@ export async function endGame(page) {
 }
 
 /**
- * Return to menu from any screen
+ * Return to landing from any screen
  * @param {import('@playwright/test').Page} page
  */
-export async function returnToMenu(page) {
+export async function returnToLanding(page) {
 	// Try different button variations across screens
 	const returnButton = page.getByRole('button', { name: /return to menu/i });
 	const backButton = page.getByRole('button', { name: /back to menu/i });
@@ -84,7 +84,7 @@ export async function returnToMenu(page) {
 		await cancelButton.click();
 	}
 
-	// Wait for menu to load
+	// Wait for landing to load
 	await page.waitForSelector('text=Hone your', { timeout: 5000 });
 }
 
@@ -149,11 +149,15 @@ export async function isOnScoreScreen(page) {
 }
 
 /**
- * Check if we're on the menu screen
+ * Check if we're on the landing screen
  * @param {import('@playwright/test').Page} page
  * @returns {Promise<boolean>}
  */
-export async function isOnMenuScreen(page) {
+export async function isOnLandingScreen(page) {
 	const heading = page.getByText(/hone your/i);
 	return (await heading.count()) > 0;
 }
+
+// Backward compatibility aliases
+export const returnToMenu = returnToLanding;
+export const isOnMenuScreen = isOnLandingScreen;

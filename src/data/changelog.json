@@ -1,0 +1,10 @@
+[
+	{
+		"version": "1.0.1",
+		"description": "Refactored landing screen into modular components. Renamed 'Next steps' to 'Next steps for learners'. Moved 'What's new' section to bottom of page."
+	},
+	{
+		"version": "1.0.0",
+		"description": "First working version."
+	}
+]

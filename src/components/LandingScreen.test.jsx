@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import MenuScreen from './MenuScreen';
+import LandingScreen from './LandingScreen';
 import { GAME_MODES } from '../constants/stages.js';
 
 // Mock all child components
@@ -57,7 +57,7 @@ vi.mock('../data/sources.json', () => ({
 	},
 }));
 
-describe('MenuScreen', () => {
+describe('LandingScreen', () => {
 	let mockOnSelectMode;
 	let mockOnShowCatalogue;
 	let mockOnShowFeedback;
@@ -71,7 +71,7 @@ describe('MenuScreen', () => {
 	describe('Component Structure', () => {
 		it('should render within PageWidth layout', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -83,7 +83,7 @@ describe('MenuScreen', () => {
 
 		it('should render all four sections', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -91,14 +91,14 @@ describe('MenuScreen', () => {
 			);
 
 			const sections = screen.getAllByTestId('section');
-			expect(sections).toHaveLength(5); // Hero, Settings, How to use, Options, Next steps
+			expect(sections).toHaveLength(6); // Hero, How to use, Options, Alphabet, Next steps, News
 		});
 	});
 
 	describe('Logo', () => {
 		it('should render Logo with SIZE.S', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -114,7 +114,7 @@ describe('MenuScreen', () => {
 	describe('Secretary Hand Image', () => {
 		it('should display the secretary hand image', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -128,7 +128,7 @@ describe('MenuScreen', () => {
 
 		it('should render image caption with source information from sources.json', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -142,7 +142,7 @@ describe('MenuScreen', () => {
 
 		it('should render source link with correct attributes', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -163,7 +163,7 @@ describe('MenuScreen', () => {
 	describe('Hero Section', () => {
 		it('should render hero section with page title', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -177,7 +177,7 @@ describe('MenuScreen', () => {
 
 		it('should render hero section description', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -193,7 +193,7 @@ describe('MenuScreen', () => {
 
 		it('should render Start button', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -209,7 +209,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -230,7 +230,7 @@ describe('MenuScreen', () => {
 	describe('How to Use Section', () => {
 		it('should render "How to use" heading', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -242,7 +242,7 @@ describe('MenuScreen', () => {
 
 		it('should render ordered list with instructions', () => {
 			const { container } = render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -258,7 +258,7 @@ describe('MenuScreen', () => {
 
 		it('should render all instruction steps', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -284,7 +284,7 @@ describe('MenuScreen', () => {
 	describe('Options Section', () => {
 		it('should render "Options" heading', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -296,7 +296,7 @@ describe('MenuScreen', () => {
 
 		it('should render options description', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -315,7 +315,7 @@ describe('MenuScreen', () => {
 
 		it('should render minuscules button', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -330,7 +330,7 @@ describe('MenuScreen', () => {
 
 		it('should render MAJUSCULES button', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -347,7 +347,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -370,7 +370,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -391,7 +391,7 @@ describe('MenuScreen', () => {
 
 		it('should render "view all characters" link', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -409,7 +409,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -428,7 +428,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -446,21 +446,21 @@ describe('MenuScreen', () => {
 	});
 
 	describe('Next Steps Section', () => {
-		it('should render "Next steps" heading', () => {
+		it('should render "Next steps for learners" heading', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
 				/>
 			);
 
-			expect(screen.getByText('Next steps')).toBeInTheDocument();
+			expect(screen.getByText('Next steps for learners')).toBeInTheDocument();
 		});
 
 		it('should render next steps description', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -474,7 +474,7 @@ describe('MenuScreen', () => {
 
 		it('should render unordered list with external resources', () => {
 			const { container } = render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -490,7 +490,7 @@ describe('MenuScreen', () => {
 
 		it('should render English Handwriting Online link with correct attributes', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -511,7 +511,7 @@ describe('MenuScreen', () => {
 
 		it('should render Beinecke Library link with correct attributes', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -530,7 +530,7 @@ describe('MenuScreen', () => {
 
 		it('should render Scottish Handwriting link with correct attributes', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -551,7 +551,7 @@ describe('MenuScreen', () => {
 
 		it('should have all external links open in new tab with security attributes', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -577,7 +577,7 @@ describe('MenuScreen', () => {
 	describe('SmallPrint Component', () => {
 		it('should render SmallPrint component', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -589,7 +589,7 @@ describe('MenuScreen', () => {
 
 		it('should pass onShowFeedback callback to SmallPrint', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -606,7 +606,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -625,7 +625,7 @@ describe('MenuScreen', () => {
 	describe('Accessibility', () => {
 		it('should render semantic header element', () => {
 			const { container } = render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -638,7 +638,7 @@ describe('MenuScreen', () => {
 
 		it('should render figure with figcaption for secretary hand image', () => {
 			const { container } = render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -654,7 +654,7 @@ describe('MenuScreen', () => {
 
 		it('should have proper heading hierarchy', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -670,7 +670,7 @@ describe('MenuScreen', () => {
 	describe('Integration', () => {
 		it('should render all interactive elements', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -688,7 +688,7 @@ describe('MenuScreen', () => {
 
 		it('should not call any callbacks on initial render', () => {
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
@@ -704,7 +704,7 @@ describe('MenuScreen', () => {
 			const user = userEvent.setup();
 
 			render(
-				<MenuScreen
+				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}

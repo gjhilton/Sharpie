@@ -85,17 +85,17 @@ test.describe('Game Flow', () => {
 			).toBeVisible();
 		});
 
-		test('should return to menu from score screen', async ({ page }) => {
+		test('should return to landing from score screen', async ({ page }) => {
 			await selectGameMode(page, 'all');
 
 			// Play briefly and end
 			await answerQuestion(page, 'a');
 			await endGame(page);
 
-			// Return to menu
+			// Return to landing
 			await returnToMenu(page);
 
-			// Should be back on menu
+			// Should be back on landing
 			const onMenu = await isOnMenuScreen(page);
 			expect(onMenu).toBe(true);
 		});
@@ -198,7 +198,9 @@ test.describe('Game Flow', () => {
 	});
 
 	test.describe('Navigation', () => {
-		test('should end game early and return to menu', async ({ page }) => {
+		test('should end game early and return to landing', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'all');
 
 			// Answer one question
@@ -207,7 +209,7 @@ test.describe('Game Flow', () => {
 			// End game immediately
 			await endGame(page);
 
-			// Return to menu
+			// Return to landing
 			await returnToMenu(page);
 
 			const onMenu = await isOnMenuScreen(page);

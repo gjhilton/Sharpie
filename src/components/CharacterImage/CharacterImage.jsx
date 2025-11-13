@@ -1,6 +1,6 @@
 import { css } from '../../../styled-system/css';
 
-const CharacterImage = ({ imagePath, caption, graph }) => (
+const CharacterImage = ({ imagePath, caption, graph, showBaseline = false }) => (
 	<div
 		className={css({
 			background: 'white',
@@ -10,6 +10,7 @@ const CharacterImage = ({ imagePath, caption, graph }) => (
 			alignItems: 'center',
 			justifyContent: 'center',
 			padding: '3rem 1rem',
+			position: 'relative',
 		})}
 	>
 		<img
@@ -21,6 +22,19 @@ const CharacterImage = ({ imagePath, caption, graph }) => (
 				objectFit: 'contain',
 			})}
 		/>
+		{showBaseline && (
+			<div
+				className={css({
+					position: 'absolute',
+					top: '56.5%',
+					left: '0',
+					right: '0',
+					borderBottom: '4px dotted lightblue',
+					pointerEvents: 'none',
+				})}
+				aria-hidden="true"
+			/>
+		)}
 	</div>
 );
 

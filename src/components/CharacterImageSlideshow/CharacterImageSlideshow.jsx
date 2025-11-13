@@ -6,6 +6,7 @@ const CharacterImageSlideshow = ({
 	caption,
 	graph,
 	interval = 2000,
+	showBaseline = false,
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -28,6 +29,7 @@ const CharacterImageSlideshow = ({
 			imagePath={imagePaths[currentIndex]}
 			caption={caption}
 			graph={graph}
+			showBaseline={showBaseline}
 		/>
 	);
 };

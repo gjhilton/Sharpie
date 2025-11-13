@@ -14,6 +14,7 @@ const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
 	const [gameMode, setGameMode] = useState(null);
 	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(null);
+	const [showBaseline, setShowBaseline] = useState(false);
 	const [score, setScore] = useState(null);
 
 	const handleSelectMode = (mode, twentyFourLetterAlphabetValue) => {
@@ -49,6 +50,7 @@ const App = () => {
 						onEndGame={handleEndGame}
 						gameMode={gameMode}
 						twentyFourLetterAlphabet={twentyFourLetterAlphabet}
+						showBaseline={showBaseline}
 					/>
 				);
 			case STAGES.SCORE:
@@ -64,6 +66,7 @@ const App = () => {
 					<CatalogueScreen
 						onReturnToMenu={handleReturnToMenu}
 						onShowFeedback={handleShowFeedback}
+						showBaseline={showBaseline}
 					/>
 				);
 			case STAGES.FEEDBACK:
@@ -79,6 +82,8 @@ const App = () => {
 						onSelectMode={handleSelectMode}
 						onShowCatalogue={handleShowCatalogue}
 						onShowFeedback={handleShowFeedback}
+						showBaseline={showBaseline}
+						setShowBaseline={setShowBaseline}
 					/>
 				);
 		}

@@ -14,16 +14,22 @@ const SPACING = {
 
 const KB_DISABLED_OPACITY = 0.01;
 
-export const Unanswered = ({ solution }) => (
+export const Unanswered = ({ solution, showBaseline }) => (
 	<div className={css({ display: 'flex', justifyContent: 'center' })}>
 		<Character
 			state={CHARACTER_STATE.AWAIT_ANSWER}
 			imagePath={solution.imagePath}
+			showBaseline={showBaseline}
 		/>
 	</div>
 );
 
-export const CorrectAnswer = ({ solution, onNext, acceptedAs24Letter }) => {
+export const CorrectAnswer = ({
+	solution,
+	onNext,
+	acceptedAs24Letter,
+	showBaseline,
+}) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
 	const sourceTitle = source?.title;
@@ -49,6 +55,7 @@ export const CorrectAnswer = ({ solution, onNext, acceptedAs24Letter }) => {
 					character={solution.graph.character}
 					sourceLink={sourceLink}
 					sourceTitle={sourceTitle}
+					showBaseline={showBaseline}
 				/>
 			</div>
 			{acceptedAs24Letter && (
@@ -87,6 +94,7 @@ export const IncorrectAnswer = ({
 	attempt,
 	attemptImagePaths,
 	onNext,
+	showBaseline,
 }) => {
 	const source = DB.sources[solution.graph.source];
 	const sourceLink = source?.sourceUri;
@@ -118,6 +126,7 @@ export const IncorrectAnswer = ({
 					state={CHARACTER_STATE.INCORRECT_ANSWER}
 					imagePaths={attemptImagePaths}
 					character={attempt}
+					showBaseline={showBaseline}
 				/>
 				<Character
 					state={CHARACTER_STATE.CORRECT_ANSWER}
@@ -125,6 +134,7 @@ export const IncorrectAnswer = ({
 					character={solution.graph.character}
 					sourceLink={sourceLink}
 					sourceTitle={sourceTitle}
+					showBaseline={showBaseline}
 				/>
 			</div>
 
@@ -149,6 +159,7 @@ export const StatusDisplay = ({
 	attemptImagePaths,
 	acceptedAs24Letter,
 	onNext,
+	showBaseline,
 }) => {
 	switch (status) {
 		case STATUS.CORRECT:
@@ -157,6 +168,7 @@ export const StatusDisplay = ({
 					solution={solution}
 					onNext={onNext}
 					acceptedAs24Letter={acceptedAs24Letter}
+					showBaseline={showBaseline}
 				/>
 			);
 		case STATUS.INCORRECT:
@@ -166,11 +178,12 @@ export const StatusDisplay = ({
 					attemptImagePaths={attemptImagePaths}
 					solution={solution}
 					onNext={onNext}
+					showBaseline={showBaseline}
 				/>
 			);
 		case STATUS.NONE:
 		default:
-			return <Unanswered solution={solution} />;
+			return <Unanswered solution={solution} showBaseline={showBaseline} />;
 	}
 };
 
@@ -181,6 +194,7 @@ export const GamePresentation = ({
 	attemptStatus,
 	acceptedAs24Letter,
 	twentyFourLetterAlphabet,
+	showBaseline,
 	initialKeyboardLayout,
 	onKeyPress,
 	onNextLetter,
@@ -202,6 +216,7 @@ export const GamePresentation = ({
 			attemptImagePaths={attemptImagePaths}
 			acceptedAs24Letter={acceptedAs24Letter}
 			onNext={onNextLetter}
+			showBaseline={showBaseline}
 		/>
 
 		<div

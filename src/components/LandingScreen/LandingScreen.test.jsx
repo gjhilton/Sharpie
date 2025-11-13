@@ -91,7 +91,7 @@ describe('LandingScreen', () => {
 			);
 
 			const sections = screen.getAllByTestId('section');
-			expect(sections).toHaveLength(6); // Hero, How to use, Options, Alphabet, Next steps, News
+			expect(sections).toHaveLength(7); // Hero, How to use, Options, Settings, Baselines, Next steps, News
 		});
 	});
 

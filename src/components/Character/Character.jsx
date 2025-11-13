@@ -62,6 +62,7 @@ const Character = ({
 	character,
 	sourceLink,
 	sourceTitle,
+	showBaseline = false,
 }) => {
 	return (
 		<div
@@ -96,9 +97,12 @@ const Character = ({
 				</div>
 			)}
 			{imagePath ? (
-				<CharacterImage imagePath={imagePath} />
+				<CharacterImage imagePath={imagePath} showBaseline={showBaseline} />
 			) : (
-				<CharacterImageSlideshow imagePaths={imagePaths} />
+				<CharacterImageSlideshow
+					imagePaths={imagePaths}
+					showBaseline={showBaseline}
+				/>
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
 			{state === CHARACTER_STATE.CORRECT_ANSWER && (

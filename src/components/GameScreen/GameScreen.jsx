@@ -5,7 +5,12 @@ import { GamePresentation } from '@components/GamePresentation/GamePresentation.
 
 export const STATUS = gameLogic.STATUS;
 
-const GameScreen = ({ onEndGame, gameMode, twentyFourLetterAlphabet = false }) => {
+const GameScreen = ({
+	onEndGame,
+	gameMode,
+	twentyFourLetterAlphabet = false,
+	showBaseline = false,
+}) => {
 	const graphs = gameLogic.getGraphsForGameMode(DB, gameMode);
 	const [currentSolution, setCurrentSolution] = useState(
 		gameLogic.createRandomSolution(graphs)
@@ -89,6 +94,7 @@ const GameScreen = ({ onEndGame, gameMode, twentyFourLetterAlphabet = false }) =
 			attemptStatus={attemptStatus}
 			acceptedAs24Letter={acceptedAs24Letter}
 			twentyFourLetterAlphabet={twentyFourLetterAlphabet}
+			showBaseline={showBaseline}
 			initialKeyboardLayout={gameLogic.getInitialKeyboardLayout(gameMode)}
 			onKeyPress={handleKeyPress}
 			onNextLetter={handleNextLetter}

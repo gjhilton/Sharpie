@@ -2,6 +2,7 @@ import { css } from '../../../styled-system/css';
 import { useState, useEffect, useRef } from 'react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
+import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import { DB } from '@data/DB.js';
 import * as db from '@utilities/database.js';
 import * as catalogueLogic from '@utilities/catalogueLogic.js';
@@ -52,7 +53,7 @@ const Popover = ({ children, content, isVisible }) => (
 	</div>
 );
 
-const ImageWithInfo = ({ character, graph }) => {
+const ImageWithInfo = ({ character, graph, showBaseline }) => {
 	const [showPopover, setShowPopover] = useState(false);
 	const popoverRef = useRef(null);
 	const imagePath = db.getImagePath(graph);
@@ -100,7 +101,7 @@ const ImageWithInfo = ({ character, graph }) => {
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
-						padding: '0.5rem',
+						padding: '0',
 						border: '0',
 						cursor: 'pointer',
 						transition: 'border-color 0.2s',
@@ -110,15 +111,10 @@ const ImageWithInfo = ({ character, graph }) => {
 					})}
 					aria-label={`${character} - Click to show source: ${source?.title || 'Unknown'}`}
 				>
-					<img
-						src={imagePath}
-						alt={`${character}`}
-						className={css({
-							maxWidth: '100%',
-							maxHeight: '100%',
-							objectFit: 'contain',
-							pointerEvents: 'none',
-						})}
+					<CharacterImage
+						imagePath={imagePath}
+						caption={character}
+						showBaseline={showBaseline}
 					/>
 				</button>
 			</Popover>
@@ -126,7 +122,7 @@ const ImageWithInfo = ({ character, graph }) => {
 	);
 };
 
-const CharacterImages = ({ character, graphs }) => (
+const CharacterImages = ({ character, graphs, showBaseline }) => (
 	<div
 		className={css({
 			display: 'flex',
@@ -151,13 +147,18 @@ const CharacterImages = ({ character, graphs }) => (
 			})}
 		>
 			{graphs.map((graph, idx) => (
-				<ImageWithInfo key={idx} character={character} graph={graph} />
+				<ImageWithInfo
+					key={idx}
+					character={character}
+					graph={graph}
+					showBaseline={showBaseline}
+				/>
 			))}
 		</div>
 	</div>
 );
 
-const GraphSetSection = ({ title, characters }) => (
+const GraphSetSection = ({ title, characters, showBaseline }) => (
 	<div
 		className={css({
 			display: 'flex',
@@ -182,12 +183,13 @@ const GraphSetSection = ({ title, characters }) => (
 				key={character}
 				character={character}
 				graphs={graphs}
+				showBaseline={showBaseline}
 			/>
 		))}
 	</div>
 );
 
-const CatalogueScreen = ({ onReturnToMenu, onShowFeedback }) => {
+const CatalogueScreen = ({ onReturnToMenu, onShowFeedback, showBaseline = false }) => {
 	const enabledGraphSets = db.getEnabledGraphSets(DB);
 	const catalogueData =
 		catalogueLogic.groupGraphsByGraphSetAndCharacter(enabledGraphSets);
@@ -234,6 +236,7 @@ const CatalogueScreen = ({ onReturnToMenu, onShowFeedback }) => {
 						key={graphSet.title}
 						title={graphSet.title}
 						characters={graphSet.characters}
+						showBaseline={showBaseline}
 					/>
 				))}
 			</div>

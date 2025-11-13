@@ -4,11 +4,18 @@ import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import LandingSectionHero from '@components/LandingSectionHero/LandingSectionHero.jsx';
 import LandingSectionHowToUse from '@components/LandingSectionHowToUse/LandingSectionHowToUse.jsx';
 import LandingSectionOptions from '@components/LandingSectionOptions/LandingSectionOptions.jsx';
-import LandingSectionAlphabet from '@components/LandingSectionAlphabet/LandingSectionAlphabet.jsx';
+import LandingSectionSettings from '@components/LandingSectionSettings/LandingSectionSettings.jsx';
+import LandingSectionBaselines from '@components/LandingSectionBaselines/LandingSectionBaselines.jsx';
 import LandingSectionNews from '@components/LandingSectionNews/LandingSectionNews.jsx';
 import LandingSectionNextSteps from '@components/LandingSectionNextSteps/LandingSectionNextSteps.jsx';
 
-const LandingScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => {
+const LandingScreen = ({
+	onSelectMode,
+	onShowCatalogue,
+	onShowFeedback,
+	showBaseline,
+	setShowBaseline,
+}) => {
 	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(false);
 
 	return (
@@ -26,9 +33,14 @@ const LandingScreen = ({ onSelectMode, onShowCatalogue, onShowFeedback }) => {
 				onShowCatalogue={onShowCatalogue}
 			/>
 
-			<LandingSectionAlphabet
+			<LandingSectionSettings
 				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 				setTwentyFourLetterAlphabet={setTwentyFourLetterAlphabet}
+			/>
+
+			<LandingSectionBaselines
+				showBaseline={showBaseline}
+				setShowBaseline={setShowBaseline}
 			/>
 
 			<LandingSectionNextSteps />

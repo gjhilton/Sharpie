@@ -2,7 +2,11 @@
 @import './fonts.css';
 @import './keyboard.css';
 
+
 :root {
+	margin: 0 auto;
+	padding: 0;
+	text-align: center;
 	font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 	font-weight: 400;
 	font-synthesis: none;

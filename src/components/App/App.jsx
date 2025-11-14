@@ -1,5 +1,4 @@
 import { useState, lazy, Suspense } from 'react';
-import '@style/App.css';
 import { STAGES } from '@constants/stages.js';
 import LandingScreen from '@components/LandingScreen/LandingScreen.jsx';
 import LoadingSpinner from '@components/LoadingSpinner/LoadingSpinner.jsx';

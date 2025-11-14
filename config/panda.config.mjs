@@ -46,6 +46,9 @@ export default defineConfig({
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' },
 				},
+				logoDash: {
+					to: { strokeDashoffset: '0' },
+				},
 			},
 		},
 	},

@@ -16,3 +16,8 @@
 	font-weight: 500;
 	min-height: 3.5rem;
 }
+
+/* Keyboard shift key active state */
+.hg-shift-active {
+	background-color: var(--colors-keyboardHighlight) !important;
+}

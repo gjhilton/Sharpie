@@ -34,7 +34,7 @@ const Popover = ({ children, content, isVisible }) => (
 					fontSize: '0.875rem',
 					whiteSpace: 'nowrap',
 					zIndex: 10,
-					boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
+					boxShadow: '0 2px 8px {colors.ink/20}',
 					'&::after': {
 						content: '""',
 						position: 'absolute',

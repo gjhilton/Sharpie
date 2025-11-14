@@ -59,7 +59,7 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 						borderRadius: '50%',
 						backgroundColor: '{colors.paper}',
 						boxShadow:
-							'0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.16)',
+							'0 3px 8px {colors.ink/15}, 0 1px 1px {colors.ink/16}',
 						transition: 'left 0.25s ease-in-out',
 					})}
 				/>

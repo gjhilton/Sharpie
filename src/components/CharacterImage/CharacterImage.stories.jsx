@@ -55,6 +55,6 @@ export const WithBlackBaseline = {
 		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },
 		caption: 'a',
 		showBaseline: true,
-		baselineColor: 'black',
+		baselineColor: 'ink',
 	},
 };

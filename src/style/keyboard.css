@@ -1,0 +1,18 @@
+/* Styles for react-simple-keyboard library */
+
+.simple-keyboard {
+	background: transparent !important;
+	max-width: 40rem;
+	margin: 0 auto;
+}
+
+.simple-keyboard.hg-theme-default .hg-button {
+	background: var(--colors-paper);
+	color: var(--colors-ink);
+	border-radius: 0;
+	border: 1px solid var(--colors-ink);
+	padding: 1rem;
+	box-shadow: none;
+	font-weight: 500;
+	min-height: 3.5rem;
+}

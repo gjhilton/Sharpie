@@ -19,17 +19,18 @@ export default defineConfig({
 			tokens: {
 				colors: {
 					keyboardHighlight: { value: 'lemonchiffon' },
-				error: { value: 'red' },
-				ink: { value: 'black' },
-				baseline: { value: '#008cff' },
-				link: { value: '#008cff' },
-				toggleActive: { value: '#008cff' },
-				paper: { value: 'white' },
-				popover: { value: '#000' },
-				border: { value: '#000' },
-				borderFocus: { value: '#008cff' },
-				borderHover: { value: '#008cff' },
-				toggleInactive: { value: '#E5E5EA' },
+					error: { value: 'red' },
+					ink: { value: 'black' },
+					paper: { value: 'white' },
+					toggleInactive: { value: '#E5E5EA' },
+					primary: { value: '#008cff' },
+					baseline: { value: '{colors.primary}' },
+					link: { value: '{colors.primary}' },
+					toggleActive: { value: '{colors.primary}' },
+					borderFocus: { value: '{colors.primary}' },
+					borderHover: { value: '{colors.primary}' },
+					popover: { value: '{colors.ink}' },
+					border: { value: '{colors.ink}' },
 				},
 				fontSizes: {
 					s: { value: '0.875rem' }, // 14px - tips, small UI
@@ -45,6 +46,9 @@ export default defineConfig({
 				rotation: {
 					'0%': { transform: 'rotate(0deg)' },
 					'100%': { transform: 'rotate(360deg)' },
+				},
+				logoDash: {
+					to: { strokeDashoffset: '0' },
 				},
 			},
 		},

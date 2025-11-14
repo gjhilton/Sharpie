@@ -33,12 +33,12 @@ const Input = ({ id, type = 'text', name, required = false }) => (
 		className={css({
 			padding: '0.75rem',
 			fontSize: 'm',
-			border: '1px solid black',
+			border: '1px solid {colors.ink}',
 			borderRadius: '4px',
-			backgroundColor: 'white',
+			backgroundColor: '{colors.paper}',
 			'&:focus': {
 				outline: 'none',
-				borderColor: '#333',
+				borderColor: '{colors.borderFocus}',
 			},
 		})}
 	/>
@@ -53,13 +53,13 @@ const Textarea = ({ id, name, required = false }) => (
 		className={css({
 			padding: '0.75rem',
 			fontSize: 'm',
-			border: '1px solid black',
-			backgroundColor: 'white',
+			border: '1px solid {colors.ink}',
+			backgroundColor: '{colors.paper}',
 			resize: 'vertical',
 			fontFamily: 'inherit',
 			'&:focus': {
 				outline: 'none',
-				borderColor: '#333',
+				borderColor: '{colors.borderFocus}',
 			},
 		})}
 	/>

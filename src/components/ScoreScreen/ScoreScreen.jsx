@@ -106,7 +106,7 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) =>
 		{
 			label: 'Incorrect Answers',
 			value: incorrect,
-			textColor: '#ff0000',
+			textColor: '{colors.error}',
 		},
 		{
 			label: 'Accuracy',

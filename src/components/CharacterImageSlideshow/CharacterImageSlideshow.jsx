@@ -7,7 +7,7 @@ const CharacterImageSlideshow = ({
 	graph,
 	interval = 2000,
 	showBaseline = false,
-	baselineColor = 'lightblue',
+	baselineColor = 'baseline',
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 

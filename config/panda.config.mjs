@@ -19,6 +19,17 @@ export default defineConfig({
 			tokens: {
 				colors: {
 					keyboardHighlight: { value: 'lemonchiffon' },
+				error: { value: 'red' },
+				ink: { value: 'black' },
+				baseline: { value: 'lightblue' },
+				link: { value: 'red' },
+				toggleActive: { value: 'red' },
+				paper: { value: 'white' },
+				popover: { value: '#333' },
+				border: { value: '#ccc' },
+				borderFocus: { value: '#333' },
+				borderHover: { value: '#999' },
+				toggleInactive: { value: '#E5E5EA' },
 				},
 				fontSizes: {
 					s: { value: '0.875rem' }, // 14px - tips, small UI

@@ -139,16 +139,16 @@ const KB = ({
           minWidth: { base: "10px", sm: "30px" },
           padding: { base: "0", sm: "5px" },
           margin: { base: "0", sm: "6px" },
-          borderLeft: { base: "1px solid black !important", sm: "1px solid black !important" },
-          borderTop: { base: "1px solid black !important", sm: "1px solid black !important" },
-          borderRight: { base: "0 !important", sm: "1px solid black !important" },
-          borderBottom: { base: "0 !important", sm: "1px solid black !important" },
+          borderLeft: { base: "1px solid {colors.ink} !important", sm: "1px solid {colors.ink} !important" },
+          borderTop: { base: "1px solid {colors.ink} !important", sm: "1px solid {colors.ink} !important" },
+          borderRight: { base: "0 !important", sm: "1px solid {colors.ink} !important" },
+          borderBottom: { base: "0 !important", sm: "1px solid {colors.ink} !important" },
         },
         "& .hg-row:last-child .hg-button": {
-          borderBottom: "1px solid black !important",
+          borderBottom: "1px solid {colors.ink} !important",
         },
         "& .hg-button:last-child": {
-          borderRight: "1px solid black !important",
+          borderRight: "1px solid {colors.ink} !important",
         },
       })}
     >

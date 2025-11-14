@@ -28,8 +28,8 @@ const Popover = ({ children, content, isVisible }) => (
 					transform: 'translateX(-50%)',
 					marginBottom: '0.5rem',
 					padding: '0.5rem 0.75rem',
-					background: '#000',
-					color: 'white',
+					background: '{colors.popover}',
+					color: '{colors.paper}',
 					borderRadius: '4px',
 					fontSize: '0.875rem',
 					whiteSpace: 'nowrap',
@@ -43,7 +43,7 @@ const Popover = ({ children, content, isVisible }) => (
 						transform: 'translateX(-50%)',
 						borderWidth: '6px',
 						borderStyle: 'solid',
-						borderColor: '#333 transparent transparent transparent',
+						borderColor: '{colors.popover} transparent transparent transparent',
 					},
 				})}
 			>
@@ -97,7 +97,7 @@ const ImageWithInfo = ({ character, graph, showBaseline }) => {
 					className={css({
 						width: IMAGE_SIZE,
 						height: IMAGE_SIZE,
-						background: 'white',
+						background: '{colors.paper}',
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
@@ -106,7 +106,7 @@ const ImageWithInfo = ({ character, graph, showBaseline }) => {
 						cursor: 'pointer',
 						transition: 'border-color 0.2s',
 						'&:hover': {
-							borderColor: '#999',
+							borderColor: '{colors.borderHover}',
 						},
 					})}
 					aria-label={`${character} - Click to show source: ${source?.title || 'Unknown'}`}
@@ -172,7 +172,7 @@ const GraphSetSection = ({ title, characters, showBaseline }) => (
 				fontWeight: 'bold',
 				margin: 0,
 				textAlign: 'left',
-				borderBottom: '2px solid black',
+				borderBottom: '2px solid {colors.ink}',
 				paddingBottom: '0.5rem',
 			})}
 		>

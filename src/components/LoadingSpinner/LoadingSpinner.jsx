@@ -14,7 +14,7 @@ const LoadingSpinner = () => (
 			className={css({
 				width: '48px',
 				height: '48px',
-				border: '5px solid black',
+				border: '5px solid {colors.ink}',
 				borderBottomColor: 'transparent',
 				borderRadius: '50%',
 				display: 'inline-block',

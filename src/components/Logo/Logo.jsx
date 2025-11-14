@@ -34,7 +34,7 @@ const Logo = ({ size = 'm' }) => (
 			className={css({
 				'& .red': {
 					fill: 'none',
-					stroke: '#FF0000',
+					stroke: '{colors.error}',
 					strokeMiterlimit: 10,
 					strokeWidth: '10px',
 					strokeDasharray: '1411',

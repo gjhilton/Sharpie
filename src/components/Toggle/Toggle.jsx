@@ -34,14 +34,14 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 					width: '51px',
 					height: '31px',
 					borderRadius: '31px',
-					backgroundColor: checked ? 'red' : '#E5E5EA',
+					backgroundColor: checked ? '{colors.toggleActive}' : '{colors.toggleInactive}',
 					border: 'none',
 					cursor: disabled ? 'not-allowed' : 'pointer',
 					transition: 'background-color 0.25s ease-in-out',
 					opacity: disabled ? 0.5 : 1,
 					flexShrink: 0,
 					'&:focus': {
-						outline: '2px solid red',
+						outline: '2px solid {colors.toggleActive}',
 						outlineOffset: '2px',
 					},
 					'&:active:not(:disabled)': {
@@ -57,7 +57,7 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 						width: '27px',
 						height: '27px',
 						borderRadius: '50%',
-						backgroundColor: 'white',
+						backgroundColor: '{colors.paper}',
 						boxShadow:
 							'0 3px 8px rgba(0, 0, 0, 0.15), 0 1px 1px rgba(0, 0, 0, 0.16)',
 						transition: 'left 0.25s ease-in-out',

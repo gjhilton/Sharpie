@@ -1,9 +1,9 @@
 import { css } from '../../../styled-system/css';
 
-const CharacterImage = ({ imagePath, caption, graph, showBaseline = false, baselineColor = 'lightblue' }) => (
+const CharacterImage = ({ imagePath, caption, graph, showBaseline = false, baselineColor = 'baseline' }) => (
 	<div
 		className={css({
-			background: 'white',
+			background: '{colors.paper}',
 			height: '100%',
 			width: '100%',
 			display: 'flex',
@@ -40,7 +40,7 @@ const CharacterImage = ({ imagePath, caption, graph, showBaseline = false, basel
 						top: '56.5%',
 						left: '0',
 						right: '0',
-						borderBottom: `2px solid ${baselineColor}`,
+						borderBottom: `2px solid {colors.${baselineColor}}`,
 						pointerEvents: 'none',
 						mixBlendMode: 'darken',
 					})}

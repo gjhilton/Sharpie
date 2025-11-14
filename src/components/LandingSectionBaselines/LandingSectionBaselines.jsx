@@ -59,7 +59,7 @@ const LandingSectionBaselines = ({ showBaseline, setShowBaseline }) => {
 					<div
 						className={css({
 							height: '300px',
-							border: '1px solid #ccc',
+							border: '1px solid {colors.border}',
 						})}
 					>
 						<CharacterImage
@@ -83,7 +83,7 @@ const LandingSectionBaselines = ({ showBaseline, setShowBaseline }) => {
 					<div
 						className={css({
 							height: '300px',
-							border: '1px solid #ccc',
+							border: '1px solid {colors.border}',
 						})}
 					>
 						<CharacterImage

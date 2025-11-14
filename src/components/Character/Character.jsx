@@ -25,7 +25,7 @@ const RedOverlay = () => (
 			width: '100%',
 			height: '100%',
 			mixBlendMode: 'lighten',
-			backgroundColor: 'red',
+			backgroundColor: '{colors.error}',
 		})}
 		role="img"
 		aria-live="polite"
@@ -100,13 +100,13 @@ const Character = ({
 				<CharacterImage
 				imagePath={imagePath}
 				showBaseline={showBaseline}
-				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'black' : 'lightblue'}
+				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'}
 			/>
 			) : (
 				<CharacterImageSlideshow
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
-				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'black' : 'lightblue'}
+				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'}
 				/>
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}

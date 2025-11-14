@@ -17,6 +17,9 @@ export default defineConfig({
 				desktop: '860px',
 			},
 			tokens: {
+				colors: {
+					keyboardHighlight: { value: 'lemonchiffon' },
+				},
 				fontSizes: {
 					s: { value: '0.875rem' }, // 14px - tips, small UI
 					m: { value: '1.25rem' }, // 20px - body, buttons
@@ -25,6 +28,12 @@ export default defineConfig({
 				},
 				fonts: {
 					joscelyn: { value: 'Joscelyn, serif' },
+				},
+			},
+			keyframes: {
+				rotation: {
+					'0%': { transform: 'rotate(0deg)' },
+					'100%': { transform: 'rotate(360deg)' },
 				},
 			},
 		},

@@ -5,14 +5,21 @@ import LoadingSpinner from '@components/LoadingSpinner/LoadingSpinner.jsx';
 
 // Lazy load screens that aren't immediately needed
 const GameScreen = lazy(() => import('@components/GameScreen/GameScreen.jsx'));
-const ScoreScreen = lazy(() => import('@components/ScoreScreen/ScoreScreen.jsx'));
-const CatalogueScreen = lazy(() => import('@components/CatalogueScreen/CatalogueScreen.jsx'));
-const FeedbackScreen = lazy(() => import('@components/FeedbackScreen/FeedbackScreen.jsx'));
+const ScoreScreen = lazy(
+	() => import('@components/ScoreScreen/ScoreScreen.jsx')
+);
+const CatalogueScreen = lazy(
+	() => import('@components/CatalogueScreen/CatalogueScreen.jsx')
+);
+const FeedbackScreen = lazy(
+	() => import('@components/FeedbackScreen/FeedbackScreen.jsx')
+);
 
 const App = () => {
 	const [stage, setStage] = useState(STAGES.MENU);
 	const [gameMode, setGameMode] = useState(null);
-	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(null);
+	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] =
+		useState(null);
 	const [showBaseline, setShowBaseline] = useState(true);
 	const [score, setScore] = useState(null);
 
@@ -58,7 +65,7 @@ const App = () => {
 						score={score}
 						onReturnToMenu={handleReturnToMenu}
 						onShowFeedback={handleShowFeedback}
-					showBaseline={showBaseline}
+						showBaseline={showBaseline}
 					/>
 				);
 			case STAGES.CATALOGUE:

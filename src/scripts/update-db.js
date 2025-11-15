@@ -100,6 +100,22 @@ export function getAssetFolderName(assetPath) {
 }
 
 /**
+ * Read metadata.json from asset directory if it exists
+ */
+async function readMetadata(assetPath) {
+	const metadataPath = join(assetPath, 'metadata.json');
+	try {
+		if (existsSync(metadataPath)) {
+			const content = await readFile(metadataPath, 'utf-8');
+			return JSON.parse(content);
+		}
+	} catch (error) {
+		console.warn(`   ⚠️  Error reading metadata.json: ${error.message}`);
+	}
+	return {};
+}
+
+/**
  * Process a single asset directory
  */
 async function processAssetDirectory(assetPath) {
@@ -108,6 +124,15 @@ async function processAssetDirectory(assetPath) {
 	const destDir = join(PUBLIC_DATA_DIR, sourceName, assetFolderName);
 
 	console.log(`\n📁 Processing ${sourceName}/${assetFolderName}...`);
+
+	// Read metadata if available
+	const metadata = await readMetadata(assetPath);
+	const hasMetadata = Object.keys(metadata).length > 0;
+	if (hasMetadata) {
+		console.log(
+			`   📝 Found metadata for ${Object.keys(metadata).length} images`
+		);
+	}
 
 	// Create destination directory
 	if (!existsSync(destDir)) {
@@ -136,20 +161,35 @@ async function processAssetDirectory(assetPath) {
 		const character = extractCharacter(file);
 		const category = categorizeCharacter(character);
 
-		graphEntries.push({
+		// Get note from metadata or auto-generate for majuscules
+		let note = metadata[file]?.note;
+		if (!note && category === 'MAJUSCULES') {
+			note = 'First letter of word.';
+		}
+
+		const graphEntry = {
 			img: sanitizedFile,
 			character: character,
 			source: sourceName,
 			category: category,
 			relativePath: `${sourceName}/${assetFolderName}/${sanitizedFile}`,
-		});
+		};
+
+		// Only add note field if it exists
+		if (note) {
+			graphEntry.note = note;
+		}
+
+		graphEntries.push(graphEntry);
 
 		if (file !== sanitizedFile) {
 			console.log(
-				`     ✓ Copied ${file} → ${sanitizedFile} → ${character} (${category})`
+				`     ✓ Copied ${file} → ${sanitizedFile} → ${character} (${category})${note ? ' [note]' : ''}`
 			);
 		} else {
-			console.log(`     ✓ Copied ${file} → ${character} (${category})`);
+			console.log(
+				`     ✓ Copied ${file} → ${character} (${category})${note ? ' [note]' : ''}`
+			);
 		}
 	}
 
@@ -212,11 +252,16 @@ export function generateGraphSets(allEntries) {
 	// Group all graphs by category
 	allEntries.forEach(entry => {
 		entry.graphEntries.forEach(graph => {
-			categorizedGraphs[graph.category].push({
+			const graphObj = {
 				img: graph.relativePath,
 				character: graph.character,
 				source: graph.source,
-			});
+			};
+			// Only add note field if it exists
+			if (graph.note) {
+				graphObj.note = graph.note;
+			}
+			categorizedGraphs[graph.category].push(graphObj);
 		});
 	});
 
@@ -261,10 +306,20 @@ export function formatSourceEntry(key, value) {
  * Format a single graph entry (pure function)
  */
 export function formatGraphEntry(graph) {
+	const fields = [
+		`img: "${graph.img}"`,
+		`character: "${graph.character}"`,
+		`source: "${graph.source}"`,
+	];
+
+	if (graph.note) {
+		fields.push(`note: "${graph.note}"`);
+	}
+
+	const fieldsStr = fields.map(f => `\t\t\t\t\t${f}`).join(',\n');
+
 	return `\t\t\t\t{
-\t\t\t\t\timg: "${graph.img}",
-\t\t\t\t\tcharacter: "${graph.character}",
-\t\t\t\t\tsource: "${graph.source}"
+${fieldsStr}
 \t\t\t\t}`;
 }
 

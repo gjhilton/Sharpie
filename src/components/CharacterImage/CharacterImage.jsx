@@ -1,6 +1,12 @@
 import { css } from '../../../styled-system/css';
 
-const CharacterImage = ({ imagePath, caption, graph, showBaseline = false, baselineColor = 'baseline' }) => (
+const CharacterImage = ({
+	imagePath,
+	caption,
+	showBaseline = false,
+	baselineColor = 'baseline',
+	note,
+}) => (
 	<div
 		className={css({
 			background: '{colors.paper}',
@@ -9,10 +15,28 @@ const CharacterImage = ({ imagePath, caption, graph, showBaseline = false, basel
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			padding: '3rem 1rem',
+			padding: '2.5rem 1rem 3rem',
 			position: 'relative',
 		})}
 	>
+		{note && (
+			<div
+				className={css({
+					position: 'absolute',
+					top: '0.5rem',
+					left: '50%',
+					transform: 'translateX(-50%)',
+					padding: '0.25rem 0.5rem',
+					background: 'transparent',
+					color: '{colors.ink}',
+					fontSize: 's',
+					whiteSpace: 'nowrap',
+					zIndex: 1,
+				})}
+			>
+				{note}
+			</div>
+		)}
 		<div
 			className={css({
 				position: 'relative',

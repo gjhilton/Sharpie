@@ -16,25 +16,25 @@ export default {
 			control: 'text',
 			description: 'The caption for the image alt text',
 		},
-		graph: {
-			control: 'object',
-			description: 'Graph object with character and img properties',
-		},
 		showBaseline: {
 			control: 'boolean',
 			description: 'Whether to show the baseline indicator',
 		},
 		baselineColor: {
-			control: 'color',
-			description: 'Color of the baseline (default: lightblue)',
+			control: 'select',
+			options: ['baseline', 'ink'],
+			description: 'Color of the baseline',
+		},
+		note: {
+			control: 'text',
+			description: 'Optional note to display above the image',
 		},
 	},
 };
 
 export const Default = {
 	args: {
-		imagePath: '/data/joscelyn-min/a.png',
-		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },
+		imagePath: '/data/Joscelyn/joscelyn-minuscule-assets/a.png',
 		caption: 'a',
 		showBaseline: false,
 	},
@@ -42,8 +42,7 @@ export const Default = {
 
 export const WithBaseline = {
 	args: {
-		imagePath: '/data/joscelyn-min/a.png',
-		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },
+		imagePath: '/data/Joscelyn/joscelyn-minuscule-assets/a.png',
 		caption: 'a',
 		showBaseline: true,
 	},
@@ -51,10 +50,36 @@ export const WithBaseline = {
 
 export const WithBlackBaseline = {
 	args: {
-		imagePath: '/data/joscelyn-min/a.png',
-		graph: { character: 'a', img: 'a.png', source: 'joscelyn' },
+		imagePath: '/data/Joscelyn/joscelyn-minuscule-assets/a.png',
 		caption: 'a',
 		showBaseline: true,
 		baselineColor: 'ink',
+	},
+};
+
+export const WithNote = {
+	args: {
+		imagePath: '/data/Joscelyn/joscelyn-majuscule-assets/A.png',
+		caption: 'A',
+		showBaseline: false,
+		note: 'First letter of word.',
+	},
+};
+
+export const WithNoteAndBaseline = {
+	args: {
+		imagePath: '/data/Joscelyn/joscelyn-majuscule-assets/A.png',
+		caption: 'A',
+		showBaseline: true,
+		note: 'First letter of word.',
+	},
+};
+
+export const WithCustomNote = {
+	args: {
+		imagePath: '/data/Hill/Hill-assets/c023.png',
+		caption: 'c',
+		showBaseline: false,
+		note: 'Round c with sharp turn.',
 	},
 };

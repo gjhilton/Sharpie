@@ -103,7 +103,9 @@ describe('App Component', () => {
 			await waitFor(() => {
 				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
 			});
-			expect(screen.queryByTestId('landing-screen')).not.toBeInTheDocument();
+			expect(
+				screen.queryByTestId('landing-screen')
+			).not.toBeInTheDocument();
 		});
 
 		it('sets gameMode correctly', async () => {
@@ -222,12 +224,16 @@ describe('App Component', () => {
 
 			await user.click(screen.getByText('Show Catalogue'));
 			await waitFor(() => {
-				expect(screen.getByTestId('catalogue-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('catalogue-screen')
+				).toBeInTheDocument();
 			});
 			await user.click(screen.getByText('Return to Menu'));
 
 			await waitFor(() => {
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 			});
 			expect(
 				screen.queryByTestId('catalogue-screen')
@@ -240,12 +246,16 @@ describe('App Component', () => {
 
 			await user.click(screen.getByText('Show Feedback'));
 			await waitFor(() => {
-				expect(screen.getByTestId('feedback-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('feedback-screen')
+				).toBeInTheDocument();
 			});
 			await user.click(screen.getByText('Return to Menu'));
 
 			await waitFor(() => {
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 			});
 			expect(
 				screen.queryByTestId('feedback-screen')
@@ -261,7 +271,9 @@ describe('App Component', () => {
 			await user.click(screen.getByText('Show Catalogue'));
 
 			expect(screen.getByTestId('catalogue-screen')).toBeInTheDocument();
-			expect(screen.queryByTestId('landing-screen')).not.toBeInTheDocument();
+			expect(
+				screen.queryByTestId('landing-screen')
+			).not.toBeInTheDocument();
 		});
 	});
 
@@ -273,7 +285,9 @@ describe('App Component', () => {
 			await user.click(screen.getByText('Show Feedback'));
 
 			expect(screen.getByTestId('feedback-screen')).toBeInTheDocument();
-			expect(screen.queryByTestId('landing-screen')).not.toBeInTheDocument();
+			expect(
+				screen.queryByTestId('landing-screen')
+			).not.toBeInTheDocument();
 		});
 
 		it('switches to FeedbackScreen from ScoreScreen', async () => {
@@ -418,7 +432,9 @@ describe('App Component', () => {
 				render(<App />);
 
 				// Start at Menu
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 
 				// Navigate to Game
 				await user.click(screen.getByText('Select Easy Mode'));
@@ -436,7 +452,9 @@ describe('App Component', () => {
 
 				// Return to Menu
 				await user.click(screen.getByText('Return to Menu'));
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 				expect(
 					screen.queryByTestId('score-screen')
 				).not.toBeInTheDocument();
@@ -458,7 +476,9 @@ describe('App Component', () => {
 				expect(scoreData).toEqual({ points: 100, correct: 10 });
 
 				await user.click(screen.getByText('Return to Menu'));
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 			});
 		});
 
@@ -468,7 +488,9 @@ describe('App Component', () => {
 				render(<App />);
 
 				// Start at Menu
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 
 				// Navigate to Catalogue
 				await user.click(screen.getByText('Show Catalogue'));
@@ -481,7 +503,9 @@ describe('App Component', () => {
 
 				// Return to Menu
 				await user.click(screen.getByText('Return to Menu'));
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 				expect(
 					screen.queryByTestId('catalogue-screen')
 				).not.toBeInTheDocument();
@@ -494,7 +518,9 @@ describe('App Component', () => {
 				render(<App />);
 
 				// Start at Menu
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 
 				// Navigate to Feedback
 				await user.click(screen.getByText('Show Feedback'));
@@ -507,7 +533,9 @@ describe('App Component', () => {
 
 				// Return to Menu
 				await user.click(screen.getByText('Return to Menu'));
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 				expect(
 					screen.queryByTestId('feedback-screen')
 				).not.toBeInTheDocument();
@@ -531,7 +559,9 @@ describe('App Component', () => {
 				).toBeInTheDocument();
 
 				await user.click(screen.getByText('Return to Menu'));
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 			});
 
 			it('navigates Menu → Game → Score → Feedback → Menu', async () => {
@@ -549,7 +579,9 @@ describe('App Component', () => {
 				).toBeInTheDocument();
 
 				await user.click(screen.getByText('Return to Menu'));
-				expect(screen.getByTestId('landing-screen')).toBeInTheDocument();
+				expect(
+					screen.getByTestId('landing-screen')
+				).toBeInTheDocument();
 			});
 
 			it('allows multiple game sessions', async () => {

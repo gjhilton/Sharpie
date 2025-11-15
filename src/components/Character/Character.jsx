@@ -63,6 +63,7 @@ const Character = ({
 	sourceLink,
 	sourceTitle,
 	showBaseline = false,
+	note,
 }) => {
 	return (
 		<div
@@ -101,6 +102,7 @@ const Character = ({
 				imagePath={imagePath}
 				showBaseline={showBaseline}
 				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'}
+				note={note}
 			/>
 			) : (
 				<CharacterImageSlideshow

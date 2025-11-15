@@ -33,7 +33,9 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 				cursor: disabled ? 'not-allowed' : 'pointer',
 				minWidth: { base: '100%', md: '200px' },
 				opacity: disabled ? 0.5 : 1,
-				border: hero ? '3px solid {colors.ink}' : '1px solid {colors.ink}',
+				border: hero
+					? '3px solid {colors.ink}'
+					: '1px solid {colors.ink}',
 				fontSize: 'm',
 				fontWeight: hero ? 900 : 400,
 				padding: '1rem 3rem',

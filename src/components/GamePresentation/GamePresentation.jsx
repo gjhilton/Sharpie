@@ -20,6 +20,7 @@ export const Unanswered = ({ solution, showBaseline }) => (
 			state={CHARACTER_STATE.AWAIT_ANSWER}
 			imagePath={solution.imagePath}
 			showBaseline={showBaseline}
+			note={solution.graph.note}
 		/>
 	</div>
 );
@@ -56,6 +57,7 @@ export const CorrectAnswer = ({
 					sourceLink={sourceLink}
 					sourceTitle={sourceTitle}
 					showBaseline={showBaseline}
+					note={solution.graph.note}
 				/>
 			</div>
 			{acceptedAs24Letter && (
@@ -135,6 +137,7 @@ export const IncorrectAnswer = ({
 					sourceLink={sourceLink}
 					sourceTitle={sourceTitle}
 					showBaseline={showBaseline}
+					note={solution.graph.note}
 				/>
 			</div>
 

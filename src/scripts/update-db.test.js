@@ -492,6 +492,77 @@ describe('generateGraphSets', () => {
 		expect(minuscules.graphs[0].source).toBe('Joscelyn');
 		expect(minuscules.graphs[1].source).toBe('BeauChesne-Baildon');
 	});
+
+	it('should include note field in graph when present', () => {
+		const entries = [
+			{
+				sourceName: 'Joscelyn',
+				assetFolderName: 'joscelyn-maj-assets',
+				graphEntries: [
+					{
+						img: 'A.png',
+						character: 'A',
+						source: 'Joscelyn',
+						category: 'MAJUSCULES',
+						relativePath: 'Joscelyn/joscelyn-maj-assets/A.png',
+						note: 'First letter of word.',
+					},
+				],
+			},
+		];
+
+		const result = generateGraphSets(entries);
+		const majuscules = result.find(gs => gs.title === 'MAJUSCULES');
+
+		expect(majuscules.graphs[0].note).toBe('First letter of word.');
+	});
+
+	it('should not include note field in graph when absent', () => {
+		const entries = [
+			{
+				sourceName: 'Joscelyn',
+				assetFolderName: 'joscelyn-min-assets',
+				graphEntries: [
+					{
+						img: 'a.png',
+						character: 'a',
+						source: 'Joscelyn',
+						category: 'minuscules',
+						relativePath: 'Joscelyn/joscelyn-min-assets/a.png',
+					},
+				],
+			},
+		];
+
+		const result = generateGraphSets(entries);
+		const minuscules = result.find(gs => gs.title === 'minuscules');
+
+		expect(minuscules.graphs[0]).not.toHaveProperty('note');
+	});
+
+	it('should preserve custom notes from metadata', () => {
+		const entries = [
+			{
+				sourceName: 'Hill',
+				assetFolderName: 'Hill-assets',
+				graphEntries: [
+					{
+						img: 'c023.png',
+						character: 'c',
+						source: 'Hill',
+						category: 'minuscules',
+						relativePath: 'Hill/Hill-assets/c023.png',
+						note: 'Round c with sharp turn.',
+					},
+				],
+			},
+		];
+
+		const result = generateGraphSets(entries);
+		const minuscules = result.find(gs => gs.title === 'minuscules');
+
+		expect(minuscules.graphs[0].note).toBe('Round c with sharp turn.');
+	});
 });
 
 describe('formatSourceEntry', () => {
@@ -552,6 +623,31 @@ describe('formatGraphEntry', () => {
 		expect(result).toContain('"test.png"');
 		expect(result).toContain('"x"');
 		expect(result).toContain('"Test"');
+	});
+
+	it('should include note field when present', () => {
+		const graph = {
+			img: 'A.png',
+			character: 'A',
+			source: 'Joscelyn',
+			note: 'First letter of word.',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).toContain('\t\t\t\t\tnote: "First letter of word."');
+	});
+
+	it('should not include note field when absent', () => {
+		const graph = {
+			img: 'a.png',
+			character: 'a',
+			source: 'Joscelyn',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).not.toContain('note:');
 	});
 });
 

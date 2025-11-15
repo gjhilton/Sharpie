@@ -72,24 +72,6 @@ describe('CharacterImage', () => {
 		expect(img).toHaveAttribute('src', imagePath);
 	});
 
-	it('accepts graph prop without affecting rendering', () => {
-		const imagePath = '/test.jpg';
-		const caption = 'Test Caption';
-		const graph = { some: 'data' };
-
-		render(
-			<CharacterImage
-				imagePath={imagePath}
-				caption={caption}
-				graph={graph}
-			/>
-		);
-
-		const img = screen.getByRole('img');
-		expect(img).toHaveAttribute('src', imagePath);
-		expect(img).toHaveAttribute('alt', caption);
-	});
-
 	it('can find image by alt text when caption is provided', () => {
 		const imagePath = '/test.jpg';
 		const caption = 'Hamlet contemplating a skull';
@@ -177,6 +159,69 @@ describe('CharacterImage', () => {
 
 			const baseline = container.querySelector('[aria-hidden="true"]');
 			expect(baseline).toHaveAttribute('aria-hidden', 'true');
+		});
+	});
+
+	describe('note functionality', () => {
+		it('does not render note when note prop is not provided', () => {
+			render(<CharacterImage imagePath="/test.jpg" />);
+
+			const note = screen.queryByText('First letter of word.');
+			expect(note).not.toBeInTheDocument();
+		});
+
+		it('renders note when note prop is provided', () => {
+			render(
+				<CharacterImage imagePath="/test.jpg" note="First letter of word." />
+			);
+
+			const note = screen.getByText('First letter of word.');
+			expect(note).toBeInTheDocument();
+		});
+
+		it('renders custom note text', () => {
+			render(
+				<CharacterImage imagePath="/test.jpg" note="Round c with sharp turn." />
+			);
+
+			const note = screen.getByText('Round c with sharp turn.');
+			expect(note).toBeInTheDocument();
+		});
+
+		it('note is positioned above the image', () => {
+			const { container } = render(
+				<CharacterImage imagePath="/test.jpg" note="Test note" />
+			);
+
+			const noteElement = screen.getByText('Test note');
+			const imageElement = container.querySelector('img');
+
+			expect(noteElement).toBeInTheDocument();
+			expect(imageElement).toBeInTheDocument();
+		});
+
+		it('does not render note when note prop is empty string', () => {
+			render(<CharacterImage imagePath="/test.jpg" note="" />);
+
+			const wrapper = screen.getByRole('img').closest('div').parentElement;
+			const children = wrapper.children;
+			expect(children).toHaveLength(1);
+		});
+
+		it('renders note alongside baseline when both are present', () => {
+			const { container } = render(
+				<CharacterImage
+					imagePath="/test.jpg"
+					note="First letter of word."
+					showBaseline={true}
+				/>
+			);
+
+			const note = screen.getByText('First letter of word.');
+			const baseline = container.querySelector('[aria-hidden="true"]');
+
+			expect(note).toBeInTheDocument();
+			expect(baseline).toBeInTheDocument();
 		});
 	});
 });

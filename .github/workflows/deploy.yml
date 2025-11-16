@@ -35,7 +35,7 @@ jobs:
               run: npm run update-db
 
             - name: Generate Panda CSS
-              run: npx panda codegen --config config/panda.config.mjs
+              run: npx panda codegen --config src/config/panda.config.mjs
 
             - name: Run linter
               run: npm run lint

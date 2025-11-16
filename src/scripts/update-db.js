@@ -11,7 +11,7 @@ const projectRoot = join(__dirname, '../..');
 
 const GRAPHS_DIR = join(projectRoot, 'src/artwork/hands');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
-const PUBLIC_DATA_DIR = join(projectRoot, 'public/data');
+const PUBLIC_DATA_DIR = join(projectRoot, 'src/public/data');
 const SOURCES_JSON_PATH = join(projectRoot, 'src/data/hands.json');
 
 /**

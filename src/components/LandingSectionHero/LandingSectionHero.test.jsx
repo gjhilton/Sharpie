@@ -1,10 +1,19 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LandingSectionHero from './LandingSectionHero';
 
+// Mock the markdown import
+vi.mock('@data/hero.md?raw', () => ({
+	default: `This is the *test body* content with emphasis.`
+}));
+
 describe('LandingSectionHero', () => {
 	const mockOnSelectMode = vi.fn();
+
+	beforeEach(() => {
+		mockOnSelectMode.mockClear();
+	});
 
 	it('renders logo', () => {
 		const { container } = render(
@@ -40,16 +49,18 @@ describe('LandingSectionHero', () => {
 		expect(secretary.length).toBeGreaterThan(0);
 	});
 
-	it('renders description paragraph', () => {
+	it('renders body content from markdown with emphasis', () => {
 		render(
 			<LandingSectionHero
 				onSelectMode={mockOnSelectMode}
 				twentyFourLetterAlphabet={false}
 			/>
 		);
-		expect(
-			screen.getByText(/Sharpie helps sharpen your eye/i)
-		).toBeInTheDocument();
+		// Body should be rendered from markdown
+		expect(screen.getByText(/test body/i)).toBeInTheDocument();
+		// Check that emphasis is rendered
+		const emphasisElement = screen.getByText('test body');
+		expect(emphasisElement.tagName).toBe('EM');
 	});
 
 	it('renders Start button', () => {

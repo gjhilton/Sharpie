@@ -29,6 +29,7 @@ export default defineConfig({
 			'@data': resolve(__dirname, '../src/data'),
 			'@utilities': resolve(__dirname, '../src/utilities'),
 			'@style': resolve(__dirname, '../src/style'),
+			'@generated': resolve(__dirname, '../styled-system'),
 		},
 	},
 });

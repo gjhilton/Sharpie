@@ -1,3 +1,2 @@
-[11/6/2025, 9:37:18 AM] layer "D6.pmg": Unsupported extension: pmg
-[11/6/2025, 9:37:19 AM] layer "e3.pmg": Unsupported extension: pmg
-[11/6/2025, 9:37:19 AM] layer "E7.png": Duplicate path: E7.png
+[11/16/2025, 1:26:31 AM] layer "D6.pmg": Unsupported extension: pmg
+[11/16/2025, 1:21:53 AM] layer "E7.png": Duplicate path: E7.png

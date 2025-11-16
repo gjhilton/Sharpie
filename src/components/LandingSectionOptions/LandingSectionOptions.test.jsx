@@ -1,11 +1,21 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LandingSectionOptions from './LandingSectionOptions';
 
+// Mock the markdown import
+vi.mock('@data/options.md?raw', () => ({
+	default: `Practice *lowercase* or *uppercase* characters.`
+}));
+
 describe('LandingSectionOptions', () => {
 	const mockOnSelectMode = vi.fn();
 	const mockOnShowCatalogue = vi.fn();
+
+	beforeEach(() => {
+		mockOnSelectMode.mockClear();
+		mockOnShowCatalogue.mockClear();
+	});
 
 	it('renders section heading', () => {
 		render(
@@ -18,7 +28,7 @@ describe('LandingSectionOptions', () => {
 		expect(screen.getByText('Options')).toBeInTheDocument();
 	});
 
-	it('renders description', () => {
+	it('renders description from markdown with emphasis', () => {
 		render(
 			<LandingSectionOptions
 				onSelectMode={mockOnSelectMode}
@@ -26,9 +36,9 @@ describe('LandingSectionOptions', () => {
 				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
-		expect(screen.getByText(/You can practice just/i)).toBeInTheDocument();
-		expect(screen.getAllByText(/minuscules/i).length).toBeGreaterThan(0);
-		expect(screen.getAllByText(/majuscules/i).length).toBeGreaterThan(0);
+		expect(screen.getByText(/Practice/i)).toBeInTheDocument();
+		const lowercaseEmphasis = screen.getByText('lowercase');
+		expect(lowercaseEmphasis.tagName).toBe('EM');
 	});
 
 	it('renders both buttons', () => {

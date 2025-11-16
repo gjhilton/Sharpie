@@ -1,9 +1,11 @@
-import { css } from '../../../styled-system/css';
+import { css } from '@generated/css';
+import ReactMarkdown from 'react-markdown';
 import Button from '@components/Button/Button.jsx';
 import Logo, { SIZE } from '@components/Logo/Logo.jsx';
 import { PageTitle, Paragraph, Section } from '@components/Layout/Layout.jsx';
 import { GAME_MODES } from '@constants/stages.js';
 import sources from '@data/sources.json';
+import heroContent from '@data/hero.md?raw';
 
 const LandingSectionHero = ({ onSelectMode, twentyFourLetterAlphabet }) => {
 	return (
@@ -52,9 +54,13 @@ const LandingSectionHero = ({ onSelectMode, twentyFourLetterAlphabet }) => {
 				}
 			>
 				<Paragraph>
-					Sharpie helps sharpen your eye for recognising letters
-					written in the <em>secretary hand</em> used in the sixteenth
-					and seventeenth centuries.
+					<ReactMarkdown
+						components={{
+							p: ({ children }) => <>{children}</>,
+						}}
+					>
+						{heroContent}
+					</ReactMarkdown>
 				</Paragraph>
 				<Button
 					hero

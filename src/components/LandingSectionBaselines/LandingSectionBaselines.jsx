@@ -1,21 +1,16 @@
-import { css } from '../../../styled-system/css';
+import { css } from '@generated/css';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import { Section, Heading, Paragraph } from '@components/Layout/Layout.jsx';
+import { Section, Heading } from '@components/Layout/Layout.jsx';
 import Toggle from '@components/Toggle/Toggle.jsx';
+import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
+import baselinesContent from '@data/baselines.md?raw';
 
 const LandingSectionBaselines = ({ showBaseline, setShowBaseline }) => {
-	// Using Joscelyn majuscule S as the example
-	// Construct path using the same pattern as getImagePath in database.js
 	const baseUrl = import.meta.env.BASE_URL || '/';
 	const exampleImagePath = `${baseUrl}data/Joscelyn/joscelyn-majuscule-assets/S.png`;
 
-	return (
-		<Section title={<Heading>Baselines</Heading>}>
-			<Paragraph>
-				Show the approximate baseline of the characters (can be useful for
-				distinguishing majuscule from minuscule).
-			</Paragraph>
-
+	const placeholders = {
+		BASELINE_TOGGLE: (
 			<div
 				className={css({
 					marginTop: '1rem',
@@ -29,14 +24,8 @@ const LandingSectionBaselines = ({ showBaseline, setShowBaseline }) => {
 					onChange={setShowBaseline}
 				/>
 			</div>
-
-			<Paragraph>
-				When enabled, a baseline appears across each character image. This
-				can help distinguish between majuscule (uppercase) and minuscule
-				(lowercase) forms, as minuscule characters typically sit on the
-				baseline while majuscule characters may extend above it.
-			</Paragraph>
-
+		),
+		BASELINE_EXAMPLES: (
 			<div
 				className={css({
 					display: 'grid',
@@ -94,10 +83,15 @@ const LandingSectionBaselines = ({ showBaseline, setShowBaseline }) => {
 					</div>
 				</div>
 			</div>
+		),
+	};
 
-			<Paragraph>
-				<em>Example: Joscelyn majuscule S</em>
-			</Paragraph>
+	return (
+		<Section title={<Heading>Baselines</Heading>}>
+			<MarkdownWithPlaceholders
+				content={baselinesContent}
+				placeholders={placeholders}
+			/>
 		</Section>
 	);
 };

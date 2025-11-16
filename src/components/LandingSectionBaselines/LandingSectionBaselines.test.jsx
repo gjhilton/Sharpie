@@ -1,10 +1,27 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import LandingSectionBaselines from './LandingSectionBaselines';
 
+// Mock the markdown import
+vi.mock('@data/baselines.md?raw', () => ({
+	default: `First paragraph about *baseline* feature.
+
+{{BASELINE_TOGGLE}}
+
+Second paragraph about *distinguishing* characters.
+
+{{BASELINE_EXAMPLES}}
+
+*Example: Test caption*`
+}));
+
 describe('LandingSectionBaselines', () => {
 	const mockSetShowBaseline = vi.fn();
+
+	beforeEach(() => {
+		mockSetShowBaseline.mockClear();
+	});
 
 	it('renders section heading', () => {
 		render(
@@ -33,8 +50,7 @@ describe('LandingSectionBaselines', () => {
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		const toggle = screen.getByLabelText('Show baselines');
-		expect(toggle).toHaveAttribute('aria-checked', 'false');
+		expect(screen.getByLabelText('Show baselines')).toHaveAttribute('aria-checked', 'false');
 
 		rerender(
 			<LandingSectionBaselines
@@ -42,7 +58,7 @@ describe('LandingSectionBaselines', () => {
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(toggle).toHaveAttribute('aria-checked', 'true');
+		expect(screen.getByLabelText('Show baselines')).toHaveAttribute('aria-checked', 'true');
 	});
 
 	it('toggle calls onChange', async () => {
@@ -58,28 +74,28 @@ describe('LandingSectionBaselines', () => {
 		expect(mockSetShowBaseline).toHaveBeenCalledWith(true);
 	});
 
-	it('renders introductory paragraph', () => {
+	it('renders first paragraph from markdown with emphasis', () => {
 		render(
 			<LandingSectionBaselines
 				showBaseline={false}
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(
-			screen.getByText(/Show the approximate baseline of the characters/i)
-		).toBeInTheDocument();
+		expect(screen.getByText(/First paragraph/i)).toBeInTheDocument();
+		const emphasisElement = screen.getByText('baseline');
+		expect(emphasisElement.tagName).toBe('EM');
 	});
 
-	it('renders explanation paragraph', () => {
+	it('renders second paragraph from markdown', () => {
 		render(
 			<LandingSectionBaselines
 				showBaseline={false}
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(
-			screen.getByText(/When enabled, a baseline appears across each character image/i)
-		).toBeInTheDocument();
+		expect(screen.getByText(/Second paragraph/i)).toBeInTheDocument();
+		const emphasisElement = screen.getByText('distinguishing');
+		expect(emphasisElement.tagName).toBe('EM');
 	});
 
 	it('renders "Without baseline" label', () => {
@@ -113,14 +129,14 @@ describe('LandingSectionBaselines', () => {
 		expect(images).toHaveLength(2);
 	});
 
-	it('renders example caption', () => {
+	it('renders third paragraph from markdown as caption', () => {
 		render(
 			<LandingSectionBaselines
 				showBaseline={false}
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(screen.getByText(/Example: Joscelyn majuscule S/i)).toBeInTheDocument();
+		expect(screen.getByText(/Example: Test caption/i)).toBeInTheDocument();
 	});
 
 	it('renders images with correct source path', () => {
@@ -135,17 +151,5 @@ describe('LandingSectionBaselines', () => {
 		// Path should now use data/ prefix with BASE_URL
 		expect(image1.src).toContain('data/Joscelyn/joscelyn-majuscule-assets/S.png');
 		expect(image2.src).toContain('data/Joscelyn/joscelyn-majuscule-assets/S.png');
-	});
-
-	it('explains the purpose of baselines', () => {
-		render(
-			<LandingSectionBaselines
-				showBaseline={false}
-				setShowBaseline={mockSetShowBaseline}
-			/>
-		);
-		expect(
-			screen.getByText(/can help distinguish between majuscule.*and minuscule/i)
-		).toBeInTheDocument();
 	});
 });

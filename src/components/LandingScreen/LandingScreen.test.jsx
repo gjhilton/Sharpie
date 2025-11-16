@@ -57,6 +57,51 @@ vi.mock('@data/sources.json', () => ({
 	},
 }));
 
+// Mock markdown imports for section components
+vi.mock('@data/hero.md?raw', () => ({
+	default: `Sharpie helps sharpen your eye for recognising letters written in the *secretary hand* used in the sixteenth and seventeenth centuries.`
+}));
+
+vi.mock('@data/how-to-use.md?raw', () => ({
+	default: `1. You will be shown a character - a *graph*, in palaeography jargon - written in the secretary hand
+2. Use your computer keyboard or the onscreen keyboard to enter the graph you see
+3. See feedback about your answer: correct or incorrect
+4. Hit 'next' to see another graph
+5. Exit at any time by clicking the 'End game' button to view a summary of your score, and recap graphs identified wrongly`
+}));
+
+vi.mock('@data/options.md?raw', () => ({
+	default: `You can practice just *minuscules* (the manuscript equivalent of print "lowercase") or *majuscules* (≈"uppercase")`
+}));
+
+vi.mock('@data/alphabet.md?raw', () => ({
+	default: `During this era, the alphabet had 24 letters. *I* and *J* were the same letter, as were *U* and *V*: In each case, two graphs - two characters -  could be used to write the same letter.
+
+{{ALPHABET_TOGGLE}}
+
+When this option is enabled, if you are shown a 'J' and answer 'I', that answer will be accepted.`
+}));
+
+vi.mock('@data/baselines.md?raw', () => ({
+	default: `Show the approximate baseline of the characters (can be useful for distinguishing majuscule from minuscule).
+
+{{BASELINE_TOGGLE}}
+
+When enabled, a baseline appears across each character image. This can help distinguish between majuscule (uppercase) and minuscule (lowercase) forms.
+
+{{BASELINE_EXAMPLES}}
+
+*Example: Joscelyn majuscule S*`
+}));
+
+vi.mock('@data/next-steps.md?raw', () => ({
+	default: `Many resources are available online to help you read secretary hand:
+
+- [English Handwriting Online 1500-1700](https://www.english.cam.ac.uk/ceres/ehoc/)
+- [Beinecke Library](https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand)
+- [Scottish Handwriting](https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials)`
+}));
+
 describe('LandingScreen', () => {
 	let mockOnSelectMode;
 	let mockOnShowCatalogue;

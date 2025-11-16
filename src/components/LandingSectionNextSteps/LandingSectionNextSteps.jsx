@@ -1,48 +1,11 @@
-import { css } from '../../../styled-system/css';
-import { Section, Heading, Paragraph } from '@components/Layout/Layout.jsx';
+import { Section, Heading } from '@components/Layout/Layout.jsx';
+import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
+import nextStepsContent from '@data/next-steps.md?raw';
 
 const LandingSectionNextSteps = () => {
 	return (
 		<Section title={<Heading>Next steps for learners</Heading>}>
-			<Paragraph>
-				Many resources are available online to help you read
-				secretary hand:
-			</Paragraph>
-			<ul
-				className={css({
-					listStyleType: 'disc',
-					marginLeft: '1em',
-					lineHeight: '1.6',
-				})}
-			>
-				<li>
-					<a
-						href="https://www.english.cam.ac.uk/ceres/ehoc/"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						English Handwriting Online 1500-1700
-					</a>
-				</li>
-				<li>
-					<a
-						href="https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Beinecke Library
-					</a>
-				</li>
-				<li>
-					<a
-						href="https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials"
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						Scottish Handwriting
-					</a>
-				</li>
-			</ul>
+			<MarkdownWithPlaceholders content={nextStepsContent} />
 		</Section>
 	);
 };

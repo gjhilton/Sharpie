@@ -1,7 +1,9 @@
-import { css } from '../../../styled-system/css';
+import { css } from '@generated/css';
+import ReactMarkdown from 'react-markdown';
 import Button from '@components/Button/Button.jsx';
 import { Section, Heading, Paragraph } from '@components/Layout/Layout.jsx';
 import { GAME_MODES } from '@constants/stages.js';
+import optionsContent from '@data/options.md?raw';
 
 const LandingSectionOptions = ({
 	onSelectMode,
@@ -11,9 +13,13 @@ const LandingSectionOptions = ({
 	return (
 		<Section title={<Heading>Options</Heading>}>
 			<Paragraph>
-				You can practice just <em>minuscules</em> (the manuscript
-				equivalent of print "lowercase") or <em>majuscules</em>{' '}
-				(≈"uppercase")
+				<ReactMarkdown
+					components={{
+						p: ({ children }) => <>{children}</>,
+					}}
+				>
+					{optionsContent}
+				</ReactMarkdown>
 			</Paragraph>
 			<div
 				className={css({

@@ -1,6 +1,13 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import LandingSectionHowToUse from './LandingSectionHowToUse';
+
+// Mock the markdown import
+vi.mock('@data/how-to-use.md?raw', () => ({
+	default: `1. First *step* with emphasis
+2. Second step
+3. Third step`
+}));
 
 describe('LandingSectionHowToUse', () => {
 	it('renders section heading', () => {
@@ -8,12 +15,12 @@ describe('LandingSectionHowToUse', () => {
 		expect(screen.getByText('How to use')).toBeInTheDocument();
 	});
 
-	it('renders ordered list with 5 items', () => {
+	it('renders ordered list from markdown', () => {
 		const { container } = render(<LandingSectionHowToUse />);
 		const list = container.querySelector('ol');
 		expect(list).toBeInTheDocument();
 		const listItems = list.querySelectorAll('li');
-		expect(listItems).toHaveLength(5);
+		expect(listItems).toHaveLength(3);
 	});
 
 	it('list uses lower-roman style', () => {
@@ -22,12 +29,16 @@ describe('LandingSectionHowToUse', () => {
 		expect(list).toHaveClass('li-t_lower-roman');
 	});
 
-	it('list items contain expected text', () => {
+	it('renders emphasis from markdown', () => {
 		render(<LandingSectionHowToUse />);
-		expect(screen.getByText(/You will be shown a character/i)).toBeInTheDocument();
-		expect(screen.getByText(/Use your computer keyboard/i)).toBeInTheDocument();
-		expect(screen.getByText(/See feedback about your answer/i)).toBeInTheDocument();
-		expect(screen.getByText(/Hit 'next' to see another graph/i)).toBeInTheDocument();
-		expect(screen.getByText(/Exit at any time/i)).toBeInTheDocument();
+		const emphasisElement = screen.getByText('step');
+		expect(emphasisElement.tagName).toBe('EM');
+	});
+
+	it('renders list items from markdown content', () => {
+		render(<LandingSectionHowToUse />);
+		expect(screen.getByText(/First/i)).toBeInTheDocument();
+		expect(screen.getByText(/Second step/i)).toBeInTheDocument();
+		expect(screen.getByText(/Third step/i)).toBeInTheDocument();
 	});
 });

@@ -35,15 +35,28 @@ vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
 vi.mock('@components/Layout/Layout.jsx', () => ({
 	PageWidth: ({ children }) => <div data-testid="page-width">{children}</div>,
 	PageTitle: ({ children }) => <h1 data-testid="page-title">{children}</h1>,
-	Heading: ({ children }) => <h2 data-testid="heading">{children}</h2>,
-	Paragraph: ({ children, className }) => (
-		<p className={className}>{children}</p>
+	Paragraph: ({ children }) => <p>{children}</p>,
+}));
+
+vi.mock('@components/Toggle/Toggle.jsx', () => ({
+	default: ({ id, label, checked, onChange }) => (
+		<label>
+			<input
+				type="checkbox"
+				id={id}
+				checked={checked}
+				onChange={e => onChange(e.target.checked)}
+			/>
+			{label}
+		</label>
 	),
-	Section: ({ title, children }) => (
-		<section data-testid="section">
-			{title}
-			{children}
-		</section>
+}));
+
+vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
+	default: ({ imagePath, caption, showBaseline }) => (
+		<div data-testid="character-image" data-baseline={showBaseline}>
+			<img src={imagePath} alt={caption} />
+		</div>
 	),
 }));
 
@@ -59,53 +72,49 @@ vi.mock('@data/alphabets.json', () => ({
 	},
 }));
 
-// Mock markdown imports for section components
+// Mock changelog.json
+vi.mock('@data/changelog.json', () => ({
+	default: [
+		{ version: '1.2.0', description: 'Added new features' },
+		{ version: '1.1.0', description: 'Bug fixes' },
+		{ version: '1.0.0', description: 'Initial release' },
+	],
+}));
+
+// Mock markdown imports
 vi.mock('@data/hero.md?raw', () => ({
-	default: `Sharpie helps sharpen your eye for recognising letters written in the *secretary hand* used in the sixteenth and seventeenth centuries.`
+	default: 'Sharpie helps sharpen your eye for recognising letters.',
 }));
 
-vi.mock('@data/how-to-use.md?raw', () => ({
-	default: `1. You will be shown a character - a *graph*, in palaeography jargon - written in the secretary hand
-2. Use your computer keyboard or the onscreen keyboard to enter the graph you see
-3. See feedback about your answer: correct or incorrect
-4. Hit 'next' to see another graph
-5. Exit at any time by clicking the 'End game' button to view a summary of your score, and recap graphs identified wrongly`
-}));
-
-vi.mock('@data/options.md?raw', () => ({
-	default: `You can practice just *minuscules* (the manuscript equivalent of print "lowercase") or *majuscules* (≈"uppercase")`
+vi.mock('@data/identify.md?raw', () => ({
+	default:
+		'_Minuscule_ is the manuscript equivalent of "lower case" in print.',
 }));
 
 vi.mock('@data/alphabet.md?raw', () => ({
-	default: `During this era, the alphabet had 24 letters. *I* and *J* were the same letter, as were *U* and *V*: In each case, two graphs - two characters -  could be used to write the same letter.
-
-{{ALPHABET_TOGGLE}}
-
-When this option is enabled, if you are shown a 'J' and answer 'I', that answer will be accepted.`
+	default: 'During this era, the alphabet had 24 letters.\n\n{{ALPHABET_TOGGLE}}',
 }));
 
 vi.mock('@data/baselines.md?raw', () => ({
-	default: `Show the approximate baseline of the characters (can be useful for distinguishing majuscule from minuscule).
+	default: '{{BASELINE_TOGGLE}}\n\nWhen enabled, a baseline appears.\n\n{{BASELINE_EXAMPLES}}',
+}));
 
-{{BASELINE_TOGGLE}}
+vi.mock('@data/how-to-use.md?raw', () => ({
+	default:
+		'1. You will be shown a character\n2. Use your keyboard\n3. See feedback\n4. Hit next\n5. Exit at any time',
+}));
 
-When enabled, a baseline appears across each character image. This can help distinguish between majuscule (uppercase) and minuscule (lowercase) forms.
+vi.mock('@data/letters-in-context.md?raw', () => ({
+	default: 'For some alphabets we show you a fragment.\n\n{{CONTEXT_IMAGE}}',
+}));
 
-{{BASELINE_EXAMPLES}}
-
-*Example: Joscelyn majuscule S*`
+vi.mock('@data/hints.md?raw', () => ({
+	default: 'Some letters supply additional information.',
 }));
 
 vi.mock('@data/next-steps.md?raw', () => ({
-	default: `Many resources are available online to help you read secretary hand:
-
-- [English Handwriting Online 1500-1700](https://www.english.cam.ac.uk/ceres/ehoc/)
-- [Beinecke Library](https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand)
-- [Scottish Handwriting](https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials)`
-}));
-
-vi.mock('@data/hands-section.md?raw', () => ({
-	default: `The database includes examples from historical manuscripts and modern secretary hand typefaces.`
+	default:
+		'Many resources are available online:\n\n- [English Handwriting Online](https://www.english.cam.ac.uk/ceres/ehoc/)',
 }));
 
 // Mock database utilities
@@ -114,6 +123,10 @@ vi.mock('@utilities/database.js', () => ({
 	countEnabledCharacters: vi.fn(() => 80),
 	getAllAlphabetNames: vi.fn(() => ['Howard', 'Joscelyn', 'BeauChesne-Baildon']),
 	countEnabledAlphabets: vi.fn(() => 3),
+}));
+
+vi.mock('@data/DB.js', () => ({
+	DB: {},
 }));
 
 describe('LandingScreen', () => {
@@ -130,8 +143,8 @@ describe('LandingScreen', () => {
 		mockSetShowBaseline = vi.fn();
 		mockEnabledAlphabets = {
 			'BeauChesne-Baildon': true,
-			'Howard': true,
-			'Joscelyn': true,
+			Howard: true,
+			Joscelyn: true,
 		};
 	});
 
@@ -151,7 +164,7 @@ describe('LandingScreen', () => {
 			expect(screen.getByTestId('page-width')).toBeInTheDocument();
 		});
 
-		it('should render all sections', () => {
+		it('should render SmallPrint component', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -163,12 +176,11 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const sections = screen.getAllByTestId('section');
-			expect(sections).toHaveLength(8); // Hero, How to use, Options, Alphabets, Alphabet, Baselines, Next steps, News
+			expect(screen.getByTestId('small-print')).toBeInTheDocument();
 		});
 	});
 
-	describe('Logo', () => {
+	describe('Hero Section', () => {
 		it('should render Logo with SIZE.S', () => {
 			render(
 				<LandingScreen
@@ -185,9 +197,7 @@ describe('LandingScreen', () => {
 			expect(logo).toBeInTheDocument();
 			expect(logo).toHaveAttribute('data-size', 'small');
 		});
-	});
 
-	describe('Secretary Hand Image', () => {
 		it('should display the secretary hand image', () => {
 			render(
 				<LandingScreen
@@ -205,48 +215,7 @@ describe('LandingScreen', () => {
 			expect(image).toHaveAttribute('src', 'secretary_hand.gif');
 		});
 
-		it('should render image caption with source information from sources.json', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(
-				screen.getByText('Test BeauChesne Title')
-			).toBeInTheDocument();
-		});
-
-		it('should render source link with correct attributes', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const sourceLink = screen.getByRole('link', { name: '[source]' });
-			expect(sourceLink).toBeInTheDocument();
-			expect(sourceLink).toHaveAttribute(
-				'href',
-				'https://example.com/beauchesne'
-			);
-			expect(sourceLink).toHaveAttribute('target', '_blank');
-			expect(sourceLink).toHaveAttribute('rel', 'noopener noreferrer');
-		});
-	});
-
-	describe('Hero Section', () => {
-		it('should render hero section with page title', () => {
+		it('should render page title with Secretary in Joscelyn font', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -263,7 +232,7 @@ describe('LandingScreen', () => {
 			expect(screen.getByText('Secretary')).toBeInTheDocument();
 		});
 
-		it('should render hero section description', () => {
+		it('should render Play button', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -275,31 +244,12 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			expect(
-				screen.getByText(
-					/Sharpie helps sharpen your eye for recognising letters written in the/i
-				)
-			).toBeInTheDocument();
+			const playButton = screen.getByRole('button', { name: 'Play' });
+			expect(playButton).toBeInTheDocument();
+			expect(playButton).toHaveAttribute('data-hero', 'true');
 		});
 
-		it('should render Start button', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const startButton = screen.getByRole('button', { name: 'Start' });
-			expect(startButton).toBeInTheDocument();
-			expect(startButton).toHaveAttribute('data-hero', 'true');
-		});
-
-		it('should call onSelectMode with GAME_MODES.ALL when Start button is clicked', async () => {
+		it('should call onSelectMode with default ALL mode when Play is clicked', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -313,82 +263,16 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const startButton = screen.getByRole('button', { name: 'Start' });
-			await user.click(startButton);
+			const playButton = screen.getByRole('button', { name: 'Play' });
+			await user.click(playButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(
-				GAME_MODES.ALL,
-				false
-			);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, false);
 		});
 	});
 
-	describe('How to Use Section', () => {
-		it('should render "How to use" heading', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText('How to use')).toBeInTheDocument();
-		});
-
-		it('should render ordered list with instructions', () => {
-			const { container } = render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const orderedList = container.querySelector('ol');
-			expect(orderedList).toBeInTheDocument();
-
-			const listItems = orderedList.querySelectorAll('li');
-			expect(listItems).toHaveLength(5);
-		});
-
-		it('should render all instruction steps', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(
-				screen.getByText(/You will be shown a character/i)
-			).toBeInTheDocument();
-			expect(
-				screen.getByText(/Use your computer keyboard/i)
-			).toBeInTheDocument();
-			expect(
-				screen.getByText(/See feedback about your answer/i)
-			).toBeInTheDocument();
-			expect(
-				screen.getByText(/Hit 'next' to see another graph/i)
-			).toBeInTheDocument();
-			expect(screen.getByText(/Exit at any time/i)).toBeInTheDocument();
-		});
-	});
-
-	describe('Options Section', () => {
-		it('should render "Options" heading', () => {
+	describe('Disclosure Sections', () => {
+		it('should render Options disclosure section', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -403,7 +287,7 @@ describe('LandingScreen', () => {
 			expect(screen.getByText('Options')).toBeInTheDocument();
 		});
 
-		it('should render options description', () => {
+		it('should render How to play disclosure section', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -415,17 +299,96 @@ describe('LandingScreen', () => {
 				/>
 			);
 
+			expect(screen.getByText('How to play')).toBeInTheDocument();
+		});
+
+		it('should render Next steps for learners disclosure section', () => {
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.getByText('Next steps for learners')).toBeInTheDocument();
+		});
+
+		it('should render What\'s new? disclosure section', () => {
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.getByText("What's new?")).toBeInTheDocument();
+		});
+
+		it('should toggle disclosure section when header is clicked', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			// Options section starts collapsed (defaultExpanded=false)
+			const optionsButton = screen.getByRole('button', { name: 'Options' });
+			expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
+
+			// Click to expand
+			await user.click(optionsButton);
+			expect(optionsButton).toHaveAttribute('aria-expanded', 'true');
+
+			// Click to collapse
+			await user.click(optionsButton);
+			expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
+		});
+	});
+
+	describe('Options Section Content', () => {
+		it('should render Identify subsection with radio buttons when expanded', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+
+			expect(screen.getByText('Identify...')).toBeInTheDocument();
+			expect(screen.getByLabelText(/minuscules only/i)).toBeInTheDocument();
+			expect(screen.getByLabelText(/MAJUSCULES only/i)).toBeInTheDocument();
 			expect(
-				screen.getByText(/You can practice just/i)
-			).toBeInTheDocument();
-			expect(
-				screen.getByText(
-					/the manuscript equivalent of print "lowercase"/i
-				)
+				screen.getByLabelText(/both minuscules AND MAJUSCULES/i)
 			).toBeInTheDocument();
 		});
 
-		it('should render radio button group for game mode', () => {
+		it('should have "both" selected by default', async () => {
+			const user = userEvent.setup();
+
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -437,25 +400,11 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			expect(screen.getByText('Game mode')).toBeInTheDocument();
-			expect(screen.getByLabelText('minuscules')).toBeInTheDocument();
-			expect(screen.getByLabelText('MAJUSCULES')).toBeInTheDocument();
-			expect(screen.getByLabelText('both')).toBeInTheDocument();
-		});
+			await user.click(screen.getByRole('button', { name: 'Options' }));
 
-		it('should have "both" selected by default', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByLabelText('both')).toBeChecked();
+			expect(
+				screen.getByLabelText(/both minuscules AND MAJUSCULES/i)
+			).toBeChecked();
 		});
 
 		it('should update selected mode when radio is clicked', async () => {
@@ -472,12 +421,16 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			await user.click(screen.getByLabelText('minuscules'));
-			expect(screen.getByLabelText('minuscules')).toBeChecked();
-			expect(screen.getByLabelText('both')).not.toBeChecked();
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+
+			await user.click(screen.getByLabelText(/minuscules only/i));
+			expect(screen.getByLabelText(/minuscules only/i)).toBeChecked();
+			expect(
+				screen.getByLabelText(/both minuscules AND MAJUSCULES/i)
+			).not.toBeChecked();
 		});
 
-		it('should call onSelectMode with selected mode when Start is clicked after selecting minuscules', async () => {
+		it('should render Alphabets subsection with question bank stats', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -491,18 +444,111 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			await user.click(screen.getByLabelText('minuscules'));
-			const startButton = screen.getByRole('button', { name: 'Start' });
-			await user.click(startButton);
+			await user.click(screen.getByRole('button', { name: 'Options' }));
 
-			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
+			expect(screen.getByText('Alphabets')).toBeInTheDocument();
+			expect(screen.getByText(/Question bank:/i)).toBeInTheDocument();
+			expect(screen.getByText('80')).toBeInTheDocument(); // enabled characters
+			expect(screen.getByText('3')).toBeInTheDocument(); // enabled alphabets
+		});
+
+		it('should render Choose alphabets button', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+
+			const chooseButton = screen.getByRole('button', {
+				name: 'Choose alphabets',
+			});
+			expect(chooseButton).toBeInTheDocument();
+		});
+
+		it('should call onShowCatalogue when Choose alphabets button is clicked', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+
+			const chooseButton = screen.getByRole('button', {
+				name: 'Choose alphabets',
+			});
+			await user.click(chooseButton);
+
+			expect(mockOnShowCatalogue).toHaveBeenCalledTimes(1);
+		});
+
+		it('should render baseline toggle', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={true}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+
+			expect(screen.getByText('Baselines')).toBeInTheDocument();
+			const toggle = screen.getByLabelText('Show baselines');
+			expect(toggle).toBeInTheDocument();
+			expect(toggle).toBeChecked();
+		});
+	});
+
+	describe('Game Mode Selection', () => {
+		it('should call onSelectMode with minuscule mode after selecting it', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+			await user.click(screen.getByLabelText(/minuscules only/i));
+
+			const playButton = screen.getByRole('button', { name: 'Play' });
+			await user.click(playButton);
+
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
 				GAME_MODES.MINUSCULE,
 				false
 			);
 		});
 
-		it('should call onSelectMode with selected mode when Start is clicked after selecting MAJUSCULES', async () => {
+		it('should call onSelectMode with majuscule mode after selecting it', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -516,11 +562,12 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			await user.click(screen.getByLabelText('MAJUSCULES'));
-			const startButton = screen.getByRole('button', { name: 'Start' });
-			await user.click(startButton);
+			await user.click(screen.getByRole('button', { name: 'Options' }));
+			await user.click(screen.getByLabelText(/MAJUSCULES only/i));
 
-			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
+			const playButton = screen.getByRole('button', { name: 'Play' });
+			await user.click(playButton);
+
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
 				GAME_MODES.MAJUSCULE,
 				false
@@ -528,230 +575,7 @@ describe('LandingScreen', () => {
 		});
 	});
 
-	describe('Alphabets Section', () => {
-		it('should render "Alphabets" heading', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText('Alphabets')).toBeInTheDocument();
-		});
-
-		it('should render link to configure alphabets', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const catalogueLink = screen.getByRole('link', {
-				name: /you can configure which alphabets you want to include/i,
-			});
-			expect(catalogueLink).toBeInTheDocument();
-			expect(catalogueLink).toHaveAttribute('href', '#');
-		});
-
-		it('should call onShowCatalogue when configure alphabets link is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const catalogueLink = screen.getByRole('link', {
-				name: /you can configure which alphabets you want to include/i,
-			});
-			await user.click(catalogueLink);
-
-			expect(mockOnShowCatalogue).toHaveBeenCalledTimes(1);
-		});
-	});
-
-	describe('Next Steps Section', () => {
-		it('should render "Next steps for learners" heading', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText('Next steps for learners')).toBeInTheDocument();
-		});
-
-		it('should render next steps description', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(
-				screen.getByText(/Many resources are available online/i)
-			).toBeInTheDocument();
-		});
-
-		it('should render unordered list with external resources', () => {
-			const { container } = render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const unorderedList = container.querySelector('ul');
-			expect(unorderedList).toBeInTheDocument();
-
-			const listItems = unorderedList.querySelectorAll('li');
-			expect(listItems).toHaveLength(3);
-		});
-
-		it('should render English Handwriting Online link with correct attributes', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const link = screen.getByRole('link', {
-				name: 'English Handwriting Online 1500-1700',
-			});
-			expect(link).toBeInTheDocument();
-			expect(link).toHaveAttribute(
-				'href',
-				'https://www.english.cam.ac.uk/ceres/ehoc/'
-			);
-			expect(link).toHaveAttribute('target', '_blank');
-			expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-		});
-
-		it('should render Beinecke Library link with correct attributes', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const link = screen.getByRole('link', { name: 'Beinecke Library' });
-			expect(link).toBeInTheDocument();
-			expect(link).toHaveAttribute(
-				'href',
-				'https://beinecke.library.yale.edu/article/quarantine-reading-learn-read-secretary-hand'
-			);
-			expect(link).toHaveAttribute('target', '_blank');
-			expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-		});
-
-		it('should render Scottish Handwriting link with correct attributes', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const link = screen.getByRole('link', {
-				name: 'Scottish Handwriting',
-			});
-			expect(link).toBeInTheDocument();
-			expect(link).toHaveAttribute(
-				'href',
-				'https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials'
-			);
-			expect(link).toHaveAttribute('target', '_blank');
-			expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-		});
-
-		it('should have all external links open in new tab with security attributes', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const externalLinks = [
-				screen.getByRole('link', {
-					name: 'English Handwriting Online 1500-1700',
-				}),
-				screen.getByRole('link', { name: 'Beinecke Library' }),
-				screen.getByRole('link', { name: 'Scottish Handwriting' }),
-				screen.getByRole('link', { name: '[source]' }),
-			];
-
-			externalLinks.forEach(link => {
-				expect(link).toHaveAttribute('target', '_blank');
-				expect(link).toHaveAttribute('rel', 'noopener noreferrer');
-			});
-		});
-	});
-
-	describe('SmallPrint Component', () => {
-		it('should render SmallPrint component', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByTestId('small-print')).toBeInTheDocument();
-		});
-
+	describe('SmallPrint Integration', () => {
 		it('should pass onShowFeedback callback to SmallPrint', () => {
 			render(
 				<LandingScreen
@@ -770,7 +594,7 @@ describe('LandingScreen', () => {
 			expect(reportButton).toBeInTheDocument();
 		});
 
-		it('should call onShowFeedback when SmallPrint feedback link is clicked', async () => {
+		it('should call onShowFeedback when SmallPrint feedback button is clicked', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -810,26 +634,7 @@ describe('LandingScreen', () => {
 			expect(header).toBeInTheDocument();
 		});
 
-		it('should render figure with figcaption for secretary hand image', () => {
-			const { container } = render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const figure = container.querySelector('figure');
-			expect(figure).toBeInTheDocument();
-
-			const figcaption = container.querySelector('figcaption');
-			expect(figcaption).toBeInTheDocument();
-		});
-
-		it('should have proper heading hierarchy', () => {
+		it('should have aria-expanded attributes on disclosure buttons', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -841,38 +646,12 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			expect(screen.getByTestId('page-title')).toBeInTheDocument(); // h1
-			const headings = screen.getAllByTestId('heading'); // h2s
-			expect(headings.length).toBeGreaterThan(0);
+			const optionsButton = screen.getByRole('button', { name: 'Options' });
+			expect(optionsButton).toHaveAttribute('aria-expanded');
 		});
 	});
 
 	describe('Integration', () => {
-		it('should render all interactive elements', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			// 1 Start button + 1 report button
-			const buttons = screen.getAllByRole('button');
-			expect(buttons.length).toBeGreaterThanOrEqual(2);
-
-			// 3 radio buttons for mode selection
-			const radios = screen.getAllByRole('radio');
-			expect(radios).toHaveLength(3);
-
-			// 1 alphabets config link + 3 external resource links + 1 source link
-			const links = screen.getAllByRole('link');
-			expect(links.length).toBeGreaterThanOrEqual(5);
-		});
-
 		it('should not call any callbacks on initial render', () => {
 			render(
 				<LandingScreen
@@ -888,49 +667,6 @@ describe('LandingScreen', () => {
 			expect(mockOnSelectMode).not.toHaveBeenCalled();
 			expect(mockOnShowCatalogue).not.toHaveBeenCalled();
 			expect(mockOnShowFeedback).not.toHaveBeenCalled();
-		});
-
-		it('should handle mode selection and start correctly', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			// Default is "both" (ALL mode)
-			const startButton = screen.getByRole('button', { name: 'Start' });
-			await user.click(startButton);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(
-				GAME_MODES.ALL,
-				false
-			);
-
-			mockOnSelectMode.mockClear();
-
-			// Select minuscules and start
-			await user.click(screen.getByLabelText('minuscules'));
-			await user.click(startButton);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(
-				GAME_MODES.MINUSCULE,
-				false
-			);
-
-			mockOnSelectMode.mockClear();
-
-			// Select MAJUSCULES and start
-			await user.click(screen.getByLabelText('MAJUSCULES'));
-			await user.click(startButton);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(
-				GAME_MODES.MAJUSCULE,
-				false
-			);
 		});
 	});
 });

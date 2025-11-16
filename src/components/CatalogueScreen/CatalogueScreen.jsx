@@ -42,7 +42,8 @@ const LetterHeader = ({ letter }) => (
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'baseline',
-			marginBottom: '0.5rem',
+			borderBottom: "2px solid black",
+			marginBottom: '1rem',
 		})}
 	>
 		<h3
@@ -51,9 +52,9 @@ const LetterHeader = ({ letter }) => (
 				fontSize: '24px',
 				fontWeight: '900',
 				margin: '0',
+				
 				desktop: {
-					fontSize: '36px',
-					marginLeft: '-1rem',
+					fontSize: '28px',
 				},
 			})}
 		>
@@ -71,12 +72,10 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 		<div
 			className={css({
 				display: 'grid',
-				gridTemplateColumns: 'repeat(4, 1fr)',
+				gridTemplateColumns: 'repeat(3, 1fr)',
 				gap: STYLES.imageGap,
 				padding: '0',
-				desktop: {
-					padding: '0 4rem',
-				},
+				
 			})}
 		>
 			{glyphs.map((glyph, index) => (

@@ -222,6 +222,7 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 			sources[sourceName] = {
 				title: sourceMetadata[sourceName].title,
 				sourceUri: sourceMetadata[sourceName].sourceUri,
+				date: sourceMetadata[sourceName].date,
 			};
 		} else {
 			// Fallback for sources not defined in JSON
@@ -231,6 +232,7 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 			sources[sourceName] = {
 				title: `${sourceName} source`,
 				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
+				date: 'unknown',
 			};
 		}
 	});
@@ -298,7 +300,8 @@ export function generateGraphSets(allEntries) {
 export function formatSourceEntry(key, value) {
 	return `\t\t"${key}": {
 \t\t\ttitle: '${value.title}',
-\t\t\tsourceUri: '${value.sourceUri}'
+\t\t\tsourceUri: '${value.sourceUri}',
+\t\t\tdate: '${value.date}'
 \t\t}`;
 }
 

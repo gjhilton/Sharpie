@@ -210,6 +210,7 @@ describe('generateSourcesObject', () => {
 		expect(result.NewSource).toEqual({
 			title: 'NewSource source',
 			sourceUri: 'https://example.com/newsource',
+			date: 'unknown',
 		});
 		expect(warnSpy).toHaveBeenCalledWith(
 			'⚠️  Source "NewSource" not found in hands.json, using placeholder'
@@ -311,6 +312,7 @@ describe('generateSourcesObject', () => {
 		expect(result.TestSource).toEqual({
 			title: 'TestSource source',
 			sourceUri: 'https://example.com/testsource',
+			date: 'unknown',
 		});
 		expect(warnSpy).toHaveBeenCalled();
 

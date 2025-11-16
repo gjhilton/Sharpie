@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CatalogueScreen from './CatalogueScreen';
 import * as database from '@utilities/database.js';
@@ -40,10 +40,44 @@ vi.mock('@data/DB.js', () => ({
 	},
 }));
 
+// Mock alphabets data
+vi.mock('@data/alphabets.json', () => ({
+	default: {
+		'test-source-1': {
+			title: 'Test Source Title 1',
+			date: '1570',
+			isDefaultEnabled: true,
+		},
+		'test-source-2': {
+			title: 'Test Source Title 2',
+			date: '1602',
+			isDefaultEnabled: true,
+		},
+	},
+}));
+
+// Mock Toggle component
+vi.mock('@components/Toggle/Toggle.jsx', () => ({
+	default: ({ id, checked, onChange }) => (
+		<label data-testid={`toggle-${id}`}>
+			<input
+				type="checkbox"
+				id={id}
+				checked={checked}
+				onChange={onChange}
+			/>
+		</label>
+	),
+}));
+
 // Mock database utilities
 vi.mock('@utilities/database.js', () => ({
 	getEnabledGraphSets: vi.fn(),
 	getImagePath: vi.fn(),
+	getAllAlphabetNames: vi.fn(),
+	sortAlphabetsByDate: vi.fn(),
+	countEnabledAlphabets: vi.fn(),
+	countEnabledCharacters: vi.fn(),
 }));
 
 // Mock catalogue logic
@@ -54,6 +88,11 @@ vi.mock('@utilities/catalogueLogic.js', () => ({
 describe('CatalogueScreen', () => {
 	const mockOnReturnToMenu = vi.fn();
 	const mockOnShowFeedback = vi.fn();
+	const mockSetEnabledAlphabets = vi.fn();
+	const mockEnabledAlphabets = {
+		'test-source-1': true,
+		'test-source-2': true,
+	};
 
 	const mockGraphSet = {
 		id: 'test-graphset',
@@ -110,6 +149,13 @@ describe('CatalogueScreen', () => {
 		vi.mocked(
 			catalogueLogic.groupGraphsByGraphSetAndCharacter
 		).mockReturnValue(mockCatalogueData);
+		vi.mocked(database.getAllAlphabetNames).mockReturnValue([
+			'test-source-1',
+			'test-source-2',
+		]);
+		vi.mocked(database.sortAlphabetsByDate).mockImplementation(names => names);
+		vi.mocked(database.countEnabledAlphabets).mockReturnValue(2);
+		vi.mocked(database.countEnabledCharacters).mockReturnValue(123);
 	});
 
 	describe('Title and Header', () => {
@@ -118,6 +164,8 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
@@ -134,98 +182,43 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
 			expect(screen.getByText('Character Catalogue')).toBeInTheDocument();
 		});
-	});
 
-	describe('Return to Menu Button', () => {
-		it('renders Return to Menu button', () => {
+		it('renders Back to Menu link', () => {
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			expect(screen.getByTestId('mock-button')).toBeInTheDocument();
-			expect(screen.getByText('Return to Menu')).toBeInTheDocument();
+			const backLink = screen.getByRole('link', { name: /back to menu/i });
+			expect(backLink).toBeInTheDocument();
 		});
 
-		it('calls onReturnToMenu when Return to Menu button is clicked', async () => {
+		it('calls onReturnToMenu when Back to Menu link is clicked', async () => {
 			const user = userEvent.setup();
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			const button = screen.getByTestId('mock-button');
-			await user.click(button);
+			const backLink = screen.getByRole('link', { name: /back to menu/i });
+			await user.click(backLink);
 
 			expect(mockOnReturnToMenu).toHaveBeenCalledTimes(1);
-		});
-
-		it('button is enabled and clickable', async () => {
-			const user = userEvent.setup();
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const button = screen.getByTestId('mock-button');
-			expect(button).toBeEnabled();
-
-			await user.click(button);
-			expect(mockOnReturnToMenu).toHaveBeenCalled();
-		});
-	});
-
-	describe('SmallPrint Component', () => {
-		it('renders SmallPrint component', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			expect(screen.getByTestId('mock-smallprint')).toBeInTheDocument();
-		});
-
-		it('passes onShowFeedback callback to SmallPrint', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const smallPrint = screen.getByTestId('mock-smallprint');
-			expect(smallPrint).toBeInTheDocument();
-
-			// SmallPrint should receive the callback and render feedback button
-			expect(screen.getByText('Feedback')).toBeInTheDocument();
-		});
-
-		it('SmallPrint can trigger onShowFeedback callback', async () => {
-			const user = userEvent.setup();
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const feedbackButton = screen.getByText('Feedback');
-			await user.click(feedbackButton);
-
-			expect(mockOnShowFeedback).toHaveBeenCalledTimes(1);
 		});
 	});
 
@@ -235,6 +228,8 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
@@ -251,6 +246,8 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
@@ -263,396 +260,130 @@ describe('CatalogueScreen', () => {
 		});
 	});
 
-	describe('Graph Set Rendering', () => {
-		it('renders graph sets based on catalogueLogic output', () => {
+	describe('Alphabets Configuration', () => {
+		it('renders Practice alphabets section', () => {
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.getByText('Practice alphabets')).toBeInTheDocument();
+		});
+
+		it('renders toggles for each alphabet', () => {
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
 			expect(
-				screen.getByRole('heading', {
-					name: 'Test Graph Set',
-					level: 2,
-				})
+				screen.getByTestId('toggle-alphabet-test-source-1')
+			).toBeInTheDocument();
+			expect(
+				screen.getByTestId('toggle-alphabet-test-source-2')
 			).toBeInTheDocument();
 		});
 
-		it('renders multiple graph sets when provided', () => {
-			const multipleGraphSets = [
-				{
-					title: 'Graph Set 1',
-					characters: [
-						{
-							character: 'Character A',
-							graphs: [
-								{
-									character: 'Character A',
-									source: 'test-source-1',
-								},
-							],
-						},
-					],
-				},
-				{
-					title: 'Graph Set 2',
-					characters: [
-						{
-							character: 'Character B',
-							graphs: [
-								{
-									character: 'Character B',
-									source: 'test-source-2',
-								},
-							],
-						},
-					],
-				},
-			];
-
-			vi.mocked(
-				catalogueLogic.groupGraphsByGraphSetAndCharacter
-			).mockReturnValue(multipleGraphSets);
-
+		it('displays alphabet dates', () => {
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			expect(
-				screen.getByRole('heading', { name: 'Graph Set 1', level: 2 })
-			).toBeInTheDocument();
-			expect(
-				screen.getByRole('heading', { name: 'Graph Set 2', level: 2 })
-			).toBeInTheDocument();
+			expect(screen.getByText('1570')).toBeInTheDocument();
+			expect(screen.getByText('1602')).toBeInTheDocument();
 		});
 
-		it('renders character headings within graph sets', () => {
+		it('displays alphabet titles', () => {
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
-
-			expect(
-				screen.getByRole('heading', {
-					name: 'Test Character 1',
-					level: 3,
-				})
-			).toBeInTheDocument();
-			expect(
-				screen.getByRole('heading', {
-					name: 'Test Character 2',
-					level: 3,
-				})
-			).toBeInTheDocument();
-		});
-
-		it('handles empty catalogue data', () => {
-			vi.mocked(
-				catalogueLogic.groupGraphsByGraphSetAndCharacter
-			).mockReturnValue([]);
-
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			// Should still render title and button, but no graph sets
-			expect(
-				screen.getByRole('heading', {
-					name: 'Character Catalogue',
-					level: 1,
-				})
-			).toBeInTheDocument();
-			expect(
-				screen.queryByRole('heading', { level: 2 })
-			).not.toBeInTheDocument();
-		});
-	});
-
-	describe('ImageWithInfo Component', () => {
-		it('renders images with correct paths from getImagePath', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const images = screen.getAllByRole('img');
-			expect(images.length).toBeGreaterThan(0);
-
-			// Check that getImagePath was called
-			expect(database.getImagePath).toHaveBeenCalled();
-		});
-
-		it('calls getImagePath for each graph', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			// Should be called 3 times (2 graphs for Character 1, 1 graph for Character 2)
-			expect(database.getImagePath).toHaveBeenCalledTimes(3);
-		});
-
-		it('images have correct src attributes based on getImagePath', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const images = screen.getAllByRole('img');
-
-			// First two images should be Test Character 1
-			expect(images[0]).toHaveAttribute(
-				'src',
-				'/images/Test Character 1.png'
-			);
-			expect(images[1]).toHaveAttribute(
-				'src',
-				'/images/Test Character 1.png'
-			);
-
-			// Third image should be Test Character 2
-			expect(images[2]).toHaveAttribute(
-				'src',
-				'/images/Test Character 2.png'
-			);
-		});
-	});
-
-	describe('Image Alt Text and Aria Labels', () => {
-		it('images have proper alt text with character name', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const character1Images = screen.getAllByAltText('Test Character 1');
-			expect(character1Images.length).toBe(2);
-
-			const character2Images = screen.getAllByAltText('Test Character 2');
-			expect(character2Images.length).toBe(1);
-		});
-
-		it('image buttons have aria-labels with character and source info', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			expect(
-				screen.getByLabelText(
-					'Test Character 1 - Click to show source: Test Source Title 1'
-				)
-			).toBeInTheDocument();
-			expect(
-				screen.getByLabelText(
-					'Test Character 1 - Click to show source: Test Source Title 2'
-				)
-			).toBeInTheDocument();
-			expect(
-				screen.getByLabelText(
-					'Test Character 2 - Click to show source: Test Source Title 1'
-				)
-			).toBeInTheDocument();
-		});
-
-		it('handles missing source title with "Unknown" in aria-label', () => {
-			const catalogueDataWithMissingSource = [
-				{
-					title: 'Test Graph Set',
-					characters: [
-						{
-							character: 'Test Character',
-							graphs: [
-								{
-									character: 'Test Character',
-									source: 'non-existent-source',
-								},
-							],
-						},
-					],
-				},
-			];
-
-			vi.mocked(
-				catalogueLogic.groupGraphsByGraphSetAndCharacter
-			).mockReturnValue(catalogueDataWithMissingSource);
-
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			expect(
-				screen.getByLabelText(
-					'Test Character - Click to show source: Unknown'
-				)
-			).toBeInTheDocument();
-		});
-	});
-
-	describe('Popover Functionality', () => {
-		it('clicking an image shows popover with source title', async () => {
-			const user = userEvent.setup();
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const imageButton = screen.getByLabelText(
-				'Test Character 1 - Click to show source: Test Source Title 1'
-			);
-
-			await user.click(imageButton);
 
 			expect(screen.getByText('Test Source Title 1')).toBeInTheDocument();
-		});
-
-		it('clicking an image toggles popover visibility', async () => {
-			const user = userEvent.setup();
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const imageButton = screen.getByLabelText(
-				'Test Character 1 - Click to show source: Test Source Title 1'
-			);
-
-			// Click to show popover
-			await user.click(imageButton);
-			expect(screen.getByText('Test Source Title 1')).toBeInTheDocument();
-
-			// Click again to hide popover
-			await user.click(imageButton);
-			expect(
-				screen.queryByText('Test Source Title 1')
-			).not.toBeInTheDocument();
-		});
-
-		it('clicking outside popover closes it', async () => {
-			const user = userEvent.setup();
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const imageButton = screen.getByLabelText(
-				'Test Character 1 - Click to show source: Test Source Title 1'
-			);
-
-			// Click to show popover
-			await user.click(imageButton);
-			expect(screen.getByText('Test Source Title 1')).toBeInTheDocument();
-
-			// Click outside (on the title)
-			const title = screen.getByRole('heading', {
-				name: 'Character Catalogue',
-				level: 1,
-			});
-			await user.click(title);
-
-			// Popover should be closed
-			expect(
-				screen.queryByText('Test Source Title 1')
-			).not.toBeInTheDocument();
-		});
-
-		it('each image can show its own popover independently', async () => {
-			const user = userEvent.setup();
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const imageButton1 = screen.getByLabelText(
-				'Test Character 1 - Click to show source: Test Source Title 1'
-			);
-			const imageButton2 = screen.getByLabelText(
-				'Test Character 1 - Click to show source: Test Source Title 2'
-			);
-
-			// Click first image
-			await user.click(imageButton1);
-			expect(screen.getByText('Test Source Title 1')).toBeInTheDocument();
-
-			// Close first popover
-			await user.click(imageButton1);
-			expect(
-				screen.queryByText('Test Source Title 1')
-			).not.toBeInTheDocument();
-
-			// Click second image
-			await user.click(imageButton2);
 			expect(screen.getByText('Test Source Title 2')).toBeInTheDocument();
 		});
 
-		it('shows "Unknown" when source is not found', async () => {
+		it('toggles call setEnabledAlphabets when clicked', async () => {
 			const user = userEvent.setup();
-			const catalogueDataWithMissingSource = [
-				{
-					title: 'Test Graph Set',
-					characters: [
-						{
-							character: 'Test Character',
-							graphs: [
-								{
-									character: 'Test Character',
-									source: 'non-existent-source',
-								},
-							],
-						},
-					],
-				},
-			];
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
 
-			vi.mocked(
-				catalogueLogic.groupGraphsByGraphSetAndCharacter
-			).mockReturnValue(catalogueDataWithMissingSource);
+			const toggle = screen
+				.getByTestId('toggle-alphabet-test-source-1')
+				.querySelector('input');
+			await user.click(toggle);
+
+			expect(mockSetEnabledAlphabets).toHaveBeenCalled();
+		});
+
+		it('toggles reflect enabled state', () => {
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			const toggle1 = screen
+				.getByTestId('toggle-alphabet-test-source-1')
+				.querySelector('input');
+			const toggle2 = screen
+				.getByTestId('toggle-alphabet-test-source-2')
+				.querySelector('input');
+
+			expect(toggle1).toBeChecked();
+			expect(toggle2).toBeChecked();
+		});
+
+		it('toggles reflect disabled state', () => {
+			const disabledAlphabets = {
+				'test-source-1': false,
+				'test-source-2': true,
+			};
 
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={disabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			const imageButton = screen.getByLabelText(
-				'Test Character - Click to show source: Unknown'
-			);
+			const toggle1 = screen
+				.getByTestId('toggle-alphabet-test-source-1')
+				.querySelector('input');
+			const toggle2 = screen
+				.getByTestId('toggle-alphabet-test-source-2')
+				.querySelector('input');
 
-			await user.click(imageButton);
-
-			expect(screen.getByText('Unknown')).toBeInTheDocument();
+			expect(toggle1).not.toBeChecked();
+			expect(toggle2).toBeChecked();
 		});
 	});
 
@@ -662,6 +393,8 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
@@ -675,139 +408,20 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			// Should have the main heading at the top
+			// Should have the main heading
 			const heading = screen.getByRole('heading', {
 				name: 'Character Catalogue',
 				level: 1,
 			});
 			expect(heading).toBeInTheDocument();
 
-			// Should have SmallPrint at the bottom
-			const smallPrint = screen.getByTestId('mock-smallprint');
-			expect(smallPrint).toBeInTheDocument();
-
-			// Should have graph set sections in between
-			const graphSetHeading = screen.getByRole('heading', {
-				name: 'Test Graph Set',
-				level: 2,
-			});
-			expect(graphSetHeading).toBeInTheDocument();
-		});
-
-		it('images are rendered within character sections', () => {
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const character1Heading = screen.getByRole('heading', {
-				name: 'Test Character 1',
-				level: 3,
-			});
-			const character2Heading = screen.getByRole('heading', {
-				name: 'Test Character 2',
-				level: 3,
-			});
-
-			expect(character1Heading).toBeInTheDocument();
-			expect(character2Heading).toBeInTheDocument();
-
-			// Should have images for both characters
-			const images = screen.getAllByRole('img');
-			expect(images.length).toBe(3); // 2 for Character 1, 1 for Character 2
-		});
-	});
-
-	describe('Edge Cases', () => {
-		it('handles graph with undefined source gracefully', async () => {
-			const user = userEvent.setup();
-			const catalogueDataWithUndefinedSource = [
-				{
-					title: 'Test Graph Set',
-					characters: [
-						{
-							character: 'Test Character',
-							graphs: [
-								{
-									character: 'Test Character',
-									source: undefined,
-								},
-							],
-						},
-					],
-				},
-			];
-
-			vi.mocked(
-				catalogueLogic.groupGraphsByGraphSetAndCharacter
-			).mockReturnValue(catalogueDataWithUndefinedSource);
-
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const imageButton = screen.getByLabelText(
-				'Test Character - Click to show source: Unknown'
-			);
-			await user.click(imageButton);
-
-			expect(screen.getByText('Unknown')).toBeInTheDocument();
-		});
-
-		it('handles empty character graphs array', () => {
-			const catalogueDataWithEmptyGraphs = [
-				{
-					title: 'Test Graph Set',
-					characters: [
-						{
-							character: 'Test Character',
-							graphs: [],
-						},
-					],
-				},
-			];
-
-			vi.mocked(
-				catalogueLogic.groupGraphsByGraphSetAndCharacter
-			).mockReturnValue(catalogueDataWithEmptyGraphs);
-
-			render(
-				<CatalogueScreen
-					onReturnToMenu={mockOnReturnToMenu}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			// Character heading should still render
-			expect(
-				screen.getByRole('heading', {
-					name: 'Test Character',
-					level: 3,
-				})
-			).toBeInTheDocument();
-
-			// But no images
-			expect(screen.queryByRole('img')).not.toBeInTheDocument();
-		});
-
-		it('renders when onShowFeedback is not provided', () => {
-			render(<CatalogueScreen onReturnToMenu={mockOnReturnToMenu} />);
-
-			expect(
-				screen.getByRole('heading', {
-					name: 'Character Catalogue',
-					level: 1,
-				})
-			).toBeInTheDocument();
-			expect(screen.getByTestId('mock-smallprint')).toBeInTheDocument();
+			// Should have Practice alphabets section
+			expect(screen.getByText('Practice alphabets')).toBeInTheDocument();
 		});
 	});
 
@@ -817,16 +431,16 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
 			const h1 = screen.getByRole('heading', { level: 1 });
-			const h2 = screen.getByRole('heading', { level: 2 });
-			const h3s = screen.getAllByRole('heading', { level: 3 });
+			const h2s = screen.getAllByRole('heading', { level: 2 });
 
 			expect(h1).toHaveTextContent('Character Catalogue');
-			expect(h2).toHaveTextContent('Test Graph Set');
-			expect(h3s.length).toBe(2);
+			expect(h2s.length).toBeGreaterThanOrEqual(1);
 		});
 
 		it('all interactive elements are keyboard accessible', () => {
@@ -834,37 +448,146 @@ describe('CatalogueScreen', () => {
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			const imageButtons = screen
-				.getAllByRole('button')
-				.filter(button =>
-					button
-						.getAttribute('aria-label')
-						?.includes('Click to show source')
-				);
-
-			imageButtons.forEach(button => {
-				expect(button).toBeInTheDocument();
-				expect(button.tagName).toBe('BUTTON');
+			// Check toggles are accessible
+			const checkboxes = screen.getAllByRole('checkbox');
+			checkboxes.forEach(checkbox => {
+				expect(checkbox).toBeInTheDocument();
 			});
 		});
+	});
 
-		it('images are properly labeled for screen readers', () => {
+	describe('Edge Cases', () => {
+		it('renders when onShowFeedback is not provided', () => {
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			expect(
+				screen.getByRole('heading', {
+					name: 'Character Catalogue',
+					level: 1,
+				})
+			).toBeInTheDocument();
+		});
+	});
+
+	describe('No Alphabets Selected Error State', () => {
+		it('displays error message when no alphabets are enabled', () => {
+			vi.mocked(database.countEnabledAlphabets).mockReturnValue(0);
+			vi.mocked(database.countEnabledCharacters).mockReturnValue(0);
+
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
 					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={{}}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
 				/>
 			);
 
-			const images = screen.getAllByRole('img');
+			expect(screen.getByText(/Error:/)).toBeInTheDocument();
+			expect(screen.getByText(/Please select at least one alphabet/)).toBeInTheDocument();
+		});
 
-			images.forEach(image => {
-				expect(image).toHaveAttribute('alt');
-				expect(image.getAttribute('alt')).toBeTruthy();
-			});
+		it('displays error message when character count is zero', () => {
+			vi.mocked(database.countEnabledAlphabets).mockReturnValue(1);
+			vi.mocked(database.countEnabledCharacters).mockReturnValue(0);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.getByText(/Error:/)).toBeInTheDocument();
+			expect(screen.getByText(/Please select at least one alphabet/)).toBeInTheDocument();
+		});
+
+		it('disables Back to Menu link when no alphabets are selected', () => {
+			vi.mocked(database.countEnabledAlphabets).mockReturnValue(0);
+			vi.mocked(database.countEnabledCharacters).mockReturnValue(0);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={{}}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			const backLink = screen.queryByRole('link', { name: /back to menu/i });
+			expect(backLink).not.toBeInTheDocument();
+			expect(screen.getByText(/Not allowed! Select one or more alphabets to continue/)).toBeInTheDocument();
+		});
+
+		it('does not call onReturnToMenu when Back to Menu is disabled', async () => {
+			vi.mocked(database.countEnabledAlphabets).mockReturnValue(0);
+			vi.mocked(database.countEnabledCharacters).mockReturnValue(0);
+
+			const user = userEvent.setup();
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={{}}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			const backText = screen.getByText(/Not allowed! Select one or more alphabets to continue/);
+			await user.click(backText);
+
+			expect(mockOnReturnToMenu).not.toHaveBeenCalled();
+		});
+
+		it('displays normal message with counts when alphabets are selected', () => {
+			vi.mocked(database.countEnabledAlphabets).mockReturnValue(2);
+			vi.mocked(database.countEnabledCharacters).mockReturnValue(123);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.queryByText(/Error:/)).not.toBeInTheDocument();
+			expect(screen.getByText('2')).toBeInTheDocument();
+			expect(screen.getByText('123')).toBeInTheDocument();
+			expect(screen.getByText(/alphabets \(/)).toBeInTheDocument();
+			expect(screen.getByText(/characters\)\./)).toBeInTheDocument();
+		});
+
+		it('enables Back to Menu link when alphabets are selected', () => {
+			vi.mocked(database.countEnabledAlphabets).mockReturnValue(2);
+			vi.mocked(database.countEnabledCharacters).mockReturnValue(123);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			const backLink = screen.getByRole('link', { name: /back to menu/i });
+			expect(backLink).toBeInTheDocument();
 		});
 	});
 });

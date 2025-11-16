@@ -35,17 +35,18 @@ describe('PageTitle', () => {
 		expect(heading).toHaveTextContent('Test Title');
 	});
 
-	it('should apply custom className when provided', () => {
-		render(<PageTitle className="custom-class">Title</PageTitle>);
+	it('should apply custom inline styles when provided', () => {
+		render(<PageTitle style={{ color: 'red' }}>Title</PageTitle>);
 		const heading = screen.getByRole('heading', { level: 1 });
-		expect(heading).toHaveClass('custom-class');
+		expect(heading.style.color).toBe('red');
 	});
 
-	it('should not apply default styles when custom className is provided', () => {
-		render(<PageTitle className="custom-class">Title</PageTitle>);
+	it('should merge custom inline styles with default CSS', () => {
+		render(<PageTitle style={{ lineHeight: '2rem' }}>Title</PageTitle>);
 		const heading = screen.getByRole('heading', { level: 1 });
-		// When custom className is provided, it should only have that class
-		expect(heading.className).toBe('custom-class');
+		// Should have both default CSS classes and custom inline styles
+		expect(heading.className).toBeTruthy();
+		expect(heading.style.lineHeight).toBe('2rem');
 	});
 });
 

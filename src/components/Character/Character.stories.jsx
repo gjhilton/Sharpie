@@ -25,17 +25,17 @@ export default {
 			control: 'text',
 			description: 'The character being displayed',
 		},
-		handLink: {
+		alphabetLink: {
 			control: 'text',
-			description: 'Link to the hand source',
+			description: 'Link to the alphabet source',
 		},
-		handTitle: {
+		alphabetTitle: {
 			control: 'text',
-			description: 'Title of the hand',
+			description: 'Title of the alphabet',
 		},
-		handDate: {
+		alphabetDate: {
 			control: 'text',
-			description: 'Date of the hand',
+			description: 'Date of the alphabet',
 		},
 	},
 };
@@ -52,9 +52,9 @@ export const CorrectAnswer = {
 		state: CHARACTER_STATE.CORRECT_ANSWER,
 		imagePath: '/data/joscelyn-min/a.png',
 		character: 'a',
-		handLink: 'https://github.com/psb1558/Joscelyn-font/releases',
-		handTitle: 'Joscelyn typeface, drawn by Peter Baker',
-		handDate: '2019',
+		alphabetLink: 'https://github.com/psb1558/Joscelyn-font/releases',
+		alphabetTitle: 'Joscelyn typeface, drawn by Peter Baker',
+		alphabetDate: '2019',
 	},
 };
 
@@ -97,9 +97,9 @@ export const AllStates = {
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath="/data/Joscelyn/joscelyn-min-assets/a.png"
 					character="a"
-					handLink="https://github.com/psb1558/Joscelyn-font/releases"
-					handTitle="Joscelyn typeface, drawn by Peter Baker"
-					handDate="2019"
+					alphabetLink="https://github.com/psb1558/Joscelyn-font/releases"
+					alphabetTitle="Joscelyn typeface, drawn by Peter Baker"
+					alphabetDate="2019"
 				/>
 			</div>
 			<div style={{ flex: '1 1 300px', minWidth: '300px' }}>

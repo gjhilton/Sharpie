@@ -1,16 +1,14 @@
 import { css } from '../../../styled-system/css';
 
-const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
-	const handleChange = e => {
-		onChange(e.target.checked);
-	};
-
+const Toggle = ({ id, label, children, checked, onChange, disabled = false }) => {
 	const handleKeyDown = e => {
 		if (e.key === ' ' || e.key === 'Enter') {
 			e.preventDefault();
 			onChange(!checked);
 		}
 	};
+
+	const labelContent = children || label;
 
 	return (
 		<div
@@ -25,7 +23,7 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 				id={id}
 				role="switch"
 				aria-checked={checked}
-				aria-label={label}
+				aria-label={typeof label === 'string' ? label : undefined}
 				disabled={disabled}
 				onClick={() => onChange(!checked)}
 				onKeyDown={handleKeyDown}
@@ -66,13 +64,14 @@ const Toggle = ({ id, label, checked, onChange, disabled = false }) => {
 			</button>
 			<label
 				htmlFor={id}
+				onClick={() => onChange(!checked)}
 				className={css({
 					fontSize: 'm',
 					cursor: disabled ? 'not-allowed' : 'pointer',
 					opacity: disabled ? 0.5 : 1,
 				})}
 			>
-				{label}
+				{labelContent}
 			</label>
 		</div>
 	);

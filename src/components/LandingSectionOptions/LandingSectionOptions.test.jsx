@@ -11,11 +11,9 @@ vi.mock('@data/options.md?raw', () => ({
 
 describe('LandingSectionOptions', () => {
 	const mockSetSelectedMode = vi.fn();
-	const mockOnShowCatalogue = vi.fn();
 
 	beforeEach(() => {
 		mockSetSelectedMode.mockClear();
-		mockOnShowCatalogue.mockClear();
 	});
 
 	it('renders section heading', () => {
@@ -23,7 +21,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByText('Options')).toBeInTheDocument();
@@ -34,7 +31,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByText(/Practice/i)).toBeInTheDocument();
@@ -47,7 +43,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByText('Game mode')).toBeInTheDocument();
@@ -59,7 +54,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByLabelText('minuscules')).toBeInTheDocument();
@@ -72,7 +66,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByLabelText('both')).toBeChecked();
@@ -85,7 +78,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.MINUSCULE}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByLabelText('minuscules')).toBeChecked();
@@ -98,7 +90,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.MAJUSCULE}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 		expect(screen.getByLabelText('MAJUSCULES')).toBeChecked();
@@ -112,7 +103,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 
@@ -126,7 +116,6 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.ALL}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 
@@ -140,36 +129,10 @@ describe('LandingSectionOptions', () => {
 			<LandingSectionOptions
 				selectedMode={GAME_MODES.MINUSCULE}
 				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
 			/>
 		);
 
 		await user.click(screen.getByLabelText('both'));
 		expect(mockSetSelectedMode).toHaveBeenCalledWith(GAME_MODES.ALL);
-	});
-
-	it('renders catalogue link', () => {
-		render(
-			<LandingSectionOptions
-				selectedMode={GAME_MODES.ALL}
-				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
-			/>
-		);
-		expect(screen.getByText(/view all characters/i)).toBeInTheDocument();
-	});
-
-	it('catalogue link calls onShowCatalogue', async () => {
-		const user = userEvent.setup();
-		render(
-			<LandingSectionOptions
-				selectedMode={GAME_MODES.ALL}
-				setSelectedMode={mockSetSelectedMode}
-				onShowCatalogue={mockOnShowCatalogue}
-			/>
-		);
-
-		await user.click(screen.getByRole('link', { name: /view all characters/i }));
-		expect(mockOnShowCatalogue).toHaveBeenCalled();
 	});
 });

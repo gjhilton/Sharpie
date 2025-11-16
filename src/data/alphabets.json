@@ -1,4 +1,10 @@
 {
+	"NBacon": {
+		"title": "Letter from the Privy Council to Nathaniel Bacon",
+		"sourceUri": "https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en",
+		"date": "1594",
+		"isDefaultEnabled": true
+	},
 	"Howard": {
 		"title": "Letter: Charles Howard, Lord Chamberlain",
 		"sourceUri": "https://digitalcollections.folger.edu/bib193549-251897",

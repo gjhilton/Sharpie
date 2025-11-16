@@ -31,10 +31,10 @@ export const CorrectAnswer = ({
 	acceptedAs24Letter,
 	showBaseline,
 }) => {
-	const hand = DB.sources[solution.graph.source];
-	const handLink = hand?.sourceUri;
-	const handTitle = hand?.title;
-	const handDate = hand?.date;
+	const alphabet = DB.sources[solution.graph.source];
+	const alphabetLink = alphabet?.sourceUri;
+	const alphabetTitle = alphabet?.title;
+	const alphabetDate = alphabet?.date;
 
 	useEffect(() => {
 		const handleKeyDown = e => {
@@ -55,9 +55,9 @@ export const CorrectAnswer = ({
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
 					character={solution.graph.character}
-					handLink={handLink}
-					handTitle={handTitle}
-					handDate={handDate}
+					alphabetLink={alphabetLink}
+					alphabetTitle={alphabetTitle}
+					alphabetDate={alphabetDate}
 					showBaseline={showBaseline}
 					note={solution.graph.note}
 				/>
@@ -100,10 +100,10 @@ export const IncorrectAnswer = ({
 	onNext,
 	showBaseline,
 }) => {
-	const hand = DB.sources[solution.graph.source];
-	const handLink = hand?.sourceUri;
-	const handTitle = hand?.title;
-	const handDate = hand?.date;
+	const alphabet = DB.sources[solution.graph.source];
+	const alphabetLink = alphabet?.sourceUri;
+	const alphabetTitle = alphabet?.title;
+	const alphabetDate = alphabet?.date;
 
 	useEffect(() => {
 		const handleKeyDown = e => {
@@ -137,9 +137,9 @@ export const IncorrectAnswer = ({
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
 					character={solution.graph.character}
-					handLink={handLink}
-					handTitle={handTitle}
-					handDate={handDate}
+					alphabetLink={alphabetLink}
+					alphabetTitle={alphabetTitle}
+					alphabetDate={alphabetDate}
 					showBaseline={showBaseline}
 					note={solution.graph.note}
 				/>

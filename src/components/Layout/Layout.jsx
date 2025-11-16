@@ -21,19 +21,17 @@ export const PageWidth = ({ children }) => (
 	</div>
 );
 
-export const PageTitle = ({ children, className }) => (
+export const PageTitle = ({ children, style = {} }) => (
 	<h1
-		className={
-			className ||
-			css({
-				fontSize: '2rem',
-				fontWeight: 'bold',
-				marginBottom: '1rem',
-				desktop: {
-					lineHeight: '3rem',
-				},
-			})
-		}
+		className={css({
+			fontSize: '2rem',
+			fontWeight: 'bold',
+			marginBottom: '1rem',
+			desktop: {
+				lineHeight: '3rem',
+			},
+		})}
+		style={style}
 	>
 		{children}
 	</h1>
@@ -55,14 +53,11 @@ export const Heading = ({ children, className }) => (
 
 export const Paragraph = ({ children, className }) => (
 	<p
-		className={
-			className ||
-			css({
-				fontSize: 'm',
-				lineHeight: '1.6',
-				marginBottom: '1rem',
-			})
-		}
+		className={`${css({
+			fontSize: 'm',
+			lineHeight: '1.6',
+			marginBottom: '1rem',
+		})} ${className || ''}`}
 	>
 		{children}
 	</p>

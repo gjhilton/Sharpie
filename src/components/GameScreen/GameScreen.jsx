@@ -10,8 +10,9 @@ const GameScreen = ({
 	gameMode,
 	twentyFourLetterAlphabet = false,
 	showBaseline = false,
+	enabledAlphabets = null,
 }) => {
-	const graphs = gameLogic.getGraphsForGameMode(DB, gameMode);
+	const graphs = gameLogic.getGraphsForGameMode(DB, gameMode, enabledAlphabets);
 	const [currentSolution, setCurrentSolution] = useState(
 		gameLogic.createRandomSolution(graphs)
 	);

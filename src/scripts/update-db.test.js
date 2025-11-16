@@ -213,7 +213,7 @@ describe('generateSourcesObject', () => {
 			date: 'unknown',
 		});
 		expect(warnSpy).toHaveBeenCalledWith(
-			'⚠️  Source "NewSource" not found in hands.json, using placeholder'
+			'⚠️  Source "NewSource" not found in alphabets.json, using placeholder'
 		);
 
 		warnSpy.mockRestore();

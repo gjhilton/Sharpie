@@ -4,11 +4,7 @@ import { Section, Heading, Paragraph } from '@components/Layout/Layout.jsx';
 import { GAME_MODES } from '@constants/stages.js';
 import optionsContent from '@data/options.md?raw';
 
-const LandingSectionOptions = ({
-	selectedMode,
-	setSelectedMode,
-	onShowCatalogue,
-}) => {
+const LandingSectionOptions = ({ selectedMode, setSelectedMode }) => {
 	return (
 		<Section title={<Heading>Options</Heading>}>
 			<Paragraph>
@@ -97,23 +93,6 @@ const LandingSectionOptions = ({
 					</label>
 				</div>
 			</fieldset>
-			<Paragraph
-				className={css({
-					marginTop: '1rem',
-				})}
-			>
-				You can also{' '}
-				<a
-					href="#"
-					onClick={e => {
-						e.preventDefault();
-						onShowCatalogue();
-					}}
-				>
-					view all characters
-				</a>
-				.
-			</Paragraph>
 		</Section>
 	);
 };

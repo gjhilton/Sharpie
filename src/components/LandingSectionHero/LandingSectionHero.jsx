@@ -3,7 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import Button from '@components/Button/Button.jsx';
 import Logo, { SIZE } from '@components/Logo/Logo.jsx';
 import { PageTitle, Paragraph, Section } from '@components/Layout/Layout.jsx';
-import hands from '@data/hands.json';
+import alphabets from '@data/alphabets.json';
 import heroContent from '@data/hero.md?raw';
 
 const LandingSectionHero = ({
@@ -34,9 +34,9 @@ const LandingSectionHero = ({
 							fontSize: 's',
 						})}
 					>
-						{hands['BeauChesne-Baildon'].title}
+						{alphabets['BeauChesne-Baildon'].title}
 						<a
-							href={hands['BeauChesne-Baildon'].sourceUri}
+							href={alphabets['BeauChesne-Baildon'].sourceUri}
 							target="_blank"
 							rel="noopener noreferrer"
 						>

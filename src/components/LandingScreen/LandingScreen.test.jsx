@@ -47,8 +47,8 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 	),
 }));
 
-// Mock hands.json
-vi.mock('@data/hands.json', () => ({
+// Mock alphabets.json
+vi.mock('@data/alphabets.json', () => ({
 	default: {
 		'BeauChesne-Baildon': {
 			title: 'Test BeauChesne Title',
@@ -104,15 +104,35 @@ vi.mock('@data/next-steps.md?raw', () => ({
 - [Scottish Handwriting](https://www.scotlandspeople.gov.uk/scottish-handwriting/tutorials)`
 }));
 
+vi.mock('@data/hands-section.md?raw', () => ({
+	default: `The database includes examples from historical manuscripts and modern secretary hand typefaces.`
+}));
+
+// Mock database utilities
+vi.mock('@utilities/database.js', () => ({
+	countTotalCharacters: vi.fn(() => 100),
+	countEnabledCharacters: vi.fn(() => 80),
+	getAllAlphabetNames: vi.fn(() => ['Howard', 'Joscelyn', 'BeauChesne-Baildon']),
+	countEnabledAlphabets: vi.fn(() => 3),
+}));
+
 describe('LandingScreen', () => {
 	let mockOnSelectMode;
 	let mockOnShowCatalogue;
 	let mockOnShowFeedback;
+	let mockSetShowBaseline;
+	let mockEnabledAlphabets;
 
 	beforeEach(() => {
 		mockOnSelectMode = vi.fn();
 		mockOnShowCatalogue = vi.fn();
 		mockOnShowFeedback = vi.fn();
+		mockSetShowBaseline = vi.fn();
+		mockEnabledAlphabets = {
+			'BeauChesne-Baildon': true,
+			'Howard': true,
+			'Joscelyn': true,
+		};
 	});
 
 	describe('Component Structure', () => {
@@ -122,23 +142,29 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
 			expect(screen.getByTestId('page-width')).toBeInTheDocument();
 		});
 
-		it('should render all four sections', () => {
+		it('should render all sections', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
 			const sections = screen.getAllByTestId('section');
-			expect(sections).toHaveLength(7); // Hero, How to use, Options, Settings, Baselines, Next steps, News
+			expect(sections).toHaveLength(8); // Hero, How to use, Options, Alphabets, Alphabet, Baselines, Next steps, News
 		});
 	});
 
@@ -149,6 +175,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -165,6 +194,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -179,6 +211,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -193,6 +228,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -214,6 +252,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -228,6 +269,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -244,6 +288,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -260,6 +307,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -281,6 +331,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -293,6 +346,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -309,6 +365,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -335,6 +394,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -347,6 +409,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -366,6 +431,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -381,6 +449,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -395,6 +466,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -411,6 +485,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -433,6 +510,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -446,24 +526,44 @@ describe('LandingScreen', () => {
 				false
 			);
 		});
+	});
 
-		it('should render "view all characters" link', () => {
+	describe('Alphabets Section', () => {
+		it('should render "Alphabets" heading', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.getByText('Alphabets')).toBeInTheDocument();
+		});
+
+		it('should render link to configure alphabets', () => {
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
 			const catalogueLink = screen.getByRole('link', {
-				name: 'view all characters',
+				name: /you can configure which alphabets you want to include/i,
 			});
 			expect(catalogueLink).toBeInTheDocument();
 			expect(catalogueLink).toHaveAttribute('href', '#');
 		});
 
-		it('should call onShowCatalogue when "view all characters" link is clicked', async () => {
+		it('should call onShowCatalogue when configure alphabets link is clicked', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -471,35 +571,18 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
 			const catalogueLink = screen.getByRole('link', {
-				name: 'view all characters',
+				name: /you can configure which alphabets you want to include/i,
 			});
 			await user.click(catalogueLink);
 
 			expect(mockOnShowCatalogue).toHaveBeenCalledTimes(1);
-		});
-
-		it('should prevent default behavior when catalogue link is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-				/>
-			);
-
-			const catalogueLink = screen.getByRole('link', {
-				name: 'view all characters',
-			});
-			await user.click(catalogueLink);
-
-			// If default wasn't prevented, browser would navigate
-			expect(mockOnShowCatalogue).toHaveBeenCalled();
 		});
 	});
 
@@ -510,6 +593,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -522,6 +608,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -536,6 +625,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -552,6 +644,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -573,6 +668,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -592,6 +690,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -613,6 +714,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -639,6 +743,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -651,6 +758,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -668,6 +778,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -687,6 +800,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -700,6 +816,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -716,6 +835,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -732,6 +854,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -743,7 +868,7 @@ describe('LandingScreen', () => {
 			const radios = screen.getAllByRole('radio');
 			expect(radios).toHaveLength(3);
 
-			// 1 catalogue link + 3 external resource links + 1 source link
+			// 1 alphabets config link + 3 external resource links + 1 source link
 			const links = screen.getAllByRole('link');
 			expect(links.length).toBeGreaterThanOrEqual(5);
 		});
@@ -754,6 +879,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 
@@ -770,6 +898,9 @@ describe('LandingScreen', () => {
 					onSelectMode={mockOnSelectMode}
 					onShowCatalogue={mockOnShowCatalogue}
 					onShowFeedback={mockOnShowFeedback}
+					showBaseline={false}
+					setShowBaseline={mockSetShowBaseline}
+					enabledAlphabets={mockEnabledAlphabets}
 				/>
 			);
 

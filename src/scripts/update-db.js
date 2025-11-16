@@ -9,10 +9,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const projectRoot = join(__dirname, '../..');
 
-const GRAPHS_DIR = join(projectRoot, 'src/artwork/hands');
+const ALPHABETS_DIR = join(projectRoot, 'src/artwork/alphabets');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
 const PUBLIC_DATA_DIR = join(projectRoot, 'src/public/data');
-const SOURCES_JSON_PATH = join(projectRoot, 'src/data/hands.json');
+const SOURCES_JSON_PATH = join(projectRoot, 'src/data/alphabets.json');
 
 /**
  * Recursively find all *-assets directories
@@ -227,7 +227,7 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 		} else {
 			// Fallback for sources not defined in JSON
 			console.warn(
-				`⚠️  Source "${sourceName}" not found in hands.json, using placeholder`
+				`⚠️  Source "${sourceName}" not found in alphabets.json, using placeholder`
 			);
 			sources[sourceName] = {
 				title: `${sourceName} source`,
@@ -386,7 +386,7 @@ async function main() {
 	try {
 		console.log('🚀 Starting dynamic update-db...\n');
 		console.log('='.repeat(60));
-		console.log(`Scanning: ${GRAPHS_DIR}`);
+		console.log(`Scanning: ${ALPHABETS_DIR}`);
 
 		// Load source metadata from JSON
 		let sourceMetadata = {};
@@ -398,12 +398,12 @@ async function main() {
 			sourceMetadata = JSON.parse(sourcesJsonContent);
 			console.log(`✓ Loaded source metadata from ${SOURCES_JSON_PATH}`);
 		} catch (error) {
-			console.warn(`⚠️  Could not load hands.json: ${error.message}`);
+			console.warn(`⚠️  Could not load alphabets.json: ${error.message}`);
 			console.warn('   Will use placeholder metadata for all sources');
 		}
 
 		// Find all asset directories
-		const assetDirs = await findAssetDirectories(GRAPHS_DIR);
+		const assetDirs = await findAssetDirectories(ALPHABETS_DIR);
 		console.log(`\nFound ${assetDirs.length} asset directories:`);
 		assetDirs.forEach(dir => console.log(`  - ${dir}`));
 

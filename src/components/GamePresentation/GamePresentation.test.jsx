@@ -18,9 +18,9 @@ vi.mock('@components/Character/Character.jsx', () => ({
 		imagePath,
 		imagePaths,
 		character,
-		handLink,
-		handTitle,
-		handDate,
+		alphabetLink,
+		alphabetTitle,
+		alphabetDate,
 	}) => (
 		<div
 			data-testid="character"
@@ -28,9 +28,9 @@ vi.mock('@components/Character/Character.jsx', () => ({
 			data-imagepath={imagePath}
 			data-imagepaths={imagePaths?.join(',')}
 			data-character={character}
-			data-handlink={handLink}
-			data-handtitle={handTitle}
-			data-handdate={handDate}
+			data-alphabetlink={alphabetLink}
+			data-alphabettitle={alphabetTitle}
+			data-alphabetdate={alphabetDate}
 		>
 			Character Mock
 		</div>
@@ -132,16 +132,16 @@ describe('CorrectAnswer', () => {
 		expect(character).toHaveAttribute('data-character', 'B');
 	});
 
-	it('should pass hand information to Character', () => {
+	it('should pass alphabet information to Character', () => {
 		const onNext = vi.fn();
 		render(<CorrectAnswer solution={mockSolution} onNext={onNext} />);
 		const character = screen.getByTestId('character');
 		expect(character).toHaveAttribute(
-			'data-handlink',
+			'data-alphabetlink',
 			'https://example.com/test'
 		);
-		expect(character).toHaveAttribute('data-handtitle', 'Test Source');
-		expect(character).toHaveAttribute('data-handdate', '2019');
+		expect(character).toHaveAttribute('data-alphabettitle', 'Test Source');
+		expect(character).toHaveAttribute('data-alphabetdate', '2019');
 	});
 
 	it('should render Next button', () => {
@@ -179,11 +179,11 @@ describe('CorrectAnswer', () => {
 			/>
 		);
 		const character = screen.getByTestId('character');
-		// When hand is missing, handLink, handTitle, and handDate are undefined
+		// When alphabet is missing, alphabetLink, alphabetTitle, and alphabetDate are undefined
 		// React doesn't render undefined as an attribute value
-		expect(character).not.toHaveAttribute('data-handlink');
-		expect(character).not.toHaveAttribute('data-handtitle');
-		expect(character).not.toHaveAttribute('data-handdate');
+		expect(character).not.toHaveAttribute('data-alphabetlink');
+		expect(character).not.toHaveAttribute('data-alphabettitle');
+		expect(character).not.toHaveAttribute('data-alphabetdate');
 	});
 });
 
@@ -295,7 +295,7 @@ describe('IncorrectAnswer', () => {
 		);
 	});
 
-	it('should pass hand information to correct Character', () => {
+	it('should pass alphabet information to correct Character', () => {
 		const onNext = vi.fn();
 		render(
 			<IncorrectAnswer
@@ -307,14 +307,14 @@ describe('IncorrectAnswer', () => {
 		);
 		const characters = screen.getAllByTestId('character');
 		expect(characters[1]).toHaveAttribute(
-			'data-handlink',
+			'data-alphabetlink',
 			'https://example.com/test'
 		);
 		expect(characters[1]).toHaveAttribute(
-			'data-handtitle',
+			'data-alphabettitle',
 			'Test Source'
 		);
-		expect(characters[1]).toHaveAttribute('data-handdate', '2019');
+		expect(characters[1]).toHaveAttribute('data-alphabetdate', '2019');
 	});
 
 	it('should render Next button', () => {

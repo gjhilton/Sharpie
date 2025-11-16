@@ -8,7 +8,7 @@ const CHARACTER_LABEL_FONT_SIZE = '24px';
 const CHARACTER_LABEL_FONT_WEIGHT = '900';
 const CHARACTER_LABEL_PADDING = '1rem';
 const CHARACTER_ICON_GAP = '0.25rem';
-const HAND_FONT_SIZE = '0.8rem';
+const ALPHABET_FONT_SIZE = '0.8rem';
 
 export const CHARACTER_STATE = {
 	AWAIT_ANSWER: 'awaitAnswer',
@@ -33,7 +33,7 @@ const RedOverlay = () => (
 	/>
 );
 
-const Hand = ({ handTitle, handLink, handDate }) => (
+const Alphabet = ({ alphabetTitle, alphabetLink, alphabetDate }) => (
 	<div
 		className={css({
 			position: 'absolute',
@@ -45,9 +45,9 @@ const Hand = ({ handTitle, handLink, handDate }) => (
 			alignItems: 'flex-end',
 		})}
 	>
-		<span className={css({ fontSize: HAND_FONT_SIZE })}>
-			 <strong>[{handDate}]</strong> {handTitle} (
-			<a href={handLink} target="_blank" rel="noopener noreferrer">
+		<span className={css({ fontSize: ALPHABET_FONT_SIZE })}>
+			 <strong>[{alphabetDate}]</strong> {alphabetTitle} (
+			<a href={alphabetLink} target="_blank" rel="noopener noreferrer">
 				source
 			</a>
 			)
@@ -60,9 +60,9 @@ const Character = ({
 	imagePath,
 	imagePaths,
 	character,
-	handLink,
-	handTitle,
-	handDate,
+	alphabetLink,
+	alphabetTitle,
+	alphabetDate,
 	showBaseline = false,
 	note,
 }) => {
@@ -114,7 +114,7 @@ const Character = ({
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
 			{state === CHARACTER_STATE.CORRECT_ANSWER && (
-				<Hand handTitle={handTitle} handLink={handLink} handDate={handDate} />
+				<Alphabet alphabetTitle={alphabetTitle} alphabetLink={alphabetLink} alphabetDate={alphabetDate} />
 			)}
 		</div>
 	);

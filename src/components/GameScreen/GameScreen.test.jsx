@@ -186,7 +186,8 @@ describe('GameScreen', () => {
 
 			expect(mockGetGraphsForGameMode).toHaveBeenCalledWith(
 				expect.anything(),
-				'advanced'
+				'advanced',
+				null
 			);
 		});
 
@@ -633,7 +634,8 @@ describe('GameScreen', () => {
 
 			expect(mockGetGraphsForGameMode).toHaveBeenCalledWith(
 				expect.anything(),
-				'beginner'
+				'beginner',
+				null
 			);
 		});
 

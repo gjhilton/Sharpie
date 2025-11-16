@@ -1,5 +1,5 @@
 import ReactMarkdown from 'react-markdown';
-import { css } from '@generated/css';
+import { css } from '../../../styled-system/css';
 import { Paragraph } from '@components/Layout/Layout.jsx';
 
 const MarkdownWithPlaceholders = ({ content, placeholders = {} }) => {

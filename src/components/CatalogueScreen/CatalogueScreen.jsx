@@ -1,4 +1,4 @@
-import { css } from '@generated/css';
+import { css } from '../../../styled-system/css';
 import React, { useEffect } from 'react';
 import Toggle from '@components/Toggle/Toggle.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';

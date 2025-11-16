@@ -40,11 +40,9 @@ const CharacterImage = ({
 		<div
 			className={css({
 				position: 'relative',
+				display: 'inline-flex',
 				maxWidth: '100%',
 				maxHeight: '100%',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
 			})}
 		>
 			<img

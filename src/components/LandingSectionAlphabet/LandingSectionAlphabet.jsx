@@ -1,4 +1,4 @@
-import { css } from '@generated/css';
+import { css } from '../../../styled-system/css';
 import Toggle from '@components/Toggle/Toggle.jsx';
 import { Section, Heading } from '@components/Layout/Layout.jsx';
 import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';

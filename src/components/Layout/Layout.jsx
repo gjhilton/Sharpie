@@ -3,16 +3,13 @@ import { css } from '../../../styled-system/css';
 export const PageWidth = ({ children }) => (
 	<div
 		className={css({
-			display: 'grid',
-			gridTemplateColumns: '1fr',
+			display: 'flex',
+			flexDirection: 'column',
 			gap: '2rem',
 			maxWidth: '90%',
 			textAlign: 'left',
 			desktop: {
 				maxWidth: '800px',
-				gridTemplateColumns: '1fr 2fr',
-				columnGap: '3rem',
-				rowGap: '2rem',
 			},
 			margin: '2rem auto',
 		})}

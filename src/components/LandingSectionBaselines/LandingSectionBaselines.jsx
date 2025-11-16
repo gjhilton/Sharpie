@@ -1,4 +1,4 @@
-import { css } from '@generated/css';
+import { css } from '../../../styled-system/css';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import { Section, Heading } from '@components/Layout/Layout.jsx';
 import Toggle from '@components/Toggle/Toggle.jsx';

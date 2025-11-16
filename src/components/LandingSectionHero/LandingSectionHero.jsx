@@ -3,11 +3,14 @@ import ReactMarkdown from 'react-markdown';
 import Button from '@components/Button/Button.jsx';
 import Logo, { SIZE } from '@components/Logo/Logo.jsx';
 import { PageTitle, Paragraph, Section } from '@components/Layout/Layout.jsx';
-import { GAME_MODES } from '@constants/stages.js';
 import hands from '@data/hands.json';
 import heroContent from '@data/hero.md?raw';
 
-const LandingSectionHero = ({ onSelectMode, twentyFourLetterAlphabet }) => {
+const LandingSectionHero = ({
+	onSelectMode,
+	twentyFourLetterAlphabet,
+	selectedMode,
+}) => {
 	return (
 		<>
 			<header
@@ -64,7 +67,7 @@ const LandingSectionHero = ({ onSelectMode, twentyFourLetterAlphabet }) => {
 				</Paragraph>
 				<Button
 					hero
-					onClick={() => onSelectMode(GAME_MODES.ALL, twentyFourLetterAlphabet)}
+					onClick={() => onSelectMode(selectedMode, twentyFourLetterAlphabet)}
 					label="Start"
 				/>
 			</Section>

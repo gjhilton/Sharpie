@@ -1,13 +1,12 @@
 import { css } from '@generated/css';
 import ReactMarkdown from 'react-markdown';
-import Button from '@components/Button/Button.jsx';
 import { Section, Heading, Paragraph } from '@components/Layout/Layout.jsx';
 import { GAME_MODES } from '@constants/stages.js';
 import optionsContent from '@data/options.md?raw';
 
 const LandingSectionOptions = ({
-	onSelectMode,
-	twentyFourLetterAlphabet,
+	selectedMode,
+	setSelectedMode,
 	onShowCatalogue,
 }) => {
 	return (
@@ -21,27 +20,83 @@ const LandingSectionOptions = ({
 					{optionsContent}
 				</ReactMarkdown>
 			</Paragraph>
-			<div
+			<fieldset
 				className={css({
-					display: 'flex',
-					flexDirection: { base: 'column', sm: 'row' },
-					gap: '1rem',
+					border: 'none',
+					padding: '0',
+					margin: '0',
 					marginBottom: '1.5rem',
 				})}
 			>
-				<Button
-					onClick={() =>
-						onSelectMode(GAME_MODES.MINUSCULE, twentyFourLetterAlphabet)
-					}
-					label="minuscules"
-				/>
-				<Button
-					onClick={() =>
-						onSelectMode(GAME_MODES.MAJUSCULE, twentyFourLetterAlphabet)
-					}
-					label="MAJUSCULES"
-				/>
-			</div>
+				<legend
+					className={css({
+						fontSize: 'm',
+						fontWeight: 'bold',
+						marginBottom: '0.5rem',
+					})}
+				>
+					Game mode
+				</legend>
+				<div
+					className={css({
+						display: 'flex',
+						flexDirection: { base: 'column', sm: 'row' },
+						gap: '1rem',
+					})}
+				>
+					<label
+						className={css({
+							display: 'flex',
+							alignItems: 'center',
+							gap: '0.5rem',
+							cursor: 'pointer',
+						})}
+					>
+						<input
+							type="radio"
+							name="gameMode"
+							value={GAME_MODES.MINUSCULE}
+							checked={selectedMode === GAME_MODES.MINUSCULE}
+							onChange={e => setSelectedMode(e.target.value)}
+						/>
+						minuscules
+					</label>
+					<label
+						className={css({
+							display: 'flex',
+							alignItems: 'center',
+							gap: '0.5rem',
+							cursor: 'pointer',
+						})}
+					>
+						<input
+							type="radio"
+							name="gameMode"
+							value={GAME_MODES.MAJUSCULE}
+							checked={selectedMode === GAME_MODES.MAJUSCULE}
+							onChange={e => setSelectedMode(e.target.value)}
+						/>
+						MAJUSCULES
+					</label>
+					<label
+						className={css({
+							display: 'flex',
+							alignItems: 'center',
+							gap: '0.5rem',
+							cursor: 'pointer',
+						})}
+					>
+						<input
+							type="radio"
+							name="gameMode"
+							value={GAME_MODES.ALL}
+							checked={selectedMode === GAME_MODES.ALL}
+							onChange={e => setSelectedMode(e.target.value)}
+						/>
+						both
+					</label>
+				</div>
+			</fieldset>
 			<Paragraph
 				className={css({
 					marginTop: '1rem',

@@ -18,7 +18,9 @@ export default defineConfig({
 				plugins: [['babel-plugin-react-compiler']],
 			},
 		}),
-		favicons(resolve(__dirname, '../artwork/Branding/sharpieicon.svg')),
+		favicons(resolve(__dirname, '../artwork/Branding/sharpieicon.svg'), {
+			path: '/Sharpie/',
+		}),
 	],
 	css: {
 		postcss: resolve(__dirname, 'postcss.config.cjs'),
@@ -26,6 +28,9 @@ export default defineConfig({
 	server: {
 		port: 5175,
 		strictPort: true,
+		fs: {
+			allow: ['..'],
+		},
 	},
 	build: {
 		outDir: resolve(__dirname, '../../dist'),

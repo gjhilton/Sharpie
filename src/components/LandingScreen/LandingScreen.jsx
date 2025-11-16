@@ -8,6 +8,7 @@ import LandingSectionAlphabet from '@components/LandingSectionAlphabet/LandingSe
 import LandingSectionBaselines from '@components/LandingSectionBaselines/LandingSectionBaselines.jsx';
 import LandingSectionNews from '@components/LandingSectionNews/LandingSectionNews.jsx';
 import LandingSectionNextSteps from '@components/LandingSectionNextSteps/LandingSectionNextSteps.jsx';
+import { GAME_MODES } from '@constants/stages.js';
 
 const LandingScreen = ({
 	onSelectMode,
@@ -17,19 +18,21 @@ const LandingScreen = ({
 	setShowBaseline,
 }) => {
 	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(false);
+	const [selectedMode, setSelectedMode] = useState(GAME_MODES.ALL);
 
 	return (
 		<PageWidth>
 			<LandingSectionHero
 				onSelectMode={onSelectMode}
 				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
+				selectedMode={selectedMode}
 			/>
 
 			<LandingSectionHowToUse />
 
 			<LandingSectionOptions
-				onSelectMode={onSelectMode}
-				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
+				selectedMode={selectedMode}
+				setSelectedMode={setSelectedMode}
 				onShowCatalogue={onShowCatalogue}
 			/>
 

@@ -360,7 +360,7 @@ describe('LandingScreen', () => {
 			).toBeInTheDocument();
 		});
 
-		it('should render minuscules button', () => {
+		it('should render radio button group for game mode', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -369,13 +369,13 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const minusculesButton = screen.getByRole('button', {
-				name: 'minuscules',
-			});
-			expect(minusculesButton).toBeInTheDocument();
+			expect(screen.getByText('Game mode')).toBeInTheDocument();
+			expect(screen.getByLabelText('minuscules')).toBeInTheDocument();
+			expect(screen.getByLabelText('MAJUSCULES')).toBeInTheDocument();
+			expect(screen.getByLabelText('both')).toBeInTheDocument();
 		});
 
-		it('should render MAJUSCULES button', () => {
+		it('should have "both" selected by default', () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -384,13 +384,10 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const majusculesButton = screen.getByRole('button', {
-				name: 'MAJUSCULES',
-			});
-			expect(majusculesButton).toBeInTheDocument();
+			expect(screen.getByLabelText('both')).toBeChecked();
 		});
 
-		it('should call onSelectMode with GAME_MODES.MINUSCULE when minuscules button is clicked', async () => {
+		it('should update selected mode when radio is clicked', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -401,10 +398,25 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const minusculesButton = screen.getByRole('button', {
-				name: 'minuscules',
-			});
-			await user.click(minusculesButton);
+			await user.click(screen.getByLabelText('minuscules'));
+			expect(screen.getByLabelText('minuscules')).toBeChecked();
+			expect(screen.getByLabelText('both')).not.toBeChecked();
+		});
+
+		it('should call onSelectMode with selected mode when Start is clicked after selecting minuscules', async () => {
+			const user = userEvent.setup();
+
+			render(
+				<LandingScreen
+					onSelectMode={mockOnSelectMode}
+					onShowCatalogue={mockOnShowCatalogue}
+					onShowFeedback={mockOnShowFeedback}
+				/>
+			);
+
+			await user.click(screen.getByLabelText('minuscules'));
+			const startButton = screen.getByRole('button', { name: 'Start' });
+			await user.click(startButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
@@ -413,7 +425,7 @@ describe('LandingScreen', () => {
 			);
 		});
 
-		it('should call onSelectMode with GAME_MODES.MAJUSCULE when MAJUSCULES button is clicked', async () => {
+		it('should call onSelectMode with selected mode when Start is clicked after selecting MAJUSCULES', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -424,10 +436,9 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const majusculesButton = screen.getByRole('button', {
-				name: 'MAJUSCULES',
-			});
-			await user.click(majusculesButton);
+			await user.click(screen.getByLabelText('MAJUSCULES'));
+			const startButton = screen.getByRole('button', { name: 'Start' });
+			await user.click(startButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
@@ -724,9 +735,13 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			// 3 mode buttons + 1 report button
+			// 1 Start button + 1 report button
 			const buttons = screen.getAllByRole('button');
-			expect(buttons.length).toBeGreaterThanOrEqual(4);
+			expect(buttons.length).toBeGreaterThanOrEqual(2);
+
+			// 3 radio buttons for mode selection
+			const radios = screen.getAllByRole('radio');
+			expect(radios).toHaveLength(3);
 
 			// 1 catalogue link + 3 external resource links + 1 source link
 			const links = screen.getAllByRole('link');
@@ -747,7 +762,7 @@ describe('LandingScreen', () => {
 			expect(mockOnShowFeedback).not.toHaveBeenCalled();
 		});
 
-		it('should handle multiple button clicks correctly', async () => {
+		it('should handle mode selection and start correctly', async () => {
 			const user = userEvent.setup();
 
 			render(
@@ -758,6 +773,7 @@ describe('LandingScreen', () => {
 				/>
 			);
 
+			// Default is "both" (ALL mode)
 			const startButton = screen.getByRole('button', { name: 'Start' });
 			await user.click(startButton);
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
@@ -765,25 +781,25 @@ describe('LandingScreen', () => {
 				false
 			);
 
-			const minusculesButton = screen.getByRole('button', {
-				name: 'minuscules',
-			});
-			await user.click(minusculesButton);
+			mockOnSelectMode.mockClear();
+
+			// Select minuscules and start
+			await user.click(screen.getByLabelText('minuscules'));
+			await user.click(startButton);
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
 				GAME_MODES.MINUSCULE,
 				false
 			);
 
-			const majusculesButton = screen.getByRole('button', {
-				name: 'MAJUSCULES',
-			});
-			await user.click(majusculesButton);
+			mockOnSelectMode.mockClear();
+
+			// Select MAJUSCULES and start
+			await user.click(screen.getByLabelText('MAJUSCULES'));
+			await user.click(startButton);
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
 				GAME_MODES.MAJUSCULE,
 				false
 			);
-
-			expect(mockOnSelectMode).toHaveBeenCalledTimes(3);
 		});
 	});
 });

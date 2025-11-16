@@ -38,20 +38,24 @@ const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
 
 const LetterHeader = ({ letter }) => (
 	<div
-		style={{
+		className={css({
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'baseline',
 			marginBottom: '0.5rem',
-		}}
+		})}
 	>
 		<h3
 			id={`char-${letter}`}
-			style={{
-				fontSize: '36px',
+			className={css({
+				fontSize: '24px',
 				fontWeight: '900',
-				margin: '0 0 0 -1rem',
-			}}
+				margin: '0',
+				desktop: {
+					fontSize: '36px',
+					marginLeft: '-1rem',
+				},
+			})}
 		>
 			{letter}
 		</h3>
@@ -65,12 +69,15 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 	<article className={css({ marginBottom: STYLES.verticalGap })}>
 		<LetterHeader letter={letter} />
 		<div
-			style={{
+			className={css({
 				display: 'grid',
 				gridTemplateColumns: 'repeat(4, 1fr)',
 				gap: STYLES.imageGap,
-				padding: '0 4rem',
-			}}
+				padding: '0',
+				desktop: {
+					padding: '0 4rem',
+				},
+			})}
 		>
 			{glyphs.map((glyph, index) => (
 				<GlyphImage

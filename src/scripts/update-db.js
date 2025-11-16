@@ -9,7 +9,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const projectRoot = join(__dirname, '../..');
 
-const GRAPHS_DIR = join(projectRoot, 'src/artwork/Graphs');
+const GRAPHS_DIR = join(projectRoot, 'src/artwork/hands');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
 const PUBLIC_DATA_DIR = join(projectRoot, 'public/data');
 const SOURCES_JSON_PATH = join(projectRoot, 'src/data/hands.json');

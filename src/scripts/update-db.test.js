@@ -95,12 +95,12 @@ describe('getSourceName', () => {
 	});
 
 	it('should handle BeauChesne-Baildon path', () => {
-		const path = '/src/artwork/Graphs/BeauChesne-Baildon/BCB-AB-assets';
+		const path = '/src/artwork/hands/BeauChesne-Baildon/BCB-AB-assets';
 		expect(getSourceName(path)).toBe('BeauChesne-Baildon');
 	});
 
 	it('should handle paths with special characters', () => {
-		const path = '/src/artwork/Graphs/Source-With-Dashes/assets-folder';
+		const path = '/src/artwork/hands/Source-With-Dashes/assets-folder';
 		expect(getSourceName(path)).toBe('Source-With-Dashes');
 	});
 });
@@ -112,7 +112,7 @@ describe('getAssetFolderName', () => {
 	});
 
 	it('should handle BCB-AB-assets', () => {
-		const path = '/src/artwork/Graphs/BeauChesne-Baildon/BCB-AB-assets';
+		const path = '/src/artwork/hands/BeauChesne-Baildon/BCB-AB-assets';
 		expect(getAssetFolderName(path)).toBe('BCB-AB-assets');
 	});
 

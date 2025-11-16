@@ -28,8 +28,9 @@ describe('Character', () => {
 		state: CHARACTER_STATE.AWAIT_ANSWER,
 		imagePath: '/test-image.png',
 		character: 'A',
-		sourceLink: 'https://example.com',
-		sourceTitle: 'Test Source',
+		handLink: 'https://example.com',
+		handTitle: 'Test Hand',
+		handDate: '1579/80',
 	};
 
 	it('should render with image path', () => {
@@ -103,37 +104,38 @@ describe('Character', () => {
 		).not.toBeInTheDocument();
 	});
 
-	it('should show source link in CORRECT_ANSWER state', () => {
+	it('should show hand info with date in CORRECT_ANSWER state', () => {
 		render(
 			<Character
 				{...defaultProps}
 				state={CHARACTER_STATE.CORRECT_ANSWER}
 			/>
 		);
-		expect(screen.getByText(/Test Source/)).toBeInTheDocument();
+		expect(screen.getByText(/Test Hand/)).toBeInTheDocument();
+		expect(screen.getByText('[1579/80]')).toBeInTheDocument();
 		const link = screen.getByRole('link', { name: /source/ });
 		expect(link).toHaveAttribute('href', 'https://example.com');
 		expect(link).toHaveAttribute('target', '_blank');
 	});
 
-	it('should not show source in AWAIT_ANSWER state', () => {
+	it('should not show hand info in AWAIT_ANSWER state', () => {
 		render(
 			<Character {...defaultProps} state={CHARACTER_STATE.AWAIT_ANSWER} />
 		);
-		expect(screen.queryByText(/Test Source/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/Test Hand/)).not.toBeInTheDocument();
 		expect(
 			screen.queryByRole('link', { name: /source/ })
 		).not.toBeInTheDocument();
 	});
 
-	it('should not show source in INCORRECT_ANSWER state', () => {
+	it('should not show hand info in INCORRECT_ANSWER state', () => {
 		render(
 			<Character
 				{...defaultProps}
 				state={CHARACTER_STATE.INCORRECT_ANSWER}
 			/>
 		);
-		expect(screen.queryByText(/Test Source/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/Test Hand/)).not.toBeInTheDocument();
 	});
 
 	it('should have accessible label for correct answer', () => {

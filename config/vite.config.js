@@ -21,6 +21,10 @@ export default defineConfig({
 	css: {
 		postcss: resolve(__dirname, 'postcss.config.cjs'),
 	},
+	server: {
+		port: 5175,
+		strictPort: true,
+	},
 	resolve: {
 		alias: {
 			'@': resolve(__dirname, '../src'),

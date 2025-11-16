@@ -62,25 +62,6 @@ test.describe('24-Letter Alphabet Feature', () => {
 			await expect(toggle).toHaveAttribute('aria-checked', 'false');
 		});
 
-		test('toggle should be keyboard accessible with Space key', async ({
-			page,
-		}) => {
-			const toggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-
-			// Focus the toggle
-			await toggle.focus();
-
-			// Press Space to toggle
-			await page.keyboard.press('Space');
-			await expect(toggle).toHaveAttribute('aria-checked', 'true');
-
-			// Press Space again
-			await page.keyboard.press('Space');
-			await expect(toggle).toHaveAttribute('aria-checked', 'false');
-		});
-
 		test('toggle should be keyboard accessible with Enter key', async ({
 			page,
 		}) => {

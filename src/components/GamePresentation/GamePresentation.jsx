@@ -31,9 +31,10 @@ export const CorrectAnswer = ({
 	acceptedAs24Letter,
 	showBaseline,
 }) => {
-	const source = DB.sources[solution.graph.source];
-	const sourceLink = source?.sourceUri;
-	const sourceTitle = source?.title;
+	const hand = DB.sources[solution.graph.source];
+	const handLink = hand?.sourceUri;
+	const handTitle = hand?.title;
+	const handDate = hand?.date;
 
 	useEffect(() => {
 		const handleKeyDown = e => {
@@ -54,8 +55,9 @@ export const CorrectAnswer = ({
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
 					character={solution.graph.character}
-					sourceLink={sourceLink}
-					sourceTitle={sourceTitle}
+					handLink={handLink}
+					handTitle={handTitle}
+					handDate={handDate}
 					showBaseline={showBaseline}
 					note={solution.graph.note}
 				/>
@@ -98,9 +100,10 @@ export const IncorrectAnswer = ({
 	onNext,
 	showBaseline,
 }) => {
-	const source = DB.sources[solution.graph.source];
-	const sourceLink = source?.sourceUri;
-	const sourceTitle = source?.title;
+	const hand = DB.sources[solution.graph.source];
+	const handLink = hand?.sourceUri;
+	const handTitle = hand?.title;
+	const handDate = hand?.date;
 
 	useEffect(() => {
 		const handleKeyDown = e => {
@@ -134,8 +137,9 @@ export const IncorrectAnswer = ({
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
 					character={solution.graph.character}
-					sourceLink={sourceLink}
-					sourceTitle={sourceTitle}
+					handLink={handLink}
+					handTitle={handTitle}
+					handDate={handDate}
 					showBaseline={showBaseline}
 					note={solution.graph.note}
 				/>

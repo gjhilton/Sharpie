@@ -212,7 +212,7 @@ describe('generateSourcesObject', () => {
 			sourceUri: 'https://example.com/newsource',
 		});
 		expect(warnSpy).toHaveBeenCalledWith(
-			'⚠️  Source "NewSource" not found in sources.json, using placeholder'
+			'⚠️  Source "NewSource" not found in hands.json, using placeholder'
 		);
 
 		warnSpy.mockRestore();

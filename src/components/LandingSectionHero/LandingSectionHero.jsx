@@ -4,7 +4,7 @@ import Button from '@components/Button/Button.jsx';
 import Logo, { SIZE } from '@components/Logo/Logo.jsx';
 import { PageTitle, Paragraph, Section } from '@components/Layout/Layout.jsx';
 import { GAME_MODES } from '@constants/stages.js';
-import sources from '@data/sources.json';
+import hands from '@data/hands.json';
 import heroContent from '@data/hero.md?raw';
 
 const LandingSectionHero = ({ onSelectMode, twentyFourLetterAlphabet }) => {
@@ -31,9 +31,9 @@ const LandingSectionHero = ({ onSelectMode, twentyFourLetterAlphabet }) => {
 							fontSize: 's',
 						})}
 					>
-						{sources['BeauChesne-Baildon'].title}
+						{hands['BeauChesne-Baildon'].title}
 						<a
-							href={sources['BeauChesne-Baildon'].sourceUri}
+							href={hands['BeauChesne-Baildon'].sourceUri}
 							target="_blank"
 							rel="noopener noreferrer"
 						>

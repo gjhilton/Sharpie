@@ -12,7 +12,7 @@ const projectRoot = join(__dirname, '../..');
 const GRAPHS_DIR = join(projectRoot, 'src/artwork/Graphs');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
 const PUBLIC_DATA_DIR = join(projectRoot, 'public/data');
-const SOURCES_JSON_PATH = join(projectRoot, 'src/data/sources.json');
+const SOURCES_JSON_PATH = join(projectRoot, 'src/data/hands.json');
 
 /**
  * Recursively find all *-assets directories
@@ -226,7 +226,7 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 		} else {
 			// Fallback for sources not defined in JSON
 			console.warn(
-				`⚠️  Source "${sourceName}" not found in sources.json, using placeholder`
+				`⚠️  Source "${sourceName}" not found in hands.json, using placeholder`
 			);
 			sources[sourceName] = {
 				title: `${sourceName} source`,
@@ -395,7 +395,7 @@ async function main() {
 			sourceMetadata = JSON.parse(sourcesJsonContent);
 			console.log(`✓ Loaded source metadata from ${SOURCES_JSON_PATH}`);
 		} catch (error) {
-			console.warn(`⚠️  Could not load sources.json: ${error.message}`);
+			console.warn(`⚠️  Could not load hands.json: ${error.message}`);
 			console.warn('   Will use placeholder metadata for all sources');
 		}
 

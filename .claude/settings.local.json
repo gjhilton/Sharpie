@@ -48,7 +48,9 @@
 			"Bash([ -f \"src/components/$component.test.jsx\" ])",
 			"Bash([ -f \"src/components/$component.stories.jsx\" ])",
 			"Bash(done)",
-			"Bash(npm run test:*)"
+			"Bash(npm run test:*)",
+			"Bash(npx playwright test:*)",
+			"Bash(pkill:*)"
 		],
 		"deny": [],
 		"ask": []

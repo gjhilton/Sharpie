@@ -47,12 +47,14 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 	),
 }));
 
-// Mock sources.json
-vi.mock('@data/sources.json', () => ({
+// Mock hands.json
+vi.mock('@data/hands.json', () => ({
 	default: {
 		'BeauChesne-Baildon': {
 			title: 'Test BeauChesne Title',
 			sourceUri: 'https://example.com/beauchesne',
+			date: '1602',
+			isDefaultEnabled: true,
 		},
 	},
 }));

@@ -8,7 +8,7 @@ import {
 	isOnGameScreen,
 	isOnScoreScreen,
 	isOnMenuScreen,
-} from '../../config/playwright/helpers/test-helpers.js';
+} from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Game Flow', () => {
 	test.describe('All Mode (Start button)', () => {
@@ -228,6 +228,80 @@ test.describe('Game Flow', () => {
 
 			const onGame = await isOnGameScreen(page);
 			expect(onGame).toBe(true);
+		});
+	});
+
+	test.describe('Keyboard Shift Keys Visibility', () => {
+		test('should show shift keys when playing "both" mode', async ({ page }) => {
+			await selectGameMode(page, 'all');
+
+			// Check for shift keys in keyboard
+			const keyboard = page.locator('.hg-theme-default');
+			await expect(keyboard).toBeVisible();
+
+			// Shift keys should be present in the keyboard layout
+			const shiftButton = keyboard.locator('[data-skbtn="{shift}"]');
+			await expect(shiftButton.first()).toBeVisible();
+		});
+
+		test('should hide shift keys when playing "minuscules only" mode', async ({ page }) => {
+			await selectGameMode(page, 'minuscule');
+
+			// Check keyboard exists
+			const keyboard = page.locator('.hg-theme-default');
+			await expect(keyboard).toBeVisible();
+
+			// Shift keys should NOT be present
+			const shiftButton = keyboard.locator('[data-skbtn="{shift}"]');
+			await expect(shiftButton).toHaveCount(0);
+		});
+
+		test('should hide shift keys when playing "MAJUSCULES only" mode', async ({ page }) => {
+			await selectGameMode(page, 'majuscule');
+
+			// Check keyboard exists
+			const keyboard = page.locator('.hg-theme-default');
+			await expect(keyboard).toBeVisible();
+
+			// Shift keys should NOT be present
+			const shiftButton = keyboard.locator('[data-skbtn="{shift}"]');
+			await expect(shiftButton).toHaveCount(0);
+		});
+
+		test('should display lowercase keys in minuscule mode without shift', async ({ page }) => {
+			await selectGameMode(page, 'minuscule');
+
+			const keyboard = page.locator('.hg-theme-default');
+			// Should have lowercase letters
+			const lowerA = keyboard.locator('[data-skbtn="a"]');
+			await expect(lowerA).toBeVisible();
+		});
+
+		test('should display uppercase keys in majuscule mode without shift', async ({ page }) => {
+			await selectGameMode(page, 'majuscule');
+
+			const keyboard = page.locator('.hg-theme-default');
+			// Should have uppercase letters
+			const upperA = keyboard.locator('[data-skbtn="A"]');
+			await expect(upperA).toBeVisible();
+		});
+
+		test('should allow toggling between cases when playing "both" mode', async ({ page }) => {
+			await selectGameMode(page, 'all');
+
+			const keyboard = page.locator('.hg-theme-default');
+
+			// Initially should show lowercase (default layout)
+			const lowerA = keyboard.locator('[data-skbtn="a"]');
+			await expect(lowerA).toBeVisible();
+
+			// Click shift to toggle to uppercase
+			const shiftButton = keyboard.locator('[data-skbtn="{shift}"]').first();
+			await shiftButton.click();
+
+			// Now should show uppercase
+			const upperA = keyboard.locator('[data-skbtn="A"]');
+			await expect(upperA).toBeVisible();
 		});
 	});
 });

@@ -261,7 +261,7 @@ describe('CatalogueScreen', () => {
 	});
 
 	describe('Alphabets Configuration', () => {
-		it('renders Practice alphabets section', () => {
+		it('renders Choose Alphabets section', () => {
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
@@ -271,7 +271,7 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			expect(screen.getByText('Practice alphabets')).toBeInTheDocument();
+			expect(screen.getByText('Choose Alphabets')).toBeInTheDocument();
 		});
 
 		it('renders toggles for each alphabet', () => {
@@ -420,8 +420,8 @@ describe('CatalogueScreen', () => {
 			});
 			expect(heading).toBeInTheDocument();
 
-			// Should have Practice alphabets section
-			expect(screen.getByText('Practice alphabets')).toBeInTheDocument();
+			// Should have Choose Alphabets section
+			expect(screen.getByText('Choose Alphabets')).toBeInTheDocument();
 		});
 	});
 

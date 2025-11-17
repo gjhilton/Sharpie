@@ -10,19 +10,26 @@
 export async function selectGameMode(page, mode) {
 	await page.goto('/');
 
+	// Expand Options section to access game mode selection
+	const optionsHeader = page.getByRole('button', { name: /options/i });
+	await optionsHeader.click();
+
 	switch (mode) {
 		case 'all':
-			await page.getByRole('button', { name: /start/i }).click();
+			await page.getByRole('radio', { name: /both minuscules AND MAJUSCULES/i }).click();
 			break;
 		case 'minuscule':
-			await page.getByRole('button', { name: /minuscules/i }).click();
+			await page.getByRole('radio', { name: /minuscules only/i }).click();
 			break;
 		case 'majuscule':
-			await page.getByRole('button', { name: /MAJUSCULES/i }).click();
+			await page.getByRole('radio', { name: /MAJUSCULES only/i }).click();
 			break;
 		default:
 			throw new Error(`Unknown mode: ${mode}`);
 	}
+
+	// Click Play button to start the game
+	await page.getByRole('button', { name: /^play$/i }).click();
 
 	// Wait for game screen to load
 	await page.waitForSelector('img[alt="Character to identify"]', { timeout: 10000 });
@@ -94,7 +101,12 @@ export async function returnToLanding(page) {
  */
 export async function navigateToCatalogue(page) {
 	await page.goto('/');
-	await page.getByRole('link', { name: /view all characters/i }).click();
+
+	// Expand Options section to access catalogue button
+	const optionsHeader = page.getByRole('button', { name: /options/i });
+	await optionsHeader.click();
+
+	await page.getByRole('button', { name: /choose alphabets/i }).click();
 
 	// Wait for catalogue to load
 	await page.waitForSelector('h1', { timeout: 5000 });

@@ -3,7 +3,7 @@ import {
 	isOnLandingScreen,
 	navigateToCatalogue,
 	navigateToFeedback,
-} from '../../config/playwright/helpers/test-helpers.js';
+} from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Landing Screen', () => {
 	test.beforeEach(async ({ page }) => {
@@ -174,8 +174,8 @@ test.describe('Landing Screen', () => {
 		const whatsNewHeader = page.getByRole('button', { name: /what.*new/i });
 		await whatsNewHeader.click();
 
-		// Check for version numbers in changelog
-		await expect(page.getByText(/v\d+\.\d+\.\d+/)).toBeVisible();
+		// Check for version numbers in changelog (use first() since there may be multiple versions)
+		await expect(page.getByText(/v\d+\.\d+\.\d+/).first()).toBeVisible();
 	});
 
 	test('should have feedback link in small print', async ({ page }) => {
@@ -202,14 +202,20 @@ test.describe('Landing Screen', () => {
 	});
 
 	test('should toggle disclosure sections by clicking anywhere on header', async ({ page }) => {
-		// Test that clicking the + icon also toggles
-		const optionsSection = page.locator('div').filter({ has: page.getByRole('button', { name: /options/i }) }).first();
-		const toggleIcon = optionsSection.getByText('+');
+		// Test that clicking the header button toggles the section
+		const optionsButton = page.getByRole('button', { name: /options/i });
 
-		await expect(toggleIcon).toBeVisible();
-		await toggleIcon.click();
+		// Initially collapsed
+		await expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
 
-		// Should now show minus
-		await expect(optionsSection.getByText('−')).toBeVisible();
+		// Click to expand
+		await optionsButton.click();
+
+		// Should now be expanded
+		await expect(optionsButton).toHaveAttribute('aria-expanded', 'true');
+
+		// Click again to collapse
+		await optionsButton.click();
+		await expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
 	});
 });

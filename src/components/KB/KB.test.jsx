@@ -6,13 +6,17 @@ import KB from './KB';
 
 // Mock the react-simple-keyboard library
 vi.mock('react-simple-keyboard', () => ({
-	default: ({ onKeyPress, layoutName }) => (
-		<div data-testid="keyboard" data-layout={layoutName}>
-			<button onClick={() => onKeyPress('a')}>a</button>
-			<button onClick={() => onKeyPress('Q')}>Q</button>
-			<button onClick={() => onKeyPress('{shift}')}>{'{shift}'}</button>
-		</div>
-	),
+	default: ({ onKeyPress, layoutName, layout }) => {
+		// Check if shift keys are in the layout
+		const hasShiftKeys = layout && layout.default && layout.default.some(row => row.includes('{shift}'));
+		return (
+			<div data-testid="keyboard" data-layout={layoutName} data-has-shift={hasShiftKeys}>
+				<button onClick={() => onKeyPress('a')}>a</button>
+				<button onClick={() => onKeyPress('Q')}>Q</button>
+				{hasShiftKeys && <button onClick={() => onKeyPress('{shift}')}>{'{shift}'}</button>}
+			</div>
+		);
+	},
 }));
 
 describe('KB Component', () => {
@@ -363,6 +367,89 @@ describe('KB Component', () => {
 			expect(mockKeyCallback).toHaveBeenCalledWith('b');
 
 			expect(mockKeyCallback).toHaveBeenCalledTimes(2);
+		});
+	});
+
+	describe('showShiftKeys Prop', () => {
+		it('should show shift keys by default (showShiftKeys=true)', () => {
+			render(<KB keyCallback={mockKeyCallback} />);
+
+			const keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-has-shift', 'true');
+			expect(screen.getByText('{shift}')).toBeInTheDocument();
+		});
+
+		it('should show shift keys when showShiftKeys is explicitly true', () => {
+			render(<KB keyCallback={mockKeyCallback} showShiftKeys={true} />);
+
+			const keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-has-shift', 'true');
+			expect(screen.getByText('{shift}')).toBeInTheDocument();
+		});
+
+		it('should hide shift keys when showShiftKeys is false', () => {
+			render(<KB keyCallback={mockKeyCallback} showShiftKeys={false} />);
+
+			const keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-has-shift', 'false');
+			expect(screen.queryByText('{shift}')).not.toBeInTheDocument();
+		});
+
+		it('should not respond to physical Shift key when showShiftKeys is false', () => {
+			render(<KB keyCallback={mockKeyCallback} showShiftKeys={false} />);
+
+			let keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-layout', 'default');
+
+			// Press Shift - should NOT change layout
+			fireEvent.keyDown(window, { key: 'Shift' });
+			keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-layout', 'default');
+
+			// Release Shift - should remain in default
+			fireEvent.keyUp(window, { key: 'Shift' });
+			keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-layout', 'default');
+		});
+
+		it('should still call keyCallback for letter keys when showShiftKeys is false', () => {
+			render(<KB keyCallback={mockKeyCallback} showShiftKeys={false} />);
+
+			fireEvent.keyDown(window, { key: 'a' });
+			expect(mockKeyCallback).toHaveBeenCalledWith('a');
+
+			fireEvent.keyDown(window, { key: 'Z' });
+			expect(mockKeyCallback).toHaveBeenCalledWith('Z');
+		});
+
+		it('should work with twentyFourLetterAlphabet when showShiftKeys is false', () => {
+			render(
+				<KB
+					keyCallback={mockKeyCallback}
+					showShiftKeys={false}
+					twentyFourLetterAlphabet={true}
+				/>
+			);
+
+			const keyboard = screen.getByTestId('keyboard');
+			expect(keyboard).toHaveAttribute('data-has-shift', 'false');
+			expect(screen.queryByText('{shift}')).not.toBeInTheDocument();
+		});
+
+		it('should work with initialLayout="shift" when showShiftKeys is false', () => {
+			render(
+				<KB
+					keyCallback={mockKeyCallback}
+					showShiftKeys={false}
+					initialLayout="shift"
+				/>
+			);
+
+			const keyboard = screen.getByTestId('keyboard');
+			// Should still respect initial layout for uppercase keys
+			expect(keyboard).toHaveAttribute('data-layout', 'shift');
+			// But should not have shift keys visible
+			expect(keyboard).toHaveAttribute('data-has-shift', 'false');
 		});
 	});
 });

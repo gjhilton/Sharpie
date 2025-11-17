@@ -51,7 +51,10 @@
       "Bash(npm run test:*)",
       "Bash(npx playwright test:*)",
       "Bash(pkill:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(timeout 120 npx playwright test:*)",
+      "Bash(timeout 60 npx playwright test:*)",
+      "Bash(timeout 180 npx playwright test:*)"
     ],
     "deny": [],
     "ask": []

@@ -15,7 +15,7 @@ const CharacterImage = ({
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			padding: '2.5rem 1rem 3rem',
+			padding: '2.5rem 0m 3rem',
 			position: 'relative',
 		})}
 	>
@@ -57,7 +57,7 @@ const CharacterImage = ({
 			/>
 			{showBaseline && (
 				<div
-					className={css({
+					className={`character-image-baseline ${css({
 						position: 'absolute',
 						top: '56.5%',
 						left: '0',
@@ -65,7 +65,7 @@ const CharacterImage = ({
 						borderBottom: `2px solid {colors.${baselineColor}}`,
 						pointerEvents: 'none',
 						mixBlendMode: 'darken',
-					})}
+					})}`}
 					aria-hidden="true"
 				/>
 			)}

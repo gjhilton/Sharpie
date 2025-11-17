@@ -5,6 +5,7 @@ import KB from '@components/KB/KB.jsx';
 import Character, { CHARACTER_STATE } from '@components/Character/Character.jsx';
 import { STATUS } from '@utilities/gameLogic.js';
 import { DB } from '@data/DB.js';
+import { GAME_MODES } from '@constants/stages.js';
 
 const SPACING = {
 	SECTION_GAP: '2rem',
@@ -203,52 +204,59 @@ export const GamePresentation = ({
 	twentyFourLetterAlphabet,
 	showBaseline,
 	initialKeyboardLayout,
+	gameMode,
 	onKeyPress,
 	onNextLetter,
 	onEndGame,
-}) => (
-	<div
-		className={css({
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			gap: SPACING.SECTION_GAP,
-			padding: { base: '2rem 0', sm: SPACING.SECTION_GAP },
-		})}
-	>
-		<StatusDisplay
-			status={attemptStatus}
-			solution={currentSolution}
-			attempt={attempt}
-			attemptImagePaths={attemptImagePaths}
-			acceptedAs24Letter={acceptedAs24Letter}
-			onNext={onNextLetter}
-			showBaseline={showBaseline}
-		/>
+}) => {
+	// Show shift keys only when playing "both" (ALL) mode
+	const showShiftKeys = gameMode === GAME_MODES.ALL;
 
+	return (
 		<div
 			className={css({
-				opacity: attempt ? KB_DISABLED_OPACITY : 1,
-				width: '100%',
 				display: 'flex',
-				justifyContent: 'center',
+				flexDirection: 'column',
+				alignItems: 'center',
+				gap: SPACING.SECTION_GAP,
+				padding: { base: '2rem 0', sm: SPACING.SECTION_GAP },
 			})}
 		>
-			<KB
-				keyCallback={attempt ? undefined : onKeyPress}
-				initialLayout={initialKeyboardLayout}
-				twentyFourLetterAlphabet={twentyFourLetterAlphabet}
+			<StatusDisplay
+				status={attemptStatus}
+				solution={currentSolution}
+				attempt={attempt}
+				attemptImagePaths={attemptImagePaths}
+				acceptedAs24Letter={acceptedAs24Letter}
+				onNext={onNextLetter}
+				showBaseline={showBaseline}
 			/>
-		</div>
 
-		<div
-			className={css({
-				display: 'flex',
-				gap: SPACING.BUTTON_GAP,
-				justifyContent: 'center',
-			})}
-		>
-			<Button onClick={onEndGame} label="End Game" />
+			<div
+				className={css({
+					opacity: attempt ? KB_DISABLED_OPACITY : 1,
+					width: '100%',
+					display: 'flex',
+					justifyContent: 'center',
+				})}
+			>
+				<KB
+					keyCallback={attempt ? undefined : onKeyPress}
+					initialLayout={initialKeyboardLayout}
+					twentyFourLetterAlphabet={twentyFourLetterAlphabet}
+					showShiftKeys={showShiftKeys}
+				/>
+			</div>
+
+			<div
+				className={css({
+					display: 'flex',
+					gap: SPACING.BUTTON_GAP,
+					justifyContent: 'center',
+				})}
+			>
+				<Button onClick={onEndGame} label="End Game" />
+			</div>
 		</div>
-	</div>
-);
+	);
+};

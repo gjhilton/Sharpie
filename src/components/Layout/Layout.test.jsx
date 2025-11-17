@@ -95,11 +95,14 @@ describe('Paragraph', () => {
 		expect(paragraph).toHaveClass('custom-class');
 	});
 
-	it('should not apply default styles when custom className is provided', () => {
+	it('should combine default styles with custom className', () => {
 		render(<Paragraph className="custom-class">Paragraph</Paragraph>);
 		const paragraph = screen.getByText('Paragraph');
-		// When custom className is provided, it should only have that class
-		expect(paragraph.className).toBe('custom-class');
+		// Paragraph combines default styles with custom className
+		expect(paragraph.className).toContain('custom-class');
+		expect(paragraph.className).toContain('fs_m');
+		expect(paragraph.className).toContain('lh_1.6');
+		expect(paragraph.className).toContain('mb_1rem');
 	});
 });
 

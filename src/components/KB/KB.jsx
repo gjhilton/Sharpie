@@ -12,6 +12,7 @@ const KB = ({
   keyCallback,
   initialLayout = "default",
   twentyFourLetterAlphabet = false,
+  showShiftKeys = true,
 }) => {
   const [layout, setLayout] = useState(initialLayout);
   const keyboardRef = useRef(null);
@@ -40,8 +41,8 @@ const KB = ({
         return;
       }
 
-      // Handle shift key for layout switching
-      if (event.key === "Shift") {
+      // Handle shift key for layout switching (only if shift keys are shown)
+      if (event.key === "Shift" && showShiftKeys) {
         setLayout("shift");
         return;
       }
@@ -54,8 +55,8 @@ const KB = ({
     };
 
     const handleKeyUp = (event) => {
-      // Switch back to default layout when shift is released
-      if (event.key === "Shift") {
+      // Switch back to default layout when shift is released (only if shift keys are shown)
+      if (event.key === "Shift" && showShiftKeys) {
         setLayout("default");
       }
     };
@@ -67,7 +68,7 @@ const KB = ({
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, [keyCallback]);
+  }, [keyCallback, showShiftKeys]);
 
   const buttonTheme = [
     {
@@ -92,24 +93,24 @@ const KB = ({
         default: [
           "q w e r t y u/v i/j o p",
           "a s d f g h j/i k l",
-          "{shift} z x c v/u b n m {shift}",
+          showShiftKeys ? "{shift} z x c v/u b n m {shift}" : "z x c v/u b n m",
         ],
         shift: [
           "Q W E R T Y U/V I/J O P",
           "A S D F G H J/I K L",
-          "{shift} Z X C V/U B N M {shift}",
+          showShiftKeys ? "{shift} Z X C V/U B N M {shift}" : "Z X C V/U B N M",
         ],
       }
     : {
         default: [
           "q w e r t y u i o p",
           "a s d f g h j k l",
-          "{shift} z x c v b n m {shift}",
+          showShiftKeys ? "{shift} z x c v b n m {shift}" : "z x c v b n m",
         ],
         shift: [
           "Q W E R T Y U I O P",
           "A S D F G H J K L",
-          "{shift} Z X C V B N M {shift}",
+          showShiftKeys ? "{shift} Z X C V B N M {shift}" : "Z X C V B N M",
         ],
       };
 

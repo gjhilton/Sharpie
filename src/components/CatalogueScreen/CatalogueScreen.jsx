@@ -12,7 +12,7 @@ import * as catalogueLogic from '@utilities/catalogueLogic.js';
 const STYLES = {
 	verticalGap: '2rem',
 	imageGap: '0.5rem',
-	imageSize: '120px',
+	imageSize: '100%',
 };
 
 const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
@@ -24,7 +24,7 @@ const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			border: '1px solid {colors.ink/10}',
+			cborder: '1px solid {colors.ink/10}',
 		})}
 		style={{ opacity: isEnabled ? 1 : 0.2 }}
 	>
@@ -72,8 +72,8 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 		<div
 			className={css({
 				display: 'grid',
-				gridTemplateColumns: 'repeat(3, 1fr)',
-				gap: STYLES.imageGap,
+				gridTemplateColumns: 'repeat(6, 1fr)',
+				gap: 0,
 				padding: '0',
 				
 			})}
@@ -255,9 +255,15 @@ const CatalogueScreen = ({
 					<BackLink isDisabled={hasNoSelection} onReturnToMenu={onReturnToMenu} />
 				</div>
 
-				<PageTitle style={{ lineHeight: '2rem', margin: `2rem 0 ${STYLES.verticalGap}` }}>
+				<Heading
+					className={css({
+						lineHeight: '2rem',
+						margin: `2rem 0 ${STYLES.verticalGap}`,
+						fontSize: 'xl',
+					})}
+				>
 					Choose Alphabets
-				</PageTitle>
+				</Heading>
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<Paragraph>

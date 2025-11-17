@@ -124,13 +124,13 @@ describe('LandingSectionHero', () => {
 
 	it('renders Play button', () => {
 		render(<LandingSectionHero {...defaultProps} />);
-		expect(screen.getByRole('button', { name: /play/i })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: /^play$/i })).toBeInTheDocument();
 	});
 
 	it('Play button calls onSelectMode with selectedMode prop', async () => {
 		const user = userEvent.setup();
 		render(<LandingSectionHero {...defaultProps} />);
-		await user.click(screen.getByRole('button', { name: /play/i }));
+		await user.click(screen.getByRole('button', { name: /^play$/i }));
 		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, false);
 	});
 
@@ -139,7 +139,7 @@ describe('LandingSectionHero', () => {
 		render(
 			<LandingSectionHero {...defaultProps} selectedMode={GAME_MODES.MINUSCULE} />
 		);
-		await user.click(screen.getByRole('button', { name: /play/i }));
+		await user.click(screen.getByRole('button', { name: /^play$/i }));
 		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MINUSCULE, false);
 	});
 
@@ -148,7 +148,7 @@ describe('LandingSectionHero', () => {
 		render(
 			<LandingSectionHero {...defaultProps} selectedMode={GAME_MODES.MAJUSCULE} />
 		);
-		await user.click(screen.getByRole('button', { name: /play/i }));
+		await user.click(screen.getByRole('button', { name: /^play$/i }));
 		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MAJUSCULE, false);
 	});
 
@@ -157,7 +157,7 @@ describe('LandingSectionHero', () => {
 		render(
 			<LandingSectionHero {...defaultProps} twentyFourLetterAlphabet={true} />
 		);
-		await user.click(screen.getByRole('button', { name: /play/i }));
+		await user.click(screen.getByRole('button', { name: /^play$/i }));
 		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, true);
 	});
 

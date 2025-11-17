@@ -97,6 +97,7 @@ const GameScreen = ({
 			twentyFourLetterAlphabet={twentyFourLetterAlphabet}
 			showBaseline={showBaseline}
 			initialKeyboardLayout={gameLogic.getInitialKeyboardLayout(gameMode)}
+			gameMode={gameMode}
 			onKeyPress={handleKeyPress}
 			onNextLetter={handleNextLetter}
 			onEndGame={handleEndGame}

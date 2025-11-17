@@ -43,10 +43,11 @@ vi.mock('@components/Character/Character.jsx', () => ({
 }));
 
 vi.mock('@components/KB/KB.jsx', () => ({
-	default: ({ keyCallback, initialLayout }) => (
+	default: ({ keyCallback, initialLayout, showShiftKeys }) => (
 		<div
 			data-testid="kb"
 			data-initial-layout={initialLayout}
+			data-show-shift-keys={showShiftKeys !== undefined ? String(showShiftKeys) : 'true'}
 			onClick={() => keyCallback && keyCallback('A')}
 		>
 			Keyboard Mock
@@ -654,5 +655,38 @@ describe('GamePresentation', () => {
 		expect(
 			screen.getByRole('button', { name: /next/i })
 		).toBeInTheDocument();
+	});
+
+	describe('Shift Keys Visibility by Game Mode', () => {
+		it('should show shift keys when gameMode is ALL (both)', () => {
+			render(<GamePresentation {...defaultProps} gameMode="all" />);
+			const kb = screen.getByTestId('kb');
+			expect(kb).toHaveAttribute('data-show-shift-keys', 'true');
+		});
+
+		it('should hide shift keys when gameMode is MINUSCULE', () => {
+			render(<GamePresentation {...defaultProps} gameMode="minuscule" />);
+			const kb = screen.getByTestId('kb');
+			expect(kb).toHaveAttribute('data-show-shift-keys', 'false');
+		});
+
+		it('should hide shift keys when gameMode is MAJUSCULE', () => {
+			render(<GamePresentation {...defaultProps} gameMode="majuscule" />);
+			const kb = screen.getByTestId('kb');
+			expect(kb).toHaveAttribute('data-show-shift-keys', 'false');
+		});
+
+		it('should default to hiding shift keys when gameMode is not provided', () => {
+			render(<GamePresentation {...defaultProps} />);
+			const kb = screen.getByTestId('kb');
+			// Without gameMode, it defaults to false (undefined !== GAME_MODES.ALL)
+			expect(kb).toHaveAttribute('data-show-shift-keys', 'false');
+		});
+
+		it('should hide shift keys for EXTRAS mode', () => {
+			render(<GamePresentation {...defaultProps} gameMode="extras" />);
+			const kb = screen.getByTestId('kb');
+			expect(kb).toHaveAttribute('data-show-shift-keys', 'false');
+		});
 	});
 });

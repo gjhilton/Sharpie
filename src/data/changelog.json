@@ -1,7 +1,7 @@
 [
 	{
 		"version": "1.1.0",
-		"description": "Alphabet selection on catalogue page; Game mode selection (minuscules, MAJUSCULES, or both); 24-letter alphabet mode; Keyboard shift keys visibility based on game mode."
+		"description": "Alphabet selection; Game mode selection (minuscules, MAJUSCULES, or both); Notes on individual characters; Keyboard shift keys visibility based on game mode; added new alphabet from Howard; begin adding letters with word level context."
 	},
 	{
 		"version": "1.0.1",

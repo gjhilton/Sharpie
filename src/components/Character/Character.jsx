@@ -26,6 +26,7 @@ const RedOverlay = () => (
 			height: '100%',
 			mixBlendMode: 'lighten',
 			backgroundColor: '{colors.error}',
+			zIndex: 20,
 		})}
 		role="img"
 		aria-live="polite"
@@ -34,25 +35,13 @@ const RedOverlay = () => (
 );
 
 const Alphabet = ({ alphabetTitle, alphabetLink, alphabetDate }) => (
-	<div
-		className={css({
-			position: 'absolute',
-			top: 0,
-			left: 0,
-			width: '100%',
-			height: '100%',
-			display: 'flex',
-			alignItems: 'flex-end',
-		})}
-	>
-		<span className={css({ fontSize: ALPHABET_FONT_SIZE })}>
-			 <strong>[{alphabetDate}]</strong> {alphabetTitle} (
-			<a href={alphabetLink} target="_blank" rel="noopener noreferrer">
-				source
-			</a>
-			)
-		</span>
-	</div>
+	<span className={css({ fontSize: ALPHABET_FONT_SIZE })}>
+		<strong>[{alphabetDate}]</strong> {alphabetTitle} (
+		<a href={alphabetLink} target="_blank" rel="noopener noreferrer">
+			source
+		</a>
+		)
+	</span>
 );
 
 const Character = ({
@@ -85,6 +74,7 @@ const Character = ({
 						display: 'flex',
 						gap: CHARACTER_ICON_GAP,
 						alignItems: 'center',
+						zIndex: 10,
 					})}
 					aria-label={`Character ${character}: ${state === CHARACTER_STATE.CORRECT_ANSWER ? 'correct' : 'incorrect'} answer`}
 				>
@@ -100,21 +90,45 @@ const Character = ({
 			)}
 			{imagePath ? (
 				<CharacterImage
-				imagePath={imagePath}
-				showBaseline={showBaseline}
-				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'}
-				note={note}
-			/>
+					imagePath={imagePath}
+					showBaseline={showBaseline}
+					baselineColor={
+						state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'
+					}
+				/>
 			) : (
 				<CharacterImageSlideshow
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
-				baselineColor={state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'}
+					baselineColor={
+						state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'
+					}
 				/>
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
-			{state === CHARACTER_STATE.CORRECT_ANSWER && (
-				<Alphabet alphabetTitle={alphabetTitle} alphabetLink={alphabetLink} alphabetDate={alphabetDate} />
+			{(note || state === CHARACTER_STATE.CORRECT_ANSWER) && (
+				<div
+					className={css({
+						position: 'absolute',
+						top: 0,
+						left: 0,
+						width: '100%',
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'flex-end',
+						fontSize: ALPHABET_FONT_SIZE,
+					})}
+				>
+					{note && <span>{note}</span>}
+					{state === CHARACTER_STATE.CORRECT_ANSWER && (
+						<Alphabet
+							alphabetTitle={alphabetTitle}
+							alphabetLink={alphabetLink}
+							alphabetDate={alphabetDate}
+						/>
+					)}
+				</div>
 			)}
 		</div>
 	);

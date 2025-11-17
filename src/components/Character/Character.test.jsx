@@ -163,4 +163,106 @@ describe('Character', () => {
 			screen.getByLabelText('Character C: incorrect answer')
 		).toBeInTheDocument();
 	});
+
+	describe('note display', () => {
+		it('should display note in AWAIT_ANSWER state', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.AWAIT_ANSWER}
+					note="First letter of word"
+				/>
+			);
+			expect(screen.getByText('First letter of word')).toBeInTheDocument();
+		});
+
+		it('should display note in CORRECT_ANSWER state', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.CORRECT_ANSWER}
+					note="First letter of word"
+				/>
+			);
+			expect(screen.getByText('First letter of word')).toBeInTheDocument();
+		});
+
+		it('should display note in INCORRECT_ANSWER state', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.INCORRECT_ANSWER}
+					note="First letter of word"
+				/>
+			);
+			expect(screen.getByText('First letter of word')).toBeInTheDocument();
+		});
+
+		it('should not display note when not provided', () => {
+			render(
+				<Character {...defaultProps} state={CHARACTER_STATE.AWAIT_ANSWER} />
+			);
+			// No note text should be present
+			expect(screen.queryByText(/First letter/)).not.toBeInTheDocument();
+		});
+
+		it('should render note in span element', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.AWAIT_ANSWER}
+					note="Test note"
+				/>
+			);
+			const noteElement = screen.getByText('Test note');
+			expect(noteElement.tagName).toBe('SPAN');
+		});
+
+		it('should display both note and alphabet info in CORRECT_ANSWER state', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.CORRECT_ANSWER}
+					note="Test note"
+				/>
+			);
+			expect(screen.getByText('Test note')).toBeInTheDocument();
+			expect(screen.getByText(/Test Alphabet/)).toBeInTheDocument();
+			expect(screen.getByText('[1579/80]')).toBeInTheDocument();
+		});
+
+		it('should display character label with icon AND note in CORRECT_ANSWER state', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.CORRECT_ANSWER}
+					note="Important note"
+				/>
+			);
+			// Character label and icon
+			expect(screen.getByText('A')).toBeInTheDocument();
+			expect(screen.getByTestId('icon')).toHaveTextContent('tick');
+			// Note
+			expect(screen.getByText('Important note')).toBeInTheDocument();
+			// Alphabet info
+			expect(screen.getByText(/Test Alphabet/)).toBeInTheDocument();
+		});
+
+		it('should display character label with icon AND note in INCORRECT_ANSWER state', () => {
+			render(
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.INCORRECT_ANSWER}
+					note="Important note"
+				/>
+			);
+			// Character label and icon
+			expect(screen.getByText('A')).toBeInTheDocument();
+			expect(screen.getByTestId('icon')).toHaveTextContent('cross');
+			// Note
+			expect(screen.getByText('Important note')).toBeInTheDocument();
+			// Red overlay
+			expect(screen.getByLabelText('Incorrect answer')).toBeInTheDocument();
+		});
+	});
 });

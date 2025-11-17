@@ -1,7 +1,11 @@
 [
 	{
+		"version": "1.1.0",
+		"description": "Alphabet selection on catalogue page; Game mode selection (minuscules, MAJUSCULES, or both); 24-letter alphabet mode; Keyboard shift keys visibility based on game mode."
+	},
+	{
 		"version": "1.0.1",
-		"description": "Baseline visualisation; Code splitting for faster page load / time to interactive; What's new secfion on landong page."
+		"description": "Baseline visualisation; Code splitting for faster page load / time to interactive; What's new section on landing page."
 	},
 	{
 		"version": "1.0.0",

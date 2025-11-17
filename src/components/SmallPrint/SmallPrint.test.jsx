@@ -142,23 +142,10 @@ describe('SmallPrint', () => {
 		expect(links).toHaveLength(2); // GitHub and funeral games only
 	});
 
-	it('displays version number', () => {
+	it('displays version number in semantic versioning format', () => {
 		render(<SmallPrint />);
 
-		const version = screen.getByText(/v\d+\.\d+\.\d+/);
-		expect(version).toBeInTheDocument();
-	});
-
-	it('displays version 1.0.1', () => {
-		render(<SmallPrint />);
-
-		expect(screen.getByText('v1.0.1')).toBeInTheDocument();
-	});
-
-	it('version is in semantic versioning format', () => {
-		render(<SmallPrint />);
-
-		const versionText = screen.getByText(/^v\d+\.\d+\.\d+$/);
-		expect(versionText).toBeInTheDocument();
+		const versionElement = screen.getByText(/^v\d+\.\d+\.\d+$/);
+		expect(versionElement).toBeInTheDocument();
 	});
 });

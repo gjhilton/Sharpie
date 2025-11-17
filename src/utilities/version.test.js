@@ -20,8 +20,4 @@ describe('version utility', () => {
 	it('should match the version in package.json', () => {
 		expect(version).toBe(packageJson.version);
 	});
-
-	it('should be version 1.0.1', () => {
-		expect(version).toBe('1.0.1');
-	});
 });

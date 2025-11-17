@@ -216,8 +216,8 @@ const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
 
 	return (
 		<Paragraph>
-			You can choose the alphabets you'd like to work on by selecting from the list below. At
-			present you have enabled <strong>{alphabetCount}</strong> alphabets (
+			Enable the alphabets you'd like to work on from the list below. At
+			present you have enabled <strong>{alphabetCount}</strong> {alphabetCount === 1? "alphabet":"alphabets"} (
 			<strong>{characterCount}</strong> characters).
 		</Paragraph>
 	);

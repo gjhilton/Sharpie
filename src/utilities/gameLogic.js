@@ -1,5 +1,5 @@
-import * as db from './database.js';
-import { GAME_MODES } from '../constants/stages.js';
+import * as db from '@utilities/database.js';
+import { GAME_MODES } from '@constants/stages.js';
 
 export const STATUS = {
 	NONE: 'none',
@@ -32,15 +32,27 @@ export const getGraphSetTitle = gameMode => {
 
 /**
  * Gets graphs for the current game mode
+ * @param {object} DB - The database object
+ * @param {string} gameMode - The game mode (minuscule, majuscule, or all)
+ * @param {object} enabledAlphabets - Optional object mapping alphabet names to enabled status
  */
-export const getGraphsForGameMode = (DB, gameMode) => {
+export const getGraphsForGameMode = (DB, gameMode, enabledAlphabets = null) => {
+	let graphs;
 	if (gameMode === GAME_MODES.ALL) {
 		const enabledGraphSets = db.getEnabledGraphSets(DB);
-		return db.flattenGraphs(enabledGraphSets);
+		graphs = db.flattenGraphs(enabledGraphSets);
+	} else {
+		const title = getGraphSetTitle(gameMode);
+		const graphSet = db.findGraphSetByTitle(DB, title);
+		graphs = db.getGraphs(graphSet);
 	}
-	const title = getGraphSetTitle(gameMode);
-	const graphSet = db.findGraphSetByTitle(DB, title);
-	return db.getGraphs(graphSet);
+
+	// Filter by enabled alphabets if provided
+	if (enabledAlphabets) {
+		graphs = db.filterGraphsByEnabledAlphabets(graphs, enabledAlphabets);
+	}
+
+	return graphs;
 };
 
 /**

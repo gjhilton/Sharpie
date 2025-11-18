@@ -1,9 +1,8 @@
 import { test, expect } from '@playwright/test';
 import {
 	navigateToCatalogue,
-	returnToMenu,
 	isOnMenuScreen,
-} from '../../config/playwright/helpers/test-helpers.js';
+} from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Catalogue Screen', () => {
 	test.beforeEach(async ({ page }) => {
@@ -14,20 +13,19 @@ test.describe('Catalogue Screen', () => {
 		await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 	});
 
+	test('should display version number in footer', async ({ page }) => {
+		const version = page.getByText(/v\d+\.\d+\.\d+/);
+		await expect(version).toBeVisible();
+	});
+
 	test('should display character sets', async ({ page }) => {
-		// Should have sections for different character sets
-		const minusculesHeading = page.getByRole('heading', {
-			name: /minuscules/i,
-		});
-		const majusculesHeading = page.getByRole('heading', {
-			name: /MAJUSCULES/i,
-		});
+		// Should have sections for different character sets (e.g., lowercase a-z and uppercase A-Z)
+		// Characters are organized with individual letter headings (a, b, c... or A, B, C...)
+		const letterHeadings = page.locator('h3');
+		const count = await letterHeadings.count();
 
-		// At least one should be visible
-		const minusculesCount = await minusculesHeading.count();
-		const majusculesCount = await majusculesHeading.count();
-
-		expect(minusculesCount + majusculesCount).toBeGreaterThan(0);
+		// Should have multiple letter headings (a-z or A-Z sections)
+		expect(count).toBeGreaterThan(0);
 	});
 
 	test('should display character images', async ({ page }) => {
@@ -49,16 +47,23 @@ test.describe('Catalogue Screen', () => {
 		expect(count).toBeGreaterThan(0);
 	});
 
-	test('should have a return to menu button', async ({ page }) => {
-		const returnButton = page.getByRole('button', {
-			name: /return to menu/i,
+	test('should have a return to landing button', async ({ page }) => {
+		// Back button is an anchor link, not a button
+		const backLink = page.getByRole('link', {
+			name: /back to menu/i,
 		});
-		await expect(returnButton).toBeVisible();
-		await expect(returnButton).toBeEnabled();
+		await expect(backLink).toBeVisible();
 	});
 
-	test('should return to menu when clicking back', async ({ page }) => {
-		await returnToMenu(page);
+	test('should return to landing when clicking back', async ({ page }) => {
+		// Click the back link directly
+		const backLink = page.getByRole('link', {
+			name: /back to menu/i,
+		});
+		await backLink.click();
+
+		// Wait for landing to load
+		await page.waitForSelector('text=Hone your', { timeout: 5000 });
 
 		const onMenu = await isOnMenuScreen(page);
 		expect(onMenu).toBe(true);

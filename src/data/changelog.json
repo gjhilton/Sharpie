@@ -1,0 +1,14 @@
+[
+	{
+		"version": "1.1.0",
+		"description": "Alphabet selection; Game mode selection (minuscules, MAJUSCULES, or both); Notes on individual characters; Keyboard shift keys visibility based on game mode; added new alphabet from Howard; begin adding letters with word level context."
+	},
+	{
+		"version": "1.0.1",
+		"description": "Baseline visualisation; Code splitting for faster page load / time to interactive; What's new section on landing page."
+	},
+	{
+		"version": "1.0.0",
+		"description": "First working version."
+	}
+]

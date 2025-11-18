@@ -3,7 +3,7 @@ import {
 	navigateToFeedback,
 	returnToMenu,
 	isOnMenuScreen,
-} from '../../config/playwright/helpers/test-helpers.js';
+} from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Feedback Screen', () => {
 	test.beforeEach(async ({ page }) => {
@@ -13,6 +13,11 @@ test.describe('Feedback Screen', () => {
 	test('should load the feedback form', async ({ page }) => {
 		// Form element exists but we'll check for the form's presence via its inputs
 		await expect(page.locator('form')).toBeVisible();
+	});
+
+	test('should display version number in footer', async ({ page }) => {
+		const version = page.getByText(/v\d+\.\d+\.\d+/);
+		await expect(version).toBeVisible();
 	});
 
 	test('should have form heading', async ({ page }) => {
@@ -86,13 +91,13 @@ test.describe('Feedback Screen', () => {
 		await expect(messageInput).toHaveValue(/test message/i);
 	});
 
-	test('should have a back to menu button', async ({ page }) => {
+	test('should have a back to landing button', async ({ page }) => {
 		const backButton = page.getByRole('button', { name: /cancel/i });
 		await expect(backButton).toBeVisible();
 		await expect(backButton).toBeEnabled();
 	});
 
-	test('should return to menu when clicking back', async ({ page }) => {
+	test('should return to landing when clicking back', async ({ page }) => {
 		await returnToMenu(page);
 
 		const onMenu = await isOnMenuScreen(page);

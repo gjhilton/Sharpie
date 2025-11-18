@@ -95,12 +95,12 @@ describe('getSourceName', () => {
 	});
 
 	it('should handle BeauChesne-Baildon path', () => {
-		const path = '/src/artwork/Graphs/BeauChesne-Baildon/BCB-AB-assets';
+		const path = '/src/artwork/hands/BeauChesne-Baildon/BCB-AB-assets';
 		expect(getSourceName(path)).toBe('BeauChesne-Baildon');
 	});
 
 	it('should handle paths with special characters', () => {
-		const path = '/src/artwork/Graphs/Source-With-Dashes/assets-folder';
+		const path = '/src/artwork/hands/Source-With-Dashes/assets-folder';
 		expect(getSourceName(path)).toBe('Source-With-Dashes');
 	});
 });
@@ -112,7 +112,7 @@ describe('getAssetFolderName', () => {
 	});
 
 	it('should handle BCB-AB-assets', () => {
-		const path = '/src/artwork/Graphs/BeauChesne-Baildon/BCB-AB-assets';
+		const path = '/src/artwork/hands/BeauChesne-Baildon/BCB-AB-assets';
 		expect(getAssetFolderName(path)).toBe('BCB-AB-assets');
 	});
 
@@ -210,9 +210,10 @@ describe('generateSourcesObject', () => {
 		expect(result.NewSource).toEqual({
 			title: 'NewSource source',
 			sourceUri: 'https://example.com/newsource',
+			date: 'unknown',
 		});
 		expect(warnSpy).toHaveBeenCalledWith(
-			'⚠️  Source "NewSource" not found in sources.json, using placeholder'
+			'⚠️  Source "NewSource" not found in alphabets.json, using placeholder'
 		);
 
 		warnSpy.mockRestore();
@@ -311,6 +312,7 @@ describe('generateSourcesObject', () => {
 		expect(result.TestSource).toEqual({
 			title: 'TestSource source',
 			sourceUri: 'https://example.com/testsource',
+			date: 'unknown',
 		});
 		expect(warnSpy).toHaveBeenCalled();
 
@@ -492,6 +494,77 @@ describe('generateGraphSets', () => {
 		expect(minuscules.graphs[0].source).toBe('Joscelyn');
 		expect(minuscules.graphs[1].source).toBe('BeauChesne-Baildon');
 	});
+
+	it('should include note field in graph when present', () => {
+		const entries = [
+			{
+				sourceName: 'Joscelyn',
+				assetFolderName: 'joscelyn-maj-assets',
+				graphEntries: [
+					{
+						img: 'A.png',
+						character: 'A',
+						source: 'Joscelyn',
+						category: 'MAJUSCULES',
+						relativePath: 'Joscelyn/joscelyn-maj-assets/A.png',
+						note: 'First letter of word.',
+					},
+				],
+			},
+		];
+
+		const result = generateGraphSets(entries);
+		const majuscules = result.find(gs => gs.title === 'MAJUSCULES');
+
+		expect(majuscules.graphs[0].note).toBe('First letter of word.');
+	});
+
+	it('should not include note field in graph when absent', () => {
+		const entries = [
+			{
+				sourceName: 'Joscelyn',
+				assetFolderName: 'joscelyn-min-assets',
+				graphEntries: [
+					{
+						img: 'a.png',
+						character: 'a',
+						source: 'Joscelyn',
+						category: 'minuscules',
+						relativePath: 'Joscelyn/joscelyn-min-assets/a.png',
+					},
+				],
+			},
+		];
+
+		const result = generateGraphSets(entries);
+		const minuscules = result.find(gs => gs.title === 'minuscules');
+
+		expect(minuscules.graphs[0]).not.toHaveProperty('note');
+	});
+
+	it('should preserve custom notes from metadata', () => {
+		const entries = [
+			{
+				sourceName: 'Hill',
+				assetFolderName: 'Hill-assets',
+				graphEntries: [
+					{
+						img: 'c023.png',
+						character: 'c',
+						source: 'Hill',
+						category: 'minuscules',
+						relativePath: 'Hill/Hill-assets/c023.png',
+						note: 'Round c with sharp turn.',
+					},
+				],
+			},
+		];
+
+		const result = generateGraphSets(entries);
+		const minuscules = result.find(gs => gs.title === 'minuscules');
+
+		expect(minuscules.graphs[0].note).toBe('Round c with sharp turn.');
+	});
 });
 
 describe('formatSourceEntry', () => {
@@ -552,6 +625,31 @@ describe('formatGraphEntry', () => {
 		expect(result).toContain('"test.png"');
 		expect(result).toContain('"x"');
 		expect(result).toContain('"Test"');
+	});
+
+	it('should include note field when present', () => {
+		const graph = {
+			img: 'A.png',
+			character: 'A',
+			source: 'Joscelyn',
+			note: 'First letter of word.',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).toContain('\t\t\t\t\tnote: "First letter of word."');
+	});
+
+	it('should not include note field when absent', () => {
+		const graph = {
+			img: 'a.png',
+			character: 'a',
+			source: 'Joscelyn',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).not.toContain('note:');
 	});
 });
 

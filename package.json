@@ -1,35 +1,35 @@
 {
 	"name": "sharpie",
 	"private": true,
-	"version": "0.0.0",
+	"version": "1.1.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite --config config/vite.config.js",
-		"dev:host": "vite --config config/vite.config.js --host --port 8080",
-		"build": "vite build --config config/vite.config.js",
-		"lint": "eslint . --config config/eslint.config.js",
-		"preview": "vite preview --config config/vite.config.js",
-		"format": "prettier --write --config config/.prettierrc --ignore-path config/.prettierignore '**/*.{js,jsx,json,css,md}' '!src/artwork/**'",
-		"storybook": "storybook dev -p 6006 -c config/storybook",
-		"build-storybook": "storybook build -c config/storybook",
-		"test": "vitest --config config/vitest.config.js",
-		"test:run": "vitest run --config config/vitest.config.js",
-		"test:watch": "vitest watch --config config/vitest.config.js",
-		"test:coverage": "vitest run --coverage --config config/vitest.config.js",
-		"test:e2e": "playwright test --config config/playwright.config.js",
-		"test:e2e:ui": "playwright test --config config/playwright.config.js --ui",
-		"test:e2e:headed": "playwright test --config config/playwright.config.js --headed",
-		"test:e2e:codegen": "playwright codegen http://localhost:5173/Sharpie/",
+		"dev": "vite --config src/config/vite.config.js",
+		"dev:host": "vite --config src/config/vite.config.js --host --port 8080",
+		"build": "vite build --config src/config/vite.config.js",
+		"lint": "eslint . --config src/config/eslint.config.js",
+		"preview": "vite preview --config src/config/vite.config.js",
+		"format": "prettier --write --config src/config/.prettierrc --ignore-path src/config/.prettierignore '**/*.{js,jsx,json,css,md}' '!src/artwork/**'",
+		"storybook": "storybook dev -p 6006 -c src/config/storybook",
+		"build-storybook": "storybook build -c src/config/storybook",
+		"test": "vitest --config src/config/vitest.config.js",
+		"test:run": "vitest run --config src/config/vitest.config.js",
+		"test:watch": "vitest watch --config src/config/vitest.config.js",
+		"test:coverage": "vitest run --coverage --config src/config/vitest.config.js",
+		"test:e2e": "playwright test --config src/config/playwright.config.js",
+		"test:e2e:ui": "playwright test --config src/config/playwright.config.js --ui",
+		"test:e2e:headed": "playwright test --config src/config/playwright.config.js --headed",
+		"test:e2e:codegen": "playwright codegen http://localhost:5175/Sharpie/",
 		"update-db": "node src/scripts/update-db.js",
-		"prepare": "husky config/.husky"
+		"prepare": "husky src/config/.husky"
 	},
 	"lint-staged": {
 		"*.js": [
-			"eslint --config config/eslint.config.js --fix",
-			"prettier --write --config config/.prettierrc --ignore-path config/.prettierignore"
+			"eslint --config src/config/eslint.config.js --fix",
+			"prettier --write --config src/config/.prettierrc --ignore-path src/config/.prettierignore"
 		],
 		"*.{json,md,css}": [
-			"prettier --write --config config/.prettierrc --ignore-path config/.prettierignore"
+			"prettier --write --config src/config/.prettierrc --ignore-path src/config/.prettierignore"
 		],
 		"src/artwork/**/*": []
 	},
@@ -37,6 +37,7 @@
 		"@formspree/react": "^3.0.0",
 		"react": "^19.1.1",
 		"react-dom": "^19.1.1",
+		"react-markdown": "^10.1.0",
 		"react-simple-keyboard": "^3.8.122"
 	},
 	"devDependencies": {

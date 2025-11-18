@@ -1,0 +1,1 @@
+_Minuscule_ is the manuscript equivalent of "lower case" in print. _Majuscule_ is the equivalent of "upper case". Minuscules in Secretary are mostly regular and recognisable. Majuscules can be weirder and more creative.

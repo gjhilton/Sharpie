@@ -1,0 +1,1 @@
+Some letters supply additional information, for example 'first letter in word' or 'last letter in word'. Some letters had different forms in these positions, and majuscules are often the first letter but very seldom the last.

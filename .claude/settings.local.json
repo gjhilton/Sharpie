@@ -40,7 +40,22 @@
 			"Bash(git config:*)",
 			"Bash(npm run prepare:*)",
 			"Bash(npx prettier:*)",
-			"Bash(npm test:*)"
+			"Bash(npm test:*)",
+			"Bash(git mv:*)",
+			"Bash(for component in Button CatalogueScreen Character CharacterImage CharacterImageSlideshow FeedbackScreen GamePresentation GameScreen Icon KB LandingScreen LandingSectionAlphabet LandingSectionHero LandingSectionHowToUse LandingSectionNews LandingSectionNextSteps LandingSectionOptions Layout LoadingSpinner Logo ScoreScreen SmallPrint Toggle)",
+			"Bash(do)",
+			"Bash([ -f \"src/components/$component.jsx\" ])",
+			"Bash([ -f \"src/components/$component.test.jsx\" ])",
+			"Bash([ -f \"src/components/$component.stories.jsx\" ])",
+			"Bash(done)",
+			"Bash(npm run test:*)",
+			"Bash(npx playwright test:*)",
+			"Bash(pkill:*)",
+			"Bash(mkdir:*)",
+			"Bash(timeout 120 npx playwright test:*)",
+			"Bash(timeout 60 npx playwright test:*)",
+			"Bash(timeout 180 npx playwright test:*)",
+			"Bash(git ls-tree:*)"
 		],
 		"deny": [],
 		"ask": []

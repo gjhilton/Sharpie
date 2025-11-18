@@ -9,10 +9,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const projectRoot = join(__dirname, '../..');
 
-const GRAPHS_DIR = join(projectRoot, 'src/artwork/Graphs');
+const ALPHABETS_DIR = join(projectRoot, 'src/artwork/alphabets');
 const DB_PATH = join(projectRoot, 'src/data/DB.js');
-const PUBLIC_DATA_DIR = join(projectRoot, 'public/data');
-const SOURCES_JSON_PATH = join(projectRoot, 'src/data/sources.json');
+const PUBLIC_DATA_DIR = join(projectRoot, 'src/public/data');
+const SOURCES_JSON_PATH = join(projectRoot, 'src/data/alphabets.json');
 
 /**
  * Recursively find all *-assets directories
@@ -100,6 +100,22 @@ export function getAssetFolderName(assetPath) {
 }
 
 /**
+ * Read metadata.json from asset directory if it exists
+ */
+async function readMetadata(assetPath) {
+	const metadataPath = join(assetPath, 'metadata.json');
+	try {
+		if (existsSync(metadataPath)) {
+			const content = await readFile(metadataPath, 'utf-8');
+			return JSON.parse(content);
+		}
+	} catch (error) {
+		console.warn(`   ⚠️  Error reading metadata.json: ${error.message}`);
+	}
+	return {};
+}
+
+/**
  * Process a single asset directory
  */
 async function processAssetDirectory(assetPath) {
@@ -108,6 +124,15 @@ async function processAssetDirectory(assetPath) {
 	const destDir = join(PUBLIC_DATA_DIR, sourceName, assetFolderName);
 
 	console.log(`\n📁 Processing ${sourceName}/${assetFolderName}...`);
+
+	// Read metadata if available
+	const metadata = await readMetadata(assetPath);
+	const hasMetadata = Object.keys(metadata).length > 0;
+	if (hasMetadata) {
+		console.log(
+			`   📝 Found metadata for ${Object.keys(metadata).length} images`
+		);
+	}
 
 	// Create destination directory
 	if (!existsSync(destDir)) {
@@ -136,20 +161,35 @@ async function processAssetDirectory(assetPath) {
 		const character = extractCharacter(file);
 		const category = categorizeCharacter(character);
 
-		graphEntries.push({
+		// Get note from metadata or auto-generate for majuscules
+		let note = metadata[file]?.note;
+		if (!note && category === 'MAJUSCULES') {
+			note = 'First letter of word.';
+		}
+
+		const graphEntry = {
 			img: sanitizedFile,
 			character: character,
 			source: sourceName,
 			category: category,
 			relativePath: `${sourceName}/${assetFolderName}/${sanitizedFile}`,
-		});
+		};
+
+		// Only add note field if it exists
+		if (note) {
+			graphEntry.note = note;
+		}
+
+		graphEntries.push(graphEntry);
 
 		if (file !== sanitizedFile) {
 			console.log(
-				`     ✓ Copied ${file} → ${sanitizedFile} → ${character} (${category})`
+				`     ✓ Copied ${file} → ${sanitizedFile} → ${character} (${category})${note ? ' [note]' : ''}`
 			);
 		} else {
-			console.log(`     ✓ Copied ${file} → ${character} (${category})`);
+			console.log(
+				`     ✓ Copied ${file} → ${character} (${category})${note ? ' [note]' : ''}`
+			);
 		}
 	}
 
@@ -182,15 +222,17 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 			sources[sourceName] = {
 				title: sourceMetadata[sourceName].title,
 				sourceUri: sourceMetadata[sourceName].sourceUri,
+				date: sourceMetadata[sourceName].date,
 			};
 		} else {
 			// Fallback for sources not defined in JSON
 			console.warn(
-				`⚠️  Source "${sourceName}" not found in sources.json, using placeholder`
+				`⚠️  Source "${sourceName}" not found in alphabets.json, using placeholder`
 			);
 			sources[sourceName] = {
 				title: `${sourceName} source`,
 				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
+				date: 'unknown',
 			};
 		}
 	});
@@ -212,11 +254,16 @@ export function generateGraphSets(allEntries) {
 	// Group all graphs by category
 	allEntries.forEach(entry => {
 		entry.graphEntries.forEach(graph => {
-			categorizedGraphs[graph.category].push({
+			const graphObj = {
 				img: graph.relativePath,
 				character: graph.character,
 				source: graph.source,
-			});
+			};
+			// Only add note field if it exists
+			if (graph.note) {
+				graphObj.note = graph.note;
+			}
+			categorizedGraphs[graph.category].push(graphObj);
 		});
 	});
 
@@ -253,7 +300,8 @@ export function generateGraphSets(allEntries) {
 export function formatSourceEntry(key, value) {
 	return `\t\t"${key}": {
 \t\t\ttitle: '${value.title}',
-\t\t\tsourceUri: '${value.sourceUri}'
+\t\t\tsourceUri: '${value.sourceUri}',
+\t\t\tdate: '${value.date}'
 \t\t}`;
 }
 
@@ -261,10 +309,20 @@ export function formatSourceEntry(key, value) {
  * Format a single graph entry (pure function)
  */
 export function formatGraphEntry(graph) {
+	const fields = [
+		`img: "${graph.img}"`,
+		`character: "${graph.character}"`,
+		`source: "${graph.source}"`,
+	];
+
+	if (graph.note) {
+		fields.push(`note: "${graph.note}"`);
+	}
+
+	const fieldsStr = fields.map(f => `\t\t\t\t\t${f}`).join(',\n');
+
 	return `\t\t\t\t{
-\t\t\t\t\timg: "${graph.img}",
-\t\t\t\t\tcharacter: "${graph.character}",
-\t\t\t\t\tsource: "${graph.source}"
+${fieldsStr}
 \t\t\t\t}`;
 }
 
@@ -328,7 +386,7 @@ async function main() {
 	try {
 		console.log('🚀 Starting dynamic update-db...\n');
 		console.log('='.repeat(60));
-		console.log(`Scanning: ${GRAPHS_DIR}`);
+		console.log(`Scanning: ${ALPHABETS_DIR}`);
 
 		// Load source metadata from JSON
 		let sourceMetadata = {};
@@ -340,12 +398,12 @@ async function main() {
 			sourceMetadata = JSON.parse(sourcesJsonContent);
 			console.log(`✓ Loaded source metadata from ${SOURCES_JSON_PATH}`);
 		} catch (error) {
-			console.warn(`⚠️  Could not load sources.json: ${error.message}`);
+			console.warn(`⚠️  Could not load alphabets.json: ${error.message}`);
 			console.warn('   Will use placeholder metadata for all sources');
 		}
 
 		// Find all asset directories
-		const assetDirs = await findAssetDirectories(GRAPHS_DIR);
+		const assetDirs = await findAssetDirectories(ALPHABETS_DIR);
 		console.log(`\nFound ${assetDirs.length} asset directories:`);
 		assetDirs.forEach(dir => console.log(`  - ${dir}`));
 

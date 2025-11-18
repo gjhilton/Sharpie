@@ -19,5 +19,5 @@
 
 /* Keyboard shift key active state */
 .hg-shift-active {
-	background-color: var(--colors-keyboardHighlight) !important;
+	background-color: lemonchiffon !important;
 }

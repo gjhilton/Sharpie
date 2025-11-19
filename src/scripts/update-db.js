@@ -299,7 +299,7 @@ export function generateGraphSets(allEntries) {
  */
 export function formatSourceEntry(key, value) {
 	return `\t\t"${key}": {
-\t\t\ttitle: '${value.title}',
+\t\t\ttitle: '${value.title.replace(/'/g, "\\'")}',
 \t\t\tsourceUri: '${value.sourceUri}',
 \t\t\tdate: '${value.date}'
 \t\t}`;

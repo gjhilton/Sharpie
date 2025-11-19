@@ -38,3 +38,4 @@ config/playwright/.cache/
 
 ## Test coverage
 coverage/
+/src/public/data

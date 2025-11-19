@@ -9,7 +9,9 @@ test.describe('Baseline Display Feature', () => {
 	test.describe('Landing Screen - Options Section', () => {
 		test('should display baseline toggle in Options', async ({ page }) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			// Check for toggle label
@@ -19,7 +21,9 @@ test.describe('Baseline Display Feature', () => {
 
 		test('toggle should be ON by default', async ({ page }) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -32,7 +36,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -51,7 +57,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -71,7 +79,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -93,7 +103,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			// Check for example labels
@@ -125,7 +137,9 @@ test.describe('Baseline Display Feature', () => {
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Wait for keyboard to be visible
-			await page.waitForSelector('.simple-keyboard', { state: 'visible' });
+			await page.waitForSelector('.simple-keyboard', {
+				state: 'visible',
+			});
 
 			// Answer with some key
 			await page.keyboard.press('a');
@@ -144,7 +158,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Expand Options and turn OFF baseline display
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -170,7 +186,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Expand Options and turn OFF baseline display
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -182,7 +200,9 @@ test.describe('Baseline Display Feature', () => {
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Wait for keyboard to be visible
-			await page.waitForSelector('.simple-keyboard', { state: 'visible' });
+			await page.waitForSelector('.simple-keyboard', {
+				state: 'visible',
+			});
 
 			// Answer with some key
 			await page.keyboard.press('a');
@@ -197,7 +217,9 @@ test.describe('Baseline Display Feature', () => {
 	test.describe('Mode Persistence', () => {
 		test('mode should reset to ON on page reload', async ({ page }) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -221,14 +243,19 @@ test.describe('Baseline Display Feature', () => {
 			const toggleAfterReload = page.getByRole('switch', {
 				name: 'Show baselines',
 			});
-			await expect(toggleAfterReload).toHaveAttribute('aria-checked', 'true');
+			await expect(toggleAfterReload).toHaveAttribute(
+				'aria-checked',
+				'true'
+			);
 		});
 
 		test('baseline setting should persist through game session', async ({
 			page,
 		}) => {
 			// Turn OFF baselines
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -241,7 +268,9 @@ test.describe('Baseline Display Feature', () => {
 
 			// Play a few rounds
 			for (let i = 0; i < 2; i++) {
-				await page.waitForSelector('.simple-keyboard', { state: 'visible' });
+				await page.waitForSelector('.simple-keyboard', {
+					state: 'visible',
+				});
 				await page.keyboard.press('a');
 				await page.waitForTimeout(100);
 				const nextButton = page.getByRole('button', { name: 'Next' });
@@ -280,9 +309,13 @@ test.describe('Baseline Display Feature', () => {
 			await expect(baseline.first()).toBeVisible();
 		});
 
-		test('baseline can be turned off for any game mode', async ({ page }) => {
+		test('baseline can be turned off for any game mode', async ({
+			page,
+		}) => {
 			// Turn OFF baselines first
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -314,7 +347,9 @@ test.describe('Baseline Display Feature', () => {
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Answer incorrectly
-			await page.waitForSelector('.simple-keyboard', { state: 'visible' });
+			await page.waitForSelector('.simple-keyboard', {
+				state: 'visible',
+			});
 			await page.keyboard.press('z');
 			await page.waitForTimeout(100);
 
@@ -322,7 +357,9 @@ test.describe('Baseline Display Feature', () => {
 			await page.getByRole('button', { name: /end game/i }).click();
 
 			// Wait for score screen
-			await page.waitForSelector('text=Correct Answers', { timeout: 10000 });
+			await page.waitForSelector('text=Correct Answers', {
+				timeout: 10000,
+			});
 
 			// If there are mistakes to review, baselines should be visible
 			const reviewSection = page.getByText(/letters to review/i);
@@ -338,7 +375,9 @@ test.describe('Baseline Display Feature', () => {
 			page,
 		}) => {
 			// Turn OFF baselines
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -350,7 +389,9 @@ test.describe('Baseline Display Feature', () => {
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Answer incorrectly
-			await page.waitForSelector('.simple-keyboard', { state: 'visible' });
+			await page.waitForSelector('.simple-keyboard', {
+				state: 'visible',
+			});
 			await page.keyboard.press('z');
 			await page.waitForTimeout(100);
 
@@ -358,7 +399,9 @@ test.describe('Baseline Display Feature', () => {
 			await page.getByRole('button', { name: /end game/i }).click();
 
 			// Wait for score screen
-			await page.waitForSelector('text=Correct Answers', { timeout: 10000 });
+			await page.waitForSelector('text=Correct Answers', {
+				timeout: 10000,
+			});
 
 			// Baselines should NOT be visible anywhere
 			const baselines = page.locator('.character-image-baseline');
@@ -370,21 +413,30 @@ test.describe('Baseline Display Feature', () => {
 		test('baselines and 24-letter alphabet can be used together', async ({
 			page,
 		}) => {
-			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			// Both 24-letter alphabet and baseline are ON by default
+			// No need to change any toggles, just verify they're both ON
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
-			// Turn ON 24-letter alphabet (baseline is already ON by default)
+			// Verify 24-letter alphabet is ON
 			const alphabetToggle = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
-			await alphabetToggle.click();
+			await expect(alphabetToggle).toHaveAttribute(
+				'aria-checked',
+				'true'
+			);
 
-			// Verify baseline is still ON
+			// Verify baseline is also ON
 			const baselineToggle = page.getByRole('switch', {
 				name: 'Show baselines',
 			});
-			await expect(baselineToggle).toHaveAttribute('aria-checked', 'true');
+			await expect(baselineToggle).toHaveAttribute(
+				'aria-checked',
+				'true'
+			);
 
 			// Start game
 			await page.getByRole('button', { name: /^play$/i }).click();
@@ -401,23 +453,29 @@ test.describe('Baseline Display Feature', () => {
 			const keyboardText = await page
 				.locator('.simple-keyboard')
 				.textContent();
-			// Should have combined letters (i/j or u/v)
+			// Should have combined letters with parentheses (i(j) or u(v))
 			const hasCombinedLetters =
-				keyboardText.includes('/') &&
-				(keyboardText.match(/[iI]\/[jJ]/) || keyboardText.match(/[uU]\/[vV]/));
+				keyboardText.includes('(') &&
+				(keyboardText.match(/[iI]\([jJ]\)/) ||
+					keyboardText.match(/[uU]\([vV]\)/));
 			expect(hasCombinedLetters).toBeTruthy();
 		});
 
 		test('baselines OFF with 24-letter alphabet ON', async ({ page }) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
-			// Turn ON 24-letter alphabet
+			// 24-letter alphabet is already ON by default - no need to toggle it
 			const alphabetToggle = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
-			await alphabetToggle.click();
+			await expect(alphabetToggle).toHaveAttribute(
+				'aria-checked',
+				'true'
+			);
 
 			// Turn OFF baselines
 			const baselineToggle = page.getByRole('switch', {
@@ -442,8 +500,9 @@ test.describe('Baseline Display Feature', () => {
 				.locator('.simple-keyboard')
 				.textContent();
 			const hasCombinedLetters =
-				keyboardText.includes('/') &&
-				(keyboardText.match(/[iI]\/[jJ]/) || keyboardText.match(/[uU]\/[vV]/));
+				keyboardText.includes('(') &&
+				(keyboardText.match(/[iI]\([jJ]\)/) ||
+					keyboardText.match(/[uU]\([vV]\)/));
 			expect(hasCombinedLetters).toBeTruthy();
 		});
 	});

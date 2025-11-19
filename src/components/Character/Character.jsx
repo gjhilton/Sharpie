@@ -120,13 +120,29 @@ const Character = ({
 						fontSize: ALPHABET_FONT_SIZE,
 					})}
 				>
-					{note && <span>{note}</span>}
+					{note && (
+						<span
+							className={css({
+								backgroundColor: '{colors.paper}',
+								padding: '0.25rem 0.5rem',
+							})}
+						>
+							{note}
+						</span>
+					)}
 					{state === CHARACTER_STATE.CORRECT_ANSWER && (
-						<Alphabet
-							alphabetTitle={alphabetTitle}
-							alphabetLink={alphabetLink}
-							alphabetDate={alphabetDate}
-						/>
+						<span
+							className={css({
+								backgroundColor: '{colors.paper}',
+								padding: '0.25rem 0.5rem',
+							})}
+						>
+							<Alphabet
+								alphabetTitle={alphabetTitle}
+								alphabetLink={alphabetLink}
+								alphabetDate={alphabetDate}
+							/>
+						</span>
 					)}
 				</div>
 			)}

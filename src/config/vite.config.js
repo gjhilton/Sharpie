@@ -18,7 +18,7 @@ export default defineConfig({
 				plugins: [['babel-plugin-react-compiler']],
 			},
 		}),
-		favicons(resolve(__dirname, '../artwork/Branding/sharpieicon.svg'), {
+		favicons(resolve(__dirname, '../public/sharpieicon.svg'), {
 			path: '/Sharpie/',
 		}),
 	],

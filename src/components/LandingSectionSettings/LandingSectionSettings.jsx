@@ -33,9 +33,10 @@ const LandingSectionSettings = ({
 					<em>V</em>: In each case, two graphs - two characters - could be
 					used to write the same letter. 'V' for example was more often used
 					to begin a word, with the 'u' form preferred for the body of the
-					word. By default, Sharpie asks you to identify 'I' and 'J'
-					separately - effectively a 26-letter alphabet. If this feels
-					anachronistic however, you can also opt into...
+					word. By default, Sharpie uses a 24-letter alphabet, treating 'I'
+					and 'J' as the same letter (and likewise 'U' and 'V'). If you
+					prefer to distinguish these letters separately (a 26-letter
+					alphabet), you can disable this option...
 				</Paragraph>
 				<div
 					className={css({
@@ -51,7 +52,8 @@ const LandingSectionSettings = ({
 				</div>
 				<Paragraph>
 					When this option is enabled, if you are shown a 'J' and answer
-					'I', that answer will be accepted.
+					'I', that answer will be accepted (and vice versa for 'U' and
+					'V').
 				</Paragraph>
 			</div>
 		</Section>

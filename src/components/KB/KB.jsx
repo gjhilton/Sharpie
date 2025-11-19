@@ -26,7 +26,11 @@ const KB = ({
     if (button === SPECIAL_KEYS.SHIFT || button === SPECIAL_KEYS.LOCK) {
       handleShift();
     } else {
-      keyCallback(button);
+      // In 24-letter mode, extract the first letter from "i(j)" format
+      const normalizedButton = button.includes('(')
+        ? button.split('(')[0]
+        : button;
+      keyCallback(normalizedButton);
     }
   };
 
@@ -91,14 +95,14 @@ const KB = ({
   const keyboardLayout = twentyFourLetterAlphabet
     ? {
         default: [
-          "q w e r t y u/v i/j o p",
-          "a s d f g h j/i k l",
-          showShiftKeys ? "{shift} z x c v/u b n m {shift}" : "z x c v/u b n m",
+          "q w e r t y u(v) i(j) o p",
+          "a s d f g h j(i) k l",
+          showShiftKeys ? "{shift} z x c v(u) b n m {shift}" : "z x c v(u) b n m",
         ],
         shift: [
-          "Q W E R T Y U/V I/J O P",
-          "A S D F G H J/I K L",
-          showShiftKeys ? "{shift} Z X C V/U B N M {shift}" : "Z X C V/U B N M",
+          "Q W E R T Y U(V) I(J) O P",
+          "A S D F G H J(I) K L",
+          showShiftKeys ? "{shift} Z X C V(U) B N M {shift}" : "Z X C V(U) B N M",
         ],
       }
     : {

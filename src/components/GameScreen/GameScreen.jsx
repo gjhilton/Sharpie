@@ -69,7 +69,7 @@ const GameScreen = ({
 
 	const handleKeyPress = button => {
 		setAttempt(button);
-		const attemptData = gameLogic.createAttempt(button, graphs);
+		const attemptData = gameLogic.createAttempt(button, graphs, twentyFourLetterAlphabet);
 		setAttemptImagePaths(attemptData.imagePaths);
 	};
 

@@ -267,7 +267,7 @@ describe('LandingScreen', () => {
 			await user.click(playButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, false);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, true);
 		});
 	});
 
@@ -544,7 +544,7 @@ describe('LandingScreen', () => {
 
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
 				GAME_MODES.MINUSCULE,
-				false
+				true
 			);
 		});
 
@@ -570,7 +570,7 @@ describe('LandingScreen', () => {
 
 			expect(mockOnSelectMode).toHaveBeenCalledWith(
 				GAME_MODES.MAJUSCULE,
-				false
+				true
 			);
 		});
 	});

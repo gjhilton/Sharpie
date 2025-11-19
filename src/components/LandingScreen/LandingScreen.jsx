@@ -12,7 +12,7 @@ const LandingScreen = ({
 	setShowBaseline,
 	enabledAlphabets,
 }) => {
-	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(false);
+	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] = useState(true);
 	const [selectedMode, setSelectedMode] = useState(GAME_MODES.ALL);
 
 	return (

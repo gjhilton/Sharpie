@@ -211,6 +211,7 @@ describe('generateSourcesObject', () => {
 			title: 'NewSource source',
 			sourceUri: 'https://example.com/newsource',
 			date: 'unknown',
+			difficulty: 'medium',
 		});
 		expect(warnSpy).toHaveBeenCalledWith(
 			'⚠️  Source "NewSource" not found in alphabets.json, using placeholder'
@@ -313,6 +314,7 @@ describe('generateSourcesObject', () => {
 			title: 'TestSource source',
 			sourceUri: 'https://example.com/testsource',
 			date: 'unknown',
+			difficulty: 'medium',
 		});
 		expect(warnSpy).toHaveBeenCalled();
 

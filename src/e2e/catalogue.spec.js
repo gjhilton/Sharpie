@@ -115,3 +115,165 @@ test.describe('Catalogue Screen', () => {
 		expect(['BUTTON', 'A', 'INPUT']).toContain(focusedElement);
 	});
 });
+
+test.describe('Alphabet Sorting', () => {
+	test.beforeEach(async ({ page }) => {
+		await navigateToCatalogue(page);
+	});
+
+	test('should display sort selector with three options', async ({
+		page,
+	}) => {
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+		await expect(sortSelect).toBeVisible();
+
+		// Check all three options exist
+		const dateOption = page.getByRole('option', { name: /by date/i });
+		const nameOption = page.getByRole('option', { name: /by name/i });
+		const difficultyOption = page.getByRole('option', {
+			name: /by difficulty/i,
+		});
+
+		await expect(dateOption).toBeVisible();
+		await expect(nameOption).toBeVisible();
+		await expect(difficultyOption).toBeVisible();
+	});
+
+	test('should default to sorting by date', async ({ page }) => {
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+		const selectedValue = await sortSelect.inputValue();
+
+		expect(selectedValue).toBe('date');
+	});
+
+	test('should change sort order when selecting by name', async ({
+		page,
+	}) => {
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+
+		// Get initial order (by date)
+		const initialFirstAlphabet = await page
+			.locator('[id^="alphabet-"]')
+			.first()
+			.getAttribute('id');
+
+		// Change to sort by name
+		await sortSelect.selectOption('name');
+
+		// Get new order
+		const newFirstAlphabet = await page
+			.locator('[id^="alphabet-"]')
+			.first()
+			.getAttribute('id');
+
+		// Order should have changed
+		expect(newFirstAlphabet).not.toBe(initialFirstAlphabet);
+	});
+
+	test('should display difficulty headings when sorting by difficulty', async ({
+		page,
+	}) => {
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+
+		// Change to sort by difficulty
+		await sortSelect.selectOption('difficulty');
+
+		// Should see difficulty headings
+		const easyHeading = page.getByRole('heading', {
+			name: /difficulty.*easy/i,
+		});
+		const mediumHeading = page.getByRole('heading', {
+			name: /difficulty.*medium/i,
+		});
+		const hardHeading = page.getByRole('heading', {
+			name: /difficulty.*hard/i,
+		});
+
+		// At least one of these headings should be visible
+		const hasHeadings = await Promise.race([
+			easyHeading.isVisible().catch(() => false),
+			mediumHeading.isVisible().catch(() => false),
+			hardHeading.isVisible().catch(() => false),
+		]);
+
+		expect(hasHeadings).toBe(true);
+	});
+
+	test('should not display difficulty headings when not sorting by difficulty', async ({
+		page,
+	}) => {
+		// Default is by date, so difficulty headings should not be visible
+		const difficultyHeading = page.getByRole('heading', {
+			name: /difficulty/i,
+		});
+
+		await expect(difficultyHeading).not.toBeVisible();
+	});
+
+	test('should maintain alphabet toggle state when changing sort order', async ({
+		page,
+	}) => {
+		// Find a toggle and check its state
+		const firstToggle = page.locator('[id^="alphabet-"]').first();
+		const toggleId = await firstToggle.getAttribute('id');
+		const initialState = await firstToggle.getAttribute('aria-checked');
+
+		// Click the toggle to change its state
+		await firstToggle.click();
+		await page.waitForTimeout(100); // Small wait for state change
+
+		const afterClickState = await firstToggle.getAttribute('aria-checked');
+		expect(afterClickState).not.toBe(initialState);
+
+		// Change sort order
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+		await sortSelect.selectOption('name');
+		await page.waitForTimeout(100);
+
+		// Find the same toggle again (it might be in a different position now)
+		const sameToggleAfterSort = page.locator(`[id="${toggleId}"]`);
+		const stateAfterSort =
+			await sameToggleAfterSort.getAttribute('aria-checked');
+
+		// State should be preserved
+		expect(stateAfterSort).toBe(afterClickState);
+	});
+
+	test('should sort difficulty groups in correct order', async ({ page }) => {
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+
+		// Change to sort by difficulty
+		await sortSelect.selectOption('difficulty');
+		await page.waitForTimeout(200);
+
+		// Get all h3 headings (difficulty headings)
+		const headings = page.locator('h3');
+		const headingTexts = await headings.allTextContents();
+
+		// Filter to only difficulty headings
+		const difficultyHeadings = headingTexts.filter(text =>
+			text.toLowerCase().includes('difficulty')
+		);
+
+		// If there are multiple difficulty headings, they should be in order: Easy, Medium, Hard
+		if (difficultyHeadings.length > 1) {
+			const easyIndex = difficultyHeadings.findIndex(text =>
+				text.toLowerCase().includes('easy')
+			);
+			const mediumIndex = difficultyHeadings.findIndex(text =>
+				text.toLowerCase().includes('medium')
+			);
+			const hardIndex = difficultyHeadings.findIndex(text =>
+				text.toLowerCase().includes('hard')
+			);
+
+			// If present, easy should come before medium and hard
+			if (easyIndex !== -1 && mediumIndex !== -1) {
+				expect(easyIndex).toBeLessThan(mediumIndex);
+			}
+			if (mediumIndex !== -1 && hardIndex !== -1) {
+				expect(mediumIndex).toBeLessThan(hardIndex);
+			}
+		}
+	});
+});

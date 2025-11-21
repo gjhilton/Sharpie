@@ -223,6 +223,7 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 				title: sourceMetadata[sourceName].title,
 				sourceUri: sourceMetadata[sourceName].sourceUri,
 				date: sourceMetadata[sourceName].date,
+				difficulty: sourceMetadata[sourceName].difficulty,
 			};
 		} else {
 			// Fallback for sources not defined in JSON
@@ -233,6 +234,7 @@ export function generateSourcesObject(allEntries, sourceMetadata = {}) {
 				title: `${sourceName} source`,
 				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
 				date: 'unknown',
+				difficulty: 'medium',
 			};
 		}
 	});
@@ -301,7 +303,8 @@ export function formatSourceEntry(key, value) {
 	return `\t\t"${key}": {
 \t\t\ttitle: '${value.title}',
 \t\t\tsourceUri: '${value.sourceUri}',
-\t\t\tdate: '${value.date}'
+\t\t\tdate: '${value.date}',
+\t\t\tdifficulty: '${value.difficulty}'
 \t\t}`;
 }
 

@@ -1,8 +1,8 @@
 import { css } from '../../../styled-system/css';
 import React, { useEffect } from 'react';
-import Toggle from '@components/Toggle/Toggle.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
+import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
 import { PageTitle, Paragraph, Heading, PageWidth } from '@components/Layout/Layout.jsx';
 import { DB } from '@data/DB.js';
 import alphabetsData from '@data/alphabets.json';
@@ -104,42 +104,6 @@ const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
 	</section>
 );
 
-const AlphabetRow = ({ name, metadata, isEnabled, onToggle }) => (
-	<React.Fragment>
-		<Toggle id={`alphabet-${name}`} checked={isEnabled} onChange={onToggle} />
-		<span className={css({ fontWeight: '900' })}>{metadata.date}</span>
-		<span>{metadata.title}</span>
-		<a href={metadata.sourceUri} target="_blank" rel="noopener noreferrer">
-			source
-		</a>
-	</React.Fragment>
-);
-
-const AlphabetSelector = ({ enabledAlphabets, onToggle }) => {
-	const sortedNames = db.sortAlphabetsByDate(db.getAllAlphabetNames(DB), alphabetsData);
-
-	return (
-		<div
-			style={{
-				display: 'grid',
-				gridTemplateColumns: 'auto 1fr auto auto',
-				gap: '0.5rem 1rem',
-				alignItems: 'start',
-				marginTop: '2rem',
-			}}
-		>
-			{sortedNames.map(name => (
-				<AlphabetRow
-					key={name}
-					name={name}
-					metadata={alphabetsData[name]}
-					isEnabled={enabledAlphabets[name] || false}
-					onToggle={() => onToggle(name)}
-				/>
-			))}
-		</div>
-	);
-};
 
 const LetterLink = ({ letter }) => (
 	<a
@@ -278,8 +242,10 @@ const CatalogueScreen = ({
 						characterCount={characterCount}
 					/>
 
-					<AlphabetSelector
+					<AlphabetSelectorWithSort
 						enabledAlphabets={enabledAlphabets}
+						alphabetNames={db.getAllAlphabetNames(DB)}
+						alphabetsMetadata={alphabetsData}
 						onToggle={handleToggleAlphabet}
 					/>
 				</div>

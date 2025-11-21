@@ -114,6 +114,8 @@ describe('AlphabetList', () => {
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
 				/>
 			);
 
@@ -131,6 +133,8 @@ describe('AlphabetList', () => {
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
 				/>
 			);
 
@@ -164,6 +168,8 @@ describe('AlphabetList', () => {
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={groupsWithEmpty}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
 				/>
 			);
 
@@ -181,6 +187,8 @@ describe('AlphabetList', () => {
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
 				/>
 			);
 
@@ -202,6 +210,8 @@ describe('AlphabetList', () => {
 					onToggle={handleToggle}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
 				/>
 			);
 
@@ -209,6 +219,191 @@ describe('AlphabetList', () => {
 			await user.click(toggles[0]); // Click Joscelyn (in easy group)
 
 			expect(handleToggle).toHaveBeenCalledWith('Joscelyn');
+		});
+	});
+
+	describe('Bulk selection controls', () => {
+		it('calculates allSelected correctly when all alphabets in group are selected', () => {
+			const difficultyGroups = {
+				easy: ['Joscelyn', 'NBacon'],
+			};
+
+			const enabledAlphabets = {
+				Joscelyn: true,
+				NBacon: true,
+			};
+
+			render(
+				<AlphabetList
+					alphabets={[]}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={() => {}}
+					showDifficultyGroups={true}
+					difficultyGroups={difficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
+				/>
+			);
+
+			// "select all" link should be disabled
+			const selectAllLink = screen.getByText('select all');
+			expect(selectAllLink).toHaveAttribute('aria-disabled', 'true');
+		});
+
+		it('calculates noneSelected correctly when no alphabets in group are selected', () => {
+			const difficultyGroups = {
+				medium: ['NBacon', 'Hill'],
+			};
+
+			const enabledAlphabets = {
+				NBacon: false,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetList
+					alphabets={[]}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={() => {}}
+					showDifficultyGroups={true}
+					difficultyGroups={difficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
+				/>
+			);
+
+			// "deselect all" link should be disabled
+			const deselectAllLink = screen.getByText('deselect all');
+			expect(deselectAllLink).toHaveAttribute('aria-disabled', 'true');
+		});
+
+		it('enables both links when some but not all alphabets are selected', () => {
+			const difficultyGroups = {
+				hard: ['Joscelyn', 'NBacon', 'Hill'],
+			};
+
+			const enabledAlphabets = {
+				Joscelyn: true,
+				NBacon: false,
+				Hill: true,
+			};
+
+			render(
+				<AlphabetList
+					alphabets={[]}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={() => {}}
+					showDifficultyGroups={true}
+					difficultyGroups={difficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
+				/>
+			);
+
+			const selectAllLink = screen.getByText('select all');
+			const deselectAllLink = screen.getByText('deselect all');
+
+			expect(selectAllLink).toHaveAttribute('aria-disabled', 'false');
+			expect(deselectAllLink).toHaveAttribute('aria-disabled', 'false');
+		});
+
+		it('calls onSelectAll with correct difficulty when select all is clicked', async () => {
+			const handleSelectAll = vi.fn();
+			const user = userEvent.setup();
+
+			const difficultyGroups = {
+				easy: ['Joscelyn'],
+			};
+
+			render(
+				<AlphabetList
+					alphabets={[]}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={{ Joscelyn: false }}
+					onToggle={() => {}}
+					showDifficultyGroups={true}
+					difficultyGroups={difficultyGroups}
+					onSelectAll={handleSelectAll}
+					onDeselectAll={() => {}}
+				/>
+			);
+
+			const selectAllLink = screen.getByText('select all');
+			await user.click(selectAllLink);
+
+			expect(handleSelectAll).toHaveBeenCalledWith('easy');
+		});
+
+		it('calls onDeselectAll with correct difficulty when deselect all is clicked', async () => {
+			const handleDeselectAll = vi.fn();
+			const user = userEvent.setup();
+
+			const difficultyGroups = {
+				medium: ['NBacon'],
+			};
+
+			render(
+				<AlphabetList
+					alphabets={[]}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={{ NBacon: true }}
+					onToggle={() => {}}
+					showDifficultyGroups={true}
+					difficultyGroups={difficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={handleDeselectAll}
+				/>
+			);
+
+			const deselectAllLink = screen.getByText('deselect all');
+			await user.click(deselectAllLink);
+
+			expect(handleDeselectAll).toHaveBeenCalledWith('medium');
+		});
+
+		it('handles multiple difficulty groups with different selection states', () => {
+			const difficultyGroups = {
+				easy: ['Joscelyn'],
+				medium: ['NBacon'],
+				hard: ['Hill'],
+			};
+
+			const enabledAlphabets = {
+				Joscelyn: true,
+				NBacon: false,
+				Hill: true,
+			};
+
+			render(
+				<AlphabetList
+					alphabets={[]}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={() => {}}
+					showDifficultyGroups={true}
+					difficultyGroups={difficultyGroups}
+					onSelectAll={() => {}}
+					onDeselectAll={() => {}}
+				/>
+			);
+
+			const selectAllLinks = screen.getAllByText('select all');
+			const deselectAllLinks = screen.getAllByText('deselect all');
+
+			// Easy: all selected (Joscelyn: true)
+			expect(selectAllLinks[0]).toHaveAttribute('aria-disabled', 'true');
+			expect(deselectAllLinks[0]).toHaveAttribute('aria-disabled', 'false');
+
+			// Medium: none selected (NBacon: false)
+			expect(selectAllLinks[1]).toHaveAttribute('aria-disabled', 'false');
+			expect(deselectAllLinks[1]).toHaveAttribute('aria-disabled', 'true');
+
+			// Hard: all selected (Hill: true)
+			expect(selectAllLinks[2]).toHaveAttribute('aria-disabled', 'true');
+			expect(deselectAllLinks[2]).toHaveAttribute('aria-disabled', 'false');
 		});
 	});
 

@@ -277,3 +277,195 @@ test.describe('Alphabet Sorting', () => {
 		}
 	});
 });
+
+test.describe('Bulk Selection', () => {
+	test.beforeEach(async ({ page }) => {
+		await navigateToCatalogue(page);
+		// Switch to difficulty sort to enable bulk selection controls
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+		await sortSelect.selectOption('difficulty');
+		await page.waitForTimeout(200);
+	});
+
+	test('should display select all and deselect all links for each difficulty', async ({
+		page,
+	}) => {
+		// Should have select all and deselect all links visible next to difficulty headings
+		const selectAllLinks = page.getByRole('link', { name: 'select all' });
+		const deselectAllLinks = page.getByRole('link', {
+			name: 'deselect all',
+		});
+
+		const selectCount = await selectAllLinks.count();
+		const deselectCount = await deselectAllLinks.count();
+
+		// Should have at least one of each (depends on alphabets present)
+		expect(selectCount).toBeGreaterThan(0);
+		expect(deselectCount).toBeGreaterThan(0);
+		// Should have equal numbers (one pair per difficulty group)
+		expect(selectCount).toBe(deselectCount);
+	});
+
+	test('should select all alphabets in a difficulty group when clicking select all', async ({
+		page,
+	}) => {
+		// Find the first difficulty heading and its select all link
+		const firstSelectAllLink = page
+			.getByRole('link', { name: 'select all' })
+			.first();
+
+		// Get all toggles before clicking
+		const allToggles = page.locator('[id^="alphabet-"]');
+		const toggleCountBefore = await allToggles.count();
+
+		// Count how many are enabled before
+		let enabledCountBefore = 0;
+		for (let i = 0; i < toggleCountBefore; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountBefore++;
+			}
+		}
+
+		// Click select all
+		await firstSelectAllLink.click();
+		await page.waitForTimeout(200);
+
+		// Count how many are enabled after
+		let enabledCountAfter = 0;
+		for (let i = 0; i < toggleCountBefore; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountAfter++;
+			}
+		}
+
+		// Should have more enabled alphabets after clicking select all
+		expect(enabledCountAfter).toBeGreaterThanOrEqual(enabledCountBefore);
+	});
+
+	test('should deselect all alphabets in a difficulty group when clicking deselect all', async ({
+		page,
+	}) => {
+		// First, select all in a group to ensure we have something to deselect
+		const firstSelectAllLink = page
+			.getByRole('link', { name: 'select all' })
+			.first();
+		await firstSelectAllLink.click();
+		await page.waitForTimeout(200);
+
+		// Get count of enabled toggles
+		const allToggles = page.locator('[id^="alphabet-"]');
+		const toggleCount = await allToggles.count();
+
+		let enabledCountBefore = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountBefore++;
+			}
+		}
+
+		// Now click deselect all for the same group
+		const firstDeselectAllLink = page
+			.getByRole('link', { name: 'deselect all' })
+			.first();
+		await firstDeselectAllLink.click();
+		await page.waitForTimeout(200);
+
+		// Count enabled toggles after
+		let enabledCountAfter = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountAfter++;
+			}
+		}
+
+		// Should have fewer enabled alphabets after clicking deselect all
+		expect(enabledCountAfter).toBeLessThan(enabledCountBefore);
+	});
+
+	test('should disable select all link when all alphabets in group are selected', async ({
+		page,
+	}) => {
+		// Click select all for first group
+		const firstSelectAllLink = page
+			.getByRole('link', { name: 'select all' })
+			.first();
+		await firstSelectAllLink.click();
+		await page.waitForTimeout(200);
+
+		// The select all link should now be disabled
+		const ariaDisabled =
+			await firstSelectAllLink.getAttribute('aria-disabled');
+		expect(ariaDisabled).toBe('true');
+	});
+
+	test('should disable deselect all link when no alphabets in group are selected', async ({
+		page,
+	}) => {
+		// Click deselect all for first group
+		const firstDeselectAllLink = page
+			.getByRole('link', { name: 'deselect all' })
+			.first();
+		await firstDeselectAllLink.click();
+		await page.waitForTimeout(200);
+
+		// The deselect all link should now be disabled
+		const ariaDisabled =
+			await firstDeselectAllLink.getAttribute('aria-disabled');
+		expect(ariaDisabled).toBe('true');
+	});
+
+	test('should not display bulk selection controls when not sorting by difficulty', async ({
+		page,
+	}) => {
+		// Switch back to date sort
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+		await sortSelect.selectOption('date');
+		await page.waitForTimeout(200);
+
+		// Select all and deselect all links should not be visible
+		const selectAllLinks = page.getByRole('link', { name: 'select all' });
+		const deselectAllLinks = page.getByRole('link', {
+			name: 'deselect all',
+		});
+
+		await expect(selectAllLinks.first()).not.toBeVisible();
+		await expect(deselectAllLinks.first()).not.toBeVisible();
+	});
+
+	test('should handle bulk selection across multiple difficulty groups', async ({
+		page,
+	}) => {
+		const selectAllLinks = page.getByRole('link', { name: 'select all' });
+		const selectAllCount = await selectAllLinks.count();
+
+		// Click select all for each difficulty group
+		for (let i = 0; i < selectAllCount; i++) {
+			await selectAllLinks.nth(i).click();
+			await page.waitForTimeout(100);
+		}
+
+		// All alphabets should now be selected
+		const allToggles = page.locator('[id^="alphabet-"]');
+		const toggleCount = await allToggles.count();
+
+		let allEnabled = true;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked !== 'true') {
+				allEnabled = false;
+				break;
+			}
+		}
+
+		expect(allEnabled).toBe(true);
+	});
+});

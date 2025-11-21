@@ -32,6 +32,30 @@ const AlphabetSelectorWithSort = ({ alphabetNames, alphabetsMetadata, enabledAlp
 		showDifficultyGroups = true;
 	}
 
+	const handleSelectAll = difficulty => {
+		if (!difficultyGroups || !difficultyGroups[difficulty]) {
+			return;
+		}
+
+		difficultyGroups[difficulty].forEach(alphabetName => {
+			if (!enabledAlphabets[alphabetName]) {
+				onToggle(alphabetName);
+			}
+		});
+	};
+
+	const handleDeselectAll = difficulty => {
+		if (!difficultyGroups || !difficultyGroups[difficulty]) {
+			return;
+		}
+
+		difficultyGroups[difficulty].forEach(alphabetName => {
+			if (enabledAlphabets[alphabetName]) {
+				onToggle(alphabetName);
+			}
+		});
+	};
+
 	return (
 		<div>
 			<SortSelector value={sortMode} onChange={setSortMode} options={SORT_OPTIONS} />
@@ -42,6 +66,8 @@ const AlphabetSelectorWithSort = ({ alphabetNames, alphabetsMetadata, enabledAlp
 				onToggle={onToggle}
 				showDifficultyGroups={showDifficultyGroups}
 				difficultyGroups={difficultyGroups}
+				onSelectAll={handleSelectAll}
+				onDeselectAll={handleDeselectAll}
 			/>
 		</div>
 	);

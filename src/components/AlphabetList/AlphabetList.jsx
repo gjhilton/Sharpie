@@ -3,7 +3,16 @@ import AlphabetRow from '@components/AlphabetRow/AlphabetRow.jsx';
 import DifficultyHeading from '@components/DifficultyHeading/DifficultyHeading.jsx';
 import { DIFFICULTY_ORDER } from '@constants/difficulty.js';
 
-const AlphabetList = ({ alphabets, alphabetsMetadata, enabledAlphabets, onToggle, showDifficultyGroups = false, difficultyGroups = null }) => {
+const AlphabetList = ({
+	alphabets,
+	alphabetsMetadata,
+	enabledAlphabets,
+	onToggle,
+	showDifficultyGroups = false,
+	difficultyGroups = null,
+	onSelectAll,
+	onDeselectAll,
+}) => {
 	if (showDifficultyGroups && difficultyGroups) {
 		// Render grouped by difficulty with headings
 		return (
@@ -22,9 +31,22 @@ const AlphabetList = ({ alphabets, alphabetsMetadata, enabledAlphabets, onToggle
 						return null;
 					}
 
+					// Calculate selection states for this difficulty group
+					const selectedCount = alphabetsInGroup.filter(
+						name => enabledAlphabets[name]
+					).length;
+					const allSelected = selectedCount === alphabetsInGroup.length;
+					const noneSelected = selectedCount === 0;
+
 					return (
 						<React.Fragment key={difficulty}>
-							<DifficultyHeading difficulty={difficulty} />
+							<DifficultyHeading
+								difficulty={difficulty}
+								allSelected={allSelected}
+								noneSelected={noneSelected}
+								onSelectAll={onSelectAll}
+								onDeselectAll={onDeselectAll}
+							/>
 							{alphabetsInGroup.map(name => (
 								<AlphabetRow
 									key={name}

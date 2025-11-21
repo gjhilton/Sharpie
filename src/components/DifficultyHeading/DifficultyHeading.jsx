@@ -1,22 +1,45 @@
 import { css } from '../../../styled-system/css';
 import { DIFFICULTY_LABELS } from '@constants/difficulty.js';
+import BulkSelectionControls from '@components/BulkSelectionControls/BulkSelectionControls.jsx';
 
-const DifficultyHeading = ({ difficulty }) => {
+const DifficultyHeading = ({
+	difficulty,
+	allSelected = false,
+	noneSelected = false,
+	onSelectAll,
+	onDeselectAll,
+}) => {
 	const label = DIFFICULTY_LABELS[difficulty] || difficulty;
 
 	return (
-		<h3
+		<div
 			className={css({
 				gridColumn: '1 / -1',
-				fontSize: 'l',
-				fontWeight: '700',
+				display: 'flex',
+				justifyContent: 'space-between',
+				alignItems: 'baseline',
 				marginTop: '1.5rem',
 				marginBottom: '0.5rem',
-				color: '{colors.ink}',
 			})}
 		>
-			Difficulty: {label}
-		</h3>
+			<h3
+				className={css({
+					fontSize: 'l',
+					fontWeight: '700',
+					color: '{colors.ink}',
+					margin: '0',
+				})}
+			>
+				Difficulty: {label}
+			</h3>
+			<BulkSelectionControls
+				difficulty={difficulty}
+				allSelected={allSelected}
+				noneSelected={noneSelected}
+				onSelectAll={onSelectAll}
+				onDeselectAll={onDeselectAll}
+			/>
+		</div>
 	);
 };
 

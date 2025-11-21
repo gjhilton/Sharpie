@@ -238,4 +238,202 @@ describe('AlphabetSelectorWithSort', () => {
 		expect(screen.getByText('Sort by:')).toBeInTheDocument();
 		expect(screen.queryAllByRole('switch')).toHaveLength(0);
 	});
+
+	describe('Bulk selection', () => {
+		it('calls onToggle for each disabled alphabet when select all is clicked', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledAlphabets = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: false,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetSelectorWithSort
+					alphabetNames={mockAlphabetNames}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={handleToggle}
+				/>
+			);
+
+			// Switch to difficulty sort
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, 'difficulty');
+
+			// Click "select all" for medium difficulty (NBacon and Howard are disabled)
+			const selectAllLinks = screen.getAllByText('select all');
+			await user.click(selectAllLinks[1]); // Medium difficulty
+
+			expect(handleToggle).toHaveBeenCalledTimes(2);
+			expect(handleToggle).toHaveBeenCalledWith('NBacon');
+			expect(handleToggle).toHaveBeenCalledWith('Howard');
+		});
+
+		it('calls onToggle for each enabled alphabet when deselect all is clicked', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledAlphabets = {
+				Joscelyn: true,
+				NBacon: true,
+				Howard: true,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetSelectorWithSort
+					alphabetNames={mockAlphabetNames}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={handleToggle}
+				/>
+			);
+
+			// Switch to difficulty sort
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, 'difficulty');
+
+			// Click "deselect all" for medium difficulty (NBacon and Howard are enabled)
+			const deselectAllLinks = screen.getAllByText('deselect all');
+			await user.click(deselectAllLinks[1]); // Medium difficulty
+
+			expect(handleToggle).toHaveBeenCalledTimes(2);
+			expect(handleToggle).toHaveBeenCalledWith('NBacon');
+			expect(handleToggle).toHaveBeenCalledWith('Howard');
+		});
+
+		it('does not call onToggle if all alphabets in group are already selected', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledAlphabets = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: false,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetSelectorWithSort
+					alphabetNames={mockAlphabetNames}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={handleToggle}
+				/>
+			);
+
+			// Switch to difficulty sort
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, 'difficulty');
+
+			// Try to click "select all" for easy difficulty (Joscelyn is already enabled)
+			const selectAllLinks = screen.getAllByText('select all');
+			await user.click(selectAllLinks[0]); // Easy difficulty
+
+			// Should not call onToggle because Joscelyn is already enabled
+			expect(handleToggle).not.toHaveBeenCalled();
+		});
+
+		it('does not call onToggle if no alphabets in group are selected', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledAlphabets = {
+				Joscelyn: false,
+				NBacon: false,
+				Howard: false,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetSelectorWithSort
+					alphabetNames={mockAlphabetNames}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={handleToggle}
+				/>
+			);
+
+			// Switch to difficulty sort
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, 'difficulty');
+
+			// Try to click "deselect all" for easy difficulty (Joscelyn is already disabled)
+			const deselectAllLinks = screen.getAllByText('deselect all');
+			await user.click(deselectAllLinks[0]); // Easy difficulty
+
+			// Should not call onToggle because Joscelyn is already disabled
+			expect(handleToggle).not.toHaveBeenCalled();
+		});
+
+		it('handles select all when some alphabets are already selected', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledAlphabets = {
+				Joscelyn: false,
+				NBacon: true,
+				Howard: false,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetSelectorWithSort
+					alphabetNames={mockAlphabetNames}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={handleToggle}
+				/>
+			);
+
+			// Switch to difficulty sort
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, 'difficulty');
+
+			// Click "select all" for medium difficulty (NBacon is enabled, Howard is disabled)
+			const selectAllLinks = screen.getAllByText('select all');
+			await user.click(selectAllLinks[1]); // Medium difficulty
+
+			// Should only toggle Howard (the disabled one)
+			expect(handleToggle).toHaveBeenCalledTimes(1);
+			expect(handleToggle).toHaveBeenCalledWith('Howard');
+		});
+
+		it('handles deselect all when some alphabets are already deselected', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledAlphabets = {
+				Joscelyn: false,
+				NBacon: true,
+				Howard: false,
+				Hill: false,
+			};
+
+			render(
+				<AlphabetSelectorWithSort
+					alphabetNames={mockAlphabetNames}
+					alphabetsMetadata={mockAlphabetsMetadata}
+					enabledAlphabets={enabledAlphabets}
+					onToggle={handleToggle}
+				/>
+			);
+
+			// Switch to difficulty sort
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, 'difficulty');
+
+			// Click "deselect all" for medium difficulty (NBacon is enabled, Howard is disabled)
+			const deselectAllLinks = screen.getAllByText('deselect all');
+			await user.click(deselectAllLinks[1]); // Medium difficulty
+
+			// Should only toggle NBacon (the enabled one)
+			expect(handleToggle).toHaveBeenCalledTimes(1);
+			expect(handleToggle).toHaveBeenCalledWith('NBacon');
+		});
+	});
 });

@@ -301,6 +301,7 @@ export function generateGraphSets(allEntries) {
  * Pure function - exported for testing
  */
 export function escapeSingleQuotes(str) {
+	if (str == null) return '';
 	return str.replace(/'/g, "\\'");
 }
 
@@ -321,6 +322,7 @@ export function formatSourceEntry(key, value) {
  * Pure function - exported for testing
  */
 export function escapeDoubleQuotes(str) {
+	if (str == null) return '';
 	return str.replace(/"/g, '\\"');
 }
 

@@ -1,3 +1,6 @@
+/**
+ * @vitest-environment node
+ */
 import { describe, it, expect, vi } from 'vitest';
 import {
 	extractCharacter,
@@ -605,6 +608,14 @@ describe('escapeSingleQuotes', () => {
 			"McKerrow, \\'A Note on Elizabethan Handwriting\\', reprinted in Wolfe, The Alphabet Book";
 		expect(escapeSingleQuotes(input)).toBe(expected);
 	});
+
+	it('should handle null input', () => {
+		expect(escapeSingleQuotes(null)).toBe('');
+	});
+
+	it('should handle undefined input', () => {
+		expect(escapeSingleQuotes(undefined)).toBe('');
+	});
 });
 
 describe('escapeDoubleQuotes', () => {
@@ -638,6 +649,14 @@ describe('escapeDoubleQuotes', () => {
 		const input = 'Called the "secretary hand" in period documents.';
 		const expected = 'Called the \\"secretary hand\\" in period documents.';
 		expect(escapeDoubleQuotes(input)).toBe(expected);
+	});
+
+	it('should handle null input', () => {
+		expect(escapeDoubleQuotes(null)).toBe('');
+	});
+
+	it('should handle undefined input', () => {
+		expect(escapeDoubleQuotes(undefined)).toBe('');
 	});
 });
 

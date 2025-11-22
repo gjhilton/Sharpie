@@ -610,4 +610,220 @@ describe('CatalogueScreen', () => {
 			expect(backLink).toBeInTheDocument();
 		});
 	});
+
+	describe('Character Index (LetterIndex)', () => {
+		it('renders character index with letter links', () => {
+			const mockCatalogueDataWithLetters = [
+				{
+					title: 'minuscules',
+					characters: [
+						{
+							character: 'a',
+							graphs: [{ character: 'a', source: 'test-source-1' }],
+						},
+						{
+							character: 'b',
+							graphs: [{ character: 'b', source: 'test-source-1' }],
+						},
+					],
+				},
+				{
+					title: 'MAJUSCULES',
+					characters: [
+						{
+							character: 'A',
+							graphs: [{ character: 'A', source: 'test-source-1' }],
+						},
+					],
+				},
+			];
+			vi.mocked(
+				catalogueLogic.groupGraphsByGraphSetAndCharacter
+			).mockReturnValue(mockCatalogueDataWithLetters);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			// Should render character index links
+			const minusculeLink = screen.getByRole('link', { name: 'a' });
+			const majusculeLink = screen.getByRole('link', { name: 'A' });
+			expect(minusculeLink).toBeInTheDocument();
+			expect(majusculeLink).toBeInTheDocument();
+		});
+
+		it('renders minuscule and MAJUSCULE labels in index', () => {
+			const mockCatalogueDataWithLetters = [
+				{
+					title: 'minuscules',
+					characters: [
+						{
+							character: 'a',
+							graphs: [{ character: 'a', source: 'test-source-1' }],
+						},
+					],
+				},
+				{
+					title: 'MAJUSCULES',
+					characters: [
+						{
+							character: 'A',
+							graphs: [{ character: 'A', source: 'test-source-1' }],
+						},
+					],
+				},
+			];
+			vi.mocked(
+				catalogueLogic.groupGraphsByGraphSetAndCharacter
+			).mockReturnValue(mockCatalogueDataWithLetters);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			expect(screen.getByText('minuscule:')).toBeInTheDocument();
+			expect(screen.getByText('MAJUSCULE:')).toBeInTheDocument();
+		});
+
+		it('does not render empty letter index sections', () => {
+			const mockCatalogueDataEmpty = [
+				{
+					title: 'minuscules',
+					characters: [],
+				},
+				{
+					title: 'MAJUSCULES',
+					characters: [],
+				},
+			];
+			vi.mocked(
+				catalogueLogic.groupGraphsByGraphSetAndCharacter
+			).mockReturnValue(mockCatalogueDataEmpty);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			// Should not render labels when no characters
+			expect(screen.queryByText('minuscule:')).not.toBeInTheDocument();
+			expect(screen.queryByText('MAJUSCULE:')).not.toBeInTheDocument();
+		});
+
+		it('renders links with correct href anchors', () => {
+			const mockCatalogueDataWithLetters = [
+				{
+					title: 'minuscules',
+					characters: [
+						{
+							character: 'z',
+							graphs: [{ character: 'z', source: 'test-source-1' }],
+						},
+					],
+				},
+			];
+			vi.mocked(
+				catalogueLogic.groupGraphsByGraphSetAndCharacter
+			).mockReturnValue(mockCatalogueDataWithLetters);
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabledAlphabets}
+				/>
+			);
+
+			const link = screen.getByRole('link', { name: 'z' });
+			expect(link).toHaveAttribute('href', '#char-z');
+		});
+	});
+
+	describe('handleToggleAlphabet', () => {
+		it('toggles alphabet from enabled to disabled', async () => {
+			const user = userEvent.setup();
+			let capturedCallback;
+			const mockSetEnabled = vi.fn(callback => {
+				capturedCallback = callback;
+			});
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={mockEnabledAlphabets}
+					setEnabledAlphabets={mockSetEnabled}
+				/>
+			);
+
+			const toggle = screen
+				.getByTestId('toggle-alphabet-test-source-1')
+				.querySelector('input');
+			await user.click(toggle);
+
+			expect(mockSetEnabled).toHaveBeenCalled();
+			// Verify the callback toggles the value correctly
+			const result = capturedCallback({
+				'test-source-1': true,
+				'test-source-2': true,
+			});
+			expect(result).toEqual({
+				'test-source-1': false,
+				'test-source-2': true,
+			});
+		});
+
+		it('toggles alphabet from disabled to enabled', async () => {
+			const user = userEvent.setup();
+			let capturedCallback;
+			const mockSetEnabled = vi.fn(callback => {
+				capturedCallback = callback;
+			});
+
+			const disabledAlphabets = {
+				'test-source-1': false,
+				'test-source-2': true,
+			};
+
+			render(
+				<CatalogueScreen
+					onReturnToMenu={mockOnReturnToMenu}
+					onShowFeedback={mockOnShowFeedback}
+					enabledAlphabets={disabledAlphabets}
+					setEnabledAlphabets={mockSetEnabled}
+				/>
+			);
+
+			const toggle = screen
+				.getByTestId('toggle-alphabet-test-source-1')
+				.querySelector('input');
+			await user.click(toggle);
+
+			expect(mockSetEnabled).toHaveBeenCalled();
+			// Verify the callback toggles the value correctly
+			const result = capturedCallback({
+				'test-source-1': false,
+				'test-source-2': true,
+			});
+			expect(result).toEqual({
+				'test-source-1': true,
+				'test-source-2': true,
+			});
+		});
+	});
 });

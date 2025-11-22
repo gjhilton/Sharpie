@@ -417,6 +417,219 @@ describe('Case sensitivity tests', () => {
 	});
 });
 
+describe('filterGraphsByEnabledAlphabets', () => {
+	test('filters graphs by enabled alphabets', () => {
+		const graphs = [
+			{ character: 'a', img: 'a.png', source: 'joscelyn' },
+			{ character: 'b', img: 'b.png', source: 'hill' },
+			{ character: 'c', img: 'c.png', source: 'joscelyn' },
+		];
+		const enabledAlphabets = { joscelyn: true, hill: false };
+		const result = db.filterGraphsByEnabledAlphabets(
+			graphs,
+			enabledAlphabets
+		);
+		expect(result).toHaveLength(2);
+		expect(result[0].source).toBe('joscelyn');
+		expect(result[1].source).toBe('joscelyn');
+	});
+
+	test('returns empty array when no alphabets enabled', () => {
+		const graphs = [
+			{ character: 'a', img: 'a.png', source: 'joscelyn' },
+			{ character: 'b', img: 'b.png', source: 'hill' },
+		];
+		const enabledAlphabets = { joscelyn: false, hill: false };
+		const result = db.filterGraphsByEnabledAlphabets(
+			graphs,
+			enabledAlphabets
+		);
+		expect(result).toEqual([]);
+	});
+
+	test('returns all graphs when all alphabets enabled', () => {
+		const graphs = [
+			{ character: 'a', img: 'a.png', source: 'joscelyn' },
+			{ character: 'b', img: 'b.png', source: 'hill' },
+		];
+		const enabledAlphabets = { joscelyn: true, hill: true };
+		const result = db.filterGraphsByEnabledAlphabets(
+			graphs,
+			enabledAlphabets
+		);
+		expect(result).toHaveLength(2);
+	});
+});
+
+describe('countTotalCharacters', () => {
+	test('counts all characters across all graphSets', () => {
+		const result = db.countTotalCharacters(mockDB);
+		expect(result).toBe(4); // 2 minuscules + 2 majuscules
+	});
+
+	test('returns 0 for empty graphSets', () => {
+		const emptyDB = { graphSets: [] };
+		const result = db.countTotalCharacters(emptyDB);
+		expect(result).toBe(0);
+	});
+
+	test('counts correctly with single graphSet', () => {
+		const singleSetDB = {
+			graphSets: [
+				{
+					title: 'test',
+					enabled: true,
+					graphs: [
+						{ character: 'a', img: 'a.png', source: 'test' },
+						{ character: 'b', img: 'b.png', source: 'test' },
+						{ character: 'c', img: 'c.png', source: 'test' },
+					],
+				},
+			],
+		};
+		const result = db.countTotalCharacters(singleSetDB);
+		expect(result).toBe(3);
+	});
+});
+
+describe('countEnabledCharacters', () => {
+	test('counts characters from enabled alphabets only', () => {
+		const enabledAlphabets = { joscelyn: true, hill: false };
+		const result = db.countEnabledCharacters(mockDB, enabledAlphabets);
+		expect(result).toBe(4); // All graphs in mockDB have source: 'joscelyn'
+	});
+
+	test('returns 0 when no alphabets enabled', () => {
+		const enabledAlphabets = { joscelyn: false, hill: false };
+		const result = db.countEnabledCharacters(mockDB, enabledAlphabets);
+		expect(result).toBe(0);
+	});
+
+	test('counts correctly with mixed enabled/disabled', () => {
+		const mixedDB = {
+			graphSets: [
+				{
+					title: 'test',
+					enabled: true,
+					graphs: [
+						{ character: 'a', img: 'a.png', source: 'alpha' },
+						{ character: 'b', img: 'b.png', source: 'beta' },
+						{ character: 'c', img: 'c.png', source: 'alpha' },
+					],
+				},
+			],
+		};
+		const enabledAlphabets = { alpha: true, beta: false };
+		const result = db.countEnabledCharacters(mixedDB, enabledAlphabets);
+		expect(result).toBe(2); // Only 'a' and 'c' from alpha
+	});
+});
+
+describe('getAllAlphabetNames', () => {
+	test('returns all source keys', () => {
+		const result = db.getAllAlphabetNames(mockDB);
+		expect(result).toEqual(['hill', 'joscelyn']);
+	});
+
+	test('returns empty array for db with no sources', () => {
+		const emptySourcesDB = { sources: {} };
+		const result = db.getAllAlphabetNames(emptySourcesDB);
+		expect(result).toEqual([]);
+	});
+});
+
+describe('countEnabledAlphabets', () => {
+	test('counts alphabets with true values', () => {
+		const enabledAlphabets = { joscelyn: true, hill: true, other: false };
+		const result = db.countEnabledAlphabets(enabledAlphabets);
+		expect(result).toBe(2);
+	});
+
+	test('returns 0 when none enabled', () => {
+		const enabledAlphabets = { joscelyn: false, hill: false };
+		const result = db.countEnabledAlphabets(enabledAlphabets);
+		expect(result).toBe(0);
+	});
+
+	test('returns count for all enabled', () => {
+		const enabledAlphabets = { a: true, b: true, c: true };
+		const result = db.countEnabledAlphabets(enabledAlphabets);
+		expect(result).toBe(3);
+	});
+
+	test('returns 0 for empty object', () => {
+		const result = db.countEnabledAlphabets({});
+		expect(result).toBe(0);
+	});
+});
+
+describe('sortAlphabetsByDate', () => {
+	test('sorts alphabets by date in ascending order', () => {
+		const alphabetNames = ['modern', 'medieval', 'ancient'];
+		const alphabetsMetadata = {
+			modern: { date: '2019' },
+			medieval: { date: '1574' },
+			ancient: { date: '1200' },
+		};
+		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		expect(result).toEqual(['ancient', 'medieval', 'modern']);
+	});
+
+	test('handles dates with slashes like "1574/5"', () => {
+		const alphabetNames = ['a', 'b', 'c'];
+		const alphabetsMetadata = {
+			a: { date: '1579/80' },
+			b: { date: '1574/5' },
+			c: { date: '1570' },
+		};
+		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		expect(result).toEqual(['c', 'b', 'a']);
+	});
+
+	test('puts alphabets without dates at the end', () => {
+		const alphabetNames = ['noDate', 'hasDate'];
+		const alphabetsMetadata = {
+			hasDate: { date: '1500' },
+			noDate: {},
+		};
+		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		expect(result).toEqual(['hasDate', 'noDate']);
+	});
+
+	test('handles missing metadata entries', () => {
+		const alphabetNames = ['known', 'unknown'];
+		const alphabetsMetadata = {
+			known: { date: '1600' },
+		};
+		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		expect(result).toEqual(['known', 'unknown']);
+	});
+
+	test('does not mutate original array', () => {
+		const alphabetNames = ['b', 'a', 'c'];
+		const alphabetsMetadata = {
+			a: { date: '1500' },
+			b: { date: '1600' },
+			c: { date: '1550' },
+		};
+		const original = [...alphabetNames];
+		db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		expect(alphabetNames).toEqual(original);
+	});
+
+	test('handles alphabets with same date', () => {
+		const alphabetNames = ['first', 'second'];
+		const alphabetsMetadata = {
+			first: { date: '1574' },
+			second: { date: '1574' },
+		};
+		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		expect(result).toHaveLength(2);
+		expect(result).toContain('first');
+		expect(result).toContain('second');
+	});
+});
+
 describe('Edge cases and defensive tests', () => {
 	test('getRandomGraph with single graph', () => {
 		const graphs = [{ character: 'a', img: 'a.png' }];

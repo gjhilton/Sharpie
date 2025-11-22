@@ -659,6 +659,105 @@ describe('GamePresentation', () => {
 		).toBeInTheDocument();
 	});
 
+	describe('Enter Key Navigation', () => {
+		it('should call onNext when Enter key is pressed on CorrectAnswer', async () => {
+			const onNextLetter = vi.fn();
+			const user = userEvent.setup();
+			render(
+				<GamePresentation
+					{...defaultProps}
+					attemptStatus={STATUS.CORRECT}
+					attempt="E"
+					onNextLetter={onNextLetter}
+				/>
+			);
+
+			await user.keyboard('{Enter}');
+			expect(onNextLetter).toHaveBeenCalledTimes(1);
+		});
+
+		it('should call onNext when Enter key is pressed on IncorrectAnswer', async () => {
+			const onNextLetter = vi.fn();
+			const user = userEvent.setup();
+			render(
+				<GamePresentation
+					{...defaultProps}
+					attemptStatus={STATUS.INCORRECT}
+					attempt="X"
+					attemptImagePaths={['/images/x.png']}
+					onNextLetter={onNextLetter}
+				/>
+			);
+
+			await user.keyboard('{Enter}');
+			expect(onNextLetter).toHaveBeenCalledTimes(1);
+		});
+
+		it('should not call onNext when Enter is pressed on unanswered state', async () => {
+			const onNextLetter = vi.fn();
+			const user = userEvent.setup();
+			render(
+				<GamePresentation
+					{...defaultProps}
+					attemptStatus={STATUS.NONE}
+					onNextLetter={onNextLetter}
+				/>
+			);
+
+			await user.keyboard('{Enter}');
+			expect(onNextLetter).not.toHaveBeenCalled();
+		});
+	});
+
+	describe('acceptedAs24Letter', () => {
+		it('should show 24-letter message when acceptedAs24Letter is true and status is CORRECT', () => {
+			render(
+				<GamePresentation
+					{...defaultProps}
+					attemptStatus={STATUS.CORRECT}
+					attempt="I"
+					acceptedAs24Letter={true}
+				/>
+			);
+
+			expect(
+				screen.getByText(/Accepted: Using 24-letter alphabet/)
+			).toBeInTheDocument();
+			expect(screen.getByText(/I and J and U and V/)).toBeInTheDocument();
+		});
+
+		it('should not show 24-letter message when acceptedAs24Letter is false', () => {
+			render(
+				<GamePresentation
+					{...defaultProps}
+					attemptStatus={STATUS.CORRECT}
+					attempt="E"
+					acceptedAs24Letter={false}
+				/>
+			);
+
+			expect(
+				screen.queryByText(/Accepted: Using 24-letter alphabet/)
+			).not.toBeInTheDocument();
+		});
+
+		it('should not show 24-letter message on incorrect answer', () => {
+			render(
+				<GamePresentation
+					{...defaultProps}
+					attemptStatus={STATUS.INCORRECT}
+					attempt="X"
+					attemptImagePaths={['/images/x.png']}
+					acceptedAs24Letter={true}
+				/>
+			);
+
+			expect(
+				screen.queryByText(/Accepted: Using 24-letter alphabet/)
+			).not.toBeInTheDocument();
+		});
+	});
+
 	describe('Shift Keys Visibility by Game Mode', () => {
 		it('should show shift keys when gameMode is ALL (both)', () => {
 			render(<GamePresentation {...defaultProps} gameMode="all" />);

@@ -245,4 +245,128 @@ describe('LandingSectionHero', () => {
 		);
 		expect(mockOnShowCatalogue).toHaveBeenCalled();
 	});
+
+	describe('Changelog (DL and VersionEntry)', () => {
+		it('renders changelog entries when What\'s new section is expanded', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand What's new? section
+			await user.click(screen.getByRole('button', { name: /what.*new/i }));
+
+			// Should render the version from mocked changelog
+			expect(screen.getByText('v1.0.0')).toBeInTheDocument();
+			expect(screen.getByText('Initial release')).toBeInTheDocument();
+		});
+
+		it('renders Changelog heading when expanded', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand What's new? section
+			await user.click(screen.getByRole('button', { name: /what.*new/i }));
+
+			expect(screen.getByText('Changelog')).toBeInTheDocument();
+		});
+	});
+
+	describe('Game Mode Radio Buttons', () => {
+		it('renders three game mode radio buttons', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const radios = screen.getAllByRole('radio');
+			expect(radios).toHaveLength(3);
+		});
+
+		it('selects minuscules mode when radio is clicked', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const minusculeRadio = screen.getByLabelText(/minuscules only/i);
+			await user.click(minusculeRadio);
+
+			expect(mockSetSelectedMode).toHaveBeenCalledWith(GAME_MODES.MINUSCULE);
+		});
+
+		it('selects MAJUSCULES mode when radio is clicked', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const majusculeRadio = screen.getByLabelText(/MAJUSCULES only/i);
+			await user.click(majusculeRadio);
+
+			expect(mockSetSelectedMode).toHaveBeenCalledWith(GAME_MODES.MAJUSCULE);
+		});
+
+		it('selects both mode when radio is clicked', async () => {
+			const user = userEvent.setup();
+			render(
+				<LandingSectionHero
+					{...defaultProps}
+					selectedMode={GAME_MODES.MINUSCULE}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const bothRadio = screen.getByLabelText(/both minuscules AND MAJUSCULES/i);
+			await user.click(bothRadio);
+
+			expect(mockSetSelectedMode).toHaveBeenCalledWith(GAME_MODES.ALL);
+		});
+
+		it('shows minuscule radio as checked when selectedMode is minuscule', async () => {
+			const user = userEvent.setup();
+			render(
+				<LandingSectionHero
+					{...defaultProps}
+					selectedMode={GAME_MODES.MINUSCULE}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const minusculeRadio = screen.getByLabelText(/minuscules only/i);
+			expect(minusculeRadio).toBeChecked();
+		});
+
+		it('shows majuscule radio as checked when selectedMode is majuscule', async () => {
+			const user = userEvent.setup();
+			render(
+				<LandingSectionHero
+					{...defaultProps}
+					selectedMode={GAME_MODES.MAJUSCULE}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const majusculeRadio = screen.getByLabelText(/MAJUSCULES only/i);
+			expect(majusculeRadio).toBeChecked();
+		});
+
+		it('shows both radio as checked when selectedMode is all', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			const bothRadio = screen.getByLabelText(/both minuscules AND MAJUSCULES/i);
+			expect(bothRadio).toBeChecked();
+		});
+	});
 });

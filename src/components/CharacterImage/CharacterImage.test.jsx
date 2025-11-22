@@ -172,7 +172,10 @@ describe('CharacterImage', () => {
 
 		it('renders note when note prop is provided', () => {
 			render(
-				<CharacterImage imagePath="/test.jpg" note="First letter of word." />
+				<CharacterImage
+					imagePath="/test.jpg"
+					note="First letter of word."
+				/>
 			);
 
 			const note = screen.getByText('First letter of word.');
@@ -181,7 +184,10 @@ describe('CharacterImage', () => {
 
 		it('renders custom note text', () => {
 			render(
-				<CharacterImage imagePath="/test.jpg" note="Round c with sharp turn." />
+				<CharacterImage
+					imagePath="/test.jpg"
+					note="Round c with sharp turn."
+				/>
 			);
 
 			const note = screen.getByText('Round c with sharp turn.');
@@ -203,7 +209,9 @@ describe('CharacterImage', () => {
 		it('does not render note when note prop is empty string', () => {
 			render(<CharacterImage imagePath="/test.jpg" note="" />);
 
-			const wrapper = screen.getByRole('img').closest('div').parentElement;
+			const wrapper = screen
+				.getByRole('img')
+				.closest('div').parentElement;
 			const children = wrapper.children;
 			expect(children).toHaveLength(1);
 		});

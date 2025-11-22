@@ -75,8 +75,14 @@ describe('LandingSectionSettings', () => {
 				setTwentyFourLetterAlphabet={mockSetTwentyFourLetterAlphabet}
 			/>
 		);
-		expect(screen.getByText(/During this era, the alphabet had 24 letters/i)).toBeInTheDocument();
-		expect(screen.getByText(/When this option is enabled, if you are shown a 'J'/i)).toBeInTheDocument();
+		expect(
+			screen.getByText(/During this era, the alphabet had 24 letters/i)
+		).toBeInTheDocument();
+		expect(
+			screen.getByText(
+				/When this option is enabled, if you are shown a 'J'/i
+			)
+		).toBeInTheDocument();
 	});
 
 	it('renders introduction paragraph', () => {

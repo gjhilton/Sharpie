@@ -6,6 +6,8 @@ import {
 	getAssetFolderName,
 	generateSourcesObject,
 	generateGraphSets,
+	escapeSingleQuotes,
+	escapeDoubleQuotes,
 	formatSourceEntry,
 	formatGraphEntry,
 	formatGraphSetEntry,
@@ -569,6 +571,76 @@ describe('generateGraphSets', () => {
 	});
 });
 
+describe('escapeSingleQuotes', () => {
+	it('should escape single quotes in a string', () => {
+		expect(escapeSingleQuotes("McKerrow's Note")).toBe("McKerrow\\'s Note");
+	});
+
+	it('should escape multiple single quotes', () => {
+		expect(escapeSingleQuotes("It's a 'test' string")).toBe(
+			"It\\'s a \\'test\\' string"
+		);
+	});
+
+	it('should return the same string if no single quotes', () => {
+		expect(escapeSingleQuotes('Hello World')).toBe('Hello World');
+	});
+
+	it('should handle empty string', () => {
+		expect(escapeSingleQuotes('')).toBe('');
+	});
+
+	it('should handle string with only single quotes', () => {
+		expect(escapeSingleQuotes("'''")).toBe("\\'\\'\\'");
+	});
+
+	it('should not affect double quotes', () => {
+		expect(escapeSingleQuotes('Say "hello"')).toBe('Say "hello"');
+	});
+
+	it('should handle real-world title with apostrophes', () => {
+		const input =
+			"McKerrow, 'A Note on Elizabethan Handwriting', reprinted in Wolfe, The Alphabet Book";
+		const expected =
+			"McKerrow, \\'A Note on Elizabethan Handwriting\\', reprinted in Wolfe, The Alphabet Book";
+		expect(escapeSingleQuotes(input)).toBe(expected);
+	});
+});
+
+describe('escapeDoubleQuotes', () => {
+	it('should escape double quotes in a string', () => {
+		expect(escapeDoubleQuotes('Say "hello"')).toBe('Say \\"hello\\"');
+	});
+
+	it('should escape multiple double quotes', () => {
+		expect(escapeDoubleQuotes('"Hello" and "World"')).toBe(
+			'\\"Hello\\" and \\"World\\"'
+		);
+	});
+
+	it('should return the same string if no double quotes', () => {
+		expect(escapeDoubleQuotes('Hello World')).toBe('Hello World');
+	});
+
+	it('should handle empty string', () => {
+		expect(escapeDoubleQuotes('')).toBe('');
+	});
+
+	it('should handle string with only double quotes', () => {
+		expect(escapeDoubleQuotes('"""')).toBe('\\"\\"\\"');
+	});
+
+	it('should not affect single quotes', () => {
+		expect(escapeDoubleQuotes("It's fine")).toBe("It's fine");
+	});
+
+	it('should handle real-world note with quotes', () => {
+		const input = 'Called the "secretary hand" in period documents.';
+		const expected = 'Called the \\"secretary hand\\" in period documents.';
+		expect(escapeDoubleQuotes(input)).toBe(expected);
+	});
+});
+
 describe('formatSourceEntry', () => {
 	it('should format a source entry with proper indentation', () => {
 		const result = formatSourceEntry('Joscelyn', {
@@ -593,6 +665,47 @@ describe('formatSourceEntry', () => {
 		});
 
 		expect(result).toContain('\t\t"BeauChesne-Baildon": {');
+	});
+
+	it('should escape single quotes in title', () => {
+		const result = formatSourceEntry('McKerrow', {
+			title: "McKerrow, 'A Note on Elizabethan Handwriting'",
+			sourceUri: 'https://example.com/mckerrow',
+			date: '1927',
+			difficulty: 'easy',
+		});
+
+		expect(result).toContain(
+			"title: 'McKerrow, \\'A Note on Elizabethan Handwriting\\'',"
+		);
+	});
+
+	it('should escape single quotes in all string fields', () => {
+		const result = formatSourceEntry('Test', {
+			title: "Author's book",
+			sourceUri: "https://example.com/author's-page",
+			date: "1920's",
+			difficulty: 'medium',
+		});
+
+		expect(result).toContain("title: 'Author\\'s book',");
+		expect(result).toContain(
+			"sourceUri: 'https://example.com/author\\'s-page',"
+		);
+		expect(result).toContain("date: '1920\\'s',");
+	});
+
+	it('should produce valid JS when title contains single quotes', () => {
+		const result = formatSourceEntry('Test', {
+			title: "It's a 'quoted' title",
+			sourceUri: 'https://example.com',
+			date: '2020',
+			difficulty: 'easy',
+		});
+
+		// The escaped string should be valid JS
+		// Each ' in the title should become \'
+		expect(result).toContain("title: 'It\\'s a \\'quoted\\' title',");
 	});
 });
 
@@ -652,6 +765,58 @@ describe('formatGraphEntry', () => {
 		const result = formatGraphEntry(graph);
 
 		expect(result).not.toContain('note:');
+	});
+
+	it('should escape double quotes in note field', () => {
+		const graph = {
+			img: 'a.png',
+			character: 'a',
+			source: 'Test',
+			note: 'Called the "secretary hand" style.',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).toContain(
+			'note: "Called the \\"secretary hand\\" style."'
+		);
+	});
+
+	it('should escape double quotes in img field', () => {
+		const graph = {
+			img: 'path/with"quote/a.png',
+			character: 'a',
+			source: 'Test',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).toContain('img: "path/with\\"quote/a.png"');
+	});
+
+	it('should escape double quotes in source field', () => {
+		const graph = {
+			img: 'a.png',
+			character: 'a',
+			source: 'Source "Name"',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).toContain('source: "Source \\"Name\\""');
+	});
+
+	it('should produce valid JS when note contains double quotes', () => {
+		const graph = {
+			img: 'A.png',
+			character: 'A',
+			source: 'Test',
+			note: '"Quoted" and "more quotes"',
+		};
+
+		const result = formatGraphEntry(graph);
+
+		expect(result).toContain('note: "\\"Quoted\\" and \\"more quotes\\""');
 	});
 });
 

@@ -32,7 +32,9 @@ const App = () => {
 		useState(null);
 	const [showBaseline, setShowBaseline] = useState(true);
 	const [score, setScore] = useState(null);
-	const [enabledAlphabets, setEnabledAlphabets] = useState(initializeEnabledAlphabets);
+	const [enabledAlphabets, setEnabledAlphabets] = useState(
+		initializeEnabledAlphabets
+	);
 
 	const handleSelectMode = (mode, twentyFourLetterAlphabetValue) => {
 		setGameMode(mode);

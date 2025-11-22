@@ -14,7 +14,11 @@ describe('BulkSelectionLink', () => {
 		const handleClick = vi.fn();
 		const user = userEvent.setup();
 
-		render(<BulkSelectionLink onClick={handleClick}>select all</BulkSelectionLink>);
+		render(
+			<BulkSelectionLink onClick={handleClick}>
+				select all
+			</BulkSelectionLink>
+		);
 
 		const link = screen.getByText('select all');
 		await user.click(link);
@@ -39,14 +43,18 @@ describe('BulkSelectionLink', () => {
 	});
 
 	it('sets aria-disabled to true when disabled', () => {
-		render(<BulkSelectionLink disabled={true}>select all</BulkSelectionLink>);
+		render(
+			<BulkSelectionLink disabled={true}>select all</BulkSelectionLink>
+		);
 
 		const link = screen.getByText('select all');
 		expect(link).toHaveAttribute('aria-disabled', 'true');
 	});
 
 	it('sets aria-disabled to false when not disabled', () => {
-		render(<BulkSelectionLink disabled={false}>select all</BulkSelectionLink>);
+		render(
+			<BulkSelectionLink disabled={false}>select all</BulkSelectionLink>
+		);
 
 		const link = screen.getByText('select all');
 		expect(link).toHaveAttribute('aria-disabled', 'false');
@@ -56,7 +64,11 @@ describe('BulkSelectionLink', () => {
 		const handleClick = vi.fn();
 		const user = userEvent.setup();
 
-		render(<BulkSelectionLink onClick={handleClick}>select all</BulkSelectionLink>);
+		render(
+			<BulkSelectionLink onClick={handleClick}>
+				select all
+			</BulkSelectionLink>
+		);
 
 		const link = screen.getByText('select all');
 		await user.click(link);

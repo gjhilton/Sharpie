@@ -153,7 +153,9 @@ describe('CatalogueScreen', () => {
 			'test-source-1',
 			'test-source-2',
 		]);
-		vi.mocked(database.sortAlphabetsByDate).mockImplementation(names => names);
+		vi.mocked(database.sortAlphabetsByDate).mockImplementation(
+			names => names
+		);
 		vi.mocked(database.countEnabledAlphabets).mockReturnValue(2);
 		vi.mocked(database.countEnabledCharacters).mockReturnValue(123);
 	});
@@ -200,7 +202,9 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.getByRole('link', { name: /back to menu/i });
+			const backLink = screen.getByRole('link', {
+				name: /back to menu/i,
+			});
 			expect(backLink).toBeInTheDocument();
 		});
 
@@ -215,7 +219,9 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.getByRole('link', { name: /back to menu/i });
+			const backLink = screen.getByRole('link', {
+				name: /back to menu/i,
+			});
 			await user.click(backLink);
 
 			expect(mockOnReturnToMenu).toHaveBeenCalledTimes(1);
@@ -495,7 +501,9 @@ describe('CatalogueScreen', () => {
 			);
 
 			expect(screen.getByText(/Error:/)).toBeInTheDocument();
-			expect(screen.getByText(/Please select at least one alphabet/)).toBeInTheDocument();
+			expect(
+				screen.getByText(/Please select at least one alphabet/)
+			).toBeInTheDocument();
 		});
 
 		it('displays error message when character count is zero', () => {
@@ -512,7 +520,9 @@ describe('CatalogueScreen', () => {
 			);
 
 			expect(screen.getByText(/Error:/)).toBeInTheDocument();
-			expect(screen.getByText(/Please select at least one alphabet/)).toBeInTheDocument();
+			expect(
+				screen.getByText(/Please select at least one alphabet/)
+			).toBeInTheDocument();
 		});
 
 		it('disables Back to Menu link when no alphabets are selected', () => {
@@ -528,9 +538,15 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.queryByRole('link', { name: /back to menu/i });
+			const backLink = screen.queryByRole('link', {
+				name: /back to menu/i,
+			});
 			expect(backLink).not.toBeInTheDocument();
-			expect(screen.getByText(/Not allowed! Select one or more alphabets to continue/)).toBeInTheDocument();
+			expect(
+				screen.getByText(
+					/Not allowed! Select one or more alphabets to continue/
+				)
+			).toBeInTheDocument();
 		});
 
 		it('does not call onReturnToMenu when Back to Menu is disabled', async () => {
@@ -547,7 +563,9 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backText = screen.getByText(/Not allowed! Select one or more alphabets to continue/);
+			const backText = screen.getByText(
+				/Not allowed! Select one or more alphabets to continue/
+			);
 			await user.click(backText);
 
 			expect(mockOnReturnToMenu).not.toHaveBeenCalled();
@@ -586,7 +604,9 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.getByRole('link', { name: /back to menu/i });
+			const backLink = screen.getByRole('link', {
+				name: /back to menu/i,
+			});
 			expect(backLink).toBeInTheDocument();
 		});
 	});

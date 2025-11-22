@@ -1,4 +1,11 @@
 {
+	"McKerrow": {
+		"title": "McKerrow, 'A Note on Elizabethan Handwriting', reprinted in Wolfe, The Alphabet Book",
+		"sourceUri": "https://folgerpedia.folger.edu/mediawiki/media/images_pedia_folgerpedia_mw/7/79/AlphabetBook2020.pdf",
+		"date": "1927",
+		"isDefaultEnabled": true,
+		"difficulty": "easy"
+	},
 	"NBacon": {
 		"title": "Letter from the Privy Council to Nathaniel Bacon",
 		"sourceUri": "https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en",

@@ -5,7 +5,11 @@ import Toggle from '@components/Toggle/Toggle.jsx';
 const AlphabetRow = ({ name, metadata, isEnabled, onToggle }) => {
 	return (
 		<React.Fragment>
-			<Toggle id={`alphabet-${name}`} checked={isEnabled} onChange={onToggle} />
+			<Toggle
+				id={`alphabet-${name}`}
+				checked={isEnabled}
+				onChange={onToggle}
+			/>
 			<span className={css({ fontWeight: '900' })}>{metadata.date}</span>
 			<span>{metadata.title}</span>
 			<a

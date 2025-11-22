@@ -22,7 +22,9 @@ describe('DisclosureSection', () => {
 				</DisclosureSection>
 			);
 
-			expect(screen.queryByText('Hidden Content')).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Hidden Content')
+			).not.toBeInTheDocument();
 		});
 
 		it('starts expanded when defaultExpanded is true', () => {
@@ -65,7 +67,9 @@ describe('DisclosureSection', () => {
 				</DisclosureSection>
 			);
 
-			expect(screen.queryByText('Hidden Content')).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Hidden Content')
+			).not.toBeInTheDocument();
 
 			await user.click(screen.getByText('Test Section'));
 
@@ -84,7 +88,9 @@ describe('DisclosureSection', () => {
 
 			await user.click(screen.getByText('Test Section'));
 
-			expect(screen.queryByText('Visible Content')).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Visible Content')
+			).not.toBeInTheDocument();
 		});
 
 		it('toggles aria-expanded attribute', async () => {
@@ -95,7 +101,9 @@ describe('DisclosureSection', () => {
 				</DisclosureSection>
 			);
 
-			const titleButton = screen.getByRole('button', { name: /test section/i });
+			const titleButton = screen.getByRole('button', {
+				name: /test section/i,
+			});
 			expect(titleButton).toHaveAttribute('aria-expanded', 'false');
 
 			await user.click(titleButton);
@@ -126,7 +134,9 @@ describe('DisclosureSection', () => {
 			);
 
 			expect(screen.getByText('Test Section')).toBeInTheDocument();
-			expect(screen.queryByText('Hidden Content')).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Hidden Content')
+			).not.toBeInTheDocument();
 		});
 	});
 
@@ -138,7 +148,9 @@ describe('DisclosureSection', () => {
 				</DisclosureSection>
 			);
 
-			expect(screen.getByRole('button', { name: /test section/i })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: /test section/i })
+			).toBeInTheDocument();
 		});
 	});
 

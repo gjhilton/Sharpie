@@ -92,11 +92,13 @@ vi.mock('@data/identify.md?raw', () => ({
 }));
 
 vi.mock('@data/alphabet.md?raw', () => ({
-	default: 'During this era, the alphabet had 24 letters.\n\n{{ALPHABET_TOGGLE}}',
+	default:
+		'During this era, the alphabet had 24 letters.\n\n{{ALPHABET_TOGGLE}}',
 }));
 
 vi.mock('@data/baselines.md?raw', () => ({
-	default: '{{BASELINE_TOGGLE}}\n\nWhen enabled, a baseline appears.\n\n{{BASELINE_EXAMPLES}}',
+	default:
+		'{{BASELINE_TOGGLE}}\n\nWhen enabled, a baseline appears.\n\n{{BASELINE_EXAMPLES}}',
 }));
 
 vi.mock('@data/how-to-use.md?raw', () => ({
@@ -121,7 +123,11 @@ vi.mock('@data/next-steps.md?raw', () => ({
 vi.mock('@utilities/database.js', () => ({
 	countTotalCharacters: vi.fn(() => 100),
 	countEnabledCharacters: vi.fn(() => 80),
-	getAllAlphabetNames: vi.fn(() => ['Howard', 'Joscelyn', 'BeauChesne-Baildon']),
+	getAllAlphabetNames: vi.fn(() => [
+		'Howard',
+		'Joscelyn',
+		'BeauChesne-Baildon',
+	]),
 	countEnabledAlphabets: vi.fn(() => 3),
 }));
 
@@ -267,7 +273,10 @@ describe('LandingScreen', () => {
 			await user.click(playButton);
 
 			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, false);
+			expect(mockOnSelectMode).toHaveBeenCalledWith(
+				GAME_MODES.ALL,
+				false
+			);
 		});
 	});
 
@@ -314,10 +323,12 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			expect(screen.getByText('Next steps for learners')).toBeInTheDocument();
+			expect(
+				screen.getByText('Next steps for learners')
+			).toBeInTheDocument();
 		});
 
-		it('should render What\'s new? disclosure section', () => {
+		it("should render What's new? disclosure section", () => {
 			render(
 				<LandingScreen
 					onSelectMode={mockOnSelectMode}
@@ -347,7 +358,9 @@ describe('LandingScreen', () => {
 			);
 
 			// Options section starts collapsed (defaultExpanded=false)
-			const optionsButton = screen.getByRole('button', { name: 'Options' });
+			const optionsButton = screen.getByRole('button', {
+				name: 'Options',
+			});
 			expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
 
 			// Click to expand
@@ -379,8 +392,12 @@ describe('LandingScreen', () => {
 			await user.click(screen.getByRole('button', { name: 'Options' }));
 
 			expect(screen.getByText('Identify...')).toBeInTheDocument();
-			expect(screen.getByLabelText(/minuscules only/i)).toBeInTheDocument();
-			expect(screen.getByLabelText(/MAJUSCULES only/i)).toBeInTheDocument();
+			expect(
+				screen.getByLabelText(/minuscules only/i)
+			).toBeInTheDocument();
+			expect(
+				screen.getByLabelText(/MAJUSCULES only/i)
+			).toBeInTheDocument();
 			expect(
 				screen.getByLabelText(/both minuscules AND MAJUSCULES/i)
 			).toBeInTheDocument();
@@ -646,7 +663,9 @@ describe('LandingScreen', () => {
 				/>
 			);
 
-			const optionsButton = screen.getByRole('button', { name: 'Options' });
+			const optionsButton = screen.getByRole('button', {
+				name: 'Options',
+			});
 			expect(optionsButton).toHaveAttribute('aria-expanded');
 		});
 	});

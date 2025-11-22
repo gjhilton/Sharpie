@@ -27,7 +27,9 @@ test.describe('Landing Page Content', () => {
 			await expect(playButton).toBeVisible();
 		});
 
-		test('should display secretary hand animated image', async ({ page }) => {
+		test('should display secretary hand animated image', async ({
+			page,
+		}) => {
 			// Look for the animated Secretary hand demonstration
 			const images = page.locator('img');
 			const count = await images.count();
@@ -38,12 +40,16 @@ test.describe('Landing Page Content', () => {
 
 	test.describe('Options DisclosureSection', () => {
 		test.beforeEach(async ({ page }) => {
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 		});
 
 		test('should display Options section header', async ({ page }) => {
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await expect(optionsHeader).toBeVisible();
 		});
 
@@ -62,7 +68,9 @@ test.describe('Landing Page Content', () => {
 		});
 
 		test('should display Choose alphabets button', async ({ page }) => {
-			const button = page.getByRole('button', { name: /choose alphabets/i });
+			const button = page.getByRole('button', {
+				name: /choose alphabets/i,
+			});
 			await expect(button).toBeVisible();
 		});
 
@@ -78,10 +86,14 @@ test.describe('Landing Page Content', () => {
 			await expect(
 				page.getByText(/During this era, the alphabet had 24 letters/)
 			).toBeVisible();
-			await expect(page.getByText(/I.*and.*J.*were the same letter/)).toBeVisible();
+			await expect(
+				page.getByText(/I.*and.*J.*were the same letter/)
+			).toBeVisible();
 			await expect(page.getByText(/U.*and.*V/)).toBeVisible();
 			await expect(
-				page.getByText(/two graphs.*could be used to write the same letter/)
+				page.getByText(
+					/two graphs.*could be used to write the same letter/
+				)
 			).toBeVisible();
 			await expect(
 				page.getByText(
@@ -100,7 +112,9 @@ test.describe('Landing Page Content', () => {
 			await expect(toggle).toBeVisible();
 		});
 
-		test('should display 24-letter toggle explanation', async ({ page }) => {
+		test('should display 24-letter toggle explanation', async ({
+			page,
+		}) => {
 			await expect(
 				page.getByText(
 					/When this option is enabled, if you are shown a.*J.*and answer.*I.*that answer will be accepted/
@@ -129,7 +143,9 @@ test.describe('Landing Page Content', () => {
 				page.getByText(/distinguish between majuscule.*and minuscule/)
 			).toBeVisible();
 			await expect(
-				page.getByText(/minuscule characters typically sit on the baseline/)
+				page.getByText(
+					/minuscule characters typically sit on the baseline/
+				)
 			).toBeVisible();
 			await expect(
 				page.getByText(/majuscule characters may extend above it/)
@@ -159,7 +175,9 @@ test.describe('Landing Page Content', () => {
 			await expect(page.getByText('Gameplay')).toBeVisible();
 		});
 
-		test('should display gameplay instructions - step 1', async ({ page }) => {
+		test('should display gameplay instructions - step 1', async ({
+			page,
+		}) => {
 			await expect(
 				page.getByText(
 					/You will be shown a character.*graph.*in palaeography jargon/
@@ -167,7 +185,9 @@ test.describe('Landing Page Content', () => {
 			).toBeVisible();
 		});
 
-		test('should display gameplay instructions - step 2', async ({ page }) => {
+		test('should display gameplay instructions - step 2', async ({
+			page,
+		}) => {
 			await expect(
 				page.getByText(
 					/Use your computer keyboard or the onscreen keyboard/
@@ -175,22 +195,38 @@ test.describe('Landing Page Content', () => {
 			).toBeVisible();
 		});
 
-		test('should display gameplay instructions - step 3', async ({ page }) => {
+		test('should display gameplay instructions - step 3', async ({
+			page,
+		}) => {
 			await expect(
-				page.getByText(/See feedback about your answer.*correct or incorrect/)
+				page.getByText(
+					/See feedback about your answer.*correct or incorrect/
+				)
 			).toBeVisible();
 		});
 
-		test('should display gameplay instructions - step 4', async ({ page }) => {
-			await expect(page.getByText(/Hit.*next.*to see another graph/)).toBeVisible();
+		test('should display gameplay instructions - step 4', async ({
+			page,
+		}) => {
+			await expect(
+				page.getByText(/Hit.*next.*to see another graph/)
+			).toBeVisible();
 		});
 
-		test('should display gameplay instructions - step 5', async ({ page }) => {
+		test('should display gameplay instructions - step 5', async ({
+			page,
+		}) => {
 			await expect(
-				page.getByText(/Exit at any time by clicking the.*End game.*button/)
+				page.getByText(
+					/Exit at any time by clicking the.*End game.*button/
+				)
 			).toBeVisible();
-			await expect(page.getByText(/view a summary of your score/)).toBeVisible();
-			await expect(page.getByText(/recap graphs identified wrongly/)).toBeVisible();
+			await expect(
+				page.getByText(/view a summary of your score/)
+			).toBeVisible();
+			await expect(
+				page.getByText(/recap graphs identified wrongly/)
+			).toBeVisible();
 		});
 
 		test('should display Letters in context subsection title', async ({
@@ -199,14 +235,18 @@ test.describe('Landing Page Content', () => {
 			await expect(page.getByText('Letters in context')).toBeVisible();
 		});
 
-		test('should display letters in context explanation', async ({ page }) => {
+		test('should display letters in context explanation', async ({
+			page,
+		}) => {
 			await expect(
 				page.getByText(
 					/For some alphabets.*we show you a fragment of a whole word/
 				)
 			).toBeVisible();
 			await expect(
-				page.getByText(/identify just the letter coloured in heavy black/)
+				page.getByText(
+					/identify just the letter coloured in heavy black/
+				)
 			).toBeVisible();
 		});
 
@@ -236,7 +276,9 @@ test.describe('Landing Page Content', () => {
 				page.getByText(/first letter in word.*or.*last letter in word/)
 			).toBeVisible();
 			await expect(
-				page.getByText(/Some letters had different forms in these positions/)
+				page.getByText(
+					/Some letters had different forms in these positions/
+				)
 			).toBeVisible();
 			await expect(
 				page.getByText(/majuscules are often the first letter/)
@@ -269,7 +311,9 @@ test.describe('Landing Page Content', () => {
 			).toBeVisible();
 		});
 
-		test('should display English Handwriting Online link', async ({ page }) => {
+		test('should display English Handwriting Online link', async ({
+			page,
+		}) => {
 			const link = page.getByRole('link', {
 				name: /English Handwriting Online/i,
 			});
@@ -290,7 +334,9 @@ test.describe('Landing Page Content', () => {
 		});
 
 		test('should display Scottish Handwriting link', async ({ page }) => {
-			const link = page.getByRole('link', { name: /Scottish Handwriting/i });
+			const link = page.getByRole('link', {
+				name: /Scottish Handwriting/i,
+			});
 			await expect(link).toBeVisible();
 			await expect(link).toHaveAttribute(
 				'href',
@@ -316,14 +362,20 @@ test.describe('Landing Page Content', () => {
 			await expect(page.getByText('Changelog')).toBeVisible();
 		});
 
-		test('should display version entries in definition list format', async ({ page }) => {
+		test('should display version entries in definition list format', async ({
+			page,
+		}) => {
 			// Check for version number pattern in definition list terms
-			const versionTerms = page.getByRole('term').filter({ hasText: /^v\d+\.\d+\.\d+$/ });
+			const versionTerms = page
+				.getByRole('term')
+				.filter({ hasText: /^v\d+\.\d+\.\d+$/ });
 			const count = await versionTerms.count();
 			expect(count).toBeGreaterThanOrEqual(1);
 		});
 
-		test('should display version descriptions with release notes', async ({ page }) => {
+		test('should display version descriptions with release notes', async ({
+			page,
+		}) => {
 			// Check that definition descriptions exist for version entries
 			const definitionDescriptions = page.locator('dd');
 			const count = await definitionDescriptions.count();
@@ -336,7 +388,9 @@ test.describe('Landing Page Content', () => {
 			expect(text.length).toBeGreaterThan(10);
 		});
 
-		test('should display changelog in chronological order (newest first)', async ({ page }) => {
+		test('should display changelog in chronological order (newest first)', async ({
+			page,
+		}) => {
 			// First version term should be the latest
 			const firstVersionTerm = page.getByRole('term').first();
 			await expect(firstVersionTerm).toBeVisible();
@@ -350,7 +404,9 @@ test.describe('Landing Page Content', () => {
 	test.describe('Footer / Small Print', () => {
 		test('should display feedback link in footer', async ({ page }) => {
 			const footer = page.getByRole('contentinfo');
-			const feedbackLink = footer.getByRole('link', { name: /feedback/i });
+			const feedbackLink = footer.getByRole('link', {
+				name: /feedback/i,
+			});
 			await expect(feedbackLink).toBeVisible();
 		});
 
@@ -369,17 +425,13 @@ test.describe('Landing Page Content', () => {
 	test.describe('Complete Content Integration', () => {
 		test('should have all 4 disclosure sections', async ({ page }) => {
 			// Count disclosure section buttons
-			const disclosureSections = page.locator(
-				'button[aria-expanded]'
-			);
+			const disclosureSections = page.locator('button[aria-expanded]');
 			const count = await disclosureSections.count();
 			expect(count).toBe(4); // Options, How to play, Next steps, What's new
 		});
 
 		test('all sections should start collapsed', async ({ page }) => {
-			const disclosureSections = page.locator(
-				'button[aria-expanded]'
-			);
+			const disclosureSections = page.locator('button[aria-expanded]');
 
 			for (let i = 0; i < 4; i++) {
 				await expect(disclosureSections.nth(i)).toHaveAttribute(
@@ -393,7 +445,9 @@ test.describe('Landing Page Content', () => {
 			page,
 		}) => {
 			// Expand all sections
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			const howToPlayHeader = page.getByRole('button', {
 				name: /how to play/i,
 			});
@@ -410,10 +464,22 @@ test.describe('Landing Page Content', () => {
 			await whatsNewHeader.click();
 
 			// All should be expanded
-			await expect(optionsHeader).toHaveAttribute('aria-expanded', 'true');
-			await expect(howToPlayHeader).toHaveAttribute('aria-expanded', 'true');
-			await expect(nextStepsHeader).toHaveAttribute('aria-expanded', 'true');
-			await expect(whatsNewHeader).toHaveAttribute('aria-expanded', 'true');
+			await expect(optionsHeader).toHaveAttribute(
+				'aria-expanded',
+				'true'
+			);
+			await expect(howToPlayHeader).toHaveAttribute(
+				'aria-expanded',
+				'true'
+			);
+			await expect(nextStepsHeader).toHaveAttribute(
+				'aria-expanded',
+				'true'
+			);
+			await expect(whatsNewHeader).toHaveAttribute(
+				'aria-expanded',
+				'true'
+			);
 		});
 
 		test('entire page should be scrollable with all content visible', async ({

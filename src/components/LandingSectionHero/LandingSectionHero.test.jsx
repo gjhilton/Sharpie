@@ -6,35 +6,35 @@ import { GAME_MODES } from '@constants/stages.js';
 
 // Mock the markdown imports
 vi.mock('@data/hero.md?raw', () => ({
-	default: `This is the *test body* content with emphasis.`
+	default: `This is the *test body* content with emphasis.`,
 }));
 
 vi.mock('@data/identify.md?raw', () => ({
-	default: 'Identify content'
+	default: 'Identify content',
 }));
 
 vi.mock('@data/alphabet.md?raw', () => ({
-	default: 'Alphabet content {{ALPHABET_TOGGLE}}'
+	default: 'Alphabet content {{ALPHABET_TOGGLE}}',
 }));
 
 vi.mock('@data/baselines.md?raw', () => ({
-	default: 'Baselines content {{BASELINE_TOGGLE}} {{BASELINE_EXAMPLES}}'
+	default: 'Baselines content {{BASELINE_TOGGLE}} {{BASELINE_EXAMPLES}}',
 }));
 
 vi.mock('@data/how-to-use.md?raw', () => ({
-	default: 'How to use content'
+	default: 'How to use content',
 }));
 
 vi.mock('@data/letters-in-context.md?raw', () => ({
-	default: 'Letters in context {{CONTEXT_IMAGE}}'
+	default: 'Letters in context {{CONTEXT_IMAGE}}',
 }));
 
 vi.mock('@data/hints.md?raw', () => ({
-	default: 'Hints content'
+	default: 'Hints content',
 }));
 
 vi.mock('@data/next-steps.md?raw', () => ({
-	default: 'Next steps content'
+	default: 'Next steps content',
 }));
 
 // Mock the alphabets JSON
@@ -42,27 +42,25 @@ vi.mock('@data/alphabets.json', () => ({
 	default: {
 		'BeauChesne-Baildon': {
 			title: 'BeauChesne-Baildon Title',
-			sourceUri: 'https://example.com/source'
-		}
-	}
+			sourceUri: 'https://example.com/source',
+		},
+	},
 }));
 
 // Mock the changelog JSON
 vi.mock('@data/changelog.json', () => ({
-	default: [
-		{ version: '1.0.0', description: 'Initial release' }
-	]
+	default: [{ version: '1.0.0', description: 'Initial release' }],
 }));
 
 // Mock database utilities
 vi.mock('@utilities/database.js', () => ({
 	countEnabledCharacters: vi.fn(() => 196),
-	countEnabledAlphabets: vi.fn(() => 5)
+	countEnabledAlphabets: vi.fn(() => 5),
 }));
 
 // Mock DB
 vi.mock('@data/DB.js', () => ({
-	DB: []
+	DB: [],
 }));
 
 describe('LandingSectionHero', () => {
@@ -81,7 +79,7 @@ describe('LandingSectionHero', () => {
 		enabledAlphabets: { 'BeauChesne-Baildon': true },
 		onShowCatalogue: mockOnShowCatalogue,
 		showBaseline: true,
-		setShowBaseline: mockSetShowBaseline
+		setShowBaseline: mockSetShowBaseline,
 	};
 
 	beforeEach(() => {
@@ -93,9 +91,7 @@ describe('LandingSectionHero', () => {
 	});
 
 	it('renders logo', () => {
-		const { container } = render(
-			<LandingSectionHero {...defaultProps} />
-		);
+		const { container } = render(<LandingSectionHero {...defaultProps} />);
 		const logo = container.querySelector('svg');
 		expect(logo).toBeInTheDocument();
 	});
@@ -124,7 +120,9 @@ describe('LandingSectionHero', () => {
 
 	it('renders Play button', () => {
 		render(<LandingSectionHero {...defaultProps} />);
-		expect(screen.getByRole('button', { name: /^play$/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /^play$/i })
+		).toBeInTheDocument();
 	});
 
 	it('Play button calls onSelectMode with selectedMode prop', async () => {
@@ -137,25 +135,40 @@ describe('LandingSectionHero', () => {
 	it('Play button uses MINUSCULE mode when selectedMode is minuscule', async () => {
 		const user = userEvent.setup();
 		render(
-			<LandingSectionHero {...defaultProps} selectedMode={GAME_MODES.MINUSCULE} />
+			<LandingSectionHero
+				{...defaultProps}
+				selectedMode={GAME_MODES.MINUSCULE}
+			/>
 		);
 		await user.click(screen.getByRole('button', { name: /^play$/i }));
-		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MINUSCULE, false);
+		expect(mockOnSelectMode).toHaveBeenCalledWith(
+			GAME_MODES.MINUSCULE,
+			false
+		);
 	});
 
 	it('Play button uses MAJUSCULE mode when selectedMode is majuscule', async () => {
 		const user = userEvent.setup();
 		render(
-			<LandingSectionHero {...defaultProps} selectedMode={GAME_MODES.MAJUSCULE} />
+			<LandingSectionHero
+				{...defaultProps}
+				selectedMode={GAME_MODES.MAJUSCULE}
+			/>
 		);
 		await user.click(screen.getByRole('button', { name: /^play$/i }));
-		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MAJUSCULE, false);
+		expect(mockOnSelectMode).toHaveBeenCalledWith(
+			GAME_MODES.MAJUSCULE,
+			false
+		);
 	});
 
 	it('Play button passes twentyFourLetterAlphabet correctly', async () => {
 		const user = userEvent.setup();
 		render(
-			<LandingSectionHero {...defaultProps} twentyFourLetterAlphabet={true} />
+			<LandingSectionHero
+				{...defaultProps}
+				twentyFourLetterAlphabet={true}
+			/>
 		);
 		await user.click(screen.getByRole('button', { name: /^play$/i }));
 		expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, true);
@@ -170,22 +183,30 @@ describe('LandingSectionHero', () => {
 
 	it('renders Options disclosure section', () => {
 		render(<LandingSectionHero {...defaultProps} />);
-		expect(screen.getByRole('button', { name: /options/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /options/i })
+		).toBeInTheDocument();
 	});
 
 	it('renders How to play disclosure section', () => {
 		render(<LandingSectionHero {...defaultProps} />);
-		expect(screen.getByRole('button', { name: /how to play/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /how to play/i })
+		).toBeInTheDocument();
 	});
 
 	it('renders Next steps for learners disclosure section', () => {
 		render(<LandingSectionHero {...defaultProps} />);
-		expect(screen.getByRole('button', { name: /next steps for learners/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /next steps for learners/i })
+		).toBeInTheDocument();
 	});
 
-	it('renders What\'s new disclosure section', () => {
+	it("renders What's new disclosure section", () => {
 		render(<LandingSectionHero {...defaultProps} />);
-		expect(screen.getByRole('button', { name: /what.*new/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /what.*new/i })
+		).toBeInTheDocument();
 	});
 
 	it('displays question bank statistics', async () => {
@@ -207,7 +228,9 @@ describe('LandingSectionHero', () => {
 		// Expand Options section
 		await user.click(screen.getByRole('button', { name: /options/i }));
 
-		expect(screen.getByRole('button', { name: /choose alphabets/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /choose alphabets/i })
+		).toBeInTheDocument();
 	});
 
 	it('calls onShowCatalogue when Choose alphabets button is clicked', async () => {
@@ -217,7 +240,9 @@ describe('LandingSectionHero', () => {
 		// Expand Options section
 		await user.click(screen.getByRole('button', { name: /options/i }));
 
-		await user.click(screen.getByRole('button', { name: /choose alphabets/i }));
+		await user.click(
+			screen.getByRole('button', { name: /choose alphabets/i })
+		);
 		expect(mockOnShowCatalogue).toHaveBeenCalled();
 	});
 });

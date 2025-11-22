@@ -13,7 +13,7 @@ Second paragraph about *distinguishing* characters.
 
 {{BASELINE_EXAMPLES}}
 
-*Example: Test caption*`
+*Example: Test caption*`,
 }));
 
 describe('LandingSectionBaselines', () => {
@@ -50,7 +50,10 @@ describe('LandingSectionBaselines', () => {
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(screen.getByLabelText('Show baselines')).toHaveAttribute('aria-checked', 'false');
+		expect(screen.getByLabelText('Show baselines')).toHaveAttribute(
+			'aria-checked',
+			'false'
+		);
 
 		rerender(
 			<LandingSectionBaselines
@@ -58,7 +61,10 @@ describe('LandingSectionBaselines', () => {
 				setShowBaseline={mockSetShowBaseline}
 			/>
 		);
-		expect(screen.getByLabelText('Show baselines')).toHaveAttribute('aria-checked', 'true');
+		expect(screen.getByLabelText('Show baselines')).toHaveAttribute(
+			'aria-checked',
+			'true'
+		);
 	});
 
 	it('toggle calls onChange', async () => {
@@ -147,9 +153,15 @@ describe('LandingSectionBaselines', () => {
 			/>
 		);
 		const image1 = screen.getByAltText('Joscelyn majuscule S');
-		const image2 = screen.getByAltText('Joscelyn majuscule S with baseline');
+		const image2 = screen.getByAltText(
+			'Joscelyn majuscule S with baseline'
+		);
 		// Path should now use data/ prefix with BASE_URL
-		expect(image1.src).toContain('data/Joscelyn/joscelyn-majuscule-assets/S.png');
-		expect(image2.src).toContain('data/Joscelyn/joscelyn-majuscule-assets/S.png');
+		expect(image1.src).toContain(
+			'data/Joscelyn/joscelyn-majuscule-assets/S.png'
+		);
+		expect(image2.src).toContain(
+			'data/Joscelyn/joscelyn-majuscule-assets/S.png'
+		);
 	});
 });

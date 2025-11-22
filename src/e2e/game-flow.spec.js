@@ -232,7 +232,9 @@ test.describe('Game Flow', () => {
 	});
 
 	test.describe('Keyboard Shift Keys Visibility', () => {
-		test('should show shift keys when playing "both" mode', async ({ page }) => {
+		test('should show shift keys when playing "both" mode', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'all');
 
 			// Check for shift keys in keyboard
@@ -244,7 +246,9 @@ test.describe('Game Flow', () => {
 			await expect(shiftButton.first()).toBeVisible();
 		});
 
-		test('should hide shift keys when playing "minuscules only" mode', async ({ page }) => {
+		test('should hide shift keys when playing "minuscules only" mode', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'minuscule');
 
 			// Check keyboard exists
@@ -256,7 +260,9 @@ test.describe('Game Flow', () => {
 			await expect(shiftButton).toHaveCount(0);
 		});
 
-		test('should hide shift keys when playing "MAJUSCULES only" mode', async ({ page }) => {
+		test('should hide shift keys when playing "MAJUSCULES only" mode', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'majuscule');
 
 			// Check keyboard exists
@@ -268,7 +274,9 @@ test.describe('Game Flow', () => {
 			await expect(shiftButton).toHaveCount(0);
 		});
 
-		test('should display lowercase keys in minuscule mode without shift', async ({ page }) => {
+		test('should display lowercase keys in minuscule mode without shift', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'minuscule');
 
 			const keyboard = page.locator('.hg-theme-default');
@@ -277,7 +285,9 @@ test.describe('Game Flow', () => {
 			await expect(lowerA).toBeVisible();
 		});
 
-		test('should display uppercase keys in majuscule mode without shift', async ({ page }) => {
+		test('should display uppercase keys in majuscule mode without shift', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'majuscule');
 
 			const keyboard = page.locator('.hg-theme-default');
@@ -286,7 +296,9 @@ test.describe('Game Flow', () => {
 			await expect(upperA).toBeVisible();
 		});
 
-		test('should allow toggling between cases when playing "both" mode', async ({ page }) => {
+		test('should allow toggling between cases when playing "both" mode', async ({
+			page,
+		}) => {
 			await selectGameMode(page, 'all');
 
 			const keyboard = page.locator('.hg-theme-default');
@@ -296,7 +308,9 @@ test.describe('Game Flow', () => {
 			await expect(lowerA).toBeVisible();
 
 			// Click shift to toggle to uppercase
-			const shiftButton = keyboard.locator('[data-skbtn="{shift}"]').first();
+			const shiftButton = keyboard
+				.locator('[data-skbtn="{shift}"]')
+				.first();
 			await shiftButton.click();
 
 			// Now should show uppercase

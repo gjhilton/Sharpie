@@ -8,7 +8,9 @@ const MarkdownWithPlaceholders = ({ content, placeholders = {} }) => {
 			components={{
 				p: ({ children }) => {
 					const text = String(children);
-					for (const [placeholder, component] of Object.entries(placeholders)) {
+					for (const [placeholder, component] of Object.entries(
+						placeholders
+					)) {
 						if (text.includes(`{{${placeholder}}}`)) {
 							return component;
 						}

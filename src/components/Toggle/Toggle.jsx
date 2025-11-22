@@ -1,6 +1,13 @@
 import { css } from '../../../styled-system/css';
 
-const Toggle = ({ id, label, children, checked, onChange, disabled = false }) => {
+const Toggle = ({
+	id,
+	label,
+	children,
+	checked,
+	onChange,
+	disabled = false,
+}) => {
 	const handleKeyDown = e => {
 		if (e.key === ' ' || e.key === 'Enter') {
 			e.preventDefault();
@@ -16,7 +23,7 @@ const Toggle = ({ id, label, children, checked, onChange, disabled = false }) =>
 				display: 'flex',
 				alignItems: 'center',
 				gap: '0.75rem',
-				marginBottom: "1rem"
+				marginBottom: '1rem',
 			})}
 		>
 			<button
@@ -32,7 +39,9 @@ const Toggle = ({ id, label, children, checked, onChange, disabled = false }) =>
 					width: '51px',
 					height: '31px',
 					borderRadius: '31px',
-					backgroundColor: checked ? '{colors.toggleActive}' : '{colors.toggleInactive}',
+					backgroundColor: checked
+						? '{colors.toggleActive}'
+						: '{colors.toggleInactive}',
 					border: 'none',
 					cursor: disabled ? 'not-allowed' : 'pointer',
 					transition: 'background-color 0.25s ease-in-out',

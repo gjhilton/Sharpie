@@ -191,7 +191,13 @@ describe('DifficultyHeading', () => {
 		it('works without callback functions', async () => {
 			const user = userEvent.setup();
 
-			render(<DifficultyHeading difficulty="easy" allSelected={false} noneSelected={false} />);
+			render(
+				<DifficultyHeading
+					difficulty="easy"
+					allSelected={false}
+					noneSelected={false}
+				/>
+			);
 
 			const selectAllLink = screen.getByText('select all');
 			// Should not throw error when clicked

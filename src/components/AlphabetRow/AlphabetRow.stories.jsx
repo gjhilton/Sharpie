@@ -24,7 +24,13 @@ export default {
 const AlphabetRowWithState = args => {
 	const [isEnabled, setIsEnabled] = useState(args.isEnabled);
 
-	return <AlphabetRow {...args} isEnabled={isEnabled} onToggle={() => setIsEnabled(!isEnabled)} />;
+	return (
+		<AlphabetRow
+			{...args}
+			isEnabled={isEnabled}
+			onToggle={() => setIsEnabled(!isEnabled)}
+		/>
+	);
 };
 
 export const Enabled = {
@@ -48,7 +54,8 @@ export const Disabled = {
 		metadata: {
 			title: 'Letter from the Privy Council to Nathaniel Bacon',
 			date: '1594',
-			sourceUri: 'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
+			sourceUri:
+				'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
 			difficulty: 'medium',
 		},
 		isEnabled: false,
@@ -62,7 +69,8 @@ export const WithSlashDate = {
 		metadata: {
 			title: 'Commonplace book of William Hill',
 			date: '1574/5',
-			sourceUri: 'https://search.library.yale.edu/catalog/9970402713408651',
+			sourceUri:
+				'https://search.library.yale.edu/catalog/9970402713408651',
 			difficulty: 'hard',
 		},
 		isEnabled: true,
@@ -74,8 +82,7 @@ export const LongTitle = {
 	args: {
 		name: 'BeauChesne-Baildon',
 		metadata: {
-			title:
-				'"The secretarie Alphabete" Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First edition 1570.',
+			title: '"The secretarie Alphabete" Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First edition 1570.',
 			date: '1570',
 			sourceUri:
 				'https://archive.org/details/bim_early-english-books-1475-1640_a-booke-containing-diuer_de-beau-chesne-john-a_1615',
@@ -93,7 +100,8 @@ export const MultipleRows = {
 				metadata: {
 					title: 'Joscelyn typeface, drawn by Peter Baker',
 					date: '2019',
-					sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
+					sourceUri:
+						'https://github.com/psb1558/Joscelyn-font/releases',
 					difficulty: 'easy',
 				},
 				isEnabled: true,
@@ -103,7 +111,8 @@ export const MultipleRows = {
 				metadata: {
 					title: 'Letter from the Privy Council to Nathaniel Bacon',
 					date: '1594',
-					sourceUri: 'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
+					sourceUri:
+						'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
 					difficulty: 'medium',
 				},
 				isEnabled: false,
@@ -113,7 +122,8 @@ export const MultipleRows = {
 				metadata: {
 					title: 'Commonplace book of William Hill',
 					date: '1574/5',
-					sourceUri: 'https://search.library.yale.edu/catalog/9970402713408651',
+					sourceUri:
+						'https://search.library.yale.edu/catalog/9970402713408651',
 					difficulty: 'hard',
 				},
 				isEnabled: true,

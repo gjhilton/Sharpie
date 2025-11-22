@@ -2,7 +2,12 @@ import { css } from '../../../styled-system/css';
 import { useForm, ValidationError } from '@formspree/react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
-import { PageWidth, PageTitle, Paragraph, Section } from '@components/Layout/Layout.jsx';
+import {
+	PageWidth,
+	PageTitle,
+	Paragraph,
+	Section,
+} from '@components/Layout/Layout.jsx';
 
 const FormField = ({ label, children }) => (
 	<div

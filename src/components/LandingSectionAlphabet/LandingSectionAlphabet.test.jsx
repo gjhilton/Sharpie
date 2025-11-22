@@ -9,7 +9,7 @@ vi.mock('@data/alphabet.md?raw', () => ({
 
 {{ALPHABET_TOGGLE}}
 
-Second paragraph about *option* behavior.`
+Second paragraph about *option* behavior.`,
 }));
 
 describe('LandingSectionAlphabet', () => {
@@ -46,7 +46,10 @@ describe('LandingSectionAlphabet', () => {
 				setTwentyFourLetterAlphabet={mockSetTwentyFourLetterAlphabet}
 			/>
 		);
-		expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'false');
+		expect(screen.getByRole('switch')).toHaveAttribute(
+			'aria-checked',
+			'false'
+		);
 
 		rerender(
 			<LandingSectionAlphabet
@@ -54,7 +57,10 @@ describe('LandingSectionAlphabet', () => {
 				setTwentyFourLetterAlphabet={mockSetTwentyFourLetterAlphabet}
 			/>
 		);
-		expect(screen.getByRole('switch')).toHaveAttribute('aria-checked', 'true');
+		expect(screen.getByRole('switch')).toHaveAttribute(
+			'aria-checked',
+			'true'
+		);
 	});
 
 	it('toggle calls onChange', async () => {

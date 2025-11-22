@@ -35,7 +35,8 @@ const AlphabetList = ({
 					const selectedCount = alphabetsInGroup.filter(
 						name => enabledAlphabets[name]
 					).length;
-					const allSelected = selectedCount === alphabetsInGroup.length;
+					const allSelected =
+						selectedCount === alphabetsInGroup.length;
 					const noneSelected = selectedCount === 0;
 
 					return (

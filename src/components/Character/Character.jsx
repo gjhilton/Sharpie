@@ -93,7 +93,9 @@ const Character = ({
 					imagePath={imagePath}
 					showBaseline={showBaseline}
 					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'
+						state === CHARACTER_STATE.INCORRECT_ANSWER
+							? 'ink'
+							: 'baseline'
 					}
 				/>
 			) : (
@@ -101,7 +103,9 @@ const Character = ({
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
 					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'
+						state === CHARACTER_STATE.INCORRECT_ANSWER
+							? 'ink'
+							: 'baseline'
 					}
 				/>
 			)}

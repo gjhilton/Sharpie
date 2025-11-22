@@ -141,7 +141,9 @@ describe('AlphabetSelectorWithSort', () => {
 		);
 
 		expect(screen.queryByText('Difficulty: Easy')).not.toBeInTheDocument();
-		expect(screen.queryByText('Difficulty: Medium')).not.toBeInTheDocument();
+		expect(
+			screen.queryByText('Difficulty: Medium')
+		).not.toBeInTheDocument();
 		expect(screen.queryByText('Difficulty: Hard')).not.toBeInTheDocument();
 	});
 
@@ -220,9 +222,15 @@ describe('AlphabetSelectorWithSort', () => {
 			/>
 		);
 
-		expect(screen.getByRole('option', { name: 'By Date' })).toBeInTheDocument();
-		expect(screen.getByRole('option', { name: 'By Name' })).toBeInTheDocument();
-		expect(screen.getByRole('option', { name: 'By Difficulty' })).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Date' })
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Name' })
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Difficulty' })
+		).toBeInTheDocument();
 	});
 
 	it('handles empty alphabet list', () => {

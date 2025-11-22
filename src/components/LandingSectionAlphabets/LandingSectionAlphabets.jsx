@@ -14,8 +14,8 @@ const LandingSectionAlphabets = ({ enabledAlphabets, onShowCatalogue }) => {
 	return (
 		<Section title={<Heading>Alphabets</Heading>}>
 			<Paragraph>
-				Database contains {totalCharacters} individual characters total from{' '}
-				{totalAlphabets} different alphabets.
+				Database contains {totalCharacters} individual characters total
+				from {totalAlphabets} different alphabets.
 			</Paragraph>
 			<Paragraph>
 				Currently the game is using {enabledCharacters} characters from{' '}

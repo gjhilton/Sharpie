@@ -297,15 +297,31 @@ export function generateGraphSets(allEntries) {
 }
 
 /**
+ * Escape single quotes in a string for use in single-quoted JS strings
+ * Pure function - exported for testing
+ */
+export function escapeSingleQuotes(str) {
+	return str.replace(/'/g, "\\'");
+}
+
+/**
  * Format a single source entry (pure function)
  */
 export function formatSourceEntry(key, value) {
 	return `\t\t"${key}": {
-\t\t\ttitle: '${value.title}',
-\t\t\tsourceUri: '${value.sourceUri}',
-\t\t\tdate: '${value.date}',
-\t\t\tdifficulty: '${value.difficulty}'
+\t\t\ttitle: '${escapeSingleQuotes(value.title)}',
+\t\t\tsourceUri: '${escapeSingleQuotes(value.sourceUri)}',
+\t\t\tdate: '${escapeSingleQuotes(value.date)}',
+\t\t\tdifficulty: '${escapeSingleQuotes(value.difficulty)}'
 \t\t}`;
+}
+
+/**
+ * Escape double quotes in a string for use in double-quoted JS strings
+ * Pure function - exported for testing
+ */
+export function escapeDoubleQuotes(str) {
+	return str.replace(/"/g, '\\"');
 }
 
 /**
@@ -313,13 +329,13 @@ export function formatSourceEntry(key, value) {
  */
 export function formatGraphEntry(graph) {
 	const fields = [
-		`img: "${graph.img}"`,
-		`character: "${graph.character}"`,
-		`source: "${graph.source}"`,
+		`img: "${escapeDoubleQuotes(graph.img)}"`,
+		`character: "${escapeDoubleQuotes(graph.character)}"`,
+		`source: "${escapeDoubleQuotes(graph.source)}"`,
 	];
 
 	if (graph.note) {
-		fields.push(`note: "${graph.note}"`);
+		fields.push(`note: "${escapeDoubleQuotes(graph.note)}"`);
 	}
 
 	const fieldsStr = fields.map(f => `\t\t\t\t\t${f}`).join(',\n');
@@ -338,7 +354,7 @@ export function formatGraphSetEntry(graphSet) {
 		.join(',\n');
 
 	return `\t\t{
-\t\t\ttitle: "${graphSet.title}",
+\t\t\ttitle: "${escapeDoubleQuotes(graphSet.title)}",
 \t\t\tenabled: ${graphSet.enabled},
 \t\t\tgraphs: [
 ${graphsStr}
@@ -373,12 +389,72 @@ ${graphSetsStr}
 }
 
 /**
+ * Validate that the generated content is valid JavaScript
+ * Returns true if valid, throws an error with details if not
+ */
+async function validateJS(content, filePath) {
+	console.log('  🔍 Validating generated JavaScript...');
+
+	// Try to parse it as a module by dynamically importing from a data URL
+	// But for simplicity, we'll use a regex check + try to require it after writing
+	try {
+		// Write the file first so we can try to import it
+		await writeFile(filePath, content, 'utf-8');
+
+		// Try to dynamically import the file to validate it
+		const fileUrl = `file://${filePath}?cachebust=${Date.now()}`;
+		await import(fileUrl);
+
+		console.log('  ✓ JavaScript validation passed!');
+		return true;
+	} catch (error) {
+		// If import fails, the JS is invalid - delete the invalid file
+		console.error('  ❌ JavaScript validation failed!');
+		console.error(`     Error: ${error.message}`);
+
+		// Try to identify the problematic line
+		const lines = content.split('\n');
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			// Check for common issues: unescaped quotes
+			if (
+				(line.includes('title:') || line.includes('note:')) &&
+				(line.match(/'/g) || []).length % 2 !== 0
+			) {
+				console.error(
+					`     Possible issue at line ${i + 1}: unbalanced single quotes`
+				);
+				console.error(`     ${line.trim()}`);
+			}
+			if (
+				(line.includes('img:') ||
+					line.includes('character:') ||
+					line.includes('source:')) &&
+				(line.match(/"/g) || []).length % 2 !== 0
+			) {
+				console.error(
+					`     Possible issue at line ${i + 1}: unbalanced double quotes`
+				);
+				console.error(`     ${line.trim()}`);
+			}
+		}
+
+		throw new Error(
+			`Generated DB.js is not valid JavaScript: ${error.message}`
+		);
+	}
+}
+
+/**
  * Generate and write DB.js file
  */
 async function writeDB(sources, graphSets) {
 	console.log('\n📝 Generating DB.js...');
 	const dbContent = formatDBContent(sources, graphSets);
-	await writeFile(DB_PATH, dbContent, 'utf-8');
+
+	// Validate and write the file
+	await validateJS(dbContent, DB_PATH);
+
 	console.log('  ✓ DB.js written successfully!');
 }
 

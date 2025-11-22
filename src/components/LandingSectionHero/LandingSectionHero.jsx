@@ -5,6 +5,7 @@ import Logo, { SIZE } from '@components/Logo/Logo.jsx';
 import { PageTitle, Paragraph } from '@components/Layout/Layout.jsx';
 import DisclosureSection from '@components/DisclosureSection/DisclosureSection.jsx';
 import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
+import OptionsSummary from '@components/OptionsSummary/OptionsSummary.jsx';
 import { GAME_MODES } from '@constants/stages.js';
 import alphabets from '@data/alphabets.json';
 import heroContent from '@data/hero.md?raw';
@@ -79,15 +80,15 @@ const VersionEntry = ({ version, description }) => (
 
 const LandingSectionHero = ({
 	onSelectMode,
-	twentyFourLetterAlphabet,
-	setTwentyFourLetterAlphabet,
-	selectedMode,
-	setSelectedMode,
+	options,
+	optionsSource,
+	setOption,
+	resetOptions,
 	enabledAlphabets,
 	onShowCatalogue,
-	showBaseline,
-	setShowBaseline,
 }) => {
+	const { gameMode, twentyFourLetterAlphabet, showBaseline } = options;
+
 	return (
 		<>
 			<header>
@@ -129,7 +130,9 @@ const LandingSectionHero = ({
 			>
 				<PageTitle>
 					Hone your{' '}
-					<span className={css({ fontFamily: 'joscelyn' })}>Secretary</span>
+					<span className={css({ fontFamily: 'joscelyn' })}>
+						Secretary
+					</span>
 				</PageTitle>
 				<div>
 					<Paragraph>
@@ -141,213 +144,267 @@ const LandingSectionHero = ({
 							{heroContent}
 						</ReactMarkdown>
 					</Paragraph>
-					<Button
-						hero
-						onClick={() => onSelectMode(selectedMode, twentyFourLetterAlphabet)}
-						label="Play"
-					/>
+					<Button hero onClick={onSelectMode} label="Play" />
 				</div>
 			</div>
 			<div>
 				<DisclosureSection title="Options">
+					<OptionsSummary
+						options={options}
+						optionsSource={optionsSource}
+						onReset={resetOptions}
+					/>
 					<SubSection title="Identify...">
-					<fieldset
-						className={css({
-							border: 'none',
-							padding: '0',
-							margin: '0',
-							marginBottom: '1rem',
-						})}
-					>
-						<div
+						<fieldset
 							className={css({
-								display: 'flex',
-								flexDirection: 'column',
-								gap: '0',
-								lineHeight: '1.6',
+								border: 'none',
+								padding: '0',
+								margin: '0',
+								marginBottom: '1rem',
 							})}
 						>
-							<label
+							<div
 								className={css({
 									display: 'flex',
-									alignItems: 'center',
-									gap: '0.5rem',
-									cursor: 'pointer',
-									fontWeight:
-										selectedMode === GAME_MODES.MINUSCULE ? 'bold' : 'normal',
+									flexDirection: 'column',
+									gap: '0',
+									lineHeight: '1.6',
 								})}
 							>
-								<input
-									type="radio"
-									name="gameMode"
-									value={GAME_MODES.MINUSCULE}
-									checked={selectedMode === GAME_MODES.MINUSCULE}
-									onChange={e => setSelectedMode(e.target.value)}
+								<label
 									className={css({
-										width: '1.2rem',
-										height: '1.2rem',
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameMode === GAME_MODES.MINUSCULE
+												? 'bold'
+												: 'normal',
 									})}
-								/>
-								minuscules only
-							</label>
-							<label
-								className={css({
-									display: 'flex',
-									alignItems: 'center',
-									gap: '0.5rem',
-									cursor: 'pointer',
-									fontWeight:
-										selectedMode === GAME_MODES.MAJUSCULE ? 'bold' : 'normal',
-								})}
-							>
-								<input
-									type="radio"
-									name="gameMode"
-									value={GAME_MODES.MAJUSCULE}
-									checked={selectedMode === GAME_MODES.MAJUSCULE}
-									onChange={e => setSelectedMode(e.target.value)}
-									className={css({
-										width: '1.2rem',
-										height: '1.2rem',
-									})}
-								/>
-								MAJUSCULES only
-							</label>
-							<label
-								className={css({
-									display: 'flex',
-									alignItems: 'center',
-									gap: '0.5rem',
-									cursor: 'pointer',
-									fontWeight: selectedMode === GAME_MODES.ALL ? 'bold' : 'normal',
-								})}
-							>
-								<input
-									type="radio"
-									name="gameMode"
-									value={GAME_MODES.ALL}
-									checked={selectedMode === GAME_MODES.ALL}
-									onChange={e => setSelectedMode(e.target.value)}
-									className={css({
-										width: '1.2rem',
-										height: '1.2rem',
-									})}
-								/>
-								both minuscules AND MAJUSCULES
-							</label>
-						</div>
-					</fieldset>
-					<Paragraph>
-						<ReactMarkdown
-							components={{
-								p: ({ children }) => <>{children}</>,
-							}}
-						>
-							{identifyContent}
-						</ReactMarkdown>
-					</Paragraph>
-				</SubSection>
-				<SubSection title="Alphabets">
-					<Paragraph>
-						Question bank: <strong>{db.countEnabledCharacters(DB, enabledAlphabets)}</strong>{' '}
-						characters from <strong>{db.countEnabledAlphabets(enabledAlphabets)}</strong>{' '}
-						alphabets.
-					</Paragraph>
-					<Button label="Choose alphabets" onClick={onShowCatalogue} />
-				</SubSection>
-				<SubSection title="26 letters vs 24">
-					<MarkdownWithPlaceholders
-						content={alphabetContent}
-						placeholders={{
-							ALPHABET_TOGGLE: (
-								<Toggle
-									id="twenty-four-letter-alphabet"
-									label="24-letter alphabet"
-									checked={twentyFourLetterAlphabet}
-									onChange={setTwentyFourLetterAlphabet}
-								/>
-							),
-						}}
-					/>
-				</SubSection>
-				<SubSection title="Baselines">
-					<MarkdownWithPlaceholders
-						content={baselinesContent}
-						placeholders={{
-							BASELINE_TOGGLE: (
-								<Toggle
-									id="baseline-toggle"
-									label="Show baselines"
-									checked={showBaseline}
-									onChange={setShowBaseline}
-								/>
-							),
-							BASELINE_EXAMPLES: (() => {
-								const baseUrl = import.meta.env.BASE_URL || '/';
-								const exampleImagePath = `${baseUrl}data/Joscelyn/joscelyn-minuscule-assets/b.png`;
-								return (
-									<div
+								>
+									<input
+										type="radio"
+										name="gameMode"
+										value={GAME_MODES.MINUSCULE}
+										checked={
+											gameMode === GAME_MODES.MINUSCULE
+										}
+										onChange={e =>
+											setOption(
+												'gameMode',
+												e.target.value
+											)
+										}
 										className={css({
-											display: 'grid',
-											gridTemplateColumns: { base: '1fr', md: '1fr 1fr' },
-											gap: '2rem',
-											marginTop: '2rem',
-											marginBottom: '1rem',
+											width: '1.2rem',
+											height: '1.2rem',
 										})}
-									>
-										<div>
-											<div
-												className={css({
-													fontWeight: 'bold',
-													textAlign: 'center',
-													marginBottom: '0.5rem',
-												})}
-											>
-												Without baseline
+									/>
+									minuscules only
+								</label>
+								<label
+									className={css({
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameMode === GAME_MODES.MAJUSCULE
+												? 'bold'
+												: 'normal',
+									})}
+								>
+									<input
+										type="radio"
+										name="gameMode"
+										value={GAME_MODES.MAJUSCULE}
+										checked={
+											gameMode === GAME_MODES.MAJUSCULE
+										}
+										onChange={e =>
+											setOption(
+												'gameMode',
+												e.target.value
+											)
+										}
+										className={css({
+											width: '1.2rem',
+											height: '1.2rem',
+										})}
+									/>
+									MAJUSCULES only
+								</label>
+								<label
+									className={css({
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameMode === GAME_MODES.ALL
+												? 'bold'
+												: 'normal',
+									})}
+								>
+									<input
+										type="radio"
+										name="gameMode"
+										value={GAME_MODES.ALL}
+										checked={gameMode === GAME_MODES.ALL}
+										onChange={e =>
+											setOption(
+												'gameMode',
+												e.target.value
+											)
+										}
+										className={css({
+											width: '1.2rem',
+											height: '1.2rem',
+										})}
+									/>
+									both minuscules AND MAJUSCULES
+								</label>
+							</div>
+						</fieldset>
+						<Paragraph>
+							<ReactMarkdown
+								components={{
+									p: ({ children }) => <>{children}</>,
+								}}
+							>
+								{identifyContent}
+							</ReactMarkdown>
+						</Paragraph>
+					</SubSection>
+					<SubSection title="Alphabets">
+						<Paragraph>
+							Question bank:{' '}
+							<strong>
+								{db.countEnabledCharacters(
+									DB,
+									enabledAlphabets
+								)}
+							</strong>{' '}
+							characters from{' '}
+							<strong>
+								{db.countEnabledAlphabets(enabledAlphabets)}
+							</strong>{' '}
+							alphabets.
+						</Paragraph>
+						<Button
+							label="Choose alphabets"
+							onClick={onShowCatalogue}
+						/>
+					</SubSection>
+					<SubSection title="26 letters vs 24">
+						<MarkdownWithPlaceholders
+							content={alphabetContent}
+							placeholders={{
+								ALPHABET_TOGGLE: (
+									<Toggle
+										id="twenty-four-letter-alphabet"
+										label="24-letter alphabet"
+										checked={twentyFourLetterAlphabet}
+										onChange={value =>
+											setOption(
+												'twentyFourLetterAlphabet',
+												value
+											)
+										}
+									/>
+								),
+							}}
+						/>
+					</SubSection>
+					<SubSection title="Baselines">
+						<MarkdownWithPlaceholders
+							content={baselinesContent}
+							placeholders={{
+								BASELINE_TOGGLE: (
+									<Toggle
+										id="baseline-toggle"
+										label="Show baselines"
+										checked={showBaseline}
+										onChange={value =>
+											setOption('showBaseline', value)
+										}
+									/>
+								),
+								BASELINE_EXAMPLES: (() => {
+									const baseUrl =
+										import.meta.env.BASE_URL || '/';
+									const exampleImagePath = `${baseUrl}data/Joscelyn/joscelyn-minuscule-assets/b.png`;
+									return (
+										<div
+											className={css({
+												display: 'grid',
+												gridTemplateColumns: {
+													base: '1fr',
+													md: '1fr 1fr',
+												},
+												gap: '2rem',
+												marginTop: '2rem',
+												marginBottom: '1rem',
+											})}
+										>
+											<div>
+												<div
+													className={css({
+														fontWeight: 'bold',
+														textAlign: 'center',
+														marginBottom: '0.5rem',
+													})}
+												>
+													Without baseline
+												</div>
+												<div
+													className={css({
+														height: '300px',
+														border: '1px solid {colors.border}',
+													})}
+												>
+													<CharacterImage
+														imagePath={
+															exampleImagePath
+														}
+														caption="Joscelyn minuscule b"
+														showBaseline={false}
+													/>
+												</div>
 											</div>
-											<div
-												className={css({
-													height: '300px',
-													border: '1px solid {colors.border}',
-												})}
-											>
-												<CharacterImage
-													imagePath={exampleImagePath}
-													caption="Joscelyn minuscule b"
-													showBaseline={false}
-												/>
+											<div>
+												<div
+													className={css({
+														fontWeight: 'bold',
+														textAlign: 'center',
+														marginBottom: '0.5rem',
+													})}
+												>
+													With baseline
+												</div>
+												<div
+													className={css({
+														height: '300px',
+														border: '1px solid {colors.border}',
+													})}
+												>
+													<CharacterImage
+														imagePath={
+															exampleImagePath
+														}
+														caption="Joscelyn minuscule b with baseline"
+														showBaseline={true}
+													/>
+												</div>
 											</div>
 										</div>
-										<div>
-											<div
-												className={css({
-													fontWeight: 'bold',
-													textAlign: 'center',
-													marginBottom: '0.5rem',
-												})}
-											>
-												With baseline
-											</div>
-											<div
-												className={css({
-													height: '300px',
-													border: '1px solid {colors.border}',
-												})}
-											>
-												<CharacterImage
-													imagePath={exampleImagePath}
-													caption="Joscelyn minuscule b with baseline"
-													showBaseline={true}
-												/>
-											</div>
-										</div>
-									</div>
-								);
-							})(),
-						}}
-					/>
-				</SubSection>
-			</DisclosureSection>
+									);
+								})(),
+							}}
+						/>
+					</SubSection>
+				</DisclosureSection>
 				<DisclosureSection title="How to play">
 					<SubSection title="Gameplay">
 						<MarkdownWithPlaceholders content={howToUseContent} />
@@ -357,20 +414,21 @@ const LandingSectionHero = ({
 							content={lettersInContextContent}
 							placeholders={{
 								CONTEXT_IMAGE: (() => {
-								const baseUrl = import.meta.env.BASE_URL || '/';
-								return (
-									<img
-										src={`${baseUrl}data/Howard/Howard-assets/e-word-7asd.png`}
-										alt="The word 'there' with the first 'e' highlighted in black"
-										className={css({
-											maxWidth: '100%',
-											display: 'block',
-											marginTop: '1rem',
-											marginBottom: '1rem',
-										})}
-									/>
-								);
-							})(),
+									const baseUrl =
+										import.meta.env.BASE_URL || '/';
+									return (
+										<img
+											src={`${baseUrl}data/Howard/Howard-assets/e-word-7asd.png`}
+											alt="The word 'there' with the first 'e' highlighted in black"
+											className={css({
+												maxWidth: '100%',
+												display: 'block',
+												marginTop: '1rem',
+												marginBottom: '1rem',
+											})}
+										/>
+									);
+								})(),
 							}}
 						/>
 					</SubSection>

@@ -17,7 +17,9 @@ const BulkSelectionLink = ({ children, onClick, disabled = false }) => {
 				textDecoration: disabled ? 'none' : 'underline',
 				cursor: disabled ? 'not-allowed' : 'pointer',
 				'&:hover': {
-					color: disabled ? '{colors.ink/20}' : '{colors.toggleActive}',
+					color: disabled
+						? '{colors.ink/20}'
+						: '{colors.toggleActive}',
 				},
 			})}
 			aria-disabled={disabled}

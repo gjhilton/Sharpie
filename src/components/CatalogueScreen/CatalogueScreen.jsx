@@ -3,7 +3,12 @@ import React, { useEffect } from 'react';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
-import { PageTitle, Paragraph, Heading, PageWidth } from '@components/Layout/Layout.jsx';
+import {
+	PageTitle,
+	Paragraph,
+	Heading,
+	PageWidth,
+} from '@components/Layout/Layout.jsx';
 import { DB } from '@data/DB.js';
 import alphabetsData from '@data/alphabets.json';
 import * as db from '@utilities/database.js';
@@ -42,7 +47,7 @@ const LetterHeader = ({ letter }) => (
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'baseline',
-			borderBottom: "2px solid black",
+			borderBottom: '2px solid black',
 			marginBottom: '1rem',
 		})}
 	>
@@ -52,7 +57,7 @@ const LetterHeader = ({ letter }) => (
 				fontSize: '24px',
 				fontWeight: '900',
 				margin: '0',
-				
+
 				desktop: {
 					fontSize: '28px',
 				},
@@ -75,7 +80,6 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 				gridTemplateColumns: 'repeat(6, 1fr)',
 				gap: 0,
 				padding: '0',
-				
 			})}
 		>
 			{glyphs.map((glyph, index) => (
@@ -91,7 +95,12 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 );
 
 const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
-	<section className={css({ gridColumn: '1 / -1', marginBottom: STYLES.verticalGap })}>
+	<section
+		className={css({
+			gridColumn: '1 / -1',
+			marginBottom: STYLES.verticalGap,
+		})}
+	>
 		{letters.map(({ character, graphs }) => (
 			<LetterGallery
 				key={character}
@@ -103,7 +112,6 @@ const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
 		))}
 	</section>
 );
-
 
 const LetterLink = ({ letter }) => (
 	<a
@@ -134,11 +142,20 @@ const LetterIndex = ({ label, letters }) => {
 };
 
 const CharacterIndex = ({ letterGroups }) => {
-	const minuscules = letterGroups.find(group => group.title === 'minuscules')?.characters || [];
-	const majuscules = letterGroups.find(group => group.title === 'MAJUSCULES')?.characters || [];
+	const minuscules =
+		letterGroups.find(group => group.title === 'minuscules')?.characters ||
+		[];
+	const majuscules =
+		letterGroups.find(group => group.title === 'MAJUSCULES')?.characters ||
+		[];
 
 	return (
-		<div className={css({ marginTop: STYLES.verticalGap, gridColumn: '1 / -1' })}>
+		<div
+			className={css({
+				marginTop: STYLES.verticalGap,
+				gridColumn: '1 / -1',
+			})}
+		>
 			<PageTitle>Character Catalogue</PageTitle>
 			<Heading>Jump to...</Heading>
 			<LetterIndex label="minuscule" letters={minuscules} />
@@ -150,7 +167,12 @@ const CharacterIndex = ({ letterGroups }) => {
 const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	if (isDisabled) {
 		return (
-			<span className={css({ color: '{colors.error}', cursor: 'not-allowed' })}>
+			<span
+				className={css({
+					color: '{colors.error}',
+					cursor: 'not-allowed',
+				})}
+			>
 				Not allowed! Select one or more alphabets to continue
 			</span>
 		);
@@ -181,7 +203,8 @@ const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
 	return (
 		<Paragraph>
 			Enable the alphabets you'd like to work on from the list below. At
-			present you have enabled <strong>{alphabetCount}</strong> {alphabetCount === 1? "alphabet":"alphabets"} (
+			present you have enabled <strong>{alphabetCount}</strong>{' '}
+			{alphabetCount === 1 ? 'alphabet' : 'alphabets'} (
 			<strong>{characterCount}</strong> characters).
 		</Paragraph>
 	);
@@ -216,7 +239,10 @@ const CatalogueScreen = ({
 		<PageWidth>
 			<header id="top" className={css({ gridColumn: '1 / -1' })}>
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
-					<BackLink isDisabled={hasNoSelection} onReturnToMenu={onReturnToMenu} />
+					<BackLink
+						isDisabled={hasNoSelection}
+						onReturnToMenu={onReturnToMenu}
+					/>
 				</div>
 
 				<Heading
@@ -231,9 +257,10 @@ const CatalogueScreen = ({
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<Paragraph>
-						The alphabets Sharpie tests are extracted from a range of source documents.
-						Expanding the time and stylistic coverage of the alphabets available for
-						practice is the current top priority. Watch this space.
+						The alphabets Sharpie tests are extracted from a range
+						of source documents. Expanding the time and stylistic
+						coverage of the alphabets available for practice is the
+						current top priority. Watch this space.
 					</Paragraph>
 
 					<SelectionStatus

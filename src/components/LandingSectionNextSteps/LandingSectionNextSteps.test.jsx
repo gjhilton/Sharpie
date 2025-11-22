@@ -8,7 +8,7 @@ vi.mock('@data/next-steps.md?raw', () => ({
 
 - [First Resource](https://example.com/first)
 - [Second Resource](https://example.com/second)
-- [Third Resource](https://example.com/third)`
+- [Third Resource](https://example.com/third)`,
 }));
 
 describe('LandingSectionNextSteps', () => {
@@ -28,8 +28,13 @@ describe('LandingSectionNextSteps', () => {
 		const firstLink = screen.getByRole('link', { name: /First Resource/i });
 		expect(firstLink).toHaveAttribute('href', 'https://example.com/first');
 
-		const secondLink = screen.getByRole('link', { name: /Second Resource/i });
-		expect(secondLink).toHaveAttribute('href', 'https://example.com/second');
+		const secondLink = screen.getByRole('link', {
+			name: /Second Resource/i,
+		});
+		expect(secondLink).toHaveAttribute(
+			'href',
+			'https://example.com/second'
+		);
 
 		const thirdLink = screen.getByRole('link', { name: /Third Resource/i });
 		expect(thirdLink).toHaveAttribute('href', 'https://example.com/third');

@@ -77,7 +77,12 @@ const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	</div>
 );
 
-const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) => {
+const ScoreScreen = ({
+	score,
+	onReturnToMenu,
+	onShowFeedback,
+	showBaseline,
+}) => {
 	const {
 		correct,
 		incorrect,
@@ -186,7 +191,7 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) =>
 					display: 'flex',
 					justifyContent: 'center',
 					marginTop: '2rem',
-				padding: { base: '0 2rem', sm: '0' },
+					padding: { base: '0 2rem', sm: '0' },
 				})}
 			>
 				<Button onClick={onReturnToMenu} label="Return to Menu" />

@@ -6,11 +6,10 @@ import App from './App.jsx';
 
 // Mock the screen components
 vi.mock('@components/LandingScreen/LandingScreen.jsx', () => ({
-	default: ({ onSelectMode, onShowCatalogue, onShowFeedback }) => (
+	default: ({ onSelectMode, onShowCatalogue, onShowFeedback, options }) => (
 		<div data-testid="landing-screen">
-			<button onClick={() => onSelectMode('easy')}>
-				Select Easy Mode
-			</button>
+			<span data-testid="landing-game-mode">{options?.gameMode}</span>
+			<button onClick={onSelectMode}>Start Game</button>
 			<button onClick={onShowCatalogue}>Show Catalogue</button>
 			<button onClick={onShowFeedback}>Show Feedback</button>
 		</div>
@@ -65,6 +64,34 @@ vi.mock('@constants/stages.js', () => ({
 		CATALOGUE: 'catalogue',
 		FEEDBACK: 'feedback',
 	},
+	GAME_MODES: {
+		ALL: 'all',
+		MINUSCULE: 'minuscule',
+		MAJUSCULE: 'majuscule',
+	},
+}));
+
+// Mock optionsStorage
+vi.mock('@utilities/optionsStorage.js', () => ({
+	loadOptions: () => ({
+		options: {
+			gameMode: 'all',
+			twentyFourLetterAlphabet: false,
+			showBaseline: true,
+			enabledAlphabetIds: [1, 2, 3, 4, 5],
+		},
+		source: 'defaults',
+	}),
+	saveOptionsToLocalStorage: vi.fn(),
+	idsToEnabledAlphabets: ids => {
+		const result = {};
+		ids.forEach(id => {
+			result[`alphabet-${id}`] = true;
+		});
+		return result;
+	},
+	enabledAlphabetsToIds: alphabets =>
+		Object.keys(alphabets).map((_, i) => i + 1),
 }));
 
 describe('App Component', () => {
@@ -98,7 +125,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 
 			await waitFor(() => {
 				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
@@ -108,20 +135,21 @@ describe('App Component', () => {
 			).not.toBeInTheDocument();
 		});
 
-		it('sets gameMode correctly', async () => {
+		it('passes gameMode from options to GameScreen', async () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 
-			expect(screen.getByTestId('game-mode')).toHaveTextContent('easy');
+			// Default gameMode is 'all' from the mocked loadOptions
+			expect(screen.getByTestId('game-mode')).toHaveTextContent('all');
 		});
 
 		it('passes gameMode prop to GameScreen', async () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 
 			expect(screen.getByTestId('game-mode')).toBeInTheDocument();
 		});
@@ -132,7 +160,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await waitFor(() => {
 				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
 			});
@@ -148,7 +176,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			const scoreData = JSON.parse(
@@ -161,7 +189,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			expect(screen.getByTestId('score-data')).toBeInTheDocument();
@@ -173,7 +201,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 			await user.click(screen.getByText('Return to Menu'));
 
@@ -183,24 +211,24 @@ describe('App Component', () => {
 			).not.toBeInTheDocument();
 		});
 
-		it('resets gameMode state', async () => {
+		it('preserves gameMode state when returning to menu', async () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 			await user.click(screen.getByText('Return to Menu'));
 
-			// Navigate back to game screen to verify gameMode is null
-			await user.click(screen.getByText('Select Easy Mode'));
-			expect(screen.getByTestId('game-mode')).toHaveTextContent('easy');
+			// Navigate back to game screen - gameMode should still be 'all'
+			await user.click(screen.getByText('Start Game'));
+			expect(screen.getByTestId('game-mode')).toHaveTextContent('all');
 		});
 
 		it('resets score state', async () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			// Verify score exists
@@ -209,7 +237,7 @@ describe('App Component', () => {
 			);
 
 			await user.click(screen.getByText('Return to Menu'));
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			// Verify new score is set
@@ -294,7 +322,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			const feedbackButtons = screen.getAllByText('Show Feedback');
@@ -332,7 +360,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 
 			expect(screen.getByTestId('game-screen')).toBeInTheDocument();
 		});
@@ -341,7 +369,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			expect(screen.getByTestId('score-screen')).toBeInTheDocument();
@@ -369,7 +397,7 @@ describe('App Component', () => {
 	describe('Callback Props', () => {
 		it('passes onSelectMode callback to LandingScreen', () => {
 			render(<App />);
-			expect(screen.getByText('Select Easy Mode')).toBeInTheDocument();
+			expect(screen.getByText('Start Game')).toBeInTheDocument();
 		});
 
 		it('passes onShowCatalogue callback to LandingScreen', () => {
@@ -386,7 +414,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 
 			expect(screen.getByText('End Game')).toBeInTheDocument();
 			expect(screen.getByTestId('game-mode')).toBeInTheDocument();
@@ -396,7 +424,7 @@ describe('App Component', () => {
 			const user = userEvent.setup();
 			render(<App />);
 
-			await user.click(screen.getByText('Select Easy Mode'));
+			await user.click(screen.getByText('Start Game'));
 			await user.click(screen.getByText('End Game'));
 
 			expect(screen.getByTestId('score-data')).toBeInTheDocument();
@@ -437,7 +465,7 @@ describe('App Component', () => {
 				).toBeInTheDocument();
 
 				// Navigate to Game
-				await user.click(screen.getByText('Select Easy Mode'));
+				await user.click(screen.getByText('Start Game'));
 				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
 				expect(
 					screen.queryByTestId('landing-screen')
@@ -464,9 +492,9 @@ describe('App Component', () => {
 				const user = userEvent.setup();
 				render(<App />);
 
-				await user.click(screen.getByText('Select Easy Mode'));
+				await user.click(screen.getByText('Start Game'));
 				expect(screen.getByTestId('game-mode')).toHaveTextContent(
-					'easy'
+					'all'
 				);
 
 				await user.click(screen.getByText('End Game'));
@@ -568,7 +596,7 @@ describe('App Component', () => {
 				const user = userEvent.setup();
 				render(<App />);
 
-				await user.click(screen.getByText('Select Easy Mode'));
+				await user.click(screen.getByText('Start Game'));
 				await user.click(screen.getByText('End Game'));
 				expect(screen.getByTestId('score-screen')).toBeInTheDocument();
 
@@ -589,12 +617,12 @@ describe('App Component', () => {
 				render(<App />);
 
 				// First game session
-				await user.click(screen.getByText('Select Easy Mode'));
+				await user.click(screen.getByText('Start Game'));
 				await user.click(screen.getByText('End Game'));
 				await user.click(screen.getByText('Return to Menu'));
 
 				// Second game session
-				await user.click(screen.getByText('Select Easy Mode'));
+				await user.click(screen.getByText('Start Game'));
 				expect(screen.getByTestId('game-screen')).toBeInTheDocument();
 				await user.click(screen.getByText('End Game'));
 				expect(screen.getByTestId('score-screen')).toBeInTheDocument();

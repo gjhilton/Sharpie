@@ -13,7 +13,12 @@ describe('AlphabetRow', () => {
 
 	it('renders toggle, date, title, and source link', () => {
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="TestAlphabet"
 					metadata={mockMetadata}
@@ -26,12 +31,19 @@ describe('AlphabetRow', () => {
 		expect(screen.getByRole('switch')).toBeInTheDocument();
 		expect(screen.getByText('1594')).toBeInTheDocument();
 		expect(screen.getByText('Test Alphabet')).toBeInTheDocument();
-		expect(screen.getByRole('link', { name: 'source' })).toBeInTheDocument();
+		expect(
+			screen.getByRole('link', { name: 'source' })
+		).toBeInTheDocument();
 	});
 
 	it('displays correct toggle state when enabled', () => {
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="TestAlphabet"
 					metadata={mockMetadata}
@@ -47,7 +59,12 @@ describe('AlphabetRow', () => {
 
 	it('displays correct toggle state when disabled', () => {
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="TestAlphabet"
 					metadata={mockMetadata}
@@ -66,7 +83,12 @@ describe('AlphabetRow', () => {
 		const user = userEvent.setup();
 
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="TestAlphabet"
 					metadata={mockMetadata}
@@ -84,7 +106,12 @@ describe('AlphabetRow', () => {
 
 	it('renders source link with correct href', () => {
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="TestAlphabet"
 					metadata={mockMetadata}
@@ -102,7 +129,12 @@ describe('AlphabetRow', () => {
 
 	it('displays date with bold font weight', () => {
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="TestAlphabet"
 					metadata={mockMetadata}
@@ -123,7 +155,12 @@ describe('AlphabetRow', () => {
 		};
 
 		render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="Hill"
 					metadata={metadataWithSlashDate}
@@ -138,7 +175,12 @@ describe('AlphabetRow', () => {
 
 	it('renders with different alphabet names', () => {
 		const { rerender } = render(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="NBacon"
 					metadata={mockMetadata}
@@ -148,10 +190,18 @@ describe('AlphabetRow', () => {
 			</div>
 		);
 
-		expect(screen.getByRole('switch')).toHaveAttribute('id', 'alphabet-NBacon');
+		expect(screen.getByRole('switch')).toHaveAttribute(
+			'id',
+			'alphabet-NBacon'
+		);
 
 		rerender(
-			<div style={{ display: 'grid', gridTemplateColumns: 'auto 1fr auto auto' }}>
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
 				<AlphabetRow
 					name="Howard"
 					metadata={mockMetadata}
@@ -161,6 +211,9 @@ describe('AlphabetRow', () => {
 			</div>
 		);
 
-		expect(screen.getByRole('switch')).toHaveAttribute('id', 'alphabet-Howard');
+		expect(screen.getByRole('switch')).toHaveAttribute(
+			'id',
+			'alphabet-Howard'
+		);
 	});
 });

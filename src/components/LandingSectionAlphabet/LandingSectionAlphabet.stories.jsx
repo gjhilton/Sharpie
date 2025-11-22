@@ -26,7 +26,9 @@ export const Checked = {
 };
 
 const InteractiveTemplate = args => {
-	const [checked, setChecked] = useState(args.twentyFourLetterAlphabet || false);
+	const [checked, setChecked] = useState(
+		args.twentyFourLetterAlphabet || false
+	);
 
 	return (
 		<LandingSectionAlphabet

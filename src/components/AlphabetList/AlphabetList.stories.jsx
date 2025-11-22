@@ -17,7 +17,8 @@ const mockAlphabetsMetadata = {
 	NBacon: {
 		title: 'Letter from the Privy Council to Nathaniel Bacon',
 		date: '1594',
-		sourceUri: 'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
+		sourceUri:
+			'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
 		difficulty: 'medium',
 	},
 	Howard: {
@@ -27,8 +28,7 @@ const mockAlphabetsMetadata = {
 		difficulty: 'medium',
 	},
 	'BeauChesne-Baildon': {
-		title:
-			'"The secretarie Alphabete" Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First edition 1570.',
+		title: '"The secretarie Alphabete" Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First edition 1570.',
 		date: '1570',
 		sourceUri:
 			'https://archive.org/details/bim_early-english-books-1475-1640_a-booke-containing-diuer_de-beau-chesne-john-a_1615',
@@ -69,7 +69,13 @@ const AlphabetListWithState = args => {
 export const FlatListByDate = {
 	render: AlphabetListWithState,
 	args: {
-		alphabets: ['BeauChesne-Baildon', 'Hill', 'Howard', 'NBacon', 'Joscelyn'],
+		alphabets: [
+			'BeauChesne-Baildon',
+			'Hill',
+			'Howard',
+			'NBacon',
+			'Joscelyn',
+		],
 		showDifficultyGroups: false,
 	},
 };
@@ -77,7 +83,13 @@ export const FlatListByDate = {
 export const FlatListByName = {
 	render: AlphabetListWithState,
 	args: {
-		alphabets: ['BeauChesne-Baildon', 'Hill', 'Howard', 'Joscelyn', 'NBacon'],
+		alphabets: [
+			'BeauChesne-Baildon',
+			'Hill',
+			'Howard',
+			'Joscelyn',
+			'NBacon',
+		],
 		showDifficultyGroups: false,
 	},
 };
@@ -98,7 +110,13 @@ export const GroupedByDifficulty = {
 export const MixedEnabledDisabled = {
 	render: AlphabetListWithState,
 	args: {
-		alphabets: ['BeauChesne-Baildon', 'Hill', 'Howard', 'NBacon', 'Joscelyn'],
+		alphabets: [
+			'BeauChesne-Baildon',
+			'Hill',
+			'Howard',
+			'NBacon',
+			'Joscelyn',
+		],
 		enabledAlphabets: {
 			Joscelyn: true,
 			NBacon: false,

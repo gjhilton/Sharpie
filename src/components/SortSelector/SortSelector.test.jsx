@@ -32,9 +32,15 @@ describe('SortSelector', () => {
 			/>
 		);
 
-		expect(screen.getByRole('option', { name: 'By Date' })).toBeInTheDocument();
-		expect(screen.getByRole('option', { name: 'By Name' })).toBeInTheDocument();
-		expect(screen.getByRole('option', { name: 'By Difficulty' })).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Date' })
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Name' })
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Difficulty' })
+		).toBeInTheDocument();
 	});
 
 	it('displays the selected value', () => {
@@ -114,13 +120,7 @@ describe('SortSelector', () => {
 	});
 
 	it('handles empty options array', () => {
-		render(
-			<SortSelector
-				value=""
-				onChange={() => {}}
-				options={[]}
-			/>
-		);
+		render(<SortSelector value="" onChange={() => {}} options={[]} />);
 
 		const select = screen.getByRole('combobox');
 		expect(select.children).toHaveLength(0);
@@ -137,7 +137,9 @@ describe('SortSelector', () => {
 			/>
 		);
 
-		expect(screen.getByRole('option', { name: 'By Date' })).toBeInTheDocument();
+		expect(
+			screen.getByRole('option', { name: 'By Date' })
+		).toBeInTheDocument();
 		expect(screen.getAllByRole('option')).toHaveLength(1);
 	});
 });

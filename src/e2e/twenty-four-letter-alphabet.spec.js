@@ -10,7 +10,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			// Check for toggle label
@@ -20,7 +22,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 
 		test('toggle should be OFF by default', async ({ page }) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -33,7 +37,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -52,7 +58,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -72,7 +80,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -93,7 +103,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options and turn on 24-letter alphabet mode
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -148,7 +160,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options and turn on 24-letter alphabet mode
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -254,7 +268,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 	test.describe('Mode Persistence', () => {
 		test('mode should reset to OFF on page reload', async ({ page }) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -269,7 +285,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			await page.reload();
 
 			// Expand Options section again
-			const optionsHeaderAfterReload = page.getByRole('button', { name: /options/i });
+			const optionsHeaderAfterReload = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeaderAfterReload.click();
 
 			// Should be OFF again
@@ -288,7 +306,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {
@@ -317,7 +337,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			page,
 		}) => {
 			// Expand Options section
-			const optionsHeader = page.getByRole('button', { name: /options/i });
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
 			await optionsHeader.click();
 
 			const toggle = page.getByRole('switch', {

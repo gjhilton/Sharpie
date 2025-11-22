@@ -1,8 +1,14 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { STAGES } from '@constants/stages.js';
+import { DEFAULT_OPTIONS } from '@constants/options.js';
+import {
+	loadOptions,
+	saveOptionsToLocalStorage,
+	idsToEnabledAlphabets,
+	enabledAlphabetsToIds,
+} from '@utilities/optionsStorage.js';
 import LandingScreen from '@components/LandingScreen/LandingScreen.jsx';
 import LoadingSpinner from '@components/LoadingSpinner/LoadingSpinner.jsx';
-import alphabetsData from '@data/alphabets.json';
 
 // Lazy load screens that aren't immediately needed
 const GameScreen = lazy(() => import('@components/GameScreen/GameScreen.jsx'));
@@ -16,27 +22,53 @@ const FeedbackScreen = lazy(
 	() => import('@components/FeedbackScreen/FeedbackScreen.jsx')
 );
 
-// Initialize enabled alphabets from isDefaultEnabled in alphabets.json
-const initializeEnabledAlphabets = () => {
-	const enabled = {};
-	Object.entries(alphabetsData).forEach(([alphabetName, alphabetInfo]) => {
-		enabled[alphabetName] = alphabetInfo.isDefaultEnabled;
-	});
-	return enabled;
-};
-
 const App = () => {
+	// Load options from URL/localStorage/defaults on mount
+	const [{ options, source }, setOptionsState] = useState(() =>
+		loadOptions()
+	);
 	const [stage, setStage] = useState(STAGES.MENU);
-	const [gameMode, setGameMode] = useState(null);
-	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] =
-		useState(null);
-	const [showBaseline, setShowBaseline] = useState(true);
 	const [score, setScore] = useState(null);
-	const [enabledAlphabets, setEnabledAlphabets] = useState(initializeEnabledAlphabets);
 
-	const handleSelectMode = (mode, twentyFourLetterAlphabetValue) => {
-		setGameMode(mode);
-		setTwentyFourLetterAlphabet(twentyFourLetterAlphabetValue);
+	// Convert enabledAlphabetIds to enabledAlphabets object for components
+	const enabledAlphabets = idsToEnabledAlphabets(options.enabledAlphabetIds);
+
+	// Update a single option and persist to localStorage
+	const setOption = (key, value) => {
+		setOptionsState(prev => {
+			const newOptions = { ...prev.options, [key]: value };
+			saveOptionsToLocalStorage(newOptions);
+			return { ...prev, options: newOptions };
+		});
+	};
+
+	// Reset all options to defaults
+	const resetOptions = () => {
+		setOptionsState({
+			options: { ...DEFAULT_OPTIONS },
+			source: 'defaults',
+		});
+		saveOptionsToLocalStorage({ ...DEFAULT_OPTIONS });
+	};
+
+	// Handler for toggling individual alphabets (used by CatalogueScreen)
+	const setEnabledAlphabets = updater => {
+		setOptionsState(prev => {
+			const currentEnabledAlphabets = idsToEnabledAlphabets(
+				prev.options.enabledAlphabetIds
+			);
+			const newEnabledAlphabets =
+				typeof updater === 'function'
+					? updater(currentEnabledAlphabets)
+					: updater;
+			const newIds = enabledAlphabetsToIds(newEnabledAlphabets);
+			const newOptions = { ...prev.options, enabledAlphabetIds: newIds };
+			saveOptionsToLocalStorage(newOptions);
+			return { ...prev, options: newOptions };
+		});
+	};
+
+	const handleSelectMode = () => {
 		setStage(STAGES.PLAYING);
 	};
 
@@ -46,7 +78,6 @@ const App = () => {
 	};
 
 	const handleReturnToMenu = () => {
-		setGameMode(null);
 		setScore(null);
 		setStage(STAGES.MENU);
 	};
@@ -65,9 +96,11 @@ const App = () => {
 				return (
 					<GameScreen
 						onEndGame={handleEndGame}
-						gameMode={gameMode}
-						twentyFourLetterAlphabet={twentyFourLetterAlphabet}
-						showBaseline={showBaseline}
+						gameMode={options.gameMode}
+						twentyFourLetterAlphabet={
+							options.twentyFourLetterAlphabet
+						}
+						showBaseline={options.showBaseline}
 						enabledAlphabets={enabledAlphabets}
 					/>
 				);
@@ -77,7 +110,7 @@ const App = () => {
 						score={score}
 						onReturnToMenu={handleReturnToMenu}
 						onShowFeedback={handleShowFeedback}
-						showBaseline={showBaseline}
+						showBaseline={options.showBaseline}
 					/>
 				);
 			case STAGES.CATALOGUE:
@@ -85,7 +118,7 @@ const App = () => {
 					<CatalogueScreen
 						onReturnToMenu={handleReturnToMenu}
 						onShowFeedback={handleShowFeedback}
-						showBaseline={showBaseline}
+						showBaseline={options.showBaseline}
 						enabledAlphabets={enabledAlphabets}
 						setEnabledAlphabets={setEnabledAlphabets}
 					/>
@@ -103,8 +136,10 @@ const App = () => {
 						onSelectMode={handleSelectMode}
 						onShowCatalogue={handleShowCatalogue}
 						onShowFeedback={handleShowFeedback}
-						showBaseline={showBaseline}
-						setShowBaseline={setShowBaseline}
+						options={options}
+						optionsSource={source}
+						setOption={setOption}
+						resetOptions={resetOptions}
 						enabledAlphabets={enabledAlphabets}
 					/>
 				);

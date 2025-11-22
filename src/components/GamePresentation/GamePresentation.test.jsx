@@ -47,7 +47,9 @@ vi.mock('@components/KB/KB.jsx', () => ({
 		<div
 			data-testid="kb"
 			data-initial-layout={initialLayout}
-			data-show-shift-keys={showShiftKeys !== undefined ? String(showShiftKeys) : 'true'}
+			data-show-shift-keys={
+				showShiftKeys !== undefined ? String(showShiftKeys) : 'true'
+			}
 			onClick={() => keyCallback && keyCallback('A')}
 		>
 			Keyboard Mock

@@ -6,7 +6,7 @@ import LandingSectionHowToUse from './LandingSectionHowToUse';
 vi.mock('@data/how-to-use.md?raw', () => ({
 	default: `1. First *step* with emphasis
 2. Second step
-3. Third step`
+3. Third step`,
 }));
 
 describe('LandingSectionHowToUse', () => {

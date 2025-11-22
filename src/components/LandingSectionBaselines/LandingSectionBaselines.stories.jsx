@@ -26,7 +26,9 @@ export const BaselineEnabled = {
 };
 
 const InteractiveTemplate = args => {
-	const [showBaseline, setShowBaseline] = useState(args.showBaseline || false);
+	const [showBaseline, setShowBaseline] = useState(
+		args.showBaseline || false
+	);
 
 	return (
 		<LandingSectionBaselines

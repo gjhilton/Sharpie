@@ -1,6 +1,12 @@
 import { css } from '../../../styled-system/css';
 
-const SortSelector = ({ value, onChange, options, id = 'sort-selector', label = 'Sort by:' }) => {
+const SortSelector = ({
+	value,
+	onChange,
+	options,
+	id = 'sort-selector',
+	label = 'Sort by:',
+}) => {
 	return (
 		<div
 			className={css({

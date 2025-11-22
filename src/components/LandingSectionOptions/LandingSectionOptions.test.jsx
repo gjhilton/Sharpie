@@ -6,7 +6,7 @@ import { GAME_MODES } from '@constants/stages.js';
 
 // Mock the markdown import
 vi.mock('@data/options.md?raw', () => ({
-	default: `Practice *lowercase* or *uppercase* characters.`
+	default: `Practice *lowercase* or *uppercase* characters.`,
 }));
 
 describe('LandingSectionOptions', () => {

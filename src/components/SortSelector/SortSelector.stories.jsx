@@ -68,9 +68,15 @@ export const LongOptionLabels = {
 	args: {
 		value: 'option1',
 		options: [
-			{ value: 'option1', label: 'Sort by most recently added items first' },
+			{
+				value: 'option1',
+				label: 'Sort by most recently added items first',
+			},
 			{ value: 'option2', label: 'Sort by alphabetical order (A to Z)' },
-			{ value: 'option3', label: 'Sort by difficulty level (easiest to hardest)' },
+			{
+				value: 'option3',
+				label: 'Sort by difficulty level (easiest to hardest)',
+			},
 		],
 	},
 };

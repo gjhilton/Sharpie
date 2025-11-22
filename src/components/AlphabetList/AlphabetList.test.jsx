@@ -43,8 +43,12 @@ describe('AlphabetList', () => {
 			);
 
 			expect(screen.getByText('Joscelyn typeface')).toBeInTheDocument();
-			expect(screen.getByText('Letter from Nathaniel Bacon')).toBeInTheDocument();
-			expect(screen.getByText('Commonplace book of William Hill')).toBeInTheDocument();
+			expect(
+				screen.getByText('Letter from Nathaniel Bacon')
+			).toBeInTheDocument();
+			expect(
+				screen.getByText('Commonplace book of William Hill')
+			).toBeInTheDocument();
 		});
 
 		it('does not render difficulty headings in flat mode', () => {
@@ -58,9 +62,15 @@ describe('AlphabetList', () => {
 				/>
 			);
 
-			expect(screen.queryByText('Difficulty: Easy')).not.toBeInTheDocument();
-			expect(screen.queryByText('Difficulty: Medium')).not.toBeInTheDocument();
-			expect(screen.queryByText('Difficulty: Hard')).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Difficulty: Easy')
+			).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Difficulty: Medium')
+			).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Difficulty: Hard')
+			).not.toBeInTheDocument();
 		});
 
 		it('displays correct toggle states', () => {
@@ -149,8 +159,12 @@ describe('AlphabetList', () => {
 
 			// Check alphabets are present
 			expect(screen.getByText('Joscelyn typeface')).toBeInTheDocument();
-			expect(screen.getByText('Letter from Nathaniel Bacon')).toBeInTheDocument();
-			expect(screen.getByText('Commonplace book of William Hill')).toBeInTheDocument();
+			expect(
+				screen.getByText('Letter from Nathaniel Bacon')
+			).toBeInTheDocument();
+			expect(
+				screen.getByText('Commonplace book of William Hill')
+			).toBeInTheDocument();
 		});
 
 		it('does not render headings for empty difficulty groups', () => {
@@ -174,7 +188,9 @@ describe('AlphabetList', () => {
 			);
 
 			expect(screen.getByText('Difficulty: Easy')).toBeInTheDocument();
-			expect(screen.queryByText('Difficulty: Medium')).not.toBeInTheDocument();
+			expect(
+				screen.queryByText('Difficulty: Medium')
+			).not.toBeInTheDocument();
 			expect(screen.getByText('Difficulty: Hard')).toBeInTheDocument();
 		});
 
@@ -395,15 +411,24 @@ describe('AlphabetList', () => {
 
 			// Easy: all selected (Joscelyn: true)
 			expect(selectAllLinks[0]).toHaveAttribute('aria-disabled', 'true');
-			expect(deselectAllLinks[0]).toHaveAttribute('aria-disabled', 'false');
+			expect(deselectAllLinks[0]).toHaveAttribute(
+				'aria-disabled',
+				'false'
+			);
 
 			// Medium: none selected (NBacon: false)
 			expect(selectAllLinks[1]).toHaveAttribute('aria-disabled', 'false');
-			expect(deselectAllLinks[1]).toHaveAttribute('aria-disabled', 'true');
+			expect(deselectAllLinks[1]).toHaveAttribute(
+				'aria-disabled',
+				'true'
+			);
 
 			// Hard: all selected (Hill: true)
 			expect(selectAllLinks[2]).toHaveAttribute('aria-disabled', 'true');
-			expect(deselectAllLinks[2]).toHaveAttribute('aria-disabled', 'false');
+			expect(deselectAllLinks[2]).toHaveAttribute(
+				'aria-disabled',
+				'false'
+			);
 		});
 	});
 

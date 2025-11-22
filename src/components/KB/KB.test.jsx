@@ -8,12 +8,23 @@ import KB from './KB';
 vi.mock('react-simple-keyboard', () => ({
 	default: ({ onKeyPress, layoutName, layout }) => {
 		// Check if shift keys are in the layout
-		const hasShiftKeys = layout && layout.default && layout.default.some(row => row.includes('{shift}'));
+		const hasShiftKeys =
+			layout &&
+			layout.default &&
+			layout.default.some(row => row.includes('{shift}'));
 		return (
-			<div data-testid="keyboard" data-layout={layoutName} data-has-shift={hasShiftKeys}>
+			<div
+				data-testid="keyboard"
+				data-layout={layoutName}
+				data-has-shift={hasShiftKeys}
+			>
 				<button onClick={() => onKeyPress('a')}>a</button>
 				<button onClick={() => onKeyPress('Q')}>Q</button>
-				{hasShiftKeys && <button onClick={() => onKeyPress('{shift}')}>{'{shift}'}</button>}
+				{hasShiftKeys && (
+					<button onClick={() => onKeyPress('{shift}')}>
+						{'{shift}'}
+					</button>
+				)}
 			</div>
 		);
 	},

@@ -14,7 +14,12 @@ const SORT_OPTIONS = [
 	{ value: 'difficulty', label: 'By Difficulty' },
 ];
 
-const AlphabetSelectorWithSort = ({ alphabetNames, alphabetsMetadata, enabledAlphabets, onToggle }) => {
+const AlphabetSelectorWithSort = ({
+	alphabetNames,
+	alphabetsMetadata,
+	enabledAlphabets,
+	onToggle,
+}) => {
 	const [sortMode, setSortMode] = useState('date');
 
 	// Determine sorted alphabets and difficulty groups based on sort mode
@@ -27,8 +32,14 @@ const AlphabetSelectorWithSort = ({ alphabetNames, alphabetsMetadata, enabledAlp
 	} else if (sortMode === 'name') {
 		sortedAlphabets = sortAlphabetsByName(alphabetNames);
 	} else if (sortMode === 'difficulty') {
-		sortedAlphabets = sortAlphabetsByDifficulty(alphabetNames, alphabetsMetadata);
-		difficultyGroups = groupAlphabetsByDifficulty(alphabetNames, alphabetsMetadata);
+		sortedAlphabets = sortAlphabetsByDifficulty(
+			alphabetNames,
+			alphabetsMetadata
+		);
+		difficultyGroups = groupAlphabetsByDifficulty(
+			alphabetNames,
+			alphabetsMetadata
+		);
 		showDifficultyGroups = true;
 	}
 
@@ -58,7 +69,11 @@ const AlphabetSelectorWithSort = ({ alphabetNames, alphabetsMetadata, enabledAlp
 
 	return (
 		<div>
-			<SortSelector value={sortMode} onChange={setSortMode} options={SORT_OPTIONS} />
+			<SortSelector
+				value={sortMode}
+				onChange={setSortMode}
+				options={SORT_OPTIONS}
+			/>
 			<AlphabetList
 				alphabets={sortedAlphabets}
 				alphabetsMetadata={alphabetsMetadata}

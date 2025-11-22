@@ -55,7 +55,8 @@
 			"Bash(timeout 120 npx playwright test:*)",
 			"Bash(timeout 60 npx playwright test:*)",
 			"Bash(timeout 180 npx playwright test:*)",
-			"Bash(git ls-tree:*)"
+			"Bash(git ls-tree:*)",
+			"Bash(timeout 180 npm run test:e2e:*)"
 		],
 		"deny": [],
 		"ask": []

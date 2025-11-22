@@ -31,7 +31,10 @@ const BulkSelectionControls = ({
 			<BulkSelectionLink disabled={allSelected} onClick={handleSelectAll}>
 				select all
 			</BulkSelectionLink>
-			<BulkSelectionLink disabled={noneSelected} onClick={handleDeselectAll}>
+			<BulkSelectionLink
+				disabled={noneSelected}
+				onClick={handleDeselectAll}
+			>
 				deselect all
 			</BulkSelectionLink>
 		</div>

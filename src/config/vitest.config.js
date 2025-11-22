@@ -44,6 +44,8 @@ export default defineConfig({
 				'src/scripts/**',
 				'src/e2e/**',
 				'src/artwork/**',
+				'src/config/**',
+				'src/data/**',
 				'**/*.stories.jsx',
 				'**/main.jsx',
 			],

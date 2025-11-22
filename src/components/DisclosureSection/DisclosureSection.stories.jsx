@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import DisclosureSection from '@components/DisclosureSection/DisclosureSection.jsx';
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 
 export default {
 	title: 'Components/DisclosureSection',

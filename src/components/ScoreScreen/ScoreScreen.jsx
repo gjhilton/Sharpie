@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import { useEffect } from 'react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';

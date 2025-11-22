@@ -1,5 +1,5 @@
-import '../../src/style/index.css';
-import '../../src/style/fonts.css';
+import '../../style/index.css';
+import '../../style/fonts.css';
 
 /** @type { import('@storybook/react-vite').Preview } */
 const preview = {

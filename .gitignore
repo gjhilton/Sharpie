@@ -24,10 +24,10 @@ dist-ssr
 *.sw?
 
 ## Panda
-styled-system
+dist/styled-system
 styled-system-studio
 *storybook.log
-storybook-static
+dist/storybook-static
 /public/data
 src/data/DB.js
 
@@ -37,7 +37,7 @@ config/playwright/playwright-report/
 config/playwright/.cache/
 
 ## Test coverage
-coverage/
+dist/coverage/
 /src/public/data
 /src/config/playwright/playwright-report
 src/config/playwright/playwright-report/index.html

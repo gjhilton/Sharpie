@@ -1,7 +1,16 @@
 {
 	"permissions": {
 		"allow": [
-			"Bash(echo \"\" echo \"=== Checking LandingSectionHowToUse ===\" grep -r \"LandingSectionHowToUse\" src --include=\"*.jsx\" --include=\"*.js\")"
+			"Bash(git stash:*)",
+			"Bash(npm run build-storybook:*)",
+			"Bash(npm ls:*)",
+			"Bash(cat:*)",
+			"Bash(npm install:*)",
+			"Bash(npm view:*)",
+			"Bash(npx panda codegen:*)",
+			"Bash(npm run test:coverage:*)",
+			"Bash(npm run lint:*)",
+			"Bash(npm run test:run:*)"
 		],
 		"deny": [],
 		"ask": []

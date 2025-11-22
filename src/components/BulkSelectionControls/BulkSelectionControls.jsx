@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import BulkSelectionLink from '@components/BulkSelectionLink/BulkSelectionLink.jsx';
 
 const BulkSelectionControls = ({

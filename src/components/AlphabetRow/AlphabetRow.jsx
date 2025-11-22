@@ -1,5 +1,5 @@
 import React from 'react';
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import Toggle from '@components/Toggle/Toggle.jsx';
 
 const AlphabetRow = ({ name, metadata, isEnabled, onToggle }) => {

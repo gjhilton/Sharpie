@@ -1,4 +1,4 @@
-import { fn } from '@storybook/test';
+import { fn } from 'storybook/test';
 import LandingSectionHero from './LandingSectionHero';
 import { GAME_MODES } from '@constants/stages.js';
 

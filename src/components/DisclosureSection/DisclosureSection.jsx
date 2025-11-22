@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 
 const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
 	const [isExpanded, setIsExpanded] = useState(defaultExpanded);

@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 
 const ButtonLabel = ({ text }) => (
 	<span

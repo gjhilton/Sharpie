@@ -16,7 +16,7 @@ export default defineConfig({
 			'@data': resolve(__dirname, '../data'),
 			'@utilities': resolve(__dirname, '../utilities'),
 			'@style': resolve(__dirname, '../style'),
-			'@generated': resolve(__dirname, '../../styled-system'),
+			'@generated': resolve(__dirname, '../../dist/styled-system'),
 		},
 	},
 	test: {
@@ -31,13 +31,14 @@ export default defineConfig({
 		],
 		coverage: {
 			provider: 'v8',
+			reportsDirectory: '../../dist/coverage',
 			reporter: ['text', 'json', 'html', 'lcov'],
 			exclude: [
 				'node_modules/**',
 				'dist/**',
 				'config/**',
-				'styled-system/**',
-				'storybook-static/**',
+				'dist/styled-system/**',
+				'dist/storybook-static/**',
 				'coverage/**',
 				'**/*.config.js',
 				'**/*.config.mjs',

@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import ReactMarkdown from 'react-markdown';
 import Button from '@components/Button/Button.jsx';
 import Logo, { SIZE } from '@components/Logo/Logo.jsx';

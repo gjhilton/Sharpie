@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import { version } from '@utilities/version.js';
 
 const SmallPrint = ({ onShowFeedback }) => (

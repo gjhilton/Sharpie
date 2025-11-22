@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Keyboard from 'react-simple-keyboard';
 import 'react-simple-keyboard/build/css/index.css';
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 
 const SPECIAL_KEYS = {
 	SHIFT: '{shift}',

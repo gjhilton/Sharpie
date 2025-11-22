@@ -4,11 +4,8 @@ node_modules/
 # Build outputs
 dist/
 build/
-storybook-static/
-coverage/
 
-# Generated code
-styled-system/
+# Generated code (now in dist/)
 
 # Artwork source files
 src/artwork

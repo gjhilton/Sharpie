@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import { DIFFICULTY_LABELS } from '@constants/difficulty.js';
 import BulkSelectionControls from '@components/BulkSelectionControls/BulkSelectionControls.jsx';
 

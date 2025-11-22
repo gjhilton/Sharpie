@@ -145,6 +145,8 @@ describe('optionsStorage', () => {
 			twentyFourLetterAlphabet: true,
 			showBaseline: false,
 			enabledAlphabetIds: [1, 2],
+			gameEndMode: 'on_quit',
+			questionCount: 25,
 		};
 
 		it('saves and loads options from localStorage', () => {
@@ -227,6 +229,8 @@ describe('optionsStorage', () => {
 				twentyFourLetterAlphabet: true,
 				showBaseline: false,
 				enabledAlphabetIds: [2, 4],
+				gameEndMode: DEFAULT_OPTIONS.gameEndMode,
+				questionCount: DEFAULT_OPTIONS.questionCount,
 			});
 		});
 

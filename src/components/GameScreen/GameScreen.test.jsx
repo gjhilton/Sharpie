@@ -75,6 +75,8 @@ const mockCalculateGameStats = vi.fn();
 const mockProcessIncorrectAttempts = vi.fn();
 const mockCreateAttempt = vi.fn();
 const mockGetInitialKeyboardLayout = vi.fn();
+const mockShouldEndGame = vi.fn();
+const mockGetLivesRemaining = vi.fn();
 
 vi.mock('@utilities/gameLogic.js', () => ({
 	STATUS: {
@@ -93,6 +95,8 @@ vi.mock('@utilities/gameLogic.js', () => ({
 	createAttempt: (...args) => mockCreateAttempt(...args),
 	getInitialKeyboardLayout: (...args) =>
 		mockGetInitialKeyboardLayout(...args),
+	shouldEndGame: (...args) => mockShouldEndGame(...args),
+	getLivesRemaining: (...args) => mockGetLivesRemaining(...args),
 }));
 
 describe('GameScreen', () => {
@@ -136,6 +140,8 @@ describe('GameScreen', () => {
 			['a', 'b', 'c'],
 			['d', 'e', 'f'],
 		]);
+		mockShouldEndGame.mockReturnValue(false);
+		mockGetLivesRemaining.mockReturnValue(3);
 	});
 
 	afterEach(() => {
@@ -783,6 +789,136 @@ describe('GameScreen', () => {
 					}),
 				])
 			);
+		});
+	});
+
+	describe('Auto-end Game Behavior', () => {
+		it('should call shouldEndGame after each answer', async () => {
+			const user = userEvent.setup();
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAs24Letter: false,
+			});
+
+			render(
+				<GameScreen
+					onEndGame={mockOnEndGame}
+					gameMode="standard"
+					gameEndMode="fixed_num"
+					questionCount={10}
+				/>
+			);
+
+			await user.click(screen.getByTestId('key-press-btn'));
+
+			await waitFor(() => {
+				expect(mockShouldEndGame).toHaveBeenCalled();
+			});
+		});
+
+		it('should pass gameEndMode to shouldEndGame', async () => {
+			const user = userEvent.setup();
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAs24Letter: false,
+			});
+
+			render(
+				<GameScreen
+					onEndGame={mockOnEndGame}
+					gameMode="standard"
+					gameEndMode="three_lives"
+					questionCount={25}
+				/>
+			);
+
+			await user.click(screen.getByTestId('key-press-btn'));
+
+			await waitFor(() => {
+				expect(mockShouldEndGame).toHaveBeenCalledWith(
+					'three_lives',
+					expect.any(Number),
+					expect.any(Number),
+					25
+				);
+			});
+		});
+
+		it('should pass correctCount and incorrectCount to shouldEndGame', async () => {
+			const user = userEvent.setup();
+			mockCheckAttempt.mockReturnValue({
+				status: 'incorrect',
+				acceptedAs24Letter: false,
+			});
+
+			render(
+				<GameScreen
+					onEndGame={mockOnEndGame}
+					gameMode="standard"
+					gameEndMode="sudden_death"
+					questionCount={25}
+				/>
+			);
+
+			await user.click(screen.getByTestId('key-press-btn'));
+
+			await waitFor(() => {
+				expect(mockShouldEndGame).toHaveBeenCalledWith(
+					'sudden_death',
+					0, // correctCount
+					1, // incorrectCount after one incorrect answer
+					25
+				);
+			});
+		});
+
+		it('should pass questionCount to shouldEndGame', async () => {
+			const user = userEvent.setup();
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAs24Letter: false,
+			});
+
+			render(
+				<GameScreen
+					onEndGame={mockOnEndGame}
+					gameMode="standard"
+					gameEndMode="fixed_num"
+					questionCount={50}
+				/>
+			);
+
+			await user.click(screen.getByTestId('key-press-btn'));
+
+			await waitFor(() => {
+				expect(mockShouldEndGame).toHaveBeenCalledWith(
+					'fixed_num',
+					expect.any(Number),
+					expect.any(Number),
+					50
+				);
+			});
+		});
+
+		it('should use default gameEndMode when not provided', async () => {
+			const user = userEvent.setup();
+			mockCheckAttempt.mockReturnValue({
+				status: 'correct',
+				acceptedAs24Letter: false,
+			});
+
+			render(<GameScreen onEndGame={mockOnEndGame} gameMode="standard" />);
+
+			await user.click(screen.getByTestId('key-press-btn'));
+
+			await waitFor(() => {
+				expect(mockShouldEndGame).toHaveBeenCalledWith(
+					'on_quit', // default value
+					expect.any(Number),
+					expect.any(Number),
+					25 // default questionCount
+				);
+			});
 		});
 	});
 });

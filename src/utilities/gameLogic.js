@@ -1,5 +1,6 @@
 import * as db from '@utilities/database.js';
 import { GAME_MODES } from '@constants/stages.js';
+import { GAME_END_MODE } from '@constants/options.js';
 
 export const STATUS = {
 	NONE: 'none',
@@ -185,4 +186,42 @@ export const calculateGameStats = (correctCount, incorrectCount, startTime) => {
 		percentage,
 		timeElapsed,
 	};
+};
+
+/**
+ * Determines if the game should end based on the current mode and counts
+ * @param {string} gameEndMode - The game end mode
+ * @param {number} correctCount - Number of correct answers
+ * @param {number} incorrectCount - Number of incorrect answers
+ * @param {number} questionCount - Target number of questions (for FIXED_NUM mode)
+ * @returns {boolean} - Whether the game should end
+ */
+export const shouldEndGame = (
+	gameEndMode,
+	correctCount,
+	incorrectCount,
+	questionCount
+) => {
+	const totalAnswered = correctCount + incorrectCount;
+
+	switch (gameEndMode) {
+		case GAME_END_MODE.FIXED_NUM:
+			return totalAnswered >= questionCount;
+		case GAME_END_MODE.SUDDEN_DEATH:
+			return incorrectCount > 0;
+		case GAME_END_MODE.THREE_LIVES:
+			return incorrectCount >= 3;
+		case GAME_END_MODE.ON_QUIT:
+		default:
+			return false; // Only ends manually
+	}
+};
+
+/**
+ * Gets the number of remaining lives in THREE_LIVES mode
+ * @param {number} incorrectCount - Number of incorrect answers
+ * @returns {number} - Lives remaining (0-3)
+ */
+export const getLivesRemaining = incorrectCount => {
+	return Math.max(0, 3 - incorrectCount);
 };

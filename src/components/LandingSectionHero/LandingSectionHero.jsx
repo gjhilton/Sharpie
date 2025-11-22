@@ -7,6 +7,7 @@ import DisclosureSection from '@components/DisclosureSection/DisclosureSection.j
 import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
 import OptionsSummary from '@components/OptionsSummary/OptionsSummary.jsx';
 import { GAME_MODES } from '@constants/stages.js';
+import { GAME_END_MODE, QUESTION_COUNTS } from '@constants/options.js';
 import alphabets from '@data/alphabets.json';
 import heroContent from '@data/hero.md?raw';
 import identifyContent from '@data/identify.md?raw';
@@ -87,7 +88,13 @@ const LandingSectionHero = ({
 	enabledAlphabets,
 	onShowCatalogue,
 }) => {
-	const { gameMode, twentyFourLetterAlphabet, showBaseline } = options;
+	const {
+		gameMode,
+		twentyFourLetterAlphabet,
+		showBaseline,
+		gameEndMode,
+		questionCount,
+	} = options;
 
 	return (
 		<>
@@ -403,6 +410,196 @@ const LandingSectionHero = ({
 								})(),
 							}}
 						/>
+					</SubSection>
+					<SubSection title="Game length">
+						<fieldset
+							className={css({
+								border: 'none',
+								padding: '0',
+								margin: '0',
+								marginBottom: '1rem',
+							})}
+						>
+							<div
+								className={css({
+									display: 'flex',
+									flexDirection: 'column',
+									gap: '0',
+									lineHeight: '1.6',
+								})}
+							>
+								<label
+									className={css({
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameEndMode ===
+											GAME_END_MODE.ON_QUIT
+												? 'bold'
+												: 'normal',
+									})}
+								>
+									<input
+										type="radio"
+										name="gameEndMode"
+										value={GAME_END_MODE.ON_QUIT}
+										checked={
+											gameEndMode ===
+											GAME_END_MODE.ON_QUIT
+										}
+										onChange={e =>
+											setOption(
+												'gameEndMode',
+												e.target.value
+											)
+										}
+										className={css({
+											width: '1.2rem',
+											height: '1.2rem',
+										})}
+									/>
+									Until I quit
+								</label>
+								<label
+									className={css({
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameEndMode ===
+											GAME_END_MODE.FIXED_NUM
+												? 'bold'
+												: 'normal',
+									})}
+								>
+									<input
+										type="radio"
+										name="gameEndMode"
+										value={GAME_END_MODE.FIXED_NUM}
+										checked={
+											gameEndMode ===
+											GAME_END_MODE.FIXED_NUM
+										}
+										onChange={e =>
+											setOption(
+												'gameEndMode',
+												e.target.value
+											)
+										}
+										className={css({
+											width: '1.2rem',
+											height: '1.2rem',
+										})}
+									/>
+									Fixed number of questions
+								</label>
+								{gameEndMode === GAME_END_MODE.FIXED_NUM && (
+									<div
+										className={css({
+											marginLeft: '1.7rem',
+											marginTop: '0.5rem',
+											marginBottom: '0.5rem',
+										})}
+									>
+										<select
+											value={questionCount}
+											onChange={e =>
+												setOption(
+													'questionCount',
+													parseInt(e.target.value, 10)
+												)
+											}
+											className={css({
+												padding: '0.25rem 0.5rem',
+												fontSize: 'm',
+												borderRadius: '4px',
+												border: '1px solid {colors.border}',
+											})}
+										>
+											{QUESTION_COUNTS.map(count => (
+												<option
+													key={count}
+													value={count}
+												>
+													{count} questions
+												</option>
+											))}
+										</select>
+									</div>
+								)}
+								<label
+									className={css({
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameEndMode ===
+											GAME_END_MODE.SUDDEN_DEATH
+												? 'bold'
+												: 'normal',
+									})}
+								>
+									<input
+										type="radio"
+										name="gameEndMode"
+										value={GAME_END_MODE.SUDDEN_DEATH}
+										checked={
+											gameEndMode ===
+											GAME_END_MODE.SUDDEN_DEATH
+										}
+										onChange={e =>
+											setOption(
+												'gameEndMode',
+												e.target.value
+											)
+										}
+										className={css({
+											width: '1.2rem',
+											height: '1.2rem',
+										})}
+									/>
+									Sudden death (one wrong answer)
+								</label>
+								<label
+									className={css({
+										display: 'flex',
+										alignItems: 'center',
+										gap: '0.5rem',
+										cursor: 'pointer',
+										fontWeight:
+											gameEndMode ===
+											GAME_END_MODE.THREE_LIVES
+												? 'bold'
+												: 'normal',
+									})}
+								>
+									<input
+										type="radio"
+										name="gameEndMode"
+										value={GAME_END_MODE.THREE_LIVES}
+										checked={
+											gameEndMode ===
+											GAME_END_MODE.THREE_LIVES
+										}
+										onChange={e =>
+											setOption(
+												'gameEndMode',
+												e.target.value
+											)
+										}
+										className={css({
+											width: '1.2rem',
+											height: '1.2rem',
+										})}
+									/>
+									Three lives (three wrong answers)
+								</label>
+							</div>
+						</fieldset>
 					</SubSection>
 				</DisclosureSection>
 				<DisclosureSection title="How to play">

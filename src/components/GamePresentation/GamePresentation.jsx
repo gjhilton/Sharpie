@@ -5,9 +5,11 @@ import KB from '@components/KB/KB.jsx';
 import Character, {
 	CHARACTER_STATE,
 } from '@components/Character/Character.jsx';
+import GameProgress from '@components/GameProgress/GameProgress.jsx';
 import { STATUS } from '@utilities/gameLogic.js';
 import { DB } from '@data/DB.js';
 import { GAME_MODES } from '@constants/stages.js';
+import { GAME_END_MODE } from '@constants/options.js';
 
 const SPACING = {
 	SECTION_GAP: '2rem',
@@ -213,6 +215,10 @@ export const GamePresentation = ({
 	onKeyPress,
 	onNextLetter,
 	onEndGame,
+	gameEndMode = GAME_END_MODE.ON_QUIT,
+	questionCount = 25,
+	correctCount = 0,
+	incorrectCount = 0,
 }) => {
 	// Show shift keys only when playing "both" (ALL) mode
 	const showShiftKeys = gameMode === GAME_MODES.ALL;
@@ -227,6 +233,13 @@ export const GamePresentation = ({
 				padding: { base: '2rem 0', sm: SPACING.SECTION_GAP },
 			})}
 		>
+			<GameProgress
+				gameEndMode={gameEndMode}
+				correctCount={correctCount}
+				incorrectCount={incorrectCount}
+				questionCount={questionCount}
+			/>
+
 			<StatusDisplay
 				status={attemptStatus}
 				solution={currentSolution}

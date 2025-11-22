@@ -102,6 +102,8 @@ const App = () => {
 						}
 						showBaseline={options.showBaseline}
 						enabledAlphabets={enabledAlphabets}
+						gameEndMode={options.gameEndMode}
+						questionCount={options.questionCount}
 					/>
 				);
 			case STAGES.SCORE:

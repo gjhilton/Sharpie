@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import { css } from '../../../styled-system/css';
-import { OPTIONS_SOURCE } from '@constants/options.js';
+import { OPTIONS_SOURCE, GAME_END_MODE } from '@constants/options.js';
 import { buildPermalink } from '@utilities/optionsStorage.js';
 
 const GAME_MODE_LABELS = {
 	all: 'both cases',
 	minuscule: 'minuscules only',
 	majuscule: 'MAJUSCULES only',
+};
+
+const GAME_END_LABELS = {
+	[GAME_END_MODE.ON_QUIT]: 'until quit',
+	[GAME_END_MODE.FIXED_NUM]: 'fixed count',
+	[GAME_END_MODE.SUDDEN_DEATH]: 'sudden death',
+	[GAME_END_MODE.THREE_LIVES]: '3 lives',
 };
 
 const SOURCE_LABELS = {
@@ -22,6 +29,10 @@ const OptionsSummary = ({ options, optionsSource, onReset }) => {
 	const modeLabel = GAME_MODE_LABELS[options.gameMode] || options.gameMode;
 	const letterCount = options.twentyFourLetterAlphabet ? '24' : '26';
 	const baselineLabel = options.showBaseline ? 'on' : 'off';
+	const gameEndLabel =
+		options.gameEndMode === GAME_END_MODE.FIXED_NUM
+			? `${options.questionCount} questions`
+			: GAME_END_LABELS[options.gameEndMode] || 'until quit';
 
 	const handleCopyLink = async () => {
 		const permalink = buildPermalink(options);
@@ -61,7 +72,7 @@ const OptionsSummary = ({ options, optionsSource, onReset }) => {
 			>
 				<strong>Current settings:</strong> {modeLabel}, {alphabetCount}{' '}
 				{alphabetCount === 1 ? 'alphabet' : 'alphabets'}, baselines{' '}
-				{baselineLabel}, {letterCount} letters
+				{baselineLabel}, {letterCount} letters, {gameEndLabel}
 			</div>
 			<div
 				className={css({

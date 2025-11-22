@@ -248,4 +248,130 @@ describe('LandingSectionHero', () => {
 			expect(mockSetOption).toHaveBeenCalledWith('gameMode', 'minuscule');
 		});
 	});
+
+	describe('Game end mode selection', () => {
+		it('renders all game end mode options', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			expect(screen.getByLabelText(/until i quit/i)).toBeInTheDocument();
+			expect(
+				screen.getByLabelText(/fixed number of questions/i)
+			).toBeInTheDocument();
+			expect(
+				screen.getByLabelText(/sudden death.*one wrong answer/i)
+			).toBeInTheDocument();
+			expect(
+				screen.getByLabelText(/three lives.*three wrong answers/i)
+			).toBeInTheDocument();
+		});
+
+		it('calls setOption when game end mode is changed to sudden death', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			// Click sudden death radio
+			await user.click(
+				screen.getByLabelText(/sudden death.*one wrong answer/i)
+			);
+
+			expect(mockSetOption).toHaveBeenCalledWith(
+				'gameEndMode',
+				'sudden_death'
+			);
+		});
+
+		it('calls setOption when game end mode is changed to three lives', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			// Click three lives radio
+			await user.click(
+				screen.getByLabelText(/three lives.*three wrong answers/i)
+			);
+
+			expect(mockSetOption).toHaveBeenCalledWith(
+				'gameEndMode',
+				'three_lives'
+			);
+		});
+
+		it('calls setOption when game end mode is changed to fixed number', async () => {
+			const user = userEvent.setup();
+			render(<LandingSectionHero {...defaultProps} />);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			// Click fixed number radio
+			await user.click(screen.getByLabelText(/fixed number of questions/i));
+
+			expect(mockSetOption).toHaveBeenCalledWith('gameEndMode', 'fixed_num');
+		});
+
+		it('shows question count dropdown when fixed number mode is selected', async () => {
+			const user = userEvent.setup();
+			render(
+				<LandingSectionHero
+					{...defaultProps}
+					options={{ ...DEFAULT_OPTIONS, gameEndMode: 'fixed_num' }}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			// Should have a select with question count options
+			const select = screen.getByRole('combobox');
+			expect(select).toBeInTheDocument();
+			expect(screen.getByText('10 questions')).toBeInTheDocument();
+			expect(screen.getByText('25 questions')).toBeInTheDocument();
+			expect(screen.getByText('50 questions')).toBeInTheDocument();
+			expect(screen.getByText('100 questions')).toBeInTheDocument();
+		});
+
+		it('does not show question count dropdown for other modes', async () => {
+			const user = userEvent.setup();
+			render(
+				<LandingSectionHero
+					{...defaultProps}
+					options={{ ...DEFAULT_OPTIONS, gameEndMode: 'on_quit' }}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			// Should not have a select for question count
+			expect(screen.queryByRole('combobox')).not.toBeInTheDocument();
+		});
+
+		it('calls setOption when question count is changed', async () => {
+			const user = userEvent.setup();
+			render(
+				<LandingSectionHero
+					{...defaultProps}
+					options={{ ...DEFAULT_OPTIONS, gameEndMode: 'fixed_num' }}
+				/>
+			);
+
+			// Expand Options section
+			await user.click(screen.getByRole('button', { name: /options/i }));
+
+			// Change the question count
+			const select = screen.getByRole('combobox');
+			await user.selectOptions(select, '50');
+
+			expect(mockSetOption).toHaveBeenCalledWith('questionCount', 50);
+		});
+	});
 });

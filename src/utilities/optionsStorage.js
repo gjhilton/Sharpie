@@ -6,6 +6,10 @@ import {
 	URL_PARAMS,
 	MODE_URL_MAP,
 	URL_MODE_MAP,
+	END_MODE_URL_MAP,
+	URL_END_MODE_MAP,
+	GAME_END_MODE,
+	QUESTION_COUNTS,
 } from '@constants/options.js';
 
 // Build lookup maps for alphabet ID <-> name conversion
@@ -72,7 +76,7 @@ export const loadOptionsFromLocalStorage = () => {
 
 		const parsed = JSON.parse(stored);
 
-		// Validate structure
+		// Validate core structure (required fields)
 		if (
 			typeof parsed.gameMode !== 'string' ||
 			typeof parsed.twentyFourLetterAlphabet !== 'boolean' ||
@@ -82,7 +86,29 @@ export const loadOptionsFromLocalStorage = () => {
 			return null;
 		}
 
-		return parsed;
+		// Apply defaults for new fields (backward compatibility)
+		const options = {
+			...DEFAULT_OPTIONS,
+			...parsed,
+		};
+
+		// Validate gameEndMode if present
+		if (
+			options.gameEndMode &&
+			!Object.values(GAME_END_MODE).includes(options.gameEndMode)
+		) {
+			options.gameEndMode = DEFAULT_OPTIONS.gameEndMode;
+		}
+
+		// Validate questionCount if present
+		if (
+			options.questionCount &&
+			!QUESTION_COUNTS.includes(options.questionCount)
+		) {
+			options.questionCount = DEFAULT_OPTIONS.questionCount;
+		}
+
+		return options;
 	} catch {
 		return null;
 	}
@@ -113,7 +139,9 @@ export const parseOptionsFromUrl = searchString => {
 		params.has(URL_PARAMS.MODE) ||
 		params.has(URL_PARAMS.TWENTY_FOUR) ||
 		params.has(URL_PARAMS.BASELINE) ||
-		params.has(URL_PARAMS.ALPHABETS);
+		params.has(URL_PARAMS.ALPHABETS) ||
+		params.has(URL_PARAMS.END_MODE) ||
+		params.has(URL_PARAMS.QUESTION_COUNT);
 
 	if (!hasAnyParam) return null;
 
@@ -146,6 +174,21 @@ export const parseOptionsFromUrl = searchString => {
 			.filter(id => !isNaN(id) && alphabetIdToName[id]);
 		if (ids.length > 0) {
 			options.enabledAlphabetIds = ids;
+		}
+	}
+
+	// Parse game end mode
+	const endModeParam = params.get(URL_PARAMS.END_MODE);
+	if (endModeParam && URL_END_MODE_MAP[endModeParam]) {
+		options.gameEndMode = URL_END_MODE_MAP[endModeParam];
+	}
+
+	// Parse question count
+	const numParam = params.get(URL_PARAMS.QUESTION_COUNT);
+	if (numParam) {
+		const num = parseInt(numParam, 10);
+		if (QUESTION_COUNTS.includes(num)) {
+			options.questionCount = num;
 		}
 	}
 
@@ -185,6 +228,25 @@ export const serializeOptionsToUrl = options => {
 
 	if (!sameAlphabets) {
 		params.set(URL_PARAMS.ALPHABETS, currentIds.join(','));
+	}
+
+	// Game end mode (only include if not default)
+	if (
+		options.gameEndMode &&
+		options.gameEndMode !== DEFAULT_OPTIONS.gameEndMode
+	) {
+		const endModeAbbrev = END_MODE_URL_MAP[options.gameEndMode];
+		if (endModeAbbrev) {
+			params.set(URL_PARAMS.END_MODE, endModeAbbrev);
+		}
+	}
+
+	// Question count (only include if FIXED_NUM mode and not default)
+	if (
+		options.gameEndMode === GAME_END_MODE.FIXED_NUM &&
+		options.questionCount !== DEFAULT_OPTIONS.questionCount
+	) {
+		params.set(URL_PARAMS.QUESTION_COUNT, options.questionCount.toString());
 	}
 
 	const queryString = params.toString();

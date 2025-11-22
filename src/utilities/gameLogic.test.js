@@ -572,4 +572,68 @@ describe('gameLogic', () => {
 			expect(stats.percentage).toBe(33);
 		});
 	});
+
+	describe('shouldEndGame', () => {
+		it('should return false for ON_QUIT mode', () => {
+			expect(gameLogic.shouldEndGame('on_quit', 10, 5, 25)).toBe(false);
+		});
+
+		it('should return true for FIXED_NUM when total equals question count', () => {
+			expect(gameLogic.shouldEndGame('fixed_num', 20, 5, 25)).toBe(true);
+		});
+
+		it('should return false for FIXED_NUM when total is less than question count', () => {
+			expect(gameLogic.shouldEndGame('fixed_num', 10, 5, 25)).toBe(false);
+		});
+
+		it('should return true for SUDDEN_DEATH when incorrect > 0', () => {
+			expect(gameLogic.shouldEndGame('sudden_death', 10, 1, 25)).toBe(
+				true
+			);
+		});
+
+		it('should return false for SUDDEN_DEATH when incorrect is 0', () => {
+			expect(gameLogic.shouldEndGame('sudden_death', 10, 0, 25)).toBe(
+				false
+			);
+		});
+
+		it('should return true for THREE_LIVES when incorrect >= 3', () => {
+			expect(gameLogic.shouldEndGame('three_lives', 10, 3, 25)).toBe(
+				true
+			);
+		});
+
+		it('should return false for THREE_LIVES when incorrect < 3', () => {
+			expect(gameLogic.shouldEndGame('three_lives', 10, 2, 25)).toBe(
+				false
+			);
+		});
+
+		it('should return false for unknown mode', () => {
+			expect(gameLogic.shouldEndGame('unknown', 10, 5, 25)).toBe(false);
+		});
+	});
+
+	describe('getLivesRemaining', () => {
+		it('should return 3 when incorrect is 0', () => {
+			expect(gameLogic.getLivesRemaining(0)).toBe(3);
+		});
+
+		it('should return 2 when incorrect is 1', () => {
+			expect(gameLogic.getLivesRemaining(1)).toBe(2);
+		});
+
+		it('should return 1 when incorrect is 2', () => {
+			expect(gameLogic.getLivesRemaining(2)).toBe(1);
+		});
+
+		it('should return 0 when incorrect is 3', () => {
+			expect(gameLogic.getLivesRemaining(3)).toBe(0);
+		});
+
+		it('should return 0 when incorrect is more than 3', () => {
+			expect(gameLogic.getLivesRemaining(5)).toBe(0);
+		});
+	});
 });

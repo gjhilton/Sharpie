@@ -5,51 +5,49 @@ import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs';
 
+// =============================================================================
+// Configuration
+// =============================================================================
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const projectRoot = join(__dirname, '../..');
+const PROJECT_ROOT = join(__dirname, '../..');
 
-const ALPHABETS_DIR = join(projectRoot, 'src/artwork/alphabets');
-const DB_PATH = join(projectRoot, 'src/data/DB.js');
-const PUBLIC_DATA_DIR = join(projectRoot, 'src/public/data');
-const SOURCES_JSON_PATH = join(projectRoot, 'src/data/alphabets.json');
+const PATHS = {
+	alphabets: join(PROJECT_ROOT, 'src/artwork/alphabets'),
+	database: join(PROJECT_ROOT, 'src/data/DB.js'),
+	publicData: join(PROJECT_ROOT, 'src/public/data'),
+	metadata: join(PROJECT_ROOT, 'src/data/alphabets.json'),
+};
+
+const CATEGORIES = {
+	MAJUSCULES: 'MAJUSCULES',
+	MINUSCULES: 'minuscules',
+	OTHERS: 'Others',
+};
+
+// =============================================================================
+// Pure Functions - String Utilities
+// =============================================================================
 
 /**
- * Recursively find all *-assets directories
+ * Escape single quotes for use in single-quoted JS strings
  */
-async function findAssetDirectories(dir) {
-	const results = [];
+export function escapeSingleQuotes(str) {
+	return str == null ? '' : str.replace(/'/g, "\\'");
+}
 
-	try {
-		const entries = await readdir(dir, { withFileTypes: true });
-
-		for (const entry of entries) {
-			if (entry.isDirectory()) {
-				const fullPath = join(dir, entry.name);
-
-				// Check if this directory ends with -assets
-				if (entry.name.endsWith('-assets')) {
-					results.push(fullPath);
-				}
-
-				// Recursively search subdirectories
-				const subResults = await findAssetDirectories(fullPath);
-				results.push(...subResults);
-			}
-		}
-	} catch (error) {
-		console.error(`Error reading directory ${dir}:`, error.message);
-	}
-
-	return results;
+/**
+ * Escape double quotes for use in double-quoted JS strings
+ */
+export function escapeDoubleQuotes(str) {
+	return str == null ? '' : str.replace(/"/g, '\\"');
 }
 
 /**
  * Sanitize filename by replacing special characters
- * Pure function - exported for testing
  */
 export function sanitizeFilename(filename) {
-	// Replace $ with -dollar, & with -and, etc.
 	return filename
 		.replace(/\$/g, '-dollar')
 		.replace(/&/g, '-and')
@@ -58,255 +56,195 @@ export function sanitizeFilename(filename) {
 		.replace(/\s+/g, '-');
 }
 
+// =============================================================================
+// Pure Functions - Character Extraction
+// =============================================================================
+
 /**
  * Extract character from filename (first letter, case sensitive)
- * Pure function - exported for testing
  */
 export function extractCharacter(filename) {
-	const nameWithoutExt = filename.replace('.png', '');
-	return nameWithoutExt.charAt(0);
+	return filename.replace('.png', '').charAt(0);
 }
 
 /**
- * Determine graphSet category based on character
- * A-Z → MAJUSCULES, a-z → minuscules, other → Others
- * Pure function - exported for testing
+ * Categorize character: A-Z → MAJUSCULES, a-z → minuscules, other → Others
  */
 export function categorizeCharacter(char) {
-	if (char >= 'A' && char <= 'Z') {
-		return 'MAJUSCULES';
-	} else if (char >= 'a' && char <= 'z') {
-		return 'minuscules';
-	} else {
-		return 'Others';
-	}
+	if (char >= 'A' && char <= 'Z') return CATEGORIES.MAJUSCULES;
+	if (char >= 'a' && char <= 'z') return CATEGORIES.MINUSCULES;
+	return CATEGORIES.OTHERS;
 }
 
+// =============================================================================
+// Pure Functions - Path Utilities
+// =============================================================================
+
 /**
- * Get parent directory name (source name)
- * Pure function - exported for testing
+ * Get alphabet name from asset path (parent directory name)
  */
-export function getSourceName(assetPath) {
-	const parentDir = dirname(assetPath);
-	return basename(parentDir);
+export function getAlphabetName(assetPath) {
+	return basename(dirname(assetPath));
 }
 
 /**
- * Get asset folder name
- * Pure function - exported for testing
+ * Get asset folder name from path
  */
 export function getAssetFolderName(assetPath) {
 	return basename(assetPath);
 }
 
+// =============================================================================
+// Pure Functions - Image Entry Building
+// =============================================================================
+
 /**
- * Read metadata.json from asset directory if it exists
+ * Build a single image entry from file info
  */
-async function readMetadata(assetPath) {
-	const metadataPath = join(assetPath, 'metadata.json');
-	try {
-		if (existsSync(metadataPath)) {
-			const content = await readFile(metadataPath, 'utf-8');
-			return JSON.parse(content);
-		}
-	} catch (error) {
-		console.warn(`   ⚠️  Error reading metadata.json: ${error.message}`);
-	}
-	return {};
+export function buildImageEntry(file, alphabetName, assetFolderName, metadata) {
+	const sanitizedFile = sanitizeFilename(file);
+	const character = extractCharacter(file);
+	const category = categorizeCharacter(character);
+	const note =
+		metadata[file]?.note ||
+		(category === CATEGORIES.MAJUSCULES ? 'First letter of word.' : null);
+
+	const entry = {
+		img: sanitizedFile,
+		character,
+		alphabet: alphabetName,
+		category,
+		relativePath: `${alphabetName}/${assetFolderName}/${sanitizedFile}`,
+	};
+
+	if (note) entry.note = note;
+	return entry;
+}
+
+// =============================================================================
+// Pure Functions - Source Generation
+// =============================================================================
+
+/**
+ * Extract unique alphabet names from processed entries
+ */
+export function extractAlphabetNames(allEntries) {
+	const names = new Set();
+	allEntries.forEach(entry => {
+		entry.images.forEach(img => names.add(img.alphabet));
+	});
+	return names;
 }
 
 /**
- * Process a single asset directory
+ * Build source entry from metadata or generate placeholder
  */
-async function processAssetDirectory(assetPath) {
-	const sourceName = getSourceName(assetPath);
-	const assetFolderName = getAssetFolderName(assetPath);
-	const destDir = join(PUBLIC_DATA_DIR, sourceName, assetFolderName);
-
-	console.log(`\n📁 Processing ${sourceName}/${assetFolderName}...`);
-
-	// Read metadata if available
-	const metadata = await readMetadata(assetPath);
-	const hasMetadata = Object.keys(metadata).length > 0;
-	if (hasMetadata) {
-		console.log(
-			`   📝 Found metadata for ${Object.keys(metadata).length} images`
-		);
+export function buildSourceEntry(alphabetName, metadata) {
+	if (metadata[alphabetName]) {
+		const { title, sourceUri, date, difficulty } = metadata[alphabetName];
+		return { title, sourceUri, date, difficulty };
 	}
-
-	// Create destination directory
-	if (!existsSync(destDir)) {
-		await mkdir(destDir, { recursive: true });
-		console.log(`   Created destination: ${destDir}`);
-	}
-
-	// Read PNG files
-	const files = await readdir(assetPath);
-	const imageFiles = files.filter(f => f.endsWith('.png'));
-
-	console.log(`   Found ${imageFiles.length} images`);
-
-	// Process each image
-	const graphEntries = [];
-
-	for (const file of imageFiles) {
-		const sanitizedFile = sanitizeFilename(file);
-		const sourcePath = join(assetPath, file);
-		const destPath = join(destDir, sanitizedFile);
-
-		// Copy file with sanitized name
-		await copyFile(sourcePath, destPath);
-
-		// Extract character and categorize
-		const character = extractCharacter(file);
-		const category = categorizeCharacter(character);
-
-		// Get note from metadata or auto-generate for majuscules
-		let note = metadata[file]?.note;
-		if (!note && category === 'MAJUSCULES') {
-			note = 'First letter of word.';
-		}
-
-		const graphEntry = {
-			img: sanitizedFile,
-			character: character,
-			source: sourceName,
-			category: category,
-			relativePath: `${sourceName}/${assetFolderName}/${sanitizedFile}`,
-		};
-
-		// Only add note field if it exists
-		if (note) {
-			graphEntry.note = note;
-		}
-
-		graphEntries.push(graphEntry);
-
-		if (file !== sanitizedFile) {
-			console.log(
-				`     ✓ Copied ${file} → ${sanitizedFile} → ${character} (${category})${note ? ' [note]' : ''}`
-			);
-		} else {
-			console.log(
-				`     ✓ Copied ${file} → ${character} (${category})${note ? ' [note]' : ''}`
-			);
-		}
-	}
-
 	return {
-		sourceName,
-		assetFolderName,
-		graphEntries,
+		title: `${alphabetName} source`,
+		sourceUri: `https://example.com/${alphabetName.toLowerCase()}`,
+		date: 'unknown',
+		difficulty: 'medium',
 	};
 }
 
 /**
  * Generate sources object for DB
- * Pure function - exported for testing
  */
-export function generateSourcesObject(allEntries, sourceMetadata = {}) {
+export function generateSources(allEntries, alphabetMetadata = {}) {
 	const sources = {};
-	const sourceNames = new Set();
+	const alphabetNames = extractAlphabetNames(allEntries);
 
-	// Collect unique source names
-	allEntries.forEach(entry => {
-		entry.graphEntries.forEach(graph => {
-			sourceNames.add(graph.source);
-		});
-	});
-
-	// Generate source entries
-	sourceNames.forEach(sourceName => {
-		// Use metadata from JSON if available, otherwise generate placeholder
-		if (sourceMetadata[sourceName]) {
-			sources[sourceName] = {
-				title: sourceMetadata[sourceName].title,
-				sourceUri: sourceMetadata[sourceName].sourceUri,
-				date: sourceMetadata[sourceName].date,
-				difficulty: sourceMetadata[sourceName].difficulty,
-			};
-		} else {
-			// Fallback for sources not defined in JSON
+	alphabetNames.forEach(name => {
+		if (!alphabetMetadata[name]) {
 			console.warn(
-				`⚠️  Source "${sourceName}" not found in alphabets.json, using placeholder`
+				`⚠️  Source "${name}" not found in alphabets.json, using placeholder`
 			);
-			sources[sourceName] = {
-				title: `${sourceName} source`,
-				sourceUri: `https://example.com/${sourceName.toLowerCase()}`,
-				date: 'unknown',
-				difficulty: 'medium',
-			};
 		}
+		sources[name] = buildSourceEntry(name, alphabetMetadata);
 	});
 
 	return sources;
 }
 
+// =============================================================================
+// Pure Functions - Character Set Generation
+// =============================================================================
+
 /**
- * Generate graphSets array for DB
- * Pure function - exported for testing
+ * Convert image entry to output format (for DB)
  */
-export function generateGraphSets(allEntries) {
-	const categorizedGraphs = {
-		minuscules: [],
-		MAJUSCULES: [],
-		Others: [],
+export function toOutputImage(img) {
+	const output = {
+		img: img.relativePath,
+		character: img.character,
+		source: img.alphabet,
+	};
+	if (img.note) output.note = img.note;
+	return output;
+}
+
+/**
+ * Group images by category
+ */
+export function groupByCategory(allEntries) {
+	const grouped = {
+		[CATEGORIES.MINUSCULES]: [],
+		[CATEGORIES.MAJUSCULES]: [],
+		[CATEGORIES.OTHERS]: [],
 	};
 
-	// Group all graphs by category
 	allEntries.forEach(entry => {
-		entry.graphEntries.forEach(graph => {
-			const graphObj = {
-				img: graph.relativePath,
-				character: graph.character,
-				source: graph.source,
-			};
-			// Only add note field if it exists
-			if (graph.note) {
-				graphObj.note = graph.note;
-			}
-			categorizedGraphs[graph.category].push(graphObj);
+		entry.images.forEach(img => {
+			grouped[img.category].push(toOutputImage(img));
 		});
 	});
 
-	// Sort graphs within each category
-	Object.keys(categorizedGraphs).forEach(category => {
-		categorizedGraphs[category].sort((a, b) =>
-			a.character.localeCompare(b.character)
-		);
-	});
+	return grouped;
+}
 
-	// Build graphSets array
+/**
+ * Sort images alphabetically by character
+ */
+export function sortByCharacter(images) {
+	return [...images].sort((a, b) => a.character.localeCompare(b.character));
+}
+
+/**
+ * Generate character sets array for DB
+ */
+export function generateCharacterSets(allEntries) {
+	const grouped = groupByCategory(allEntries);
+
 	return [
 		{
-			title: 'minuscules',
+			title: CATEGORIES.MINUSCULES,
 			enabled: true,
-			graphs: categorizedGraphs['minuscules'],
+			images: sortByCharacter(grouped[CATEGORIES.MINUSCULES]),
 		},
 		{
-			title: 'MAJUSCULES',
+			title: CATEGORIES.MAJUSCULES,
 			enabled: true,
-			graphs: categorizedGraphs['MAJUSCULES'],
+			images: sortByCharacter(grouped[CATEGORIES.MAJUSCULES]),
 		},
 		{
-			title: 'Others',
+			title: CATEGORIES.OTHERS,
 			enabled: false,
-			graphs: categorizedGraphs['Others'],
+			images: sortByCharacter(grouped[CATEGORIES.OTHERS]),
 		},
 	];
 }
 
-/**
- * Escape single quotes in a string for use in single-quoted JS strings
- * Pure function - exported for testing
- */
-export function escapeSingleQuotes(str) {
-	if (str == null) return '';
-	return str.replace(/'/g, "\\'");
-}
+// =============================================================================
+// Pure Functions - DB Formatting
+// =============================================================================
 
 /**
- * Format a single source entry (pure function)
+ * Format a single source entry as JS code
  */
 export function formatSourceEntry(key, value) {
 	return `\t\t"${key}": {
@@ -318,63 +256,43 @@ export function formatSourceEntry(key, value) {
 }
 
 /**
- * Escape double quotes in a string for use in double-quoted JS strings
- * Pure function - exported for testing
+ * Format a single image entry as JS code
  */
-export function escapeDoubleQuotes(str) {
-	if (str == null) return '';
-	return str.replace(/"/g, '\\"');
-}
-
-/**
- * Format a single graph entry (pure function)
- */
-export function formatGraphEntry(graph) {
+export function formatImageEntry(image) {
 	const fields = [
-		`img: "${escapeDoubleQuotes(graph.img)}"`,
-		`character: "${escapeDoubleQuotes(graph.character)}"`,
-		`source: "${escapeDoubleQuotes(graph.source)}"`,
+		`img: "${escapeDoubleQuotes(image.img)}"`,
+		`character: "${escapeDoubleQuotes(image.character)}"`,
+		`source: "${escapeDoubleQuotes(image.source)}"`,
 	];
-
-	if (graph.note) {
-		fields.push(`note: "${escapeDoubleQuotes(graph.note)}"`);
+	if (image.note) {
+		fields.push(`note: "${escapeDoubleQuotes(image.note)}"`);
 	}
-
-	const fieldsStr = fields.map(f => `\t\t\t\t\t${f}`).join(',\n');
-
-	return `\t\t\t\t{
-${fieldsStr}
-\t\t\t\t}`;
+	return `\t\t\t\t{\n${fields.map(f => `\t\t\t\t\t${f}`).join(',\n')}\n\t\t\t\t}`;
 }
 
 /**
- * Format a single graphSet entry (pure function)
+ * Format a single character set entry as JS code
  */
-export function formatGraphSetEntry(graphSet) {
-	const graphsStr = graphSet.graphs
-		.map(graph => formatGraphEntry(graph))
-		.join(',\n');
-
+export function formatCharacterSetEntry(charSet) {
+	const imagesStr = charSet.images.map(formatImageEntry).join(',\n');
 	return `\t\t{
-\t\t\ttitle: "${escapeDoubleQuotes(graphSet.title)}",
-\t\t\tenabled: ${graphSet.enabled},
+\t\t\ttitle: "${escapeDoubleQuotes(charSet.title)}",
+\t\t\tenabled: ${charSet.enabled},
 \t\t\tgraphs: [
-${graphsStr}
+${imagesStr}
 \t\t\t]
 \t\t}`;
 }
 
 /**
- * Format complete DB content (pure function)
+ * Format complete DB content as JS code
  */
-export function formatDBContent(sources, graphSets) {
+export function formatDBContent(sources, characterSets) {
 	const sourcesStr = Object.entries(sources)
 		.map(([key, value]) => formatSourceEntry(key, value))
 		.join(',\n');
 
-	const graphSetsStr = graphSets
-		.map(graphSet => formatGraphSetEntry(graphSet))
-		.join(',\n');
+	const setsStr = characterSets.map(formatCharacterSetEntry).join(',\n');
 
 	return `// This is a generated file. Do not edit.
 // Run \`npm run update-db\` to regenerate.
@@ -384,62 +302,160 @@ export const DB = {
 ${sourcesStr}
 \t},
 \tgraphSets: [
-${graphSetsStr}
+${setsStr}
 \t]
 };
 `;
 }
 
+// =============================================================================
+// File System Operations
+// =============================================================================
+
 /**
- * Validate that the generated content is valid JavaScript
- * Returns true if valid, throws an error with details if not
+ * Recursively find all *-assets directories
  */
-async function validateJS(content, filePath) {
+async function findAssetDirectories(dir) {
+	const results = [];
+	try {
+		const entries = await readdir(dir, { withFileTypes: true });
+		for (const entry of entries) {
+			if (entry.isDirectory()) {
+				const fullPath = join(dir, entry.name);
+				if (entry.name.endsWith('-assets')) {
+					results.push(fullPath);
+				}
+				results.push(...(await findAssetDirectories(fullPath)));
+			}
+		}
+	} catch (error) {
+		console.error(`Error reading directory ${dir}:`, error.message);
+	}
+	return results;
+}
+
+/**
+ * Read metadata.json from asset directory if it exists
+ */
+async function readMetadata(assetPath) {
+	const metadataPath = join(assetPath, 'metadata.json');
+	try {
+		if (existsSync(metadataPath)) {
+			return JSON.parse(await readFile(metadataPath, 'utf-8'));
+		}
+	} catch (error) {
+		console.warn(`   ⚠️  Error reading metadata.json: ${error.message}`);
+	}
+	return {};
+}
+
+/**
+ * Process a single asset directory - copy files and build entries
+ */
+async function processAssetDirectory(assetPath) {
+	const alphabetName = getAlphabetName(assetPath);
+	const assetFolderName = getAssetFolderName(assetPath);
+	const destDir = join(PATHS.publicData, alphabetName, assetFolderName);
+
+	console.log(`\n📁 Processing ${alphabetName}/${assetFolderName}...`);
+
+	const metadata = await readMetadata(assetPath);
+	if (Object.keys(metadata).length > 0) {
+		console.log(
+			`   📝 Found metadata for ${Object.keys(metadata).length} images`
+		);
+	}
+
+	if (!existsSync(destDir)) {
+		await mkdir(destDir, { recursive: true });
+		console.log(`   Created destination: ${destDir}`);
+	}
+
+	const files = (await readdir(assetPath)).filter(f => f.endsWith('.png'));
+	console.log(`   Found ${files.length} images`);
+
+	const images = [];
+	for (const file of files) {
+		const entry = buildImageEntry(
+			file,
+			alphabetName,
+			assetFolderName,
+			metadata
+		);
+		await copyFile(join(assetPath, file), join(destDir, entry.img));
+		images.push(entry);
+
+		const renamed = file !== entry.img ? ` → ${entry.img}` : '';
+		const noteTag = entry.note ? ' [note]' : '';
+		console.log(
+			`     ✓ Copied ${file}${renamed} → ${entry.character} (${entry.category})${noteTag}`
+		);
+	}
+
+	return { alphabetName, assetFolderName, images };
+}
+
+// =============================================================================
+// Validation
+// =============================================================================
+
+/**
+ * Find lines with potential quote issues
+ */
+function findQuoteIssues(content) {
+	const issues = [];
+	const lines = content.split('\n');
+
+	lines.forEach((line, i) => {
+		const singleQuoteCount = (line.match(/'/g) || []).length;
+		const doubleQuoteCount = (line.match(/"/g) || []).length;
+
+		if (
+			(line.includes('title:') || line.includes('note:')) &&
+			singleQuoteCount % 2 !== 0
+		) {
+			issues.push({
+				line: i + 1,
+				type: 'single quotes',
+				content: line.trim(),
+			});
+		}
+		if (
+			(line.includes('img:') ||
+				line.includes('character:') ||
+				line.includes('source:')) &&
+			doubleQuoteCount % 2 !== 0
+		) {
+			issues.push({
+				line: i + 1,
+				type: 'double quotes',
+				content: line.trim(),
+			});
+		}
+	});
+
+	return issues;
+}
+
+/**
+ * Validate generated JS by attempting to import it
+ */
+async function validateAndWriteDB(content, filePath) {
 	console.log('  🔍 Validating generated JavaScript...');
 
-	// Try to parse it as a module by dynamically importing from a data URL
-	// But for simplicity, we'll use a regex check + try to require it after writing
+	await writeFile(filePath, content, 'utf-8');
+
 	try {
-		// Write the file first so we can try to import it
-		await writeFile(filePath, content, 'utf-8');
-
-		// Try to dynamically import the file to validate it
-		const fileUrl = `file://${filePath}?cachebust=${Date.now()}`;
-		await import(fileUrl);
-
+		await import(`file://${filePath}?cachebust=${Date.now()}`);
 		console.log('  ✓ JavaScript validation passed!');
-		return true;
 	} catch (error) {
-		// If import fails, the JS is invalid - delete the invalid file
 		console.error('  ❌ JavaScript validation failed!');
 		console.error(`     Error: ${error.message}`);
 
-		// Try to identify the problematic line
-		const lines = content.split('\n');
-		for (let i = 0; i < lines.length; i++) {
-			const line = lines[i];
-			// Check for common issues: unescaped quotes
-			if (
-				(line.includes('title:') || line.includes('note:')) &&
-				(line.match(/'/g) || []).length % 2 !== 0
-			) {
-				console.error(
-					`     Possible issue at line ${i + 1}: unbalanced single quotes`
-				);
-				console.error(`     ${line.trim()}`);
-			}
-			if (
-				(line.includes('img:') ||
-					line.includes('character:') ||
-					line.includes('source:')) &&
-				(line.match(/"/g) || []).length % 2 !== 0
-			) {
-				console.error(
-					`     Possible issue at line ${i + 1}: unbalanced double quotes`
-				);
-				console.error(`     ${line.trim()}`);
-			}
-		}
+		findQuoteIssues(content).forEach(issue => {
+			console.error(`     Line ${issue.line}: unbalanced ${issue.type}`);
+			console.error(`     ${issue.content}`);
+		});
 
 		throw new Error(
 			`Generated DB.js is not valid JavaScript: ${error.message}`
@@ -447,75 +463,60 @@ async function validateJS(content, filePath) {
 	}
 }
 
-/**
- * Generate and write DB.js file
- */
-async function writeDB(sources, graphSets) {
-	console.log('\n📝 Generating DB.js...');
-	const dbContent = formatDBContent(sources, graphSets);
+// =============================================================================
+// Main
+// =============================================================================
 
-	// Validate and write the file
-	await validateJS(dbContent, DB_PATH);
-
-	console.log('  ✓ DB.js written successfully!');
-}
-
-/**
- * Main execution
- */
 async function main() {
 	try {
-		console.log('🚀 Starting dynamic update-db...\n');
+		console.log('🚀 Starting update-db...\n');
 		console.log('='.repeat(60));
-		console.log(`Scanning: ${ALPHABETS_DIR}`);
+		console.log(`Scanning: ${PATHS.alphabets}`);
 
-		// Load source metadata from JSON
-		let sourceMetadata = {};
+		// Load alphabet metadata
+		let alphabetMetadata = {};
 		try {
-			const sourcesJsonContent = await readFile(
-				SOURCES_JSON_PATH,
-				'utf-8'
+			alphabetMetadata = JSON.parse(
+				await readFile(PATHS.metadata, 'utf-8')
 			);
-			sourceMetadata = JSON.parse(sourcesJsonContent);
-			console.log(`✓ Loaded source metadata from ${SOURCES_JSON_PATH}`);
+			console.log(`✓ Loaded metadata from ${PATHS.metadata}`);
 		} catch (error) {
 			console.warn(`⚠️  Could not load alphabets.json: ${error.message}`);
-			console.warn('   Will use placeholder metadata for all sources');
 		}
 
-		// Find all asset directories
-		const assetDirs = await findAssetDirectories(ALPHABETS_DIR);
+		// Find and process asset directories
+		const assetDirs = await findAssetDirectories(PATHS.alphabets);
 		console.log(`\nFound ${assetDirs.length} asset directories:`);
 		assetDirs.forEach(dir => console.log(`  - ${dir}`));
 
-		// Process each directory
 		const allEntries = [];
-		for (const assetDir of assetDirs) {
-			const result = await processAssetDirectory(assetDir);
-			allEntries.push(result);
+		for (const dir of assetDirs) {
+			allEntries.push(await processAssetDirectory(dir));
 		}
 
-		// Generate DB structure
-		const sources = generateSourcesObject(allEntries, sourceMetadata);
-		const graphSets = generateGraphSets(allEntries);
+		// Generate and write DB
+		const sources = generateSources(allEntries, alphabetMetadata);
+		const characterSets = generateCharacterSets(allEntries);
+		const dbContent = formatDBContent(sources, characterSets);
 
-		// Write DB.js
-		await writeDB(sources, graphSets);
+		console.log('\n📝 Generating DB.js...');
+		await validateAndWriteDB(dbContent, PATHS.database);
+		console.log('  ✓ DB.js written successfully!');
 
-		// Print summary
+		// Summary
 		console.log('\n' + '='.repeat(60));
 		console.log('✅ All done!\n');
 		console.log('📊 Summary:');
 
-		let totalImages = 0;
-		graphSets.forEach(graphSet => {
-			console.log(`\n   ${graphSet.title.toUpperCase()}:`);
-			console.log(`   - ${graphSet.graphs.length} images`);
-			console.log(`   - Enabled: ${graphSet.enabled}`);
-			totalImages += graphSet.graphs.length;
+		let total = 0;
+		characterSets.forEach(set => {
+			console.log(`\n   ${set.title.toUpperCase()}:`);
+			console.log(`   - ${set.images.length} images`);
+			console.log(`   - Enabled: ${set.enabled}`);
+			total += set.images.length;
 		});
 
-		console.log(`\n   TOTAL: ${totalImages} images processed`);
+		console.log(`\n   TOTAL: ${total} images processed`);
 		console.log(`   Sources: ${Object.keys(sources).join(', ')}`);
 		console.log('\n' + '='.repeat(60));
 	} catch (error) {

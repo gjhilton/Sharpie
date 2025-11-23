@@ -1,3 +1,4 @@
+import { fn } from 'storybook/test';
 import LandingScreen from './LandingScreen';
 
 export default {
@@ -20,9 +21,35 @@ export default {
 			action: 'show feedback',
 			description: 'Function called when the feedback link is clicked',
 		},
+		showBaseline: {
+			control: 'boolean',
+			description: 'Whether to show baselines on character images',
+		},
+		setShowBaseline: {
+			action: 'set show baseline',
+			description: 'Function called when baseline toggle changes',
+		},
 	},
 };
 
 export const Default = {
-	args: {},
+	args: {
+		onSelectMode: fn(),
+		onShowCatalogue: fn(),
+		onShowFeedback: fn(),
+		showBaseline: false,
+		setShowBaseline: fn(),
+		enabledAlphabets: {
+			'BeauChesne-Baildon': true,
+			Howard: true,
+			Joscelyn: true,
+		},
+	},
+};
+
+export const WithBaselineEnabled = {
+	args: {
+		...Default.args,
+		showBaseline: true,
+	},
 };

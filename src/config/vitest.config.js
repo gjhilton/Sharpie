@@ -22,6 +22,7 @@ export default defineConfig({
 	test: {
 		globals: true,
 		environment: 'jsdom',
+		maxWorkers: 2,
 		setupFiles: ['./src/config/vitest.setup.js'],
 		exclude: [
 			'**/node_modules/**',

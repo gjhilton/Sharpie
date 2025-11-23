@@ -13,6 +13,12 @@ export const GAME_MODES = {
 	ALL: 'all',
 };
 
+export const GAME_MODE_OPTIONS = [
+	{ value: GAME_MODES.MINUSCULE, label: 'minuscules only' },
+	{ value: GAME_MODES.MAJUSCULE, label: 'MAJUSCULES only' },
+	{ value: GAME_MODES.ALL, label: 'both minuscules AND MAJUSCULES' },
+];
+
 // Character sets for each game mode
 export const CHARACTER_SETS = {
 	[GAME_MODES.MAJUSCULE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',

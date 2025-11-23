@@ -36,13 +36,10 @@ export const PageTitle = ({ children, style = {} }) => (
 
 export const Heading = ({ children, className }) => (
 	<h2
-		className={
-			className ||
-			css({
-				fontSize: 'l',
-				fontWeight: 'bold',
-			})
-		}
+		className={`${css({
+			fontSize: 'l',
+			fontWeight: 'bold',
+		})} ${className || ''}`}
 	>
 		{children}
 	</h2>
@@ -60,18 +57,80 @@ export const Paragraph = ({ children, className }) => (
 	</p>
 );
 
-export const Section = ({ title, children }) => (
-	<>
-		{title}
-		<div
-			className={css({
-				fontSize: 'l',
-			})}
+export const Section = ({ title, children, className }) => (
+	<section
+		className={`${css({
+			fontSize: 'l',
+		})} ${className || ''}`}
+	>
+		{title && <Heading>{title}</Heading>}
+		{children}
+	</section>
+);
+
+export const Article = ({ children, className }) => (
+	<article className={className || ''}>{children}</article>
+);
+
+export const DL = ({ children, className }) => (
+	<dl
+		className={`${css({
+			marginBottom: '1rem',
+		})} ${className || ''}`}
+	>
+		{children}
+	</dl>
+);
+
+export const DT = ({ children, className }) => (
+	<dt
+		className={`${css({
+			fontWeight: 'bold',
+			marginBottom: '0.25rem',
+		})} ${className || ''}`}
+	>
+		{children}
+	</dt>
+);
+
+export const DD = ({ children, className }) => (
+	<dd
+		className={`${css({
+			marginLeft: 0,
+			fontSize: 'm',
+			lineHeight: '1.6',
+			marginBottom: '1rem',
+		})} ${className || ''}`}
+	>
+		{children}
+	</dd>
+);
+
+export const Fieldset = ({ children, className }) => (
+	<fieldset
+		className={`${css({
+			border: 'none',
+			padding: 0,
+			margin: 0,
+		})} ${className || ''}`}
+	>
+		{children}
+	</fieldset>
+);
+
+export const Legend = ({ children, className, visuallyHidden = false }) =>
+	visuallyHidden ? (
+		<VisuallyHidden as="legend">{children}</VisuallyHidden>
+	) : (
+		<legend
+			className={`${css({
+				fontWeight: 'bold',
+				marginBottom: '0.5rem',
+			})} ${className || ''}`}
 		>
 			{children}
-		</div>
-	</>
-);
+		</legend>
+	);
 
 export const VisuallyHidden = ({ children, as: Component = 'span' }) => (
 	<Component

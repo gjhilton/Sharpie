@@ -419,12 +419,6 @@ test.describe('Baseline Display Feature', () => {
 			});
 			await optionsHeader.click();
 
-			// Turn ON 24-letter alphabet (baseline is already ON by default)
-			const alphabetToggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await alphabetToggle.click();
-
 			// Verify baseline is still ON
 			const baselineToggle = page.getByRole('switch', {
 				name: 'Show baselines',
@@ -463,12 +457,6 @@ test.describe('Baseline Display Feature', () => {
 				name: /options/i,
 			});
 			await optionsHeader.click();
-
-			// Turn ON 24-letter alphabet
-			const alphabetToggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await alphabetToggle.click();
 
 			// Turn OFF baselines
 			const baselineToggle = page.getByRole('switch', {

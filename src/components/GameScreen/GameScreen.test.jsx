@@ -224,7 +224,7 @@ describe('GameScreen', () => {
 			const keyPressBtn = screen.getByTestId('key-press-btn');
 			await user.click(keyPressBtn);
 
-			expect(mockCreateAttempt).toHaveBeenCalledWith('a', mockGraphs);
+			expect(mockCreateAttempt).toHaveBeenCalledWith('a', mockGraphs, false);
 		});
 
 		it('should update attemptImagePaths from createAttempt result', async () => {
@@ -653,7 +653,7 @@ describe('GameScreen', () => {
 
 			await user.click(screen.getByTestId('key-press-btn'));
 
-			expect(mockCreateAttempt).toHaveBeenCalledWith('a', customGraphs);
+			expect(mockCreateAttempt).toHaveBeenCalledWith('a', customGraphs, false);
 		});
 
 		it('should use graphs from getGraphsForGameMode for createRandomSolution', () => {

@@ -112,9 +112,26 @@ export const checkAttempt = (
 
 /**
  * Creates an attempt object with matching image paths
+ * @param {string} button - The character the user pressed
+ * @param {Array} graphs - Available graphs
+ * @param {boolean} twentyFourLetterAlphabet - Whether to also look for paired letters (i/j, u/v)
  */
-export const createAttempt = (button, graphs) => {
-	const attemptGraphs = graphs.filter(g => g.character === button);
+export const createAttempt = (
+	button,
+	graphs,
+	twentyFourLetterAlphabet = false
+) => {
+	// In 24-letter mode, include both the button and its paired letter
+	let attemptGraphs;
+	if (twentyFourLetterAlphabet && DOUBLED_LETTERS[button]) {
+		const pairedLetter = DOUBLED_LETTERS[button];
+		attemptGraphs = graphs.filter(
+			g => g.character === button || g.character === pairedLetter
+		);
+	} else {
+		attemptGraphs = graphs.filter(g => g.character === button);
+	}
+
 	const imagePaths =
 		attemptGraphs.length > 0
 			? attemptGraphs.map(g => db.getImagePath(g))

@@ -6,6 +6,12 @@
 		"isDefaultEnabled": true,
 		"difficulty": "easy"
 	},
+	"PCAttorney": {
+		"title": "Letter from the Privy Council to the King & Queen's Attorney",
+		"sourceUri": "https://digitalcollections.folger.edu/bib193308-247919-xd30_2?language=en",
+		"date": "1554",
+		"isDefaultEnabled": true
+	},
 	"NBacon": {
 		"title": "Letter from the Privy Council to Nathaniel Bacon",
 		"sourceUri": "https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en",

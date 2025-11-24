@@ -44,3 +44,5 @@ src/config/playwright/playwright-report/index.html
 /src/config/playwright/test-results
 /src/public/data
 .claude/settings.local.json
+coverage/
+/src/public/data

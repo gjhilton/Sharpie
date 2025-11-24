@@ -20,7 +20,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 			await expect(toggleLabel).toBeVisible();
 		});
 
-		test('toggle should be OFF by default', async ({ page }) => {
+		test('toggle should be ON by default', async ({ page }) => {
 			// Expand Options section
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
@@ -30,10 +30,10 @@ test.describe('24-Letter Alphabet Feature', () => {
 			const toggle = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
-			await expect(toggle).toHaveAttribute('aria-checked', 'false');
+			await expect(toggle).toHaveAttribute('aria-checked', 'true');
 		});
 
-		test('toggle should switch from OFF to ON when clicked', async ({
+		test('toggle should switch from ON to OFF when clicked', async ({
 			page,
 		}) => {
 			// Expand Options section
@@ -46,15 +46,15 @@ test.describe('24-Letter Alphabet Feature', () => {
 				name: '24-letter alphabet',
 			});
 
-			// Initially OFF
-			await expect(toggle).toHaveAttribute('aria-checked', 'false');
-
-			// Click to turn ON
-			await toggle.click();
+			// Initially ON
 			await expect(toggle).toHaveAttribute('aria-checked', 'true');
+
+			// Click to turn OFF
+			await toggle.click();
+			await expect(toggle).toHaveAttribute('aria-checked', 'false');
 		});
 
-		test('toggle should switch from ON to OFF when clicked twice', async ({
+		test('toggle should switch from OFF to ON when clicked twice', async ({
 			page,
 		}) => {
 			// Expand Options section
@@ -67,13 +67,13 @@ test.describe('24-Letter Alphabet Feature', () => {
 				name: '24-letter alphabet',
 			});
 
-			// Turn ON
-			await toggle.click();
-			await expect(toggle).toHaveAttribute('aria-checked', 'true');
-
-			// Turn OFF
+			// Initially ON, turn OFF
 			await toggle.click();
 			await expect(toggle).toHaveAttribute('aria-checked', 'false');
+
+			// Turn back ON
+			await toggle.click();
+			await expect(toggle).toHaveAttribute('aria-checked', 'true');
 		});
 
 		test('toggle should be keyboard accessible with Enter key', async ({
@@ -92,9 +92,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 			// Focus the toggle
 			await toggle.focus();
 
-			// Press Enter to toggle
+			// Press Enter to toggle (ON to OFF)
 			await page.keyboard.press('Enter');
-			await expect(toggle).toHaveAttribute('aria-checked', 'true');
+			await expect(toggle).toHaveAttribute('aria-checked', 'false');
 		});
 	});
 
@@ -102,18 +102,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('keyboard should show combined letters when mode is ON', async ({
 			page,
 		}) => {
-			// Expand Options and turn on 24-letter alphabet mode
-			const optionsHeader = page.getByRole('button', {
-				name: /options/i,
-			});
-			await optionsHeader.click();
-
-			const toggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await toggle.click();
-
-			// Start game with default mode (both)
+			// Mode is ON by default
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Wait for keyboard to be visible
@@ -134,7 +123,17 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('keyboard should show single letters when mode is OFF', async ({
 			page,
 		}) => {
-			// Mode is OFF by default, start game directly
+			// Turn OFF 24-letter alphabet mode first
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
+			await optionsHeader.click();
+
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
+			await toggle.click(); // Turn OFF
+
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Wait for keyboard to be visible
@@ -159,17 +158,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('should accept alternate letter when mode is ON', async ({
 			page,
 		}) => {
-			// Expand Options and turn on 24-letter alphabet mode
-			const optionsHeader = page.getByRole('button', {
-				name: /options/i,
-			});
-			await optionsHeader.click();
-
-			const toggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await toggle.click();
-
+			// Mode is ON by default
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Try multiple times to find a case where we can test alternate letters
@@ -222,7 +211,17 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('should NOT accept alternate letter when mode is OFF', async ({
 			page,
 		}) => {
-			// Mode is OFF by default
+			// Turn OFF 24-letter alphabet mode
+			const optionsHeader = page.getByRole('button', {
+				name: /options/i,
+			});
+			await optionsHeader.click();
+
+			const toggle = page.getByRole('switch', {
+				name: '24-letter alphabet',
+			});
+			await toggle.click(); // Turn OFF
+
 			await page.getByRole('button', { name: /^play$/i }).click();
 
 			// Try multiple rounds
@@ -277,9 +276,9 @@ test.describe('24-Letter Alphabet Feature', () => {
 				name: '24-letter alphabet',
 			});
 
-			// Turn ON
+			// Turn OFF (starts ON)
 			await toggle.click();
-			await expect(toggle).toHaveAttribute('aria-checked', 'true');
+			await expect(toggle).toHaveAttribute('aria-checked', 'false');
 
 			// Reload page
 			await page.reload();
@@ -290,13 +289,13 @@ test.describe('24-Letter Alphabet Feature', () => {
 			});
 			await optionsHeaderAfterReload.click();
 
-			// Should still be ON (persisted in URL)
+			// Should still be OFF (persisted in URL)
 			const toggleAfterReload = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
 			await expect(toggleAfterReload).toHaveAttribute(
 				'aria-checked',
-				'true'
+				'false'
 			);
 		});
 	});
@@ -305,16 +304,12 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('24-letter alphabet should work with minuscules game', async ({
 			page,
 		}) => {
-			// Expand Options section
+			// Mode is ON by default
+			// Expand Options section to select game mode
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
 			});
 			await optionsHeader.click();
-
-			const toggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await toggle.click();
 
 			// Select minuscules only mode
 			await page.getByRole('radio', { name: /minuscules only/i }).click();
@@ -336,16 +331,12 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('24-letter alphabet should work with MAJUSCULES game', async ({
 			page,
 		}) => {
-			// Expand Options section
+			// Mode is ON by default
+			// Expand Options section to select game mode
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
 			});
 			await optionsHeader.click();
-
-			const toggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await toggle.click();
 
 			// Select MAJUSCULES only mode
 			await page.getByRole('radio', { name: /MAJUSCULES only/i }).click();

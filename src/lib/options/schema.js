@@ -26,7 +26,7 @@ export const OPTIONS = {
 		key: 'twentyFourLetterAlphabet',
 		type: 'boolean',
 		urlParam: 'l',
-		default: false,
+		default: true,
 	},
 
 	showBaseline: {

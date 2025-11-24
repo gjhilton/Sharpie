@@ -96,7 +96,7 @@ describe('deserializeOptions', () => {
 		const result = deserializeOptions({});
 
 		expect(result.mode).toBe('all');
-		expect(result.twentyFourLetterAlphabet).toBe(false);
+		expect(result.twentyFourLetterAlphabet).toBe(true);
 		expect(result.showBaseline).toBe(true);
 		expect(typeof result.enabledAlphabets).toBe('object');
 		expect(Object.keys(result.enabledAlphabets).length).toBeGreaterThan(0);
@@ -107,20 +107,22 @@ describe('serializeOptions', () => {
 	it('should serialize non-default options', () => {
 		const result = serializeOptions({
 			mode: 'minuscule',
-			twentyFourLetterAlphabet: true,
+			twentyFourLetterAlphabet: false,
 		});
 
 		expect(result.m).toBe('i');
-		expect(result.l).toBe('1');
+		expect(result.l).toBe('0');
 	});
 
 	it('should omit default values', () => {
 		const result = serializeOptions({
 			mode: 'all',
 			showBaseline: true,
+			twentyFourLetterAlphabet: true,
 		});
 
 		expect(result.m).toBeUndefined();
 		expect(result.b).toBeUndefined();
+		expect(result.l).toBeUndefined();
 	});
 });

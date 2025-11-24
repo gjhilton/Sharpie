@@ -28,7 +28,7 @@ describe('OPTIONS schema', () => {
 		expect(OPTIONS.twentyFourLetter.key).toBe('twentyFourLetterAlphabet');
 		expect(OPTIONS.twentyFourLetter.type).toBe('boolean');
 		expect(OPTIONS.twentyFourLetter.urlParam).toBe('l');
-		expect(OPTIONS.twentyFourLetter.default).toBe(false);
+		expect(OPTIONS.twentyFourLetter.default).toBe(true);
 	});
 
 	it('should define showBaseline option', () => {

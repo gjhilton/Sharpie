@@ -7,13 +7,10 @@ import { defineConfig, globalIgnores } from 'eslint/config';
 export default defineConfig([
 	globalIgnores([
 		'dist',
-		'storybook-static',
-		'styled-system',
 		'node_modules',
 		'.storybook',
 		'config/playwright/test-results',
 		'config/playwright/playwright-report',
-		'coverage',
 	]),
 	{
 		files: ['**/*.js'],

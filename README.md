@@ -1,4 +1,4 @@
-![image](/src/artwork/Branding/sharpielogo.jpg)
+![image](/src/artwork/branding/sharpielogo.jpg)
 
 Sharpie, a letterform recognition game for apprentice Early Modern palaeographers
 

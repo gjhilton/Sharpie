@@ -6,6 +6,12 @@ import {
 	Heading,
 	Paragraph,
 	Section,
+	Article,
+	DL,
+	DT,
+	DD,
+	Fieldset,
+	Legend,
 	VisuallyHidden,
 } from './Layout';
 
@@ -69,11 +75,12 @@ describe('Heading', () => {
 		expect(heading).toHaveClass('custom-class');
 	});
 
-	it('should not apply default styles when custom className is provided', () => {
+	it('should combine default styles with custom className', () => {
 		render(<Heading className="custom-class">Heading</Heading>);
 		const heading = screen.getByRole('heading', { level: 2 });
-		// When custom className is provided, it should only have that class
-		expect(heading.className).toBe('custom-class');
+		expect(heading.className).toContain('custom-class');
+		// Default styles should also be present
+		expect(heading.className).toContain('fs_l');
 	});
 });
 
@@ -108,18 +115,26 @@ describe('Paragraph', () => {
 
 describe('Section', () => {
 	it('should render with children', () => {
-		render(<Section title={<h2>Title</h2>}>Section content</Section>);
+		render(<Section>Section content</Section>);
 		expect(screen.getByText('Section content')).toBeInTheDocument();
 	});
 
-	it('should render the title', () => {
-		render(<Section title={<h2>Section Title</h2>}>Content here</Section>);
-		expect(screen.getByText('Section Title')).toBeInTheDocument();
+	it('should render as a section element', () => {
+		render(<Section>Content</Section>);
+		const section = screen.getByText('Content').closest('section');
+		expect(section.tagName).toBe('SECTION');
+	});
+
+	it('should render title as h2 when provided', () => {
+		render(<Section title="Section Title">Content here</Section>);
+		expect(
+			screen.getByRole('heading', { level: 2, name: 'Section Title' })
+		).toBeInTheDocument();
 	});
 
 	it('should render both title and children', () => {
 		render(
-			<Section title={<h2>My Title</h2>}>
+			<Section title="My Title">
 				<p>My content</p>
 			</Section>
 		);
@@ -127,15 +142,119 @@ describe('Section', () => {
 		expect(screen.getByText('My content')).toBeInTheDocument();
 	});
 
-	it('should render children in a div element', () => {
+	it('should not render heading when title is not provided', () => {
+		render(<Section>Just content</Section>);
+		expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+	});
+
+	it('should apply custom className', () => {
+		render(<Section className="custom-class">Content</Section>);
+		const section = screen.getByText('Content').closest('section');
+		expect(section).toHaveClass('custom-class');
+	});
+});
+
+describe('Article', () => {
+	it('should render with children', () => {
+		render(<Article>Article content</Article>);
+		expect(screen.getByText('Article content')).toBeInTheDocument();
+	});
+
+	it('should render as an article element', () => {
+		render(<Article>Content</Article>);
+		const article = screen.getByText('Content').closest('article');
+		expect(article.tagName).toBe('ARTICLE');
+	});
+
+	it('should apply custom className', () => {
+		render(<Article className="custom-class">Content</Article>);
+		const article = screen.getByText('Content').closest('article');
+		expect(article).toHaveClass('custom-class');
+	});
+});
+
+describe('DL, DT, DD', () => {
+	it('should render DL as a dl element', () => {
+		render(<DL>Definition list</DL>);
+		const dl = screen.getByText('Definition list').closest('dl');
+		expect(dl.tagName).toBe('DL');
+	});
+
+	it('should render DT as a dt element', () => {
+		render(<DT>Term</DT>);
+		const dt = screen.getByText('Term');
+		expect(dt.tagName).toBe('DT');
+	});
+
+	it('should render DD as a dd element', () => {
+		render(<DD>Definition</DD>);
+		const dd = screen.getByText('Definition');
+		expect(dd.tagName).toBe('DD');
+	});
+
+	it('should render a complete definition list', () => {
 		render(
-			<Section title={<h2>Title</h2>}>
-				<span>Child content</span>
-			</Section>
+			<DL>
+				<DT>Term 1</DT>
+				<DD>Definition 1</DD>
+				<DT>Term 2</DT>
+				<DD>Definition 2</DD>
+			</DL>
 		);
-		const childContent = screen.getByText('Child content');
-		const parentDiv = childContent.parentElement;
-		expect(parentDiv.tagName).toBe('DIV');
+		expect(screen.getByText('Term 1')).toBeInTheDocument();
+		expect(screen.getByText('Definition 1')).toBeInTheDocument();
+		expect(screen.getByText('Term 2')).toBeInTheDocument();
+		expect(screen.getByText('Definition 2')).toBeInTheDocument();
+	});
+
+	it('should apply custom className to DL', () => {
+		render(<DL className="custom-class">Content</DL>);
+		const dl = screen.getByText('Content').closest('dl');
+		expect(dl).toHaveClass('custom-class');
+	});
+});
+
+describe('Fieldset and Legend', () => {
+	it('should render Fieldset as a fieldset element', () => {
+		render(<Fieldset>Fieldset content</Fieldset>);
+		const fieldset = screen.getByText('Fieldset content').closest('fieldset');
+		expect(fieldset.tagName).toBe('FIELDSET');
+	});
+
+	it('should render Legend as a legend element', () => {
+		render(
+			<Fieldset>
+				<Legend>Legend text</Legend>
+			</Fieldset>
+		);
+		const legend = screen.getByText('Legend text');
+		expect(legend.tagName).toBe('LEGEND');
+	});
+
+	it('should render visually hidden legend when prop is set', () => {
+		render(
+			<Fieldset>
+				<Legend visuallyHidden>Hidden legend</Legend>
+			</Fieldset>
+		);
+		const legend = screen.getByText('Hidden legend');
+		expect(legend.tagName).toBe('LEGEND');
+	});
+
+	it('should apply custom className to Fieldset', () => {
+		render(<Fieldset className="custom-class">Content</Fieldset>);
+		const fieldset = screen.getByText('Content').closest('fieldset');
+		expect(fieldset).toHaveClass('custom-class');
+	});
+
+	it('should apply custom className to Legend', () => {
+		render(
+			<Fieldset>
+				<Legend className="custom-class">Legend</Legend>
+			</Fieldset>
+		);
+		const legend = screen.getByText('Legend');
+		expect(legend).toHaveClass('custom-class');
 	});
 });
 

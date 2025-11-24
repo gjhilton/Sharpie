@@ -1,11 +1,13 @@
-import { css } from '../../../styled-system/css';
-import { useEffect } from 'react';
+import { css } from '../../../dist/styled-system/css';
 import Button from '@components/Button/Button.jsx';
 import KB from '@components/KB/KB.jsx';
-import Character, { CHARACTER_STATE } from '@components/Character/Character.jsx';
+import Character, {
+	CHARACTER_STATE,
+} from '@components/Character/Character.jsx';
 import { STATUS } from '@utilities/gameLogic.js';
 import { DB } from '@data/DB.js';
 import { GAME_MODES } from '@constants/stages.js';
+import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 
 const SPACING = {
 	SECTION_GAP: '2rem',
@@ -37,17 +39,7 @@ export const CorrectAnswer = ({
 	const alphabetTitle = alphabet?.title;
 	const alphabetDate = alphabet?.date;
 
-	useEffect(() => {
-		const handleKeyDown = e => {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-				onNext();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [onNext]);
+	useEnterKey(onNext);
 
 	return (
 		<>
@@ -69,15 +61,16 @@ export const CorrectAnswer = ({
 						textAlign: 'center',
 						marginTop: '1rem',
 						padding: '0.75rem',
-						color: "{colors.error}",
-						border: "1px solid {colors.error}",
+						color: '{colors.error}',
+						border: '1px solid {colors.error}',
 						fontSize: 's',
 						fontWeight: '600',
-						width: "300px",
-						margin: "auto"
+						width: '300px',
+						margin: 'auto',
 					})}
 				>
-					Accepted: Using 24-letter alphabet, so I and J and U and V are interchangeable
+					Accepted: Using 24-letter alphabet, so I and J and U and V
+					are interchangeable
 				</div>
 			)}
 			<div
@@ -106,17 +99,7 @@ export const IncorrectAnswer = ({
 	const alphabetTitle = alphabet?.title;
 	const alphabetDate = alphabet?.date;
 
-	useEffect(() => {
-		const handleKeyDown = e => {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-				onNext();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [onNext]);
+	useEnterKey(onNext);
 
 	return (
 		<>
@@ -191,7 +174,9 @@ export const StatusDisplay = ({
 			);
 		case STATUS.NONE:
 		default:
-			return <Unanswered solution={solution} showBaseline={showBaseline} />;
+			return (
+				<Unanswered solution={solution} showBaseline={showBaseline} />
+			);
 	}
 };
 

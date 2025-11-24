@@ -9,11 +9,14 @@ vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
 	),
 }));
 
-vi.mock('@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx', () => ({
-	default: ({ imagePaths }) => (
-		<div data-testid="character-slideshow">{imagePaths.join(',')}</div>
-	),
-}));
+vi.mock(
+	'@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx',
+	() => ({
+		default: ({ imagePaths }) => (
+			<div data-testid="character-slideshow">{imagePaths.join(',')}</div>
+		),
+	})
+);
 
 vi.mock('@components/Icon/Icon.jsx', () => ({
 	default: ({ icon }) => <span data-testid="icon">{icon}</span>,
@@ -173,7 +176,9 @@ describe('Character', () => {
 					note="First letter of word"
 				/>
 			);
-			expect(screen.getByText('First letter of word')).toBeInTheDocument();
+			expect(
+				screen.getByText('First letter of word')
+			).toBeInTheDocument();
 		});
 
 		it('should display note in CORRECT_ANSWER state', () => {
@@ -184,7 +189,9 @@ describe('Character', () => {
 					note="First letter of word"
 				/>
 			);
-			expect(screen.getByText('First letter of word')).toBeInTheDocument();
+			expect(
+				screen.getByText('First letter of word')
+			).toBeInTheDocument();
 		});
 
 		it('should display note in INCORRECT_ANSWER state', () => {
@@ -195,12 +202,17 @@ describe('Character', () => {
 					note="First letter of word"
 				/>
 			);
-			expect(screen.getByText('First letter of word')).toBeInTheDocument();
+			expect(
+				screen.getByText('First letter of word')
+			).toBeInTheDocument();
 		});
 
 		it('should not display note when not provided', () => {
 			render(
-				<Character {...defaultProps} state={CHARACTER_STATE.AWAIT_ANSWER} />
+				<Character
+					{...defaultProps}
+					state={CHARACTER_STATE.AWAIT_ANSWER}
+				/>
 			);
 			// No note text should be present
 			expect(screen.queryByText(/First letter/)).not.toBeInTheDocument();
@@ -262,7 +274,9 @@ describe('Character', () => {
 			// Note
 			expect(screen.getByText('Important note')).toBeInTheDocument();
 			// Red overlay
-			expect(screen.getByLabelText('Incorrect answer')).toBeInTheDocument();
+			expect(
+				screen.getByLabelText('Incorrect answer')
+			).toBeInTheDocument();
 		});
 	});
 });

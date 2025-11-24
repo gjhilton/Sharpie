@@ -12,7 +12,11 @@ const GameScreen = ({
 	showBaseline = false,
 	enabledAlphabets = null,
 }) => {
-	const graphs = gameLogic.getGraphsForGameMode(DB, gameMode, enabledAlphabets);
+	const graphs = gameLogic.getGraphsForGameMode(
+		DB,
+		gameMode,
+		enabledAlphabets
+	);
 	const [currentSolution, setCurrentSolution] = useState(
 		gameLogic.createRandomSolution(graphs)
 	);
@@ -105,4 +109,5 @@ const GameScreen = ({
 	);
 };
 
+export { GameScreen };
 export default GameScreen;

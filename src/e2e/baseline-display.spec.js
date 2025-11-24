@@ -413,23 +413,19 @@ test.describe('Baseline Display Feature', () => {
 		test('baselines and 24-letter alphabet can be used together', async ({
 			page,
 		}) => {
-			// Both 24-letter alphabet and baseline are ON by default
-			// No need to change any toggles, just verify they're both ON
+			// Expand Options section
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
 			});
 			await optionsHeader.click();
 
-			// Verify 24-letter alphabet is ON
+			// Turn ON 24-letter alphabet (baseline is already ON by default)
 			const alphabetToggle = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
-			await expect(alphabetToggle).toHaveAttribute(
-				'aria-checked',
-				'true'
-			);
+			await alphabetToggle.click();
 
-			// Verify baseline is also ON
+			// Verify baseline is still ON
 			const baselineToggle = page.getByRole('switch', {
 				name: 'Show baselines',
 			});
@@ -453,11 +449,11 @@ test.describe('Baseline Display Feature', () => {
 			const keyboardText = await page
 				.locator('.simple-keyboard')
 				.textContent();
-			// Should have combined letters with parentheses (i(j) or u(v))
+			// Should have combined letters (i/j or u/v)
 			const hasCombinedLetters =
-				keyboardText.includes('(') &&
-				(keyboardText.match(/[iI]\([jJ]\)/) ||
-					keyboardText.match(/[uU]\([vV]\)/));
+				keyboardText.includes('/') &&
+				(keyboardText.match(/[iI]\/[jJ]/) ||
+					keyboardText.match(/[uU]\/[vV]/));
 			expect(hasCombinedLetters).toBeTruthy();
 		});
 
@@ -468,14 +464,11 @@ test.describe('Baseline Display Feature', () => {
 			});
 			await optionsHeader.click();
 
-			// 24-letter alphabet is already ON by default - no need to toggle it
+			// Turn ON 24-letter alphabet
 			const alphabetToggle = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
-			await expect(alphabetToggle).toHaveAttribute(
-				'aria-checked',
-				'true'
-			);
+			await alphabetToggle.click();
 
 			// Turn OFF baselines
 			const baselineToggle = page.getByRole('switch', {
@@ -500,9 +493,9 @@ test.describe('Baseline Display Feature', () => {
 				.locator('.simple-keyboard')
 				.textContent();
 			const hasCombinedLetters =
-				keyboardText.includes('(') &&
-				(keyboardText.match(/[iI]\([jJ]\)/) ||
-					keyboardText.match(/[uU]\([vV]\)/));
+				keyboardText.includes('/') &&
+				(keyboardText.match(/[iI]\/[jJ]/) ||
+					keyboardText.match(/[uU]\/[vV]/));
 			expect(hasCombinedLetters).toBeTruthy();
 		});
 	});

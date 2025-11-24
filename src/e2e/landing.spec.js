@@ -51,9 +51,15 @@ test.describe('Landing Screen', () => {
 		const optionsHeader = page.getByRole('button', { name: /options/i });
 		await optionsHeader.click();
 
-		const minusculesRadio = page.getByRole('radio', { name: /minuscules only/i });
-		const majusculesRadio = page.getByRole('radio', { name: /MAJUSCULES only/i });
-		const bothRadio = page.getByRole('radio', { name: /both minuscules AND MAJUSCULES/i });
+		const minusculesRadio = page.getByRole('radio', {
+			name: /minuscules only/i,
+		});
+		const majusculesRadio = page.getByRole('radio', {
+			name: /MAJUSCULES only/i,
+		});
+		const bothRadio = page.getByRole('radio', {
+			name: /both minuscules AND MAJUSCULES/i,
+		});
 
 		await expect(minusculesRadio).toBeVisible();
 		await expect(majusculesRadio).toBeVisible();
@@ -74,7 +80,9 @@ test.describe('Landing Screen', () => {
 		await expect(chooseAlphabetsButton).toBeVisible();
 	});
 
-	test('should display question bank statistics in Options', async ({ page }) => {
+	test('should display question bank statistics in Options', async ({
+		page,
+	}) => {
 		// Expand Options section first
 		const optionsHeader = page.getByRole('button', { name: /options/i });
 		await optionsHeader.click();
@@ -85,12 +93,16 @@ test.describe('Landing Screen', () => {
 		).toBeVisible();
 	});
 
-	test('should have 24-letter alphabet toggle in Options', async ({ page }) => {
+	test('should have 24-letter alphabet toggle in Options', async ({
+		page,
+	}) => {
 		// Expand Options section first
 		const optionsHeader = page.getByRole('button', { name: /options/i });
 		await optionsHeader.click();
 
-		const alphabetToggle = page.getByRole('switch', { name: /24-letter alphabet/i });
+		const alphabetToggle = page.getByRole('switch', {
+			name: /24-letter alphabet/i,
+		});
 		await expect(alphabetToggle).toBeVisible();
 	});
 
@@ -99,7 +111,9 @@ test.describe('Landing Screen', () => {
 		const optionsHeader = page.getByRole('button', { name: /options/i });
 		await optionsHeader.click();
 
-		const baselineToggle = page.getByRole('switch', { name: /show baselines/i });
+		const baselineToggle = page.getByRole('switch', {
+			name: /show baselines/i,
+		});
 		await expect(baselineToggle).toBeVisible();
 		// Baselines should be on by default
 		await expect(baselineToggle).toBeChecked();
@@ -117,13 +131,19 @@ test.describe('Landing Screen', () => {
 	});
 
 	test('should have collapsible How to play section', async ({ page }) => {
-		const howToPlayHeader = page.getByRole('button', { name: /how to play/i });
+		const howToPlayHeader = page.getByRole('button', {
+			name: /how to play/i,
+		});
 		await expect(howToPlayHeader).toBeVisible();
 		await expect(howToPlayHeader).toHaveAttribute('aria-expanded', 'false');
 	});
 
-	test('should display gameplay instructions when How to play is expanded', async ({ page }) => {
-		const howToPlayHeader = page.getByRole('button', { name: /how to play/i });
+	test('should display gameplay instructions when How to play is expanded', async ({
+		page,
+	}) => {
+		const howToPlayHeader = page.getByRole('button', {
+			name: /how to play/i,
+		});
 		await howToPlayHeader.click();
 
 		// Check for key instruction text
@@ -132,8 +152,12 @@ test.describe('Landing Screen', () => {
 		).toBeVisible();
 	});
 
-	test('should have collapsible Next steps for learners section', async ({ page }) => {
-		const nextStepsHeader = page.getByRole('button', { name: /next steps for learners/i });
+	test('should have collapsible Next steps for learners section', async ({
+		page,
+	}) => {
+		const nextStepsHeader = page.getByRole('button', {
+			name: /next steps for learners/i,
+		});
 		await expect(nextStepsHeader).toBeVisible();
 		await expect(nextStepsHeader).toHaveAttribute('aria-expanded', 'false');
 	});
@@ -141,7 +165,9 @@ test.describe('Landing Screen', () => {
 	test('should have external links to learning resources when Next steps is expanded', async ({
 		page,
 	}) => {
-		const nextStepsHeader = page.getByRole('button', { name: /next steps for learners/i });
+		const nextStepsHeader = page.getByRole('button', {
+			name: /next steps for learners/i,
+		});
 		await nextStepsHeader.click();
 
 		const ehocLink = page.getByRole('link', {
@@ -164,13 +190,15 @@ test.describe('Landing Screen', () => {
 		await expect(scottishLink).toHaveAttribute('target', '_blank');
 	});
 
-	test('should have collapsible What\'s new section', async ({ page }) => {
+	test("should have collapsible What's new section", async ({ page }) => {
 		const whatsNewHeader = page.getByRole('button', { name: /what.*new/i });
 		await expect(whatsNewHeader).toBeVisible();
 		await expect(whatsNewHeader).toHaveAttribute('aria-expanded', 'false');
 	});
 
-	test('should display changelog when What\'s new is expanded', async ({ page }) => {
+	test("should display changelog when What's new is expanded", async ({
+		page,
+	}) => {
 		const whatsNewHeader = page.getByRole('button', { name: /what.*new/i });
 		await whatsNewHeader.click();
 
@@ -178,9 +206,9 @@ test.describe('Landing Screen', () => {
 		await expect(page.getByText(/v\d+\.\d+\.\d+/).first()).toBeVisible();
 	});
 
-	test('should have feedback link in small print', async ({ page }) => {
-		const feedbackLink = page.getByRole('link', { name: /feedback/i });
-		await expect(feedbackLink).toBeVisible();
+	test('should have feedback button in small print', async ({ page }) => {
+		const feedbackButton = page.getByRole('button', { name: /feedback/i });
+		await expect(feedbackButton).toBeVisible();
 	});
 
 	test('should display version number in footer', async ({ page }) => {
@@ -201,7 +229,9 @@ test.describe('Landing Screen', () => {
 		expect(onLanding).toBe(true);
 	});
 
-	test('should toggle disclosure sections by clicking anywhere on header', async ({ page }) => {
+	test('should toggle disclosure sections by clicking anywhere on header', async ({
+		page,
+	}) => {
 		// Test that clicking the header button toggles the section
 		const optionsButton = page.getByRole('button', { name: /options/i });
 

@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 
 const ButtonLabel = ({ text }) => (
 	<span
@@ -63,4 +63,5 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 	);
 };
 
+export { Button };
 export default Button;

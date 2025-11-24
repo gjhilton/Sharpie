@@ -1,7 +1,7 @@
 import MarkdownWithPlaceholders from './MarkdownWithPlaceholders';
 import Toggle from '@components/Toggle/Toggle.jsx';
 import Button from '@components/Button/Button.jsx';
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 
 export default {
 	title: 'Components/MarkdownWithPlaceholders',

@@ -1,4 +1,9 @@
-import { GamePresentation, CorrectAnswer, IncorrectAnswer, Unanswered } from '@components/GamePresentation/GamePresentation.jsx';
+import {
+	GamePresentation,
+	CorrectAnswer,
+	IncorrectAnswer,
+	Unanswered,
+} from '@components/GamePresentation/GamePresentation.jsx';
 import { STATUS } from '@utilities/gameLogic.js';
 
 export default {
@@ -131,7 +136,9 @@ export const IncorrectAnswerComponent = {
 		<IncorrectAnswer
 			solution={mockSolution}
 			attempt="j"
-			attemptImagePaths={['/data/Joscelyn/joscelyn-minuscule-assets/j.png']}
+			attemptImagePaths={[
+				'/data/Joscelyn/joscelyn-minuscule-assets/j.png',
+			]}
 			onNext={() => console.log('Next clicked')}
 		/>
 	),

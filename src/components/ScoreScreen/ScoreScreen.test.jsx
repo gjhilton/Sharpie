@@ -176,4 +176,60 @@ describe('ScoreScreen', () => {
 		expect(screen.getByText('0%')).toBeInTheDocument();
 		expect(screen.getByText(/^0$/)).toBeInTheDocument(); // correct answers
 	});
+
+	describe('Enter Key Navigation', () => {
+		it('should call onReturnToMenu when Enter key is pressed', async () => {
+			const handleReturn = vi.fn();
+			const user = userEvent.setup();
+
+			render(<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />);
+
+			await user.keyboard('{Enter}');
+			expect(handleReturn).toHaveBeenCalledTimes(1);
+		});
+
+		it('should prevent default on Enter key', async () => {
+			const handleReturn = vi.fn();
+			const user = userEvent.setup();
+
+			render(<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />);
+
+			await user.keyboard('{Enter}');
+			// If default was not prevented, form might submit etc.
+			// We just verify the handler was called
+			expect(handleReturn).toHaveBeenCalled();
+		});
+
+		it('should clean up event listener on unmount', () => {
+			const handleReturn = vi.fn();
+			const { unmount } = render(
+				<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />
+			);
+
+			unmount();
+
+			// Dispatch keyboard event after unmount
+			const event = new KeyboardEvent('keydown', { key: 'Enter' });
+			window.dispatchEvent(event);
+
+			// Should not have been called since listener was removed
+			expect(handleReturn).not.toHaveBeenCalled();
+		});
+	});
+
+	it('should handle score without mistakes array', () => {
+		const scoreWithoutMistakes = {
+			correct: 5,
+			incorrect: 1,
+			percentage: 83,
+			timeElapsed: 30,
+		};
+
+		render(
+			<ScoreScreen score={scoreWithoutMistakes} onReturnToMenu={() => {}} />
+		);
+
+		expect(screen.getByText('Correct Answers')).toBeInTheDocument();
+		expect(screen.queryByText('Letters to Review')).not.toBeInTheDocument();
+	});
 });

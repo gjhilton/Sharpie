@@ -1,4 +1,11 @@
 {
+	"McKerrow": {
+		"title": "McKerrow, 'A Note on Elizabethan Handwriting', reprinted in Wolfe, The Alphabet Book",
+		"sourceUri": "https://folgerpedia.folger.edu/mediawiki/media/images_pedia_folgerpedia_mw/7/79/AlphabetBook2020.pdf",
+		"date": "1927",
+		"isDefaultEnabled": true,
+		"difficulty": "easy"
+	},
 	"PCAttorney": {
 		"title": "Letter from the Privy Council to the King & Queen's Attorney",
 		"sourceUri": "https://digitalcollections.folger.edu/bib193308-247919-xd30_2?language=en",
@@ -9,30 +16,35 @@
 		"title": "Letter from the Privy Council to Nathaniel Bacon",
 		"sourceUri": "https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en",
 		"date": "1594",
-		"isDefaultEnabled": true
+		"isDefaultEnabled": true,
+		"difficulty": "medium"
 	},
 	"Howard": {
 		"title": "Letter: Charles Howard, Lord Chamberlain",
 		"sourceUri": "https://digitalcollections.folger.edu/bib193549-251897",
 		"date": "1579/80",
-		"isDefaultEnabled": true
+		"isDefaultEnabled": true,
+		"difficulty": "medium"
 	},
 	"Joscelyn": {
 		"title": "Joscelyn typeface, drawn by Peter Baker",
 		"sourceUri": "https://github.com/psb1558/Joscelyn-font/releases",
 		"date": "2019",
-		"isDefaultEnabled": true
+		"isDefaultEnabled": true,
+		"difficulty": "easy"
 	},
 	"BeauChesne-Baildon": {
 		"title": "\"The secretarie Alphabete\" Jehan de Beau-Chesne & John Baildon, A booke containing diuers sortes of hands (London, 1602). First edition 1570.",
 		"sourceUri": "https://archive.org/details/bim_early-english-books-1475-1640_a-booke-containing-diuer_de-beau-chesne-john-a_1615",
 		"date": "1570",
-		"isDefaultEnabled": true
+		"isDefaultEnabled": true,
+		"difficulty": "hard"
 	},
 	"Hill": {
 		"title": "Commonplace book of William Hill ",
 		"sourceUri": "https://search.library.yale.edu/catalog/9970402713408651",
 		"date": "1574/5",
-		"isDefaultEnabled": true
+		"isDefaultEnabled": true,
+		"difficulty": "hard"
 	}
 }

@@ -1,4 +1,4 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import CharacterImageSlideshow from '@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx';
 import Icon, { ICON_TYPE } from '@components/Icon/Icon.jsx';
@@ -93,7 +93,9 @@ const Character = ({
 					imagePath={imagePath}
 					showBaseline={showBaseline}
 					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'
+						state === CHARACTER_STATE.INCORRECT_ANSWER
+							? 'ink'
+							: 'baseline'
 					}
 				/>
 			) : (
@@ -101,7 +103,9 @@ const Character = ({
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
 					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline'
+						state === CHARACTER_STATE.INCORRECT_ANSWER
+							? 'ink'
+							: 'baseline'
 					}
 				/>
 			)}

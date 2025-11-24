@@ -1,9 +1,15 @@
-import { css } from '../../../styled-system/css';
+import { css } from '../../../dist/styled-system/css';
 import React, { useEffect } from 'react';
-import Toggle from '@components/Toggle/Toggle.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import { PageTitle, Paragraph, Heading, PageWidth } from '@components/Layout/Layout.jsx';
+import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
+import {
+	PageTitle,
+	Paragraph,
+	Heading,
+	PageWidth,
+} from '@components/Layout/Layout.jsx';
 import { DB } from '@data/DB.js';
 import alphabetsData from '@data/alphabets.json';
 import * as db from '@utilities/database.js';
@@ -25,8 +31,8 @@ const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
 			alignItems: 'center',
 			justifyContent: 'center',
 			cborder: '1px solid {colors.ink/10}',
+			opacity: isEnabled ? 1 : 0.2,
 		})}
-		style={{ opacity: isEnabled ? 1 : 0.2 }}
 	>
 		<CharacterImage
 			imagePath={db.getImagePath(graph)}
@@ -42,7 +48,7 @@ const LetterHeader = ({ letter }) => (
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'baseline',
-			borderBottom: "2px solid black",
+			borderBottom: '2px solid black',
 			marginBottom: '1rem',
 		})}
 	>
@@ -52,7 +58,7 @@ const LetterHeader = ({ letter }) => (
 				fontSize: '24px',
 				fontWeight: '900',
 				margin: '0',
-				
+
 				desktop: {
 					fontSize: '28px',
 				},
@@ -60,7 +66,7 @@ const LetterHeader = ({ letter }) => (
 		>
 			{letter}
 		</h3>
-		<a href="#top" style={{ fontSize: '0.75rem' }}>
+		<a href="#top" className={css({ fontSize: '0.75rem' })}>
 			back to top
 		</a>
 	</div>
@@ -75,7 +81,6 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 				gridTemplateColumns: 'repeat(6, 1fr)',
 				gap: 0,
 				padding: '0',
-				
 			})}
 		>
 			{glyphs.map((glyph, index) => (
@@ -91,7 +96,12 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 );
 
 const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
-	<section className={css({ gridColumn: '1 / -1', marginBottom: STYLES.verticalGap })}>
+	<section
+		className={css({
+			gridColumn: '1 / -1',
+			marginBottom: STYLES.verticalGap,
+		})}
+	>
 		{letters.map(({ character, graphs }) => (
 			<LetterGallery
 				key={character}
@@ -103,43 +113,6 @@ const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
 		))}
 	</section>
 );
-
-const AlphabetRow = ({ name, metadata, isEnabled, onToggle }) => (
-	<React.Fragment>
-		<Toggle id={`alphabet-${name}`} checked={isEnabled} onChange={onToggle} />
-		<span className={css({ fontWeight: '900' })}>{metadata.date}</span>
-		<span>{metadata.title}</span>
-		<a href={metadata.sourceUri} target="_blank" rel="noopener noreferrer">
-			source
-		</a>
-	</React.Fragment>
-);
-
-const AlphabetSelector = ({ enabledAlphabets, onToggle }) => {
-	const sortedNames = db.sortAlphabetsByDate(db.getAllAlphabetNames(DB), alphabetsData);
-
-	return (
-		<div
-			style={{
-				display: 'grid',
-				gridTemplateColumns: 'auto 1fr auto auto',
-				gap: '0.5rem 1rem',
-				alignItems: 'start',
-				marginTop: '2rem',
-			}}
-		>
-			{sortedNames.map(name => (
-				<AlphabetRow
-					key={name}
-					name={name}
-					metadata={alphabetsData[name]}
-					isEnabled={enabledAlphabets[name] || false}
-					onToggle={() => onToggle(name)}
-				/>
-			))}
-		</div>
-	);
-};
 
 const LetterLink = ({ letter }) => (
 	<a
@@ -170,11 +143,20 @@ const LetterIndex = ({ label, letters }) => {
 };
 
 const CharacterIndex = ({ letterGroups }) => {
-	const minuscules = letterGroups.find(group => group.title === 'minuscules')?.characters || [];
-	const majuscules = letterGroups.find(group => group.title === 'MAJUSCULES')?.characters || [];
+	const minuscules =
+		letterGroups.find(group => group.title === 'minuscules')?.characters ||
+		[];
+	const majuscules =
+		letterGroups.find(group => group.title === 'MAJUSCULES')?.characters ||
+		[];
 
 	return (
-		<div className={css({ marginTop: STYLES.verticalGap, gridColumn: '1 / -1' })}>
+		<div
+			className={css({
+				marginTop: STYLES.verticalGap,
+				gridColumn: '1 / -1',
+			})}
+		>
 			<PageTitle>Character Catalogue</PageTitle>
 			<Heading>Jump to...</Heading>
 			<LetterIndex label="minuscule" letters={minuscules} />
@@ -186,22 +168,19 @@ const CharacterIndex = ({ letterGroups }) => {
 const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	if (isDisabled) {
 		return (
-			<span className={css({ color: '{colors.error}', cursor: 'not-allowed' })}>
+			<span
+				className={css({
+					color: '{colors.error}',
+					cursor: 'not-allowed',
+				})}
+			>
 				Not allowed! Select one or more alphabets to continue
 			</span>
 		);
 	}
 
 	return (
-		<a
-			href="#"
-			onClick={e => {
-				e.preventDefault();
-				onReturnToMenu();
-			}}
-		>
-			← Back to Menu
-		</a>
+		<LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>
 	);
 };
 
@@ -217,7 +196,8 @@ const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
 	return (
 		<Paragraph>
 			Enable the alphabets you'd like to work on from the list below. At
-			present you have enabled <strong>{alphabetCount}</strong> {alphabetCount === 1? "alphabet":"alphabets"} (
+			present you have enabled <strong>{alphabetCount}</strong>{' '}
+			{alphabetCount === 1 ? 'alphabet' : 'alphabets'} (
 			<strong>{characterCount}</strong> characters).
 		</Paragraph>
 	);
@@ -252,7 +232,10 @@ const CatalogueScreen = ({
 		<PageWidth>
 			<header id="top" className={css({ gridColumn: '1 / -1' })}>
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
-					<BackLink isDisabled={hasNoSelection} onReturnToMenu={onReturnToMenu} />
+					<BackLink
+						isDisabled={hasNoSelection}
+						onReturnToMenu={onReturnToMenu}
+					/>
 				</div>
 
 				<Heading
@@ -267,9 +250,10 @@ const CatalogueScreen = ({
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<Paragraph>
-						The alphabets Sharpie tests are extracted from a range of source documents.
-						Expanding the time and stylistic coverage of the alphabets available for
-						practice is the current top priority. Watch this space.
+						The alphabets Sharpie tests are extracted from a range
+						of source documents. Expanding the time and stylistic
+						coverage of the alphabets available for practice is the
+						current top priority. Watch this space.
 					</Paragraph>
 
 					<SelectionStatus
@@ -278,8 +262,10 @@ const CatalogueScreen = ({
 						characterCount={characterCount}
 					/>
 
-					<AlphabetSelector
+					<AlphabetSelectorWithSort
 						enabledAlphabets={enabledAlphabets}
+						alphabetNames={db.getAllAlphabetNames(DB)}
+						alphabetsMetadata={alphabetsData}
 						onToggle={handleToggleAlphabet}
 					/>
 				</div>
@@ -301,4 +287,5 @@ const CatalogueScreen = ({
 	);
 };
 
+export { CatalogueScreen };
 export default CatalogueScreen;

@@ -1,9 +1,9 @@
-import { css } from '../../../styled-system/css';
-import { useEffect } from 'react';
+import { css } from '../../../dist/styled-system/css';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Heading } from '@components/Layout/Layout.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
+import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 
 const formatTime = seconds => {
 	const mins = Math.floor(seconds / 60);
@@ -77,7 +77,12 @@ const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	</div>
 );
 
-const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) => {
+const ScoreScreen = ({
+	score,
+	onReturnToMenu,
+	onShowFeedback,
+	showBaseline,
+}) => {
 	const {
 		correct,
 		incorrect,
@@ -86,17 +91,7 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) =>
 		mistakes = [],
 	} = score;
 
-	useEffect(() => {
-		const handleKeyDown = e => {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-				onReturnToMenu();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [onReturnToMenu]);
+	useEnterKey(onReturnToMenu);
 
 	const stats = [
 		{
@@ -186,7 +181,7 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) =>
 					display: 'flex',
 					justifyContent: 'center',
 					marginTop: '2rem',
-				padding: { base: '0 2rem', sm: '0' },
+					padding: { base: '0 2rem', sm: '0' },
 				})}
 			>
 				<Button onClick={onReturnToMenu} label="Return to Menu" />
@@ -205,4 +200,5 @@ const ScoreScreen = ({ score, onReturnToMenu, onShowFeedback, showBaseline }) =>
 	);
 };
 
+export { ScoreScreen };
 export default ScoreScreen;

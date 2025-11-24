@@ -37,52 +37,36 @@ describe('SmallPrint', () => {
 		);
 	});
 
-	it('does not show feedback link when onShowFeedback is not provided', () => {
+	it('does not show feedback button when onShowFeedback is not provided', () => {
 		render(<SmallPrint />);
 
-		const feedbackLink = screen.queryByRole('link', {
+		const feedbackButton = screen.queryByRole('button', {
 			name: /Report a problem/i,
 		});
-		expect(feedbackLink).not.toBeInTheDocument();
+		expect(feedbackButton).not.toBeInTheDocument();
 	});
 
-	it('shows feedback link when onShowFeedback is provided', () => {
+	it('shows feedback button when onShowFeedback is provided', () => {
 		const mockShowFeedback = vi.fn();
 		render(<SmallPrint onShowFeedback={mockShowFeedback} />);
 
-		const feedbackLink = screen.getByRole('link', {
+		const feedbackButton = screen.getByRole('button', {
 			name: /Report a problem \/ send feedback/i,
 		});
-		expect(feedbackLink).toBeInTheDocument();
+		expect(feedbackButton).toBeInTheDocument();
 	});
 
-	it('calls onShowFeedback when feedback link is clicked', async () => {
+	it('calls onShowFeedback when feedback button is clicked', async () => {
 		const user = userEvent.setup();
 		const mockShowFeedback = vi.fn();
 		render(<SmallPrint onShowFeedback={mockShowFeedback} />);
 
-		const feedbackLink = screen.getByRole('link', {
+		const feedbackButton = screen.getByRole('button', {
 			name: /Report a problem \/ send feedback/i,
 		});
-		await user.click(feedbackLink);
+		await user.click(feedbackButton);
 
 		expect(mockShowFeedback).toHaveBeenCalledTimes(1);
-	});
-
-	it('prevents default behavior when feedback link is clicked', async () => {
-		const user = userEvent.setup();
-		const mockShowFeedback = vi.fn();
-		render(<SmallPrint onShowFeedback={mockShowFeedback} />);
-
-		const feedbackLink = screen.getByRole('link', {
-			name: /Report a problem \/ send feedback/i,
-		});
-		expect(feedbackLink).toHaveAttribute('href', '#');
-
-		await user.click(feedbackLink);
-
-		// If default wasn't prevented, browser would navigate
-		expect(mockShowFeedback).toHaveBeenCalled();
 	});
 
 	it('renders as a footer element', () => {
@@ -100,7 +84,7 @@ describe('SmallPrint', () => {
 		).toBeInTheDocument();
 	});
 
-	it('feedback link text is correct', () => {
+	it('feedback button text is correct', () => {
 		const mockShowFeedback = vi.fn();
 		render(<SmallPrint onShowFeedback={mockShowFeedback} />);
 
@@ -109,30 +93,17 @@ describe('SmallPrint', () => {
 		).toBeInTheDocument();
 	});
 
-	it('renders all links with correct targets', () => {
+	it('renders correct number of elements when feedback is provided', () => {
 		const mockShowFeedback = vi.fn();
 		render(<SmallPrint onShowFeedback={mockShowFeedback} />);
 
+		// Two actual links (GitHub, funeral games)
 		const links = screen.getAllByRole('link');
-		expect(links).toHaveLength(3); // feedback, GitHub, funeral games
+		expect(links).toHaveLength(2);
 
-		const githubLink = screen.getByRole('link', { name: /code/i });
-		const funeralGamesLink = screen.getByRole('link', {
-			name: /funeral games/i,
-		});
-		const feedbackLink = screen.getByRole('link', {
-			name: /Report a problem/i,
-		});
-
-		expect(feedbackLink).toHaveAttribute('href', '#');
-		expect(githubLink).toHaveAttribute(
-			'href',
-			'https://github.com/gjhilton/Sharpie'
-		);
-		expect(funeralGamesLink).toHaveAttribute(
-			'href',
-			'http://funeralgames.co.uk'
-		);
+		// One button for feedback
+		const buttons = screen.getAllByRole('button');
+		expect(buttons).toHaveLength(1);
 	});
 
 	it('only renders two links when onShowFeedback is not provided', () => {

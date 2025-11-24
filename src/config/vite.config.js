@@ -44,7 +44,8 @@ export default defineConfig({
 			'@data': resolve(__dirname, '../data'),
 			'@utilities': resolve(__dirname, '../utilities'),
 			'@style': resolve(__dirname, '../style'),
-			'@generated': resolve(__dirname, '../../styled-system'),
+			'@lib': resolve(__dirname, '../lib'),
+			'@generated': resolve(__dirname, '../../dist/styled-system'),
 		},
 	},
 });

@@ -185,4 +185,5 @@ const KB = ({
 	);
 };
 
+export { KB };
 export default KB;

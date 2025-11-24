@@ -1,32 +1,19 @@
 import { css } from '../../../dist/styled-system/css';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
 
-const BulkSelectionLink = ({ children, onClick, disabled = false }) => {
-	const handleClick = e => {
-		e.preventDefault();
-		if (!disabled && onClick) {
-			onClick();
-		}
-	};
+const BulkSelectionLink = ({ children, onClick, disabled = false }) => (
+	<LinkAsButton
+		onClick={onClick}
+		disabled={disabled}
+		className={css({
+			color: disabled ? '{colors.ink/20}' : '{colors.ink}',
+			'&:hover:not(:disabled)': {
+				color: '{colors.toggleActive}',
+			},
+		})}
+	>
+		{children}
+	</LinkAsButton>
+);
 
-	return (
-		<a
-			href="#"
-			onClick={handleClick}
-			className={css({
-				color: disabled ? '{colors.ink/20}' : '{colors.ink}',
-				textDecoration: disabled ? 'none' : 'underline',
-				cursor: disabled ? 'not-allowed' : 'pointer',
-				'&:hover': {
-					color: disabled
-						? '{colors.ink/20}'
-						: '{colors.toggleActive}',
-				},
-			})}
-			aria-disabled={disabled}
-		>
-			{children}
-		</a>
-	);
-};
-
-export default BulkSelectionLink;
+export { BulkSelectionLink };

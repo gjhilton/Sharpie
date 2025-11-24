@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import BulkSelectionLink from './BulkSelectionLink';
+import { BulkSelectionLink } from './BulkSelectionLink';
 
 describe('BulkSelectionLink', () => {
 	it('renders children text', () => {
@@ -42,39 +42,22 @@ describe('BulkSelectionLink', () => {
 		expect(handleClick).not.toHaveBeenCalled();
 	});
 
-	it('sets aria-disabled to true when disabled', () => {
+	it('is disabled when disabled prop is true', () => {
 		render(
 			<BulkSelectionLink disabled={true}>select all</BulkSelectionLink>
 		);
 
-		const link = screen.getByText('select all');
-		expect(link).toHaveAttribute('aria-disabled', 'true');
+		const button = screen.getByRole('button');
+		expect(button).toBeDisabled();
 	});
 
-	it('sets aria-disabled to false when not disabled', () => {
+	it('is not disabled when disabled prop is false', () => {
 		render(
 			<BulkSelectionLink disabled={false}>select all</BulkSelectionLink>
 		);
 
-		const link = screen.getByText('select all');
-		expect(link).toHaveAttribute('aria-disabled', 'false');
-	});
-
-	it('prevents default link behavior', async () => {
-		const handleClick = vi.fn();
-		const user = userEvent.setup();
-
-		render(
-			<BulkSelectionLink onClick={handleClick}>
-				select all
-			</BulkSelectionLink>
-		);
-
-		const link = screen.getByText('select all');
-		await user.click(link);
-
-		// If default was not prevented, page would navigate
-		expect(handleClick).toHaveBeenCalled();
+		const button = screen.getByRole('button');
+		expect(button).not.toBeDisabled();
 	});
 
 	it('works without onClick handler', async () => {
@@ -82,15 +65,15 @@ describe('BulkSelectionLink', () => {
 
 		render(<BulkSelectionLink>select all</BulkSelectionLink>);
 
-		const link = screen.getByText('select all');
+		const button = screen.getByRole('button');
 		// Should not throw error
-		await user.click(link);
+		await user.click(button);
 	});
 
-	it('renders as a link element', () => {
+	it('renders as a button element', () => {
 		render(<BulkSelectionLink>select all</BulkSelectionLink>);
 
-		const link = screen.getByText('select all');
-		expect(link.tagName).toBe('A');
+		const button = screen.getByRole('button');
+		expect(button.tagName).toBe('BUTTON');
 	});
 });

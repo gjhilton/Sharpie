@@ -1,4 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
 import { version } from '@utilities/version.js';
 
 const SmallPrint = ({ onShowFeedback }) => (
@@ -10,15 +11,9 @@ const SmallPrint = ({ onShowFeedback }) => (
 	>
 		{onShowFeedback && (
 			<div>
-				<a
-					href="#"
-					onClick={e => {
-						e.preventDefault();
-						onShowFeedback();
-					}}
-				>
+				<LinkAsButton onClick={onShowFeedback}>
 					Report a problem / send feedback
-				</a>
+				</LinkAsButton>
 			</div>
 		)}
 
@@ -48,4 +43,5 @@ const SmallPrint = ({ onShowFeedback }) => (
 	</footer>
 );
 
+export { SmallPrint };
 export default SmallPrint;

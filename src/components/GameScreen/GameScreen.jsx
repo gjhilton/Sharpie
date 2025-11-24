@@ -109,4 +109,5 @@ const GameScreen = ({
 	);
 };
 
+export { GameScreen };
 export default GameScreen;

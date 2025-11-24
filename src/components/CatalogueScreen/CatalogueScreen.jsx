@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
 import {
 	PageTitle,
 	Paragraph,
@@ -30,8 +31,8 @@ const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
 			alignItems: 'center',
 			justifyContent: 'center',
 			cborder: '1px solid {colors.ink/10}',
+			opacity: isEnabled ? 1 : 0.2,
 		})}
-		style={{ opacity: isEnabled ? 1 : 0.2 }}
 	>
 		<CharacterImage
 			imagePath={db.getImagePath(graph)}
@@ -65,7 +66,7 @@ const LetterHeader = ({ letter }) => (
 		>
 			{letter}
 		</h3>
-		<a href="#top" style={{ fontSize: '0.75rem' }}>
+		<a href="#top" className={css({ fontSize: '0.75rem' })}>
 			back to top
 		</a>
 	</div>
@@ -179,15 +180,7 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	}
 
 	return (
-		<a
-			href="#"
-			onClick={e => {
-				e.preventDefault();
-				onReturnToMenu();
-			}}
-		>
-			← Back to Menu
-		</a>
+		<LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>
 	);
 };
 
@@ -294,4 +287,5 @@ const CatalogueScreen = ({
 	);
 };
 
+export { CatalogueScreen };
 export default CatalogueScreen;

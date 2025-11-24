@@ -1,9 +1,9 @@
 import { css } from '../../../dist/styled-system/css';
-import { useEffect } from 'react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Heading } from '@components/Layout/Layout.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
+import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 
 const formatTime = seconds => {
 	const mins = Math.floor(seconds / 60);
@@ -91,17 +91,7 @@ const ScoreScreen = ({
 		mistakes = [],
 	} = score;
 
-	useEffect(() => {
-		const handleKeyDown = e => {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-				onReturnToMenu();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [onReturnToMenu]);
+	useEnterKey(onReturnToMenu);
 
 	const stats = [
 		{
@@ -210,4 +200,5 @@ const ScoreScreen = ({
 	);
 };
 
+export { ScoreScreen };
 export default ScoreScreen;

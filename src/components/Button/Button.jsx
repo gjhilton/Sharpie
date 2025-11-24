@@ -63,4 +63,5 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 	);
 };
 
+export { Button };
 export default Button;

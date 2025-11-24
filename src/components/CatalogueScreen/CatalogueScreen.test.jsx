@@ -192,7 +192,7 @@ describe('CatalogueScreen', () => {
 			expect(screen.getByText('Character Catalogue')).toBeInTheDocument();
 		});
 
-		it('renders Back to Menu link', () => {
+		it('renders Back to Menu button', () => {
 			render(
 				<CatalogueScreen
 					onReturnToMenu={mockOnReturnToMenu}
@@ -202,13 +202,13 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.getByRole('link', {
+			const backButton = screen.getByRole('button', {
 				name: /back to menu/i,
 			});
-			expect(backLink).toBeInTheDocument();
+			expect(backButton).toBeInTheDocument();
 		});
 
-		it('calls onReturnToMenu when Back to Menu link is clicked', async () => {
+		it('calls onReturnToMenu when Back to Menu button is clicked', async () => {
 			const user = userEvent.setup();
 			render(
 				<CatalogueScreen
@@ -219,10 +219,10 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.getByRole('link', {
+			const backButton = screen.getByRole('button', {
 				name: /back to menu/i,
 			});
-			await user.click(backLink);
+			await user.click(backButton);
 
 			expect(mockOnReturnToMenu).toHaveBeenCalledTimes(1);
 		});
@@ -525,7 +525,7 @@ describe('CatalogueScreen', () => {
 			).toBeInTheDocument();
 		});
 
-		it('disables Back to Menu link when no alphabets are selected', () => {
+		it('disables Back to Menu button when no alphabets are selected', () => {
 			vi.mocked(database.countEnabledAlphabets).mockReturnValue(0);
 			vi.mocked(database.countEnabledCharacters).mockReturnValue(0);
 
@@ -538,10 +538,10 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.queryByRole('link', {
+			const backButton = screen.queryByRole('button', {
 				name: /back to menu/i,
 			});
-			expect(backLink).not.toBeInTheDocument();
+			expect(backButton).not.toBeInTheDocument();
 			expect(
 				screen.getByText(
 					/Not allowed! Select one or more alphabets to continue/
@@ -591,7 +591,7 @@ describe('CatalogueScreen', () => {
 			expect(screen.getByText(/characters\)\./)).toBeInTheDocument();
 		});
 
-		it('enables Back to Menu link when alphabets are selected', () => {
+		it('enables Back to Menu button when alphabets are selected', () => {
 			vi.mocked(database.countEnabledAlphabets).mockReturnValue(2);
 			vi.mocked(database.countEnabledCharacters).mockReturnValue(123);
 
@@ -604,10 +604,10 @@ describe('CatalogueScreen', () => {
 				/>
 			);
 
-			const backLink = screen.getByRole('link', {
+			const backButton = screen.getByRole('button', {
 				name: /back to menu/i,
 			});
-			expect(backLink).toBeInTheDocument();
+			expect(backButton).toBeInTheDocument();
 		});
 	});
 

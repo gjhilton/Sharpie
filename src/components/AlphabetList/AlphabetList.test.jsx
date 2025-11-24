@@ -262,9 +262,9 @@ describe('AlphabetList', () => {
 				/>
 			);
 
-			// "select all" link should be disabled
-			const selectAllLink = screen.getByText('select all');
-			expect(selectAllLink).toHaveAttribute('aria-disabled', 'true');
+			// "select all" button should be disabled
+			const selectAllButton = screen.getByRole('button', { name: 'select all' });
+			expect(selectAllButton).toBeDisabled();
 		});
 
 		it('calculates noneSelected correctly when no alphabets in group are selected', () => {
@@ -290,9 +290,9 @@ describe('AlphabetList', () => {
 				/>
 			);
 
-			// "deselect all" link should be disabled
-			const deselectAllLink = screen.getByText('deselect all');
-			expect(deselectAllLink).toHaveAttribute('aria-disabled', 'true');
+			// "deselect all" button should be disabled
+			const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
+			expect(deselectAllButton).toBeDisabled();
 		});
 
 		it('enables both links when some but not all alphabets are selected', () => {
@@ -319,11 +319,11 @@ describe('AlphabetList', () => {
 				/>
 			);
 
-			const selectAllLink = screen.getByText('select all');
-			const deselectAllLink = screen.getByText('deselect all');
+			const selectAllButton = screen.getByRole('button', { name: 'select all' });
+			const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
 
-			expect(selectAllLink).toHaveAttribute('aria-disabled', 'false');
-			expect(deselectAllLink).toHaveAttribute('aria-disabled', 'false');
+			expect(selectAllButton).not.toBeDisabled();
+			expect(deselectAllButton).not.toBeDisabled();
 		});
 
 		it('calls onSelectAll with correct difficulty when select all is clicked', async () => {
@@ -406,29 +406,20 @@ describe('AlphabetList', () => {
 				/>
 			);
 
-			const selectAllLinks = screen.getAllByText('select all');
-			const deselectAllLinks = screen.getAllByText('deselect all');
+			const selectAllButtons = screen.getAllByRole('button', { name: 'select all' });
+			const deselectAllButtons = screen.getAllByRole('button', { name: 'deselect all' });
 
 			// Easy: all selected (Joscelyn: true)
-			expect(selectAllLinks[0]).toHaveAttribute('aria-disabled', 'true');
-			expect(deselectAllLinks[0]).toHaveAttribute(
-				'aria-disabled',
-				'false'
-			);
+			expect(selectAllButtons[0]).toBeDisabled();
+			expect(deselectAllButtons[0]).not.toBeDisabled();
 
 			// Medium: none selected (NBacon: false)
-			expect(selectAllLinks[1]).toHaveAttribute('aria-disabled', 'false');
-			expect(deselectAllLinks[1]).toHaveAttribute(
-				'aria-disabled',
-				'true'
-			);
+			expect(selectAllButtons[1]).not.toBeDisabled();
+			expect(deselectAllButtons[1]).toBeDisabled();
 
 			// Hard: all selected (Hill: true)
-			expect(selectAllLinks[2]).toHaveAttribute('aria-disabled', 'true');
-			expect(deselectAllLinks[2]).toHaveAttribute(
-				'aria-disabled',
-				'false'
-			);
+			expect(selectAllButtons[2]).toBeDisabled();
+			expect(deselectAllButtons[2]).not.toBeDisabled();
 		});
 	});
 

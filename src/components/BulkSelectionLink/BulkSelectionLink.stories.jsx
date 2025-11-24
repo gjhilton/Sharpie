@@ -1,4 +1,4 @@
-import BulkSelectionLink from '@components/BulkSelectionLink/BulkSelectionLink.jsx';
+import { BulkSelectionLink } from '@components/BulkSelectionLink/BulkSelectionLink.jsx';
 
 export default {
 	title: 'Components/BulkSelectionLink',

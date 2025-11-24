@@ -68,10 +68,10 @@ describe('BulkSelectionControls', () => {
 			/>
 		);
 
-		const selectAllLink = screen.getByText('select all');
-		expect(selectAllLink).toHaveAttribute('aria-disabled', 'true');
+		const selectAllButton = screen.getByRole('button', { name: 'select all' });
+		expect(selectAllButton).toBeDisabled();
 
-		await user.click(selectAllLink);
+		await user.click(selectAllButton);
 		expect(handleSelectAll).not.toHaveBeenCalled();
 	});
 
@@ -88,14 +88,14 @@ describe('BulkSelectionControls', () => {
 			/>
 		);
 
-		const deselectAllLink = screen.getByText('deselect all');
-		expect(deselectAllLink).toHaveAttribute('aria-disabled', 'true');
+		const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
+		expect(deselectAllButton).toBeDisabled();
 
-		await user.click(deselectAllLink);
+		await user.click(deselectAllButton);
 		expect(handleDeselectAll).not.toHaveBeenCalled();
 	});
 
-	it('enables both links when some but not all are selected', () => {
+	it('enables both buttons when some but not all are selected', () => {
 		render(
 			<BulkSelectionControls
 				difficulty="easy"
@@ -106,11 +106,11 @@ describe('BulkSelectionControls', () => {
 			/>
 		);
 
-		const selectAllLink = screen.getByText('select all');
-		const deselectAllLink = screen.getByText('deselect all');
+		const selectAllButton = screen.getByRole('button', { name: 'select all' });
+		const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
 
-		expect(selectAllLink).toHaveAttribute('aria-disabled', 'false');
-		expect(deselectAllLink).toHaveAttribute('aria-disabled', 'false');
+		expect(selectAllButton).not.toBeDisabled();
+		expect(deselectAllButton).not.toBeDisabled();
 	});
 
 	it('works without callback functions', async () => {

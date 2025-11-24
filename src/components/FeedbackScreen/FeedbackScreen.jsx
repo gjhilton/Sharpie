@@ -173,4 +173,5 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 	);
 };
 
+export { FeedbackScreen };
 export default FeedbackScreen;

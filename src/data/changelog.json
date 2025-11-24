@@ -1,5 +1,9 @@
 [
 	{
+		"version": "1.2.0",
+		"description": "Architecture improvements: shared useEnterKey hook, LinkAsButton component for accessible buttons styled as links, standardized CSS-in-JS styling, added named exports to components."
+	},
+	{
 		"version": "1.1.0",
 		"description": "Alphabet selection; Game mode selection (minuscules, MAJUSCULES, or both); Notes on individual characters; Keyboard shift keys visibility based on game mode; added new alphabet from Howard; begin adding letters with word level context."
 	},

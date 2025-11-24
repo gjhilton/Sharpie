@@ -15,7 +15,7 @@ const CharacterImage = ({
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			padding: '2.5rem 0m 3rem',
+			padding: '2.5rem 0 3rem',
 			position: 'relative',
 		})}
 	>
@@ -73,4 +73,5 @@ const CharacterImage = ({
 	</div>
 );
 
+export { CharacterImage };
 export default CharacterImage;

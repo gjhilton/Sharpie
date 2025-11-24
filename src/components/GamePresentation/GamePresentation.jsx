@@ -1,5 +1,4 @@
 import { css } from '../../../dist/styled-system/css';
-import { useEffect } from 'react';
 import Button from '@components/Button/Button.jsx';
 import KB from '@components/KB/KB.jsx';
 import Character, {
@@ -8,6 +7,7 @@ import Character, {
 import { STATUS } from '@utilities/gameLogic.js';
 import { DB } from '@data/DB.js';
 import { GAME_MODES } from '@constants/stages.js';
+import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 
 const SPACING = {
 	SECTION_GAP: '2rem',
@@ -39,17 +39,7 @@ export const CorrectAnswer = ({
 	const alphabetTitle = alphabet?.title;
 	const alphabetDate = alphabet?.date;
 
-	useEffect(() => {
-		const handleKeyDown = e => {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-				onNext();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [onNext]);
+	useEnterKey(onNext);
 
 	return (
 		<>
@@ -109,17 +99,7 @@ export const IncorrectAnswer = ({
 	const alphabetTitle = alphabet?.title;
 	const alphabetDate = alphabet?.date;
 
-	useEffect(() => {
-		const handleKeyDown = e => {
-			if (e.key === 'Enter') {
-				e.preventDefault();
-				onNext();
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [onNext]);
+	useEnterKey(onNext);
 
 	return (
 		<>

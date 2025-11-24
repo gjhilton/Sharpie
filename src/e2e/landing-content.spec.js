@@ -97,11 +97,11 @@ test.describe('Landing Page Content', () => {
 			).toBeVisible();
 			await expect(
 				page.getByText(
-					/By default, Sharpie asks you to identify.*I.*and.*J.*separately/
+					/By default, Sharpie uses this 24 letter alphabet/
 				)
 			).toBeVisible();
 			await expect(
-				page.getByText(/If this feels anachronistic/)
+				page.getByText(/if you are shown a.*J.*and answer.*I/)
 			).toBeVisible();
 		});
 
@@ -402,12 +402,12 @@ test.describe('Landing Page Content', () => {
 	});
 
 	test.describe('Footer / Small Print', () => {
-		test('should display feedback link in footer', async ({ page }) => {
+		test('should display feedback button in footer', async ({ page }) => {
 			const footer = page.getByRole('contentinfo');
-			const feedbackLink = footer.getByRole('link', {
+			const feedbackButton = footer.getByRole('button', {
 				name: /feedback/i,
 			});
-			await expect(feedbackLink).toBeVisible();
+			await expect(feedbackButton).toBeVisible();
 		});
 
 		test('should display version number in footer', async ({ page }) => {

@@ -119,8 +119,8 @@ export async function navigateToCatalogue(page) {
 export async function navigateToFeedback(page) {
 	await page.goto('/');
 
-	// Look for feedback link in small print
-	await page.getByRole('link', { name: /feedback/i }).click();
+	// Look for feedback button in small print (uses LinkAsButton component)
+	await page.getByRole('button', { name: /feedback/i }).click();
 
 	// Wait for form to load
 	await page.waitForSelector('form', { timeout: 5000 });

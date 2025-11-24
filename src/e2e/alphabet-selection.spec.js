@@ -51,9 +51,11 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			expect(count).toBeGreaterThanOrEqual(1);
 		});
 
-		test('should have Back to Menu link', async ({ page }) => {
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await expect(backLink).toBeVisible();
+		test('should have Back to Menu button', async ({ page }) => {
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await expect(backButton).toBeVisible();
 		});
 	});
 
@@ -199,7 +201,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			).toBeVisible();
 		});
 
-		test('should disable Back to Menu link when no alphabets selected', async ({
+		test('should disable Back to Menu button when no alphabets selected', async ({
 			page,
 		}) => {
 			// Disable all alphabets
@@ -213,14 +215,16 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 				}
 			}
 
-			// Back link should be replaced with error text
+			// Back button should be replaced with error text
 			await expect(
 				page.getByText(/Not allowed.*Select one or more alphabets/i)
 			).toBeVisible();
 
-			// The link itself should not exist
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await expect(backLink).not.toBeVisible();
+			// The button itself should not exist
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await expect(backButton).not.toBeVisible();
 		});
 
 		test('should show zero counts when no alphabets selected', async ({
@@ -244,7 +248,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			).toBeVisible();
 		});
 
-		test('should re-enable Back link when alphabet is selected again', async ({
+		test('should re-enable Back button when alphabet is selected again', async ({
 			page,
 		}) => {
 			// Disable all alphabets
@@ -266,9 +270,11 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			// Re-enable first alphabet
 			await toggles.first().click();
 
-			// Back link should reappear
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await expect(backLink).toBeVisible();
+			// Back button should reappear
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await expect(backButton).toBeVisible();
 		});
 	});
 
@@ -325,8 +331,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			const expectedAlphabetCount = alphabetMatch[1];
 
 			// Return to menu
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await backLink.click();
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await backButton.click();
 			await page.waitForSelector('text=Hone your', { timeout: 5000 });
 
 			// Open Options section
@@ -352,8 +360,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			await firstToggle.click();
 
 			// Return to landing
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await backLink.click();
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await backButton.click();
 			await page.waitForSelector('text=Hone your', { timeout: 5000 });
 
 			// Start game - should use reduced character pool
@@ -386,8 +396,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			const expectedCharacters = charMatch[1];
 
 			// Return to landing
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await backLink.click();
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await backButton.click();
 			await page.waitForSelector('text=Hone your', { timeout: 5000 });
 
 			// Open Options
@@ -462,8 +474,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 		test('should navigate back to landing when clicking Back to Menu', async ({
 			page,
 		}) => {
-			const backLink = page.getByRole('link', { name: /back to menu/i });
-			await backLink.click();
+			const backButton = page.getByRole('button', {
+				name: /back to menu/i,
+			});
+			await backButton.click();
 
 			await page.waitForSelector('text=Hone your', { timeout: 5000 });
 

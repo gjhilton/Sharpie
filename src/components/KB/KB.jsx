@@ -8,6 +8,23 @@ const SPECIAL_KEYS = {
 	LOCK: '{lock}',
 };
 
+/**
+ * Normalize paired letter labels to their primary letter.
+ * Handles formats like 'u/v' -> 'u', 'i(j)' -> 'i'
+ */
+const normalizePairedLetter = button => {
+	// Handle 'a/b' format (e.g., 'u/v', 'i/j')
+	if (button.includes('/')) {
+		return button.split('/')[0];
+	}
+	// Handle 'a(b)' format (e.g., 'i(j)', 'u(v)')
+	const parenMatch = button.match(/^([a-zA-Z])\([a-zA-Z]\)$/);
+	if (parenMatch) {
+		return parenMatch[1];
+	}
+	return button;
+};
+
 const KB = ({
 	keyCallback,
 	initialLayout = 'default',
@@ -26,7 +43,7 @@ const KB = ({
 		if (button === SPECIAL_KEYS.SHIFT || button === SPECIAL_KEYS.LOCK) {
 			handleShift();
 		} else {
-			keyCallback(button);
+			keyCallback(normalizePairedLetter(button));
 		}
 	};
 

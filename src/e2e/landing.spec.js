@@ -206,9 +206,9 @@ test.describe('Landing Screen', () => {
 		await expect(page.getByText(/v\d+\.\d+\.\d+/).first()).toBeVisible();
 	});
 
-	test('should have feedback link in small print', async ({ page }) => {
-		const feedbackLink = page.getByRole('link', { name: /feedback/i });
-		await expect(feedbackLink).toBeVisible();
+	test('should have feedback button in small print', async ({ page }) => {
+		const feedbackButton = page.getByRole('button', { name: /feedback/i });
+		await expect(feedbackButton).toBeVisible();
 	});
 
 	test('should display version number in footer', async ({ page }) => {

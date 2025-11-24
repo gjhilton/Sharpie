@@ -19,6 +19,7 @@ const AlphabetSelectorWithSort = ({
 	alphabetsMetadata,
 	enabledAlphabets,
 	onToggle,
+	onBatchToggle,
 }) => {
 	const [sortMode, setSortMode] = useState('date');
 
@@ -48,11 +49,22 @@ const AlphabetSelectorWithSort = ({
 			return;
 		}
 
-		difficultyGroups[difficulty].forEach(alphabetName => {
-			if (!enabledAlphabets[alphabetName]) {
-				onToggle(alphabetName);
-			}
-		});
+		// Use batch toggle if available, otherwise fall back to individual toggles
+		if (onBatchToggle) {
+			const updates = {};
+			difficultyGroups[difficulty].forEach(alphabetName => {
+				if (!enabledAlphabets[alphabetName]) {
+					updates[alphabetName] = true;
+				}
+			});
+			onBatchToggle(updates);
+		} else {
+			difficultyGroups[difficulty].forEach(alphabetName => {
+				if (!enabledAlphabets[alphabetName]) {
+					onToggle(alphabetName);
+				}
+			});
+		}
 	};
 
 	const handleDeselectAll = difficulty => {
@@ -60,11 +72,22 @@ const AlphabetSelectorWithSort = ({
 			return;
 		}
 
-		difficultyGroups[difficulty].forEach(alphabetName => {
-			if (enabledAlphabets[alphabetName]) {
-				onToggle(alphabetName);
-			}
-		});
+		// Use batch toggle if available, otherwise fall back to individual toggles
+		if (onBatchToggle) {
+			const updates = {};
+			difficultyGroups[difficulty].forEach(alphabetName => {
+				if (enabledAlphabets[alphabetName]) {
+					updates[alphabetName] = false;
+				}
+			});
+			onBatchToggle(updates);
+		} else {
+			difficultyGroups[difficulty].forEach(alphabetName => {
+				if (enabledAlphabets[alphabetName]) {
+					onToggle(alphabetName);
+				}
+			});
+		}
 	};
 
 	return (

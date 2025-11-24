@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import {
 	navigateToCatalogue,
-	isOnMenuScreen,
+	isOnLandingScreen,
 } from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Catalogue Screen', () => {
@@ -65,7 +65,7 @@ test.describe('Catalogue Screen', () => {
 		// Wait for landing to load
 		await page.waitForSelector('text=Hone your', { timeout: 5000 });
 
-		const onMenu = await isOnMenuScreen(page);
+		const onMenu = await isOnLandingScreen(page);
 		expect(onMenu).toBe(true);
 	});
 

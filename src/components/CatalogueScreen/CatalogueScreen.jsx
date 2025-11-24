@@ -1,5 +1,6 @@
 import { css } from '../../../dist/styled-system/css';
 import React, { useEffect } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
@@ -14,6 +15,7 @@ import { DB } from '@data/DB.js';
 import alphabetsData from '@data/alphabets.json';
 import * as db from '@utilities/database.js';
 import * as catalogueLogic from '@utilities/catalogueLogic.js';
+import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 
 const STYLES = {
 	verticalGap: '2rem',
@@ -144,11 +146,9 @@ const LetterIndex = ({ label, letters }) => {
 
 const CharacterIndex = ({ letterGroups }) => {
 	const minuscules =
-		letterGroups.find(group => group.title === 'minuscules')?.characters ||
-		[];
+		letterGroups.find(group => group.title === 'minuscules')?.characters || [];
 	const majuscules =
-		letterGroups.find(group => group.title === 'MAJUSCULES')?.characters ||
-		[];
+		letterGroups.find(group => group.title === 'MAJUSCULES')?.characters || [];
 
 	return (
 		<div
@@ -179,9 +179,7 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 		);
 	}
 
-	return (
-		<LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>
-	);
+	return <LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>;
 };
 
 const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
@@ -195,24 +193,26 @@ const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
 
 	return (
 		<Paragraph>
-			Enable the alphabets you'd like to work on from the list below. At
-			present you have enabled <strong>{alphabetCount}</strong>{' '}
+			Enable the alphabets you'd like to work on from the list below. At present
+			you have enabled <strong>{alphabetCount}</strong>{' '}
 			{alphabetCount === 1 ? 'alphabet' : 'alphabets'} (
 			<strong>{characterCount}</strong> characters).
 		</Paragraph>
 	);
 };
 
-const CatalogueScreen = ({
-	onReturnToMenu,
-	onShowFeedback,
-	showBaseline = false,
-	enabledAlphabets,
-	setEnabledAlphabets,
-}) => {
+const CatalogueScreen = () => {
+	const navigate = useNavigate();
+	const { options, updateOption } = useGameOptions();
+
+	const { showBaseline = false, enabledAlphabets } = options;
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, []);
+
+	const handleReturnToMenu = () => navigate({ to: '/', search: prev => prev });
+	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
 
 	const letterGroups = catalogueLogic.groupGraphsByGraphSetAndCharacter(
 		db.getEnabledGraphSets(DB)
@@ -222,10 +222,19 @@ const CatalogueScreen = ({
 	const hasNoSelection = alphabetCount === 0 || characterCount === 0;
 
 	const handleToggleAlphabet = name => {
-		setEnabledAlphabets(prev => ({
-			...prev,
-			[name]: !prev[name],
-		}));
+		const newEnabledAlphabets = {
+			...enabledAlphabets,
+			[name]: !enabledAlphabets[name],
+		};
+		updateOption('alphabets', newEnabledAlphabets);
+	};
+
+	const handleBatchToggleAlphabets = updates => {
+		const newEnabledAlphabets = {
+			...enabledAlphabets,
+			...updates,
+		};
+		updateOption('alphabets', newEnabledAlphabets);
 	};
 
 	return (
@@ -234,7 +243,7 @@ const CatalogueScreen = ({
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<BackLink
 						isDisabled={hasNoSelection}
-						onReturnToMenu={onReturnToMenu}
+						onReturnToMenu={handleReturnToMenu}
 					/>
 				</div>
 
@@ -250,10 +259,10 @@ const CatalogueScreen = ({
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<Paragraph>
-						The alphabets Sharpie tests are extracted from a range
-						of source documents. Expanding the time and stylistic
-						coverage of the alphabets available for practice is the
-						current top priority. Watch this space.
+						The alphabets Sharpie tests are extracted from a range of source
+						documents. Expanding the time and stylistic coverage of the
+						alphabets available for practice is the current top priority. Watch
+						this space.
 					</Paragraph>
 
 					<SelectionStatus
@@ -267,6 +276,8 @@ const CatalogueScreen = ({
 						alphabetNames={db.getAllAlphabetNames(DB)}
 						alphabetsMetadata={alphabetsData}
 						onToggle={handleToggleAlphabet}
+						onBatchToggle={handleBatchToggleAlphabets}
+
 					/>
 				</div>
 			</header>
@@ -282,7 +293,7 @@ const CatalogueScreen = ({
 				/>
 			))}
 
-			<SmallPrint onShowFeedback={onShowFeedback} />
+			<SmallPrint onShowFeedback={handleShowFeedback} />
 		</PageWidth>
 	);
 };

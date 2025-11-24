@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test';
 import {
 	navigateToFeedback,
-	returnToMenu,
-	isOnMenuScreen,
+	returnToLanding,
+	isOnLandingScreen,
 } from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Feedback Screen', () => {
@@ -98,9 +98,9 @@ test.describe('Feedback Screen', () => {
 	});
 
 	test('should return to landing when clicking back', async ({ page }) => {
-		await returnToMenu(page);
+		await returnToLanding(page);
 
-		const onMenu = await isOnMenuScreen(page);
+		const onMenu = await isOnLandingScreen(page);
 		expect(onMenu).toBe(true);
 	});
 

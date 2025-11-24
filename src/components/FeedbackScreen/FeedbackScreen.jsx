@@ -1,4 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
+import { useNavigate } from '@tanstack/react-router';
 import { useForm, ValidationError } from '@formspree/react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
@@ -75,21 +76,23 @@ const ThankYouMessage = ({ onReturnToMenu }) => (
 		<PageTitle>Thank you.</PageTitle>
 		<div>
 			<Paragraph>
-				Your message has been received. Thank you for helping improve
-				Sharpie.
+				Your message has been received. Thank you for helping improve Sharpie.
 			</Paragraph>
 			<Button onClick={onReturnToMenu} label="Return to Menu" />
 		</div>
 	</>
 );
 
-const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
+const FeedbackScreen = () => {
+	const navigate = useNavigate();
 	const [state, handleSubmit] = useForm('xanlrkkz');
+
+	const handleReturnToMenu = () => navigate({ to: '/', search: prev => prev });
 
 	if (state.succeeded) {
 		return (
 			<PageWidth>
-				<ThankYouMessage onReturnToMenu={onReturnToMenu} />
+				<ThankYouMessage onReturnToMenu={handleReturnToMenu} />
 
 				<SmallPrint />
 			</PageWidth>
@@ -102,8 +105,8 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 
 			<Section title={null}>
 				<Paragraph>
-					Found a problem? Have suggestions to help us improve? We'd
-					love to hear from you.
+					Found a problem? Have suggestions to help us improve? We'd love to
+					hear from you.
 				</Paragraph>
 
 				<form
@@ -163,7 +166,7 @@ const FeedbackScreen = ({ onReturnToMenu, onShowFeedback }) => {
 							disabled={state.submitting}
 							label={state.submitting ? 'Sending...' : 'Send'}
 						/>
-						<Button onClick={onReturnToMenu} label="Cancel" />
+						<Button onClick={handleReturnToMenu} label="Cancel" />
 					</div>
 				</form>
 			</Section>

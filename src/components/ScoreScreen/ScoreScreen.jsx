@@ -1,9 +1,11 @@
+import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Heading } from '@components/Layout/Layout.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
 import { useEnterKey } from '@lib/hooks/useEnterKey.js';
+import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 
 const formatTime = seconds => {
 	const mins = Math.floor(seconds / 60);
@@ -77,21 +79,27 @@ const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	</div>
 );
 
-const ScoreScreen = ({
-	score,
-	onReturnToMenu,
-	onShowFeedback,
-	showBaseline,
-}) => {
-	const {
-		correct,
-		incorrect,
-		percentage,
-		timeElapsed,
-		mistakes = [],
-	} = score;
+const ScoreScreen = () => {
+	const navigate = useNavigate();
+	const routerState = useRouterState();
+	const { options } = useGameOptions();
 
-	useEnterKey(onReturnToMenu);
+	// Get score from router state, or use empty defaults
+	const score = routerState.location.state?.score || {
+		correct: 0,
+		incorrect: 0,
+		percentage: 0,
+		timeElapsed: 0,
+		mistakes: [],
+	};
+
+	const { correct, incorrect, percentage, timeElapsed, mistakes = [] } = score;
+	const { showBaseline } = options;
+
+	const handleReturnToMenu = () => navigate({ to: '/', search: prev => prev });
+	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
+
+	useEnterKey(handleReturnToMenu);
 
 	const stats = [
 		{
@@ -159,8 +167,7 @@ const ScoreScreen = ({
 					<div
 						className={css({
 							display: 'grid',
-							gridTemplateColumns:
-								'repeat(auto-fill, minmax(150px, 1fr))',
+							gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
 							gap: '1rem',
 						})}
 					>
@@ -184,7 +191,7 @@ const ScoreScreen = ({
 					padding: { base: '0 2rem', sm: '0' },
 				})}
 			>
-				<Button onClick={onReturnToMenu} label="Return to Menu" />
+				<Button onClick={handleReturnToMenu} label="Return to Menu" />
 			</div>
 
 			<div
@@ -194,7 +201,7 @@ const ScoreScreen = ({
 					padding: '0 2rem',
 				})}
 			>
-				<SmallPrint onShowFeedback={onShowFeedback} />
+				<SmallPrint onShowFeedback={handleShowFeedback} />
 			</div>
 		</div>
 	);

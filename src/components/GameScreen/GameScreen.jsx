@@ -1,17 +1,23 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import { DB } from '@data/DB.js';
 import * as gameLogic from '@utilities/gameLogic.js';
 import { GamePresentation } from '@components/GamePresentation/GamePresentation.jsx';
+import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 
 export const STATUS = gameLogic.STATUS;
 
-const GameScreen = ({
-	onEndGame,
-	gameMode,
-	twentyFourLetterAlphabet = false,
-	showBaseline = false,
-	enabledAlphabets = null,
-}) => {
+const GameScreen = () => {
+	const navigate = useNavigate();
+	const { options } = useGameOptions();
+
+	const {
+		mode: gameMode,
+		twentyFourLetterAlphabet = false,
+		showBaseline = false,
+		enabledAlphabets = null,
+	} = options;
+
 	const graphs = gameLogic.getGraphsForGameMode(
 		DB,
 		gameMode,
@@ -73,7 +79,11 @@ const GameScreen = ({
 
 	const handleKeyPress = button => {
 		setAttempt(button);
-		const attemptData = gameLogic.createAttempt(button, graphs, twentyFourLetterAlphabet);
+		const attemptData = gameLogic.createAttempt(
+			button,
+			graphs,
+			twentyFourLetterAlphabet
+		);
 		setAttemptImagePaths(attemptData.imagePaths);
 	};
 
@@ -85,9 +95,16 @@ const GameScreen = ({
 		);
 		const mistakes = gameLogic.processIncorrectAttempts(historyRef.current);
 
-		onEndGame({
-			...stats,
-			mistakes,
+		// Navigate to score screen with score data in router state
+		navigate({
+			to: '/score',
+			search: prev => prev,
+			state: {
+				score: {
+					...stats,
+					mistakes,
+				},
+			},
 		});
 	};
 

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import {
 	navigateToCatalogue,
-	isOnMenuScreen,
+	isOnLandingScreen,
 	selectGameMode,
 	isOnGameScreen,
 } from '../config/playwright/helpers/test-helpers.js';
@@ -481,7 +481,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 
 			await page.waitForSelector('text=Hone your', { timeout: 5000 });
 
-			const onMenu = await isOnMenuScreen(page);
+			const onMenu = await isOnLandingScreen(page);
 			expect(onMenu).toBe(true);
 		});
 

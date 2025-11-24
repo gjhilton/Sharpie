@@ -166,10 +166,11 @@ export async function isOnScoreScreen(page) {
  * @returns {Promise<boolean>}
  */
 export async function isOnLandingScreen(page) {
-	const heading = page.getByText(/hone your/i);
-	return (await heading.count()) > 0;
+	try {
+		const heading = page.getByText(/hone your/i);
+		await heading.waitFor({ state: 'visible', timeout: 5000 });
+		return true;
+	} catch {
+		return false;
+	}
 }
-
-// Backward compatibility aliases
-export const returnToMenu = returnToLanding;
-export const isOnMenuScreen = isOnLandingScreen;

@@ -266,7 +266,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 	});
 
 	test.describe('Mode Persistence', () => {
-		test('mode should reset to OFF on page reload', async ({ page }) => {
+		test('mode should persist across page reload', async ({ page }) => {
 			// Expand Options section
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
@@ -290,13 +290,13 @@ test.describe('24-Letter Alphabet Feature', () => {
 			});
 			await optionsHeaderAfterReload.click();
 
-			// Should be OFF again
+			// Should still be ON (persisted in URL)
 			const toggleAfterReload = page.getByRole('switch', {
 				name: '24-letter alphabet',
 			});
 			await expect(toggleAfterReload).toHaveAttribute(
 				'aria-checked',
-				'false'
+				'true'
 			);
 		});
 	});

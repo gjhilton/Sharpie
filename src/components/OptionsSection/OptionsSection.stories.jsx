@@ -1,6 +1,7 @@
 import { fn } from 'storybook/test';
 import OptionsSection from './OptionsSection';
-import { GAME_MODES } from '@constants/stages.js';
+
+const MODE_VALUES = ['all', 'minuscule', 'majuscule'];
 
 export default {
 	title: 'Sections/OptionsSection',
@@ -9,7 +10,7 @@ export default {
 	argTypes: {
 		selectedMode: {
 			control: 'select',
-			options: Object.values(GAME_MODES),
+			options: MODE_VALUES,
 			description: 'Currently selected game mode',
 		},
 		twentyFourLetterAlphabet: {
@@ -25,7 +26,7 @@ export default {
 
 export const Default = {
 	args: {
-		selectedMode: GAME_MODES.ALL,
+		selectedMode: 'all',
 		onModeChange: fn(),
 		twentyFourLetterAlphabet: false,
 		onTwentyFourLetterChange: fn(),
@@ -43,14 +44,14 @@ export const Default = {
 export const MinusculeMode = {
 	args: {
 		...Default.args,
-		selectedMode: GAME_MODES.MINUSCULE,
+		selectedMode: 'minuscule',
 	},
 };
 
 export const MajusculeMode = {
 	args: {
 		...Default.args,
-		selectedMode: GAME_MODES.MAJUSCULE,
+		selectedMode: 'majuscule',
 	},
 };
 

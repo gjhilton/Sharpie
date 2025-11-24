@@ -244,121 +244,87 @@ ROUTES
 RELEASE PLAN
 ================================================================================
 
-v1.2.0 — Component Cleanup (DO FIRST - before options/routing)
+v1.2.0 — Component Cleanup (COMPLETE)
 --------------------------------------------------------------
 RULE: Sub-components used by one parent stay in that parent's folder.
 
 Shared utilities:
-[ ] Create src/lib/hooks/useEnterKey.js (extract from 3 locations)
-[ ] Create src/lib/utils/classNames.js (className concatenation utility)
-[ ] Create src/lib/styles/focus.js (shared focus ring styles)
-[ ] Create src/lib/styles/disabled.js (shared disabled styles)
-[ ] Create src/constants/spacing.js (extract from GamePresentation, CatalogueScreen)
+[x] Create src/lib/hooks/useEnterKey.js (extract from 3 locations)
+[x] Create src/lib/utils/classNames.js (className concatenation utility)
+[x] Create src/lib/styles/focus.js (shared focus ring styles)
+[x] Create src/lib/styles/disabled.js (shared disabled styles)
+[x] Create src/constants/spacing.js (extract from GamePresentation, CatalogueScreen)
 
 Bug fixes:
-[ ] FIX: CharacterImage.jsx - padding typo '0m' → '0'
-[ ] FIX: BulkSelectionLink.jsx - change <a href="#"> to <button>
+[x] FIX: CharacterImage.jsx - padding typo '0m' → '0'
+[x] FIX: BulkSelectionLink.jsx - change <a href="#"> to <button>
 
 Extract sub-components to parent folders:
-
-[ ] CatalogueScreen/ folder (298 → ~100 lines):
-    - GlyphImage.jsx
-    - LetterHeader.jsx
-    - LetterGallery.jsx
-    - LetterCaseGroup.jsx
-    - LetterLink.jsx
-    - LetterIndex.jsx
-    - CharacterIndex.jsx
-    - BackLink.jsx
-    - SelectionStatus.jsx
-
-[ ] GamePresentation/ folder (268 → ~80 lines):
-    - Unanswered.jsx
-    - CorrectAnswer.jsx
-    - IncorrectAnswer.jsx
-    - StatusDisplay.jsx
-
-[ ] ScoreScreen/ folder (214 → ~100 lines):
-    - StatCard.jsx
-    - MistakeCard.jsx
-    - Move formatTime to src/lib/utils/
-
-[ ] FeedbackScreen/ folder (177 → ~80 lines):
-    - FormField.jsx
-    - Input.jsx
-    - Textarea.jsx
-
-[ ] Button/ folder:
-    - ButtonLabel.jsx
-    - ButtonLabelAux.jsx
-
-[ ] Character/ folder:
-    - RedOverlay.jsx
-    - Alphabet.jsx
+[x] CatalogueScreen/ folder
+[x] GamePresentation/ folder
+[x] ScoreScreen/ folder
+[x] FeedbackScreen/ folder
+[x] Button/ folder
+[x] Character/ folder
 
 Styling standardization:
-[ ] Replace style={{}} with css({}) in AlphabetList.jsx
-[ ] Replace style={{}} with css({}) in CharacterImage.jsx
-[ ] Replace style={{}} with css({}) in Icon.jsx
-[ ] Replace style={{}} with css({}) in Logo.jsx
-[ ] Replace style={{}} with css({}) in SourceFigure.jsx
-[ ] Replace style={{}} with css({}) in HeroSection.jsx
+[x] Replace style={{}} with css({}) in components
 
 Use shared utilities:
-[ ] Replace 6 className concatenations with classNames()
-[ ] Replace 3 keyboard listeners with useEnterKey()
+[x] Replace className concatenations with classNames()
+[x] Replace keyboard listeners with useEnterKey()
 
 Export standardization:
-[ ] Standardize all exports to named only (no default exports)
+[x] Standardize all exports to named only (no default exports)
 
 Final:
-[ ] Update affected tests
-[ ] Run full test suite
-[ ] Manual test: verify identical behavior
+[x] Update affected tests
+[x] Run full test suite
+[x] Manual test: verify identical behavior
 
 --------------------------------------------------------------------------------
 
-v1.2.1 — Foundation (no integration yet)
+v1.2.1 — Foundation (COMPLETE)
 ----------------------------------------
-[ ] Add unique IDs (001, 002, etc.) to alphabets.json
-[ ] Create src/lib/options/schema.js
-[ ] Create src/lib/options/defaults.js
-[ ] Create src/lib/options/serializer.js
-[ ] Create src/lib/options/alphabets.js
-[ ] Create src/lib/options/index.js
-[ ] Write tests for all options library files
-[ ] Create src/test-utils/index.js
-[ ] Run existing tests (no changes to app yet)
+[x] Add unique IDs (001, 002, etc.) to alphabets.json
+[x] Create src/lib/options/schema.js
+[x] Create src/lib/options/defaults.js
+[x] Create src/lib/options/serializer.js
+[x] Create src/lib/options/alphabets.js
+[x] Create src/lib/options/index.js
+[x] Write tests for all options library files
+[x] Create src/test-utils/index.js
+[x] Run existing tests (no changes to app yet)
 
-v1.2.2 — Infrastructure (new systems, old code still works)
+v1.2.2 — Infrastructure (COMPLETE)
 -----------------------------------------------------------
-[ ] Install TanStack Router
-[ ] Create src/router.js
-[ ] Create route files (not active yet)
-[ ] Create src/context/GameOptionsContext.jsx
-[ ] Create src/lib/hooks/useGameOptions.js
-[ ] Create LoadingScreen component
-[ ] Create ErrorScreen component
-[ ] Create ErrorBoundary component
-[ ] Write tests for all new components
-[ ] Run existing tests (app still works as before)
+[x] Install TanStack Router
+[x] Create src/router.js
+[x] Create route files (not active yet)
+[x] Create src/context/GameOptionsContext.jsx
+[x] Create src/lib/hooks/useGameOptions.js
+[x] Create LoadingScreen component
+[x] Create ErrorScreen component
+[x] Create ErrorBoundary component
+[x] Write tests for all new components
+[x] Run existing tests (app still works as before)
 
-v1.2.3 — Migration (switch to new architecture)
+v1.2.3 — Migration (IN PROGRESS)
 -----------------------------------------------
 
 Architecture migration:
-[ ] Activate router in App.jsx (RouterProvider)
-[ ] Migrate LandingScreen to use useGameOptions()
-[ ] Migrate GameScreen to use useGameOptions()
-[ ] Migrate ScoreScreen to use useGameOptions()
-[ ] Migrate CatalogueScreen to use useGameOptions()
-[ ] Migrate FeedbackScreen to use useGameOptions()
-[ ] Wrap app in ErrorBoundary + Suspense
-[ ] Remove stage-based switching from App.jsx
+[x] Activate router in App.jsx (RouterProvider)
+[x] Migrate LandingScreen to use useGameOptions()
+[x] Migrate GameScreen to use useGameOptions()
+[x] Migrate ScoreScreen to use useGameOptions()
+[x] Migrate CatalogueScreen to use useGameOptions()
+[x] Migrate FeedbackScreen to use useGameOptions()
+[x] Wrap app in ErrorBoundary + Suspense
+[x] Remove stage-based switching from App.jsx
 [ ] Remove GAME_MODES, GAME_MODE_OPTIONS from stages.js
 
 Context migration (eliminate prop drilling):
-[ ] Remove setState props - setShowBaseline, setEnabledAlphabets (use context actions)
+[x] Remove setState props - setShowBaseline, setEnabledAlphabets (use context actions)
 [ ] Remove direct DB imports from presentation components (inject via context)
 
 Final verification:

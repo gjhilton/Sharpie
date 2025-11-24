@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useNavigate } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
 import { PageWidth, Article } from '@components/Layout/Layout.jsx';
 import Logo, { SIZE } from '@components/Logo/Logo.jsx';
@@ -10,24 +10,29 @@ import OptionsSection from '@components/OptionsSection/OptionsSection.jsx';
 import HowToPlaySection from '@components/HowToPlaySection/HowToPlaySection.jsx';
 import NextStepsSection from '@components/NextStepsSection/NextStepsSection.jsx';
 import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection.jsx';
-import { GAME_MODES, GAME_MODE_OPTIONS } from '@constants/stages.js';
+import { useGameOptions } from '@lib/hooks/useGameOptions.js';
+import { OPTIONS } from '@lib/options/schema.js';
 import { DB } from '@data/DB.js';
 import * as db from '@utilities/database.js';
 
-const LandingScreen = ({
-	onSelectMode,
-	onShowCatalogue,
-	onShowFeedback,
-	showBaseline,
-	setShowBaseline,
-	enabledAlphabets,
-}) => {
-	const [twentyFourLetterAlphabet, setTwentyFourLetterAlphabet] =
-		useState(false);
-	const [selectedMode, setSelectedMode] = useState(GAME_MODES.ALL);
+// Build mode options from schema
+const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
+	([value, { label }]) => ({ value, label })
+);
 
-	const handlePlay = () => onSelectMode(selectedMode, twentyFourLetterAlphabet);
-	const handleModeChange = e => setSelectedMode(e.target.value);
+const LandingScreen = () => {
+	const navigate = useNavigate();
+	const { options, updateOption } = useGameOptions();
+
+	const handlePlay = () => navigate({ to: '/play', search: prev => prev });
+	const handleShowCatalogue = () => navigate({ to: '/catalogue', search: prev => prev });
+	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
+
+	const handleModeChange = e => updateOption('mode', e.target.value);
+	const handleTwentyFourLetterChange = checked =>
+		updateOption('twentyFourLetter', checked);
+	const handleShowBaselineChange = checked =>
+		updateOption('showBaseline', checked);
 
 	return (
 		<PageWidth>
@@ -45,15 +50,18 @@ const LandingScreen = ({
 					<DisclosureSection title="Options">
 						<OptionsSection
 							gameModeOptions={GAME_MODE_OPTIONS}
-							selectedMode={selectedMode}
+							selectedMode={options.mode}
 							onModeChange={handleModeChange}
-							twentyFourLetterAlphabet={twentyFourLetterAlphabet}
-							onTwentyFourLetterChange={setTwentyFourLetterAlphabet}
-							showBaseline={showBaseline}
-							onShowBaselineChange={setShowBaseline}
-							characterCount={db.countEnabledCharacters(DB, enabledAlphabets)}
-							alphabetCount={db.countEnabledAlphabets(enabledAlphabets)}
-							onShowCatalogue={onShowCatalogue}
+							twentyFourLetterAlphabet={options.twentyFourLetterAlphabet}
+							onTwentyFourLetterChange={handleTwentyFourLetterChange}
+							showBaseline={options.showBaseline}
+							onShowBaselineChange={handleShowBaselineChange}
+							characterCount={db.countEnabledCharacters(
+								DB,
+								options.enabledAlphabets
+							)}
+							alphabetCount={db.countEnabledAlphabets(options.enabledAlphabets)}
+							onShowCatalogue={handleShowCatalogue}
 						/>
 					</DisclosureSection>
 
@@ -71,9 +79,10 @@ const LandingScreen = ({
 				</main>
 			</Article>
 
-			<SmallPrint onShowFeedback={onShowFeedback} />
+			<SmallPrint onShowFeedback={handleShowFeedback} />
 		</PageWidth>
 	);
 };
 
+export { LandingScreen };
 export default LandingScreen;

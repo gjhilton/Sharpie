@@ -32,9 +32,9 @@ test.describe('Landing Page Content', () => {
 		}) => {
 			// Look for the animated Secretary hand demonstration
 			const images = page.locator('img');
+			await expect(images.first()).toBeVisible();
 			const count = await images.count();
 			expect(count).toBeGreaterThan(0);
-			await expect(images.first()).toBeVisible();
 		});
 	});
 
@@ -424,6 +424,11 @@ test.describe('Landing Page Content', () => {
 
 	test.describe('Complete Content Integration', () => {
 		test('should have all 4 disclosure sections', async ({ page }) => {
+			// Wait for page to fully load - check for specific section
+			await page
+				.getByRole('button', { name: /options/i })
+				.waitFor({ state: 'visible' });
+
 			// Count disclosure section buttons
 			const disclosureSections = page.locator('button[aria-expanded]');
 			const count = await disclosureSections.count();

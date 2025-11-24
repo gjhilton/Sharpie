@@ -4,10 +4,10 @@ import {
 	answerQuestion,
 	clickNext,
 	endGame,
-	returnToMenu,
+	returnToLanding,
 	isOnGameScreen,
 	isOnScoreScreen,
-	isOnMenuScreen,
+	isOnLandingScreen,
 } from '../config/playwright/helpers/test-helpers.js';
 
 test.describe('Game Flow', () => {
@@ -93,10 +93,10 @@ test.describe('Game Flow', () => {
 			await endGame(page);
 
 			// Return to landing
-			await returnToMenu(page);
+			await returnToLanding(page);
 
 			// Should be back on landing
-			const onMenu = await isOnMenuScreen(page);
+			const onMenu = await isOnLandingScreen(page);
 			expect(onMenu).toBe(true);
 		});
 	});
@@ -210,9 +210,9 @@ test.describe('Game Flow', () => {
 			await endGame(page);
 
 			// Return to landing
-			await returnToMenu(page);
+			await returnToLanding(page);
 
-			const onMenu = await isOnMenuScreen(page);
+			const onMenu = await isOnLandingScreen(page);
 			expect(onMenu).toBe(true);
 		});
 
@@ -221,7 +221,7 @@ test.describe('Game Flow', () => {
 			await selectGameMode(page, 'all');
 			await answerQuestion(page, 'a');
 			await endGame(page);
-			await returnToMenu(page);
+			await returnToLanding(page);
 
 			// Start second game
 			await selectGameMode(page, 'minuscule');

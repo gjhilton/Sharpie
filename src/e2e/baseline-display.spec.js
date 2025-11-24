@@ -215,7 +215,7 @@ test.describe('Baseline Display Feature', () => {
 	});
 
 	test.describe('Mode Persistence', () => {
-		test('mode should reset to ON on page reload', async ({ page }) => {
+		test('mode should persist across page reload', async ({ page }) => {
 			// Expand Options section
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
@@ -239,13 +239,13 @@ test.describe('Baseline Display Feature', () => {
 			});
 			await optionsHeaderAfterReload.click();
 
-			// Should be ON again (default)
+			// Should still be OFF (persisted in URL)
 			const toggleAfterReload = page.getByRole('switch', {
 				name: 'Show baselines',
 			});
 			await expect(toggleAfterReload).toHaveAttribute(
 				'aria-checked',
-				'true'
+				'false'
 			);
 		});
 

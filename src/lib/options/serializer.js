@@ -63,7 +63,9 @@ export const serializeValue = (optionKey, value) => {
 			const ids = Array.isArray(value)
 				? value
 				: enabledObjectToIds(value);
-			if (ids.length === 0) return null;
+			// Return empty string when no alphabets enabled (not null)
+			// This allows distinguishing "user disabled all" from "not set"
+			if (ids.length === 0) return '';
 			return ids.join(',');
 		}
 		default:
@@ -90,6 +92,10 @@ export const deserializeValue = (optionKey, urlValue) => {
 		case 'boolean':
 			return urlValue === '1';
 		case 'alphabetSet': {
+			// Empty string means user explicitly disabled all alphabets
+			if (urlValue === '') {
+				return idsToEnabledObject([]);
+			}
 			const ids = urlValue.split(',').filter(Boolean);
 			const validIds = validateAlphabetIds(ids);
 			const finalIds =
@@ -128,9 +134,10 @@ export const deserializeOptions = searchParams => {
 		mode: searchParams.m
 			? deserializeValue('mode', searchParams.m)
 			: defaults.mode,
-		enabledAlphabets: searchParams.a
-			? deserializeValue('alphabets', searchParams.a)
-			: defaults.enabledAlphabets,
+		enabledAlphabets:
+			searchParams.a !== undefined
+				? deserializeValue('alphabets', searchParams.a)
+				: defaults.enabledAlphabets,
 		twentyFourLetterAlphabet: searchParams.l
 			? deserializeValue('twentyFourLetter', searchParams.l)
 			: defaults.twentyFourLetterAlphabet,

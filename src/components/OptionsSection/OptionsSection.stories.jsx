@@ -1,7 +1,9 @@
 import { fn } from 'storybook/test';
 import OptionsSection from './OptionsSection';
+import { OPTIONS } from '@lib/options/schema.js';
 
-const MODE_VALUES = ['all', 'minuscule', 'majuscule'];
+// Derive mode values from OPTIONS schema
+const MODE_VALUES = Object.keys(OPTIONS.mode.values);
 
 export default {
 	title: 'Sections/OptionsSection',

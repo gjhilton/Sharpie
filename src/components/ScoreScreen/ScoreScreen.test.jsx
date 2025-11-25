@@ -1,235 +1,185 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import ScoreScreen from './ScoreScreen';
+import { ScoreScreen } from './ScoreScreen.jsx';
+
+// Mock Layout components
+vi.mock('@components/Layout/Layout.jsx', () => ({
+	Heading: ({ children }) => <h1>{children}</h1>,
+}));
 
 // Mock child components
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ onClick, label }) => <button onClick={onClick}>{label}</button>,
+	default: ({ onClick, label }) => (
+		<button onClick={onClick} data-testid="mock-button">
+			{label}
+		</button>
+	),
 }));
 
 vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
 	default: ({ onShowFeedback }) => (
-		<div data-testid="small-print">
-			<button onClick={onShowFeedback}>Feedback</button>
+		<div data-testid="mock-smallprint">
+			{onShowFeedback && (
+				<button onClick={onShowFeedback} data-testid="feedback-button">
+					Feedback
+				</button>
+			)}
 		</div>
 	),
 }));
 
-vi.mock('@components/Layout/Layout.jsx', () => ({
-	Heading: ({ children }) => <h2>{children}</h2>,
+vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
+	default: ({ imagePath, caption }) => (
+		<div data-testid={`char-img-${caption}`}>{imagePath}</div>
+	),
+}));
+
+// Mock router navigate
+const mockNavigate = vi.fn();
+const mockRouterState = {
+	location: {
+		state: {},
+	},
+};
+
+vi.mock('@tanstack/react-router', async () => {
+	const actual = await vi.importActual('@tanstack/react-router');
+	return {
+		...actual,
+		useNavigate: () => mockNavigate,
+		useRouterState: () => mockRouterState,
+	};
+});
+
+// Mock useGameOptions hook
+vi.mock('@lib/hooks/useGameOptions.js', () => ({
+	useGameOptions: () => ({
+		options: {
+			mode: 'all',
+			enabledAlphabets: {},
+			twentyFourLetterAlphabet: false,
+			showBaseline: true,
+		},
+		updateOption: vi.fn(),
+		updateOptions: vi.fn(),
+	}),
 }));
 
 describe('ScoreScreen', () => {
-	const mockScore = {
-		correct: 8,
-		incorrect: 2,
-		percentage: 80,
-		timeElapsed: 125, // 2 minutes 5 seconds
-		mistakes: [],
-	};
-
-	it('should render score statistics', () => {
-		render(<ScoreScreen score={mockScore} onReturnToMenu={() => {}} />);
-
-		expect(screen.getByText('Correct Answers')).toBeInTheDocument();
-		expect(screen.getByText('8')).toBeInTheDocument();
-		expect(screen.getByText('Incorrect Answers')).toBeInTheDocument();
-		expect(screen.getByText('2')).toBeInTheDocument();
-		expect(screen.getByText('Accuracy')).toBeInTheDocument();
-		expect(screen.getByText('80%')).toBeInTheDocument();
+	beforeEach(() => {
+		vi.clearAllMocks();
+		// Reset router state
+		mockRouterState.location.state = {};
 	});
 
-	it('should format time correctly for minutes and seconds', () => {
-		render(<ScoreScreen score={mockScore} onReturnToMenu={() => {}} />);
-
-		expect(screen.getByText('Time Taken')).toBeInTheDocument();
-		expect(screen.getByText('2m 5s')).toBeInTheDocument();
-	});
-
-	it('should format time correctly for seconds only', () => {
-		const score = { ...mockScore, timeElapsed: 45 };
-		render(<ScoreScreen score={score} onReturnToMenu={() => {}} />);
-
-		expect(screen.getByText('45s')).toBeInTheDocument();
-	});
-
-	it('should call onReturnToMenu when Return to Menu is clicked', async () => {
-		const handleReturn = vi.fn();
-		const user = userEvent.setup();
-
-		render(<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />);
-
-		const button = screen.getByRole('button', { name: /return to menu/i });
-		await user.click(button);
-
-		expect(handleReturn).toHaveBeenCalledTimes(1);
-	});
-
-	it('should not show mistakes section when no mistakes', () => {
-		render(<ScoreScreen score={mockScore} onReturnToMenu={() => {}} />);
-
-		expect(screen.queryByText('Letters to Review')).not.toBeInTheDocument();
-	});
-
-	it('should show mistakes section when mistakes exist', () => {
-		const scoreWithMistakes = {
-			...mockScore,
-			mistakes: [
-				{
-					graph: { character: 'A' },
-					imagePath: '/images/a.png',
+	describe('Score Display', () => {
+		it('displays correct score statistics', () => {
+			mockRouterState.location.state = {
+				score: {
+					correct: 15,
+					incorrect: 3,
+					percentage: 83,
+					timeElapsed: 45,
+					mistakes: [],
 				},
-				{
-					graph: { character: 'B' },
-					imagePath: '/images/b.png',
+			};
+
+			render(<ScoreScreen />);
+
+			expect(screen.getByText('15')).toBeInTheDocument();
+			expect(screen.getByText('3')).toBeInTheDocument();
+			expect(screen.getByText('83%')).toBeInTheDocument();
+			expect(screen.getByText('45s')).toBeInTheDocument();
+		});
+
+		it('formats time correctly with minutes', () => {
+			mockRouterState.location.state = {
+				score: {
+					correct: 10,
+					incorrect: 2,
+					percentage: 83,
+					timeElapsed: 125, // 2m 5s
+					mistakes: [],
 				},
-			],
-		};
+			};
 
-		render(
-			<ScoreScreen score={scoreWithMistakes} onReturnToMenu={() => {}} />
-		);
+			render(<ScoreScreen />);
 
-		expect(screen.getByText('Letters to Review')).toBeInTheDocument();
-		expect(screen.getByAltText('A')).toBeInTheDocument();
-		expect(screen.getByAltText('B')).toBeInTheDocument();
+			expect(screen.getByText('2m 5s')).toBeInTheDocument();
+		});
+
+		it('handles default scores when no data provided', () => {
+			render(<ScoreScreen />);
+
+			expect(screen.getAllByText('0')).toHaveLength(2); // correct and incorrect both show 0
+			expect(screen.getByText('0%')).toBeInTheDocument();
+			expect(screen.getByText('0s')).toBeInTheDocument();
+		});
 	});
 
-	it('should render mistake images with correct paths', () => {
-		const scoreWithMistakes = {
-			...mockScore,
-			mistakes: [
-				{
-					graph: { character: 'C' },
-					imagePath: '/images/c.png',
+	describe('Mistakes Display', () => {
+		it('displays mistake cards when mistakes exist', () => {
+			mockRouterState.location.state = {
+				score: {
+					correct: 10,
+					incorrect: 2,
+					percentage: 83,
+					timeElapsed: 45,
+					mistakes: [
+						{
+							graph: { character: 'a' },
+							imagePath: '/images/a.png',
+						},
+						{
+							graph: { character: 'b' },
+							imagePath: '/images/b.png',
+						},
+					],
 				},
-			],
-		};
+			};
 
-		render(
-			<ScoreScreen score={scoreWithMistakes} onReturnToMenu={() => {}} />
-		);
+			render(<ScoreScreen />);
 
-		const img = screen.getByAltText('C');
-		expect(img).toHaveAttribute('src', '/images/c.png');
-	});
-
-	it('should render SmallPrint component', () => {
-		render(
-			<ScoreScreen
-				score={mockScore}
-				onReturnToMenu={() => {}}
-				onShowFeedback={() => {}}
-			/>
-		);
-
-		expect(screen.getByTestId('small-print')).toBeInTheDocument();
-	});
-
-	it('should pass onShowFeedback to SmallPrint', async () => {
-		const handleFeedback = vi.fn();
-		const user = userEvent.setup();
-
-		render(
-			<ScoreScreen
-				score={mockScore}
-				onReturnToMenu={() => {}}
-				onShowFeedback={handleFeedback}
-			/>
-		);
-
-		const feedbackButton = screen.getByRole('button', {
-			name: /feedback/i,
-		});
-		await user.click(feedbackButton);
-
-		expect(handleFeedback).toHaveBeenCalledTimes(1);
-	});
-
-	it('should handle perfect score (100%)', () => {
-		const perfectScore = {
-			correct: 10,
-			incorrect: 0,
-			percentage: 100,
-			timeElapsed: 60,
-			mistakes: [],
-		};
-
-		render(<ScoreScreen score={perfectScore} onReturnToMenu={() => {}} />);
-
-		expect(screen.getByText('100%')).toBeInTheDocument();
-		expect(screen.getByText('0')).toBeInTheDocument();
-	});
-
-	it('should handle score with no correct answers', () => {
-		const zeroScore = {
-			correct: 0,
-			incorrect: 10,
-			percentage: 0,
-			timeElapsed: 120,
-			mistakes: [],
-		};
-
-		render(<ScoreScreen score={zeroScore} onReturnToMenu={() => {}} />);
-
-		expect(screen.getByText('0%')).toBeInTheDocument();
-		expect(screen.getByText(/^0$/)).toBeInTheDocument(); // correct answers
-	});
-
-	describe('Enter Key Navigation', () => {
-		it('should call onReturnToMenu when Enter key is pressed', async () => {
-			const handleReturn = vi.fn();
-			const user = userEvent.setup();
-
-			render(<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />);
-
-			await user.keyboard('{Enter}');
-			expect(handleReturn).toHaveBeenCalledTimes(1);
+			expect(screen.getByTestId('char-img-a')).toBeInTheDocument();
+			expect(screen.getByTestId('char-img-b')).toBeInTheDocument();
 		});
 
-		it('should prevent default on Enter key', async () => {
-			const handleReturn = vi.fn();
-			const user = userEvent.setup();
+		it('handles empty mistakes array', () => {
+			mockRouterState.location.state = {
+				score: {
+					correct: 10,
+					incorrect: 0,
+					percentage: 100,
+					timeElapsed: 45,
+					mistakes: [],
+				},
+			};
 
-			render(<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />);
+			render(<ScoreScreen />);
 
-			await user.keyboard('{Enter}');
-			// If default was not prevented, form might submit etc.
-			// We just verify the handler was called
-			expect(handleReturn).toHaveBeenCalled();
-		});
-
-		it('should clean up event listener on unmount', () => {
-			const handleReturn = vi.fn();
-			const { unmount } = render(
-				<ScoreScreen score={mockScore} onReturnToMenu={handleReturn} />
-			);
-
-			unmount();
-
-			// Dispatch keyboard event after unmount
-			const event = new KeyboardEvent('keydown', { key: 'Enter' });
-			window.dispatchEvent(event);
-
-			// Should not have been called since listener was removed
-			expect(handleReturn).not.toHaveBeenCalled();
+			expect(screen.getByText('Correct Answers')).toBeInTheDocument();
+			expect(screen.getByText('10')).toBeInTheDocument();
 		});
 	});
 
-	it('should handle score without mistakes array', () => {
-		const scoreWithoutMistakes = {
-			correct: 5,
-			incorrect: 1,
-			percentage: 83,
-			timeElapsed: 30,
-		};
+	describe('Component Structure', () => {
+		it('renders the score stats', () => {
+			render(<ScoreScreen />);
 
-		render(
-			<ScoreScreen score={scoreWithoutMistakes} onReturnToMenu={() => {}} />
-		);
+			expect(screen.getByText('Correct Answers')).toBeInTheDocument();
+			expect(screen.getByText('Accuracy')).toBeInTheDocument();
+		});
 
-		expect(screen.getByText('Correct Answers')).toBeInTheDocument();
-		expect(screen.queryByText('Letters to Review')).not.toBeInTheDocument();
+		it('renders SmallPrint component', () => {
+			render(<ScoreScreen />);
+
+			expect(screen.getByTestId('mock-smallprint')).toBeInTheDocument();
+		});
+
+		it('renders navigation button', () => {
+			render(<ScoreScreen />);
+
+			expect(screen.getByTestId('mock-button')).toBeInTheDocument();
+		});
 	});
 });

@@ -12,8 +12,7 @@ import NextStepsSection from '@components/NextStepsSection/NextStepsSection.jsx'
 import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection.jsx';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 import { OPTIONS } from '@lib/options/schema.js';
-import { DB } from '@data/DB.js';
-import * as db from '@utilities/database.js';
+import { useDatabase } from '@context/DatabaseContext.jsx';
 
 // Build mode options from schema
 const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
@@ -23,6 +22,7 @@ const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
 const LandingScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
+	const { DB, countEnabledCharacters, countEnabledAlphabets } = useDatabase();
 
 	const handlePlay = () => navigate({ to: '/play', search: prev => prev });
 	const handleShowCatalogue = () => navigate({ to: '/catalogue', search: prev => prev });
@@ -56,11 +56,11 @@ const LandingScreen = () => {
 							onTwentyFourLetterChange={handleTwentyFourLetterChange}
 							showBaseline={options.showBaseline}
 							onShowBaselineChange={handleShowBaselineChange}
-							characterCount={db.countEnabledCharacters(
+							characterCount={countEnabledCharacters(
 								DB,
 								options.enabledAlphabets
 							)}
-							alphabetCount={db.countEnabledAlphabets(options.enabledAlphabets)}
+							alphabetCount={countEnabledAlphabets(options.enabledAlphabets)}
 							onShowCatalogue={handleShowCatalogue}
 						/>
 					</DisclosureSection>

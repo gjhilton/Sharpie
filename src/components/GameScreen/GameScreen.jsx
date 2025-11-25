@@ -1,15 +1,16 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { DB } from '@data/DB.js';
 import * as gameLogic from '@utilities/gameLogic.js';
 import { GamePresentation } from '@components/GamePresentation/GamePresentation.jsx';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
+import { useDatabase } from '@context/DatabaseContext.jsx';
 
 export const STATUS = gameLogic.STATUS;
 
 const GameScreen = () => {
 	const navigate = useNavigate();
 	const { options } = useGameOptions();
+	const { DB } = useDatabase();
 
 	const {
 		mode: gameMode,
@@ -108,6 +109,9 @@ const GameScreen = () => {
 		});
 	};
 
+	// Get alphabet metadata for the current solution
+	const alphabetMetadata = DB.sources[currentSolution.graph.source] || {};
+
 	return (
 		<GamePresentation
 			currentSolution={currentSolution}
@@ -119,6 +123,7 @@ const GameScreen = () => {
 			showBaseline={showBaseline}
 			initialKeyboardLayout={gameLogic.getInitialKeyboardLayout(gameMode)}
 			gameMode={gameMode}
+			alphabetMetadata={alphabetMetadata}
 			onKeyPress={handleKeyPress}
 			onNextLetter={handleNextLetter}
 			onEndGame={handleEndGame}

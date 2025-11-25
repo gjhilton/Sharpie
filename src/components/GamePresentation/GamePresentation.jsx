@@ -5,7 +5,6 @@ import Character, {
 	CHARACTER_STATE,
 } from '@components/Character/Character.jsx';
 import { STATUS } from '@utilities/gameLogic.js';
-import { DB } from '@data/DB.js';
 import { GAME_MODES } from '@constants/stages.js';
 import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 
@@ -33,11 +32,11 @@ export const CorrectAnswer = ({
 	onNext,
 	acceptedAs24Letter,
 	showBaseline,
+	alphabetMetadata = {},
 }) => {
-	const alphabet = DB.sources[solution.graph.source];
-	const alphabetLink = alphabet?.sourceUri;
-	const alphabetTitle = alphabet?.title;
-	const alphabetDate = alphabet?.date;
+	const alphabetLink = alphabetMetadata.sourceUri;
+	const alphabetTitle = alphabetMetadata.title;
+	const alphabetDate = alphabetMetadata.date;
 
 	useEnterKey(onNext);
 
@@ -93,11 +92,11 @@ export const IncorrectAnswer = ({
 	attemptImagePaths,
 	onNext,
 	showBaseline,
+	alphabetMetadata = {},
 }) => {
-	const alphabet = DB.sources[solution.graph.source];
-	const alphabetLink = alphabet?.sourceUri;
-	const alphabetTitle = alphabet?.title;
-	const alphabetDate = alphabet?.date;
+	const alphabetLink = alphabetMetadata.sourceUri;
+	const alphabetTitle = alphabetMetadata.title;
+	const alphabetDate = alphabetMetadata.date;
 
 	useEnterKey(onNext);
 
@@ -151,6 +150,7 @@ export const StatusDisplay = ({
 	acceptedAs24Letter,
 	onNext,
 	showBaseline,
+	alphabetMetadata,
 }) => {
 	switch (status) {
 		case STATUS.CORRECT:
@@ -160,6 +160,7 @@ export const StatusDisplay = ({
 					onNext={onNext}
 					acceptedAs24Letter={acceptedAs24Letter}
 					showBaseline={showBaseline}
+					alphabetMetadata={alphabetMetadata}
 				/>
 			);
 		case STATUS.INCORRECT:
@@ -170,6 +171,7 @@ export const StatusDisplay = ({
 					solution={solution}
 					onNext={onNext}
 					showBaseline={showBaseline}
+					alphabetMetadata={alphabetMetadata}
 				/>
 			);
 		case STATUS.NONE:
@@ -190,6 +192,7 @@ export const GamePresentation = ({
 	showBaseline,
 	initialKeyboardLayout,
 	gameMode,
+	alphabetMetadata,
 	onKeyPress,
 	onNextLetter,
 	onEndGame,
@@ -215,6 +218,7 @@ export const GamePresentation = ({
 				acceptedAs24Letter={acceptedAs24Letter}
 				onNext={onNextLetter}
 				showBaseline={showBaseline}
+				alphabetMetadata={alphabetMetadata}
 			/>
 
 			<div

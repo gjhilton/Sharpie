@@ -11,11 +11,10 @@ import {
 	Heading,
 	PageWidth,
 } from '@components/Layout/Layout.jsx';
-import { DB } from '@data/DB.js';
 import alphabetsData from '@data/alphabets.json';
-import * as db from '@utilities/database.js';
 import * as catalogueLogic from '@utilities/catalogueLogic.js';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
+import { useDatabase } from '@context/DatabaseContext.jsx';
 
 const STYLES = {
 	verticalGap: '2rem',
@@ -23,7 +22,7 @@ const STYLES = {
 	imageSize: '100%',
 };
 
-const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
+const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => (
 	<div
 		className={css({
 			width: STYLES.imageSize,
@@ -37,7 +36,7 @@ const GlyphImage = ({ graph, showBaseline, isEnabled }) => (
 		})}
 	>
 		<CharacterImage
-			imagePath={db.getImagePath(graph)}
+			imagePath={getImagePath(graph)}
 			caption={graph.character}
 			showBaseline={showBaseline}
 		/>
@@ -74,7 +73,13 @@ const LetterHeader = ({ letter }) => (
 	</div>
 );
 
-const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
+const LetterGallery = ({
+	letter,
+	glyphs,
+	showBaseline,
+	enabledAlphabets,
+	getImagePath,
+}) => (
 	<article className={css({ marginBottom: STYLES.verticalGap })}>
 		<LetterHeader letter={letter} />
 		<div
@@ -91,13 +96,19 @@ const LetterGallery = ({ letter, glyphs, showBaseline, enabledAlphabets }) => (
 					graph={glyph}
 					showBaseline={showBaseline}
 					isEnabled={enabledAlphabets[glyph.source]}
+					getImagePath={getImagePath}
 				/>
 			))}
 		</div>
 	</article>
 );
 
-const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
+const LetterCaseGroup = ({
+	letters,
+	showBaseline,
+	enabledAlphabets,
+	getImagePath,
+}) => (
 	<section
 		className={css({
 			gridColumn: '1 / -1',
@@ -111,6 +122,7 @@ const LetterCaseGroup = ({ letters, showBaseline, enabledAlphabets }) => (
 				glyphs={graphs}
 				showBaseline={showBaseline}
 				enabledAlphabets={enabledAlphabets}
+				getImagePath={getImagePath}
 			/>
 		))}
 	</section>
@@ -204,6 +216,14 @@ const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
 const CatalogueScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
+	const {
+		DB,
+		getImagePath,
+		getEnabledGraphSets,
+		countEnabledAlphabets,
+		countEnabledCharacters,
+		getAllAlphabetNames,
+	} = useDatabase();
 
 	const { showBaseline = false, enabledAlphabets } = options;
 
@@ -215,10 +235,10 @@ const CatalogueScreen = () => {
 	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
 
 	const letterGroups = catalogueLogic.groupGraphsByGraphSetAndCharacter(
-		db.getEnabledGraphSets(DB)
+		getEnabledGraphSets(DB)
 	);
-	const alphabetCount = db.countEnabledAlphabets(enabledAlphabets);
-	const characterCount = db.countEnabledCharacters(DB, enabledAlphabets);
+	const alphabetCount = countEnabledAlphabets(enabledAlphabets);
+	const characterCount = countEnabledCharacters(DB, enabledAlphabets);
 	const hasNoSelection = alphabetCount === 0 || characterCount === 0;
 
 	const handleToggleAlphabet = name => {
@@ -273,7 +293,7 @@ const CatalogueScreen = () => {
 
 					<AlphabetSelectorWithSort
 						enabledAlphabets={enabledAlphabets}
-						alphabetNames={db.getAllAlphabetNames(DB)}
+						alphabetNames={getAllAlphabetNames(DB)}
 						alphabetsMetadata={alphabetsData}
 						onToggle={handleToggleAlphabet}
 						onBatchToggle={handleBatchToggleAlphabets}
@@ -290,6 +310,7 @@ const CatalogueScreen = () => {
 					letters={group.characters}
 					showBaseline={showBaseline}
 					enabledAlphabets={enabledAlphabets}
+					getImagePath={getImagePath}
 				/>
 			))}
 

@@ -33,8 +33,8 @@ describe('serializeValue', () => {
 		expect(result).not.toContain('011');
 	});
 
-	it('should return null for empty alphabet set', () => {
-		expect(serializeValue('alphabets', [])).toBeNull();
+	it('should return empty string for empty alphabet set', () => {
+		expect(serializeValue('alphabets', [])).toBe('');
 	});
 });
 

@@ -1,5 +1,13 @@
 [
 	{
+		"version": "1.2.4",
+		"description": "Architecture refinements: Completed data access refactoring - all presentation components now receive data via props through DatabaseContext. Eliminated hardcoded constants in stages.js by deriving game mode values from OPTIONS schema for single source of truth."
+	},
+	{
+		"version": "1.2.3",
+		"description": "Router migration: Migrated from stage-based navigation to TanStack Router with URL-based state management. Game options (mode, alphabets, baseline display) now persist in URL parameters and survive page reloads. Improved bulk alphabet selection performance with batched updates."
+	},
+	{
 		"version": "1.2.0",
 		"description": "Architecture improvements: shared useEnterKey hook, LinkAsButton component for accessible buttons styled as links, standardized CSS-in-JS styling, added named exports to components."
 	},

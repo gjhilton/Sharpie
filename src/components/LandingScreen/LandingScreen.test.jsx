@@ -1,616 +1,217 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import LandingScreen from './LandingScreen';
-import { GAME_MODES } from '@constants/stages.js';
+import { LandingScreen } from './LandingScreen.jsx';
 
 // Mock child components
 vi.mock('@components/Logo/Logo.jsx', () => ({
-	default: ({ size }) => (
-		<div data-testid="logo" data-size={size}>
-			Logo
-		</div>
-	),
-	SIZE: { S: 'small', M: 'medium', L: 'large' },
-}));
-
-vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
-	default: ({ onShowFeedback }) => (
-		<footer data-testid="small-print">
-			{onShowFeedback && (
-				<button onClick={onShowFeedback}>Report a problem</button>
-			)}
-		</footer>
-	),
-}));
-
-vi.mock('@components/Layout/Layout.jsx', () => ({
-	PageWidth: ({ children }) => <div data-testid="page-width">{children}</div>,
-	Article: ({ children }) => <article>{children}</article>,
-}));
-
-vi.mock('@components/SourceFigure/SourceFigure.jsx', () => ({
-	default: () => (
-		<figure data-testid="source-figure">
-			<img alt="Secretary Hand" src="secretary_hand.gif" />
-		</figure>
-	),
+	default: () => <div data-testid="mock-logo">Logo</div>,
+	SIZE: { S: 's' },
 }));
 
 vi.mock('@components/HeroSection/HeroSection.jsx', () => ({
 	default: ({ onPlay }) => (
-		<section data-testid="hero-section">
-			<h1 data-testid="page-title">
-				Hone your <span>Secretary</span>
-			</h1>
-			<button onClick={onPlay} data-hero="true">
+		<div data-testid="mock-hero">
+			<button onClick={onPlay} data-testid="play-button">
 				Play
 			</button>
-		</section>
+		</div>
 	),
 }));
 
-// Mock the new section components
-let mockOptionsProps = null;
+vi.mock('@components/DisclosureSection/DisclosureSection.jsx', () => ({
+	default: ({ title, children }) => (
+		<div data-testid={`disclosure-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+			<h2>{title}</h2>
+			{children}
+		</div>
+	),
+}));
+
 vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
-	default: props => {
-		mockOptionsProps = props;
-		return (
-			<div data-testid="options-section">
-				<fieldset>
-					<legend>Game mode</legend>
-					<label>
-						<input
-							type="radio"
-							name="gameMode"
-							value={GAME_MODES.MINUSCULE}
-							checked={props.selectedMode === GAME_MODES.MINUSCULE}
-							onChange={props.onModeChange}
-						/>
-						minuscules only
-					</label>
-					<label>
-						<input
-							type="radio"
-							name="gameMode"
-							value={GAME_MODES.MAJUSCULE}
-							checked={props.selectedMode === GAME_MODES.MAJUSCULE}
-							onChange={props.onModeChange}
-						/>
-						MAJUSCULES only
-					</label>
-					<label>
-						<input
-							type="radio"
-							name="gameMode"
-							value={GAME_MODES.ALL}
-							checked={props.selectedMode === GAME_MODES.ALL}
-							onChange={props.onModeChange}
-						/>
-						both minuscules AND MAJUSCULES
-					</label>
-				</fieldset>
-				<p>
-					Question bank: <strong>80</strong> characters from{' '}
-					<strong>3</strong> alphabets.
-				</p>
-				<button onClick={props.onShowCatalogue}>Choose alphabets</button>
-				<label>
-					<input
-						type="checkbox"
-						checked={props.showBaseline}
-						onChange={e => props.onShowBaselineChange(e.target.checked)}
-					/>
-					Show baselines
-				</label>
-			</div>
-		);
-	},
+	default: ({ onShowCatalogue }) => (
+		<div data-testid="mock-options">
+			<button onClick={onShowCatalogue} data-testid="catalogue-button">
+				Choose alphabets
+			</button>
+		</div>
+	),
 }));
 
 vi.mock('@components/HowToPlaySection/HowToPlaySection.jsx', () => ({
-	default: () => <div data-testid="how-to-play-section">How to play content</div>,
+	default: () => <div data-testid="mock-how-to-play">How to play</div>,
 }));
 
 vi.mock('@components/NextStepsSection/NextStepsSection.jsx', () => ({
-	default: () => <div data-testid="next-steps-section">Next steps content</div>,
+	default: () => <div data-testid="mock-next-steps">Next steps</div>,
 }));
 
 vi.mock('@components/WhatsNewSection/WhatsNewSection.jsx', () => ({
-	default: () => <div data-testid="whats-new-section">What's new content</div>,
+	default: () => <div data-testid="mock-whats-new">What's new</div>,
 }));
 
-vi.mock('@utilities/database.js', () => ({
-	countEnabledCharacters: vi.fn(() => 80),
-	countEnabledAlphabets: vi.fn(() => 3),
+vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
+	default: ({ onShowFeedback }) => (
+		<div data-testid="mock-smallprint">
+			{onShowFeedback && (
+				<button onClick={onShowFeedback} data-testid="feedback-button">
+					Feedback
+				</button>
+			)}
+		</div>
+	),
 }));
 
+// Mock database
 vi.mock('@data/DB.js', () => ({
-	DB: {},
+	DB: {
+		sources: {
+			'test-source': {
+				title: 'Test Source',
+			},
+		},
+	},
+}));
+
+// Mock database utilities
+vi.mock('@utilities/database.js', () => ({
+	countEnabledAlphabets: vi.fn(() => 5),
+	countEnabledCharacters: vi.fn(() => 123),
+}));
+
+// Mock router navigate
+const mockNavigate = vi.fn();
+vi.mock('@tanstack/react-router', async () => {
+	const actual = await vi.importActual('@tanstack/react-router');
+	return {
+		...actual,
+		useNavigate: () => mockNavigate,
+	};
+});
+
+// Mock useGameOptions hook
+vi.mock('@lib/hooks/useGameOptions.js', () => ({
+	useGameOptions: () => ({
+		options: {
+			mode: 'all',
+			enabledAlphabets: {
+				McKerrow: true,
+				PCAttorney: true,
+			},
+			twentyFourLetterAlphabet: false,
+			showBaseline: true,
+		},
+		updateOption: vi.fn(),
+		updateOptions: vi.fn(),
+	}),
+}));
+
+// Mock database context
+vi.mock('@context/DatabaseContext.jsx', () => ({
+	useDatabase: () => ({
+		DB: {
+			sources: {
+				'test-source': {
+					title: 'Test Source',
+				},
+			},
+		},
+		countEnabledCharacters: vi.fn(() => 123),
+		countEnabledAlphabets: vi.fn(() => 5),
+	}),
 }));
 
 describe('LandingScreen', () => {
-	let mockOnSelectMode;
-	let mockOnShowCatalogue;
-	let mockOnShowFeedback;
-	let mockSetShowBaseline;
-	let mockEnabledAlphabets;
-
 	beforeEach(() => {
-		mockOnSelectMode = vi.fn();
-		mockOnShowCatalogue = vi.fn();
-		mockOnShowFeedback = vi.fn();
-		mockSetShowBaseline = vi.fn();
-		mockEnabledAlphabets = {
-			'BeauChesne-Baildon': true,
-			Howard: true,
-			Joscelyn: true,
-		};
-		mockOptionsProps = null;
+		vi.clearAllMocks();
 	});
 
 	describe('Component Structure', () => {
-		it('should render within PageWidth layout', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByTestId('page-width')).toBeInTheDocument();
+		it('renders the logo', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-logo')).toBeInTheDocument();
 		});
 
-		it('should render SmallPrint component', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByTestId('small-print')).toBeInTheDocument();
-		});
-	});
-
-	describe('Hero Section', () => {
-		it('should render Logo with SIZE.S', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const logo = screen.getByTestId('logo');
-			expect(logo).toBeInTheDocument();
-			expect(logo).toHaveAttribute('data-size', 'small');
+		it('renders the hero section', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-hero')).toBeInTheDocument();
 		});
 
-		it('should display the secretary hand image', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const image = screen.getByAltText('Secretary Hand');
-			expect(image).toBeInTheDocument();
-			expect(image).toHaveAttribute('src', 'secretary_hand.gif');
-		});
-
-		it('should render page title with Secretary in Joscelyn font', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByTestId('page-title')).toBeInTheDocument();
-			expect(screen.getByText(/Hone your/i)).toBeInTheDocument();
-			expect(screen.getByText('Secretary')).toBeInTheDocument();
-		});
-
-		it('should render Play button', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const playButton = screen.getByRole('button', { name: 'Play' });
-			expect(playButton).toBeInTheDocument();
-			expect(playButton).toHaveAttribute('data-hero', 'true');
-		});
-
-		it('should call onSelectMode with default ALL mode when Play is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const playButton = screen.getByRole('button', { name: 'Play' });
-			await user.click(playButton);
-
-			expect(mockOnSelectMode).toHaveBeenCalledTimes(1);
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.ALL, false);
-		});
-	});
-
-	describe('Disclosure Sections', () => {
-		it('should render Options disclosure section', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText('Options')).toBeInTheDocument();
-		});
-
-		it('should render How to play disclosure section', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText('How to play')).toBeInTheDocument();
-		});
-
-		it('should render Next steps for learners disclosure section', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText('Next steps for learners')).toBeInTheDocument();
-		});
-
-		it("should render What's new? disclosure section", () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(screen.getByText("What's new?")).toBeInTheDocument();
-		});
-
-		it('should toggle disclosure section when header is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const optionsButton = screen.getByRole('button', {
-				name: 'Options',
-			});
-			expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
-
-			await user.click(optionsButton);
-			expect(optionsButton).toHaveAttribute('aria-expanded', 'true');
-
-			await user.click(optionsButton);
-			expect(optionsButton).toHaveAttribute('aria-expanded', 'false');
-		});
-	});
-
-	describe('Options Section Content', () => {
-		it('should render OptionsSection with correct props when expanded', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={true}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			await user.click(screen.getByRole('button', { name: 'Options' }));
-
-			expect(screen.getByTestId('options-section')).toBeInTheDocument();
-			expect(mockOptionsProps.selectedMode).toBe(GAME_MODES.ALL);
-			expect(mockOptionsProps.showBaseline).toBe(true);
-			expect(mockOptionsProps.characterCount).toBe(80);
-			expect(mockOptionsProps.alphabetCount).toBe(3);
-		});
-
-		it('should have "both" selected by default', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			await user.click(screen.getByRole('button', { name: 'Options' }));
-
+		it('renders all disclosure sections', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('disclosure-options')).toBeInTheDocument();
 			expect(
-				screen.getByLabelText(/both minuscules AND MAJUSCULES/i)
-			).toBeChecked();
-		});
-
-		it('should update selected mode when radio is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			await user.click(screen.getByRole('button', { name: 'Options' }));
-
-			await user.click(screen.getByLabelText(/minuscules only/i));
-			expect(screen.getByLabelText(/minuscules only/i)).toBeChecked();
+				screen.getByTestId('disclosure-how-to-play')
+			).toBeInTheDocument();
 			expect(
-				screen.getByLabelText(/both minuscules AND MAJUSCULES/i)
-			).not.toBeChecked();
+				screen.getByTestId('disclosure-next-steps-for-learners')
+			).toBeInTheDocument();
+			expect(screen.getByTestId("disclosure-what's-new?")).toBeInTheDocument();
 		});
 
-		it('should call onShowCatalogue when Choose alphabets button is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			await user.click(screen.getByRole('button', { name: 'Options' }));
-
-			const chooseButton = screen.getByRole('button', {
-				name: 'Choose alphabets',
-			});
-			await user.click(chooseButton);
-
-			expect(mockOnShowCatalogue).toHaveBeenCalledTimes(1);
+		it('renders SmallPrint component', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-smallprint')).toBeInTheDocument();
 		});
 	});
 
-	describe('Game Mode Selection', () => {
-		it('should call onSelectMode with minuscule mode after selecting it', async () => {
+	describe('Navigation', () => {
+		it('navigates to play screen when play button is clicked', async () => {
 			const user = userEvent.setup();
+			render(<LandingScreen />);
 
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
+			await user.click(screen.getByTestId('play-button'));
 
-			await user.click(screen.getByRole('button', { name: 'Options' }));
-			await user.click(screen.getByLabelText(/minuscules only/i));
-
-			const playButton = screen.getByRole('button', { name: 'Play' });
-			await user.click(playButton);
-
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MINUSCULE, false);
+			expect(mockNavigate).toHaveBeenCalledWith({
+				to: '/play',
+				search: expect.any(Function),
+			});
 		});
 
-		it('should call onSelectMode with majuscule mode after selecting it', async () => {
+		it('navigates to catalogue when catalogue button is clicked', async () => {
 			const user = userEvent.setup();
+			render(<LandingScreen />);
 
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
+			await user.click(screen.getByTestId('catalogue-button'));
 
-			await user.click(screen.getByRole('button', { name: 'Options' }));
-			await user.click(screen.getByLabelText(/MAJUSCULES only/i));
+			expect(mockNavigate).toHaveBeenCalledWith({
+				to: '/catalogue',
+				search: expect.any(Function),
+			});
+		});
 
-			const playButton = screen.getByRole('button', { name: 'Play' });
-			await user.click(playButton);
+		it('navigates to feedback when feedback button is clicked', async () => {
+			const user = userEvent.setup();
+			render(<LandingScreen />);
 
-			expect(mockOnSelectMode).toHaveBeenCalledWith(GAME_MODES.MAJUSCULE, false);
+			await user.click(screen.getByTestId('feedback-button'));
+
+			expect(mockNavigate).toHaveBeenCalledWith({
+				to: '/feedback',
+				search: expect.any(Function),
+			});
 		});
 	});
 
-	describe('SmallPrint Integration', () => {
-		it('should pass onShowFeedback callback to SmallPrint', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const reportButton = screen.getByRole('button', {
-				name: 'Report a problem',
-			});
-			expect(reportButton).toBeInTheDocument();
+	describe('Content Sections', () => {
+		it('renders options section content', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-options')).toBeInTheDocument();
 		});
 
-		it('should call onShowFeedback when SmallPrint feedback button is clicked', async () => {
-			const user = userEvent.setup();
-
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const reportButton = screen.getByRole('button', {
-				name: 'Report a problem',
-			});
-			await user.click(reportButton);
-
-			expect(mockOnShowFeedback).toHaveBeenCalledTimes(1);
-		});
-	});
-
-	describe('Accessibility', () => {
-		it('should render semantic header element', () => {
-			const { container } = render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const header = container.querySelector('header');
-			expect(header).toBeInTheDocument();
+		it('renders how to play section content', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-how-to-play')).toBeInTheDocument();
 		});
 
-		it('should have aria-expanded attributes on disclosure buttons', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const optionsButton = screen.getByRole('button', {
-				name: 'Options',
-			});
-			expect(optionsButton).toHaveAttribute('aria-expanded');
+		it('renders next steps section content', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-next-steps')).toBeInTheDocument();
 		});
 
-		it('should render semantic main element for content sections', () => {
-			const { container } = render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			const main = container.querySelector('main');
-			expect(main).toBeInTheDocument();
-		});
-	});
-
-	describe('Integration', () => {
-		it('should not call any callbacks on initial render', () => {
-			render(
-				<LandingScreen
-					onSelectMode={mockOnSelectMode}
-					onShowCatalogue={mockOnShowCatalogue}
-					onShowFeedback={mockOnShowFeedback}
-					showBaseline={false}
-					setShowBaseline={mockSetShowBaseline}
-					enabledAlphabets={mockEnabledAlphabets}
-				/>
-			);
-
-			expect(mockOnSelectMode).not.toHaveBeenCalled();
-			expect(mockOnShowCatalogue).not.toHaveBeenCalled();
-			expect(mockOnShowFeedback).not.toHaveBeenCalled();
+		it('renders whats new section content', () => {
+			render(<LandingScreen />);
+			expect(screen.getByTestId('mock-whats-new')).toBeInTheDocument();
 		});
 	});
 });

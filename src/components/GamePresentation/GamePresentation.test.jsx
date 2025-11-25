@@ -61,18 +61,6 @@ vi.mock('@components/Button/Button.jsx', () => ({
 	default: ({ onClick, label }) => <button onClick={onClick}>{label}</button>,
 }));
 
-vi.mock('@data/DB.js', () => ({
-	DB: {
-		sources: {
-			'test-source': {
-				title: 'Test Source',
-				sourceUri: 'https://example.com/test',
-				date: '2019',
-			},
-		},
-	},
-}));
-
 describe('Unanswered', () => {
 	const mockSolution = {
 		imagePath: '/images/a.png',
@@ -137,7 +125,18 @@ describe('CorrectAnswer', () => {
 
 	it('should pass alphabet information to Character', () => {
 		const onNext = vi.fn();
-		render(<CorrectAnswer solution={mockSolution} onNext={onNext} />);
+		const alphabetMetadata = {
+			title: 'Test Source',
+			sourceUri: 'https://example.com/test',
+			date: '2019',
+		};
+		render(
+			<CorrectAnswer
+				solution={mockSolution}
+				onNext={onNext}
+				alphabetMetadata={alphabetMetadata}
+			/>
+		);
 		const character = screen.getByTestId('character');
 		expect(character).toHaveAttribute(
 			'data-alphabetlink',
@@ -166,23 +165,17 @@ describe('CorrectAnswer', () => {
 		expect(onNext).toHaveBeenCalledTimes(1);
 	});
 
-	it('should handle missing source gracefully', () => {
-		const solutionWithMissingSource = {
-			...mockSolution,
-			graph: {
-				...mockSolution.graph,
-				source: 'non-existent-source',
-			},
-		};
+	it('should handle missing alphabetMetadata gracefully', () => {
 		const onNext = vi.fn();
 		render(
 			<CorrectAnswer
-				solution={solutionWithMissingSource}
+				solution={mockSolution}
 				onNext={onNext}
+				alphabetMetadata={{}}
 			/>
 		);
 		const character = screen.getByTestId('character');
-		// When alphabet is missing, alphabetLink, alphabetTitle, and alphabetDate are undefined
+		// When alphabetMetadata is empty, alphabetLink, alphabetTitle, and alphabetDate are undefined
 		// React doesn't render undefined as an attribute value
 		expect(character).not.toHaveAttribute('data-alphabetlink');
 		expect(character).not.toHaveAttribute('data-alphabettitle');
@@ -300,12 +293,18 @@ describe('IncorrectAnswer', () => {
 
 	it('should pass alphabet information to correct Character', () => {
 		const onNext = vi.fn();
+		const alphabetMetadata = {
+			title: 'Test Source',
+			sourceUri: 'https://example.com/test',
+			date: '2019',
+		};
 		render(
 			<IncorrectAnswer
 				solution={mockSolution}
 				attempt={mockAttempt}
 				attemptImagePaths={mockAttemptImagePaths}
 				onNext={onNext}
+				alphabetMetadata={alphabetMetadata}
 			/>
 		);
 		const characters = screen.getAllByTestId('character');

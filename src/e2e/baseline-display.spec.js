@@ -215,7 +215,7 @@ test.describe('Baseline Display Feature', () => {
 	});
 
 	test.describe('Mode Persistence', () => {
-		test('mode should reset to ON on page reload', async ({ page }) => {
+		test('mode should persist across page reload', async ({ page }) => {
 			// Expand Options section
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
@@ -239,13 +239,13 @@ test.describe('Baseline Display Feature', () => {
 			});
 			await optionsHeaderAfterReload.click();
 
-			// Should be ON again (default)
+			// Should still be OFF (persisted in URL)
 			const toggleAfterReload = page.getByRole('switch', {
 				name: 'Show baselines',
 			});
 			await expect(toggleAfterReload).toHaveAttribute(
 				'aria-checked',
-				'true'
+				'false'
 			);
 		});
 
@@ -419,12 +419,6 @@ test.describe('Baseline Display Feature', () => {
 			});
 			await optionsHeader.click();
 
-			// Turn ON 24-letter alphabet (baseline is already ON by default)
-			const alphabetToggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await alphabetToggle.click();
-
 			// Verify baseline is still ON
 			const baselineToggle = page.getByRole('switch', {
 				name: 'Show baselines',
@@ -463,12 +457,6 @@ test.describe('Baseline Display Feature', () => {
 				name: /options/i,
 			});
 			await optionsHeader.click();
-
-			// Turn ON 24-letter alphabet
-			const alphabetToggle = page.getByRole('switch', {
-				name: '24-letter alphabet',
-			});
-			await alphabetToggle.click();
 
 			// Turn OFF baselines
 			const baselineToggle = page.getByRole('switch', {

@@ -34,6 +34,12 @@ const mockSolutionJ = {
 	imagePath: '/data/Joscelyn/joscelyn-minuscule-assets/j.png',
 };
 
+const mockAlphabetMetadata = {
+	title: 'Joscelyn Alphabet',
+	sourceUri: 'https://example.com/joscelyn',
+	date: '1570',
+};
+
 // Full GamePresentation stories
 export const AwaitingAnswer = {
 	args: {
@@ -44,6 +50,7 @@ export const AwaitingAnswer = {
 		acceptedAs24Letter: false,
 		twentyFourLetterAlphabet: false,
 		initialKeyboardLayout: 'default',
+		alphabetMetadata: mockAlphabetMetadata,
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
 		onEndGame: () => console.log('End game'),
@@ -59,6 +66,7 @@ export const CorrectAnswerNormal = {
 		acceptedAs24Letter: false,
 		twentyFourLetterAlphabet: false,
 		initialKeyboardLayout: 'default',
+		alphabetMetadata: mockAlphabetMetadata,
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
 		onEndGame: () => console.log('End game'),
@@ -74,6 +82,7 @@ export const CorrectAnswerWith24LetterAlphabet = {
 		acceptedAs24Letter: true,
 		twentyFourLetterAlphabet: true,
 		initialKeyboardLayout: 'default',
+		alphabetMetadata: mockAlphabetMetadata,
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
 		onEndGame: () => console.log('End game'),
@@ -89,6 +98,7 @@ export const IncorrectAnswerExample = {
 		acceptedAs24Letter: false,
 		twentyFourLetterAlphabet: false,
 		initialKeyboardLayout: 'default',
+		alphabetMetadata: mockAlphabetMetadata,
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
 		onEndGame: () => console.log('End game'),
@@ -104,6 +114,7 @@ export const With24LetterKeyboard = {
 		acceptedAs24Letter: false,
 		twentyFourLetterAlphabet: true,
 		initialKeyboardLayout: 'default',
+		alphabetMetadata: mockAlphabetMetadata,
 		onKeyPress: () => console.log('Key pressed'),
 		onNextLetter: () => console.log('Next letter'),
 		onEndGame: () => console.log('End game'),
@@ -117,6 +128,7 @@ export const CorrectAnswerComponent = {
 			solution={mockSolution}
 			onNext={() => console.log('Next clicked')}
 			acceptedAs24Letter={false}
+			alphabetMetadata={mockAlphabetMetadata}
 		/>
 	),
 };
@@ -127,6 +139,7 @@ export const CorrectAnswerComponent24Letter = {
 			solution={mockSolutionJ}
 			onNext={() => console.log('Next clicked')}
 			acceptedAs24Letter={true}
+			alphabetMetadata={mockAlphabetMetadata}
 		/>
 	),
 };
@@ -140,6 +153,7 @@ export const IncorrectAnswerComponent = {
 				'/data/Joscelyn/joscelyn-minuscule-assets/j.png',
 			]}
 			onNext={() => console.log('Next clicked')}
+			alphabetMetadata={mockAlphabetMetadata}
 		/>
 	),
 };

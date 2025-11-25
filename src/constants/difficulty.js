@@ -1,17 +1,33 @@
-export const DIFFICULTY_LEVELS = {
-	EASY: 'easy',
-	MEDIUM: 'medium',
-	HARD: 'hard',
+/**
+ * Difficulty configuration - single source of truth
+ * Maps difficulty keys to their display labels
+ */
+const DIFFICULTIES = {
+	easy: 'Easy',
+	medium: 'Medium',
+	hard: 'Hard',
 };
 
-export const DIFFICULTY_ORDER = [
-	DIFFICULTY_LEVELS.EASY,
-	DIFFICULTY_LEVELS.MEDIUM,
-	DIFFICULTY_LEVELS.HARD,
-];
+/**
+ * Difficulty level constants
+ * Creates constants like DIFFICULTY_LEVELS.EASY = 'easy'
+ */
+export const DIFFICULTY_LEVELS = Object.keys(DIFFICULTIES).reduce(
+	(acc, key) => {
+		acc[key.toUpperCase()] = key;
+		return acc;
+	},
+	{}
+);
 
-export const DIFFICULTY_LABELS = {
-	[DIFFICULTY_LEVELS.EASY]: 'Easy',
-	[DIFFICULTY_LEVELS.MEDIUM]: 'Medium',
-	[DIFFICULTY_LEVELS.HARD]: 'Hard',
-};
+/**
+ * Difficulty keys in order (easy -> medium -> hard)
+ * Used for sorting alphabets by difficulty
+ */
+export const DIFFICULTY_ORDER = Object.keys(DIFFICULTIES);
+
+/**
+ * Map of difficulty keys to display labels
+ * Used for rendering difficulty headings
+ */
+export const DIFFICULTY_LABELS = DIFFICULTIES;

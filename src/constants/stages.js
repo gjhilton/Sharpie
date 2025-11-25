@@ -1,29 +1,22 @@
-export const STAGES = {
-	MENU: 'menu',
-	PLAYING: 'playing',
-	SCORE: 'score',
-	CATALOGUE: 'catalogue',
-	FEEDBACK: 'feedback',
-};
+import { OPTIONS } from '@lib/options/schema.js';
 
-export const GAME_MODES = {
-	MAJUSCULE: 'majuscule',
-	MINUSCULE: 'minuscule',
-	EXTRAS: 'extras',
-	ALL: 'all',
-};
+// Derive game mode constants from OPTIONS schema
+export const GAME_MODES = Object.keys(OPTIONS.mode.values).reduce(
+	(acc, key) => {
+		acc[key.toUpperCase()] = key;
+		return acc;
+	},
+	{
+		// Keep EXTRAS for backward compatibility (not in OPTIONS schema)
+		EXTRAS: 'extras',
+	}
+);
 
-export const GAME_MODE_OPTIONS = [
-	{ value: GAME_MODES.MINUSCULE, label: 'minuscules only' },
-	{ value: GAME_MODES.MAJUSCULE, label: 'MAJUSCULES only' },
-	{ value: GAME_MODES.ALL, label: 'both minuscules AND MAJUSCULES' },
-];
-
-// Character sets for each game mode
-export const CHARACTER_SETS = {
-	[GAME_MODES.MAJUSCULE]: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	[GAME_MODES.MINUSCULE]: 'abcdefghijklmnopqrstuvwxyz',
-	[GAME_MODES.EXTRAS]: '0123456789!@#$%&*(),.?;:\'"-',
-	[GAME_MODES.ALL]:
-		'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*(),.?;:\'"-',
-};
+// Derive game mode options from OPTIONS schema
+// Order: minuscule, majuscule, all
+export const GAME_MODE_OPTIONS = ['minuscule', 'majuscule', 'all'].map(
+	mode => ({
+		value: mode,
+		label: OPTIONS.mode.values[mode].label,
+	})
+);

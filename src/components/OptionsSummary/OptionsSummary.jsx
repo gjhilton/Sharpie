@@ -127,93 +127,12 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 			})}
 			data-testid="options-summary"
 		>
-			{/* Badges */}
+			{/* Reset button at top */}
 			<div
 				className={css({
-					display: 'flex',
-					flexWrap: 'wrap',
-					gap: '0.5rem',
 					marginBottom: '1rem',
 				})}
-				data-testid="options-summary-badges"
 			>
-				{badges.map(badge => (
-					<span
-						key={badge.id}
-						className={css({
-							display: 'inline-block',
-							padding: '0.25rem 0.75rem',
-							border: '1px solid {colors.ink}',
-									fontSize: 's',
-							backgroundColor: '{colors.paper}',
-							whiteSpace: 'nowrap',
-						})}
-						data-testid={`badge-${badge.id}`}
-					>
-						{badge.label}
-					</span>
-				))}
-			</div>
-
-			{/* URL input with Copy button */}
-			<InputWithButton
-				inputId="shareable-url"
-				inputType="text"
-				inputReadOnly
-				inputValue={shareableURL}
-				inputOnClick={e => e.target.select()}
-				inputOnFocus={e => e.target.select()}
-				inputOnTouchStart={e => {
-					e.target.focus();
-					e.target.select();
-				}}
-				fontFamily="monospace"
-				fontSize="s"
-				marginBottom="0.75rem"
-				cursor="text"
-				buttonLabel={copySuccess ? 'Copied!' : 'Copy'}
-				buttonOnClick={handleCopy}
-				buttonActive={copySuccess}
-			/>
-
-			{/* Action buttons */}
-			<div
-				className={css({
-					display: 'flex',
-					flexWrap: 'wrap',
-					gap: '0.5rem',
-					alignItems: 'center',
-				})}
-			>
-				<button
-					type="button"
-					onClick={handleToggleQR}
-					className={css({
-						padding: '0.5rem 1rem',
-						border: '1px solid {colors.ink}',
-							backgroundColor: showQR
-							? '{colors.ink}'
-							: '{colors.paper}',
-						color: showQR ? '{colors.paper}' : '{colors.ink}',
-						cursor: 'pointer',
-						fontSize: 's',
-						fontWeight: 'bold',
-						transition: 'all 150ms ease-in-out',
-						_hover: {
-							transform: 'scale(1.02)',
-						},
-						_active: {
-							transform: 'scale(0.98)',
-						},
-						_focusVisible: {
-							outline: '2px solid {colors.ink}',
-							outlineOffset: '2px',
-						},
-					})}
-				>
-					{showQR ? 'Hide QR Code' : 'Show QR Code'}
-				</button>
-
 				<button
 					type="button"
 					onClick={handleReset}
@@ -242,16 +161,72 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 				</button>
 			</div>
 
-			{/* QR Code display */}
+			{/* Badges */}
+			<div
+				className={css({
+					display: 'flex',
+					flexWrap: 'wrap',
+					gap: '0.5rem',
+					marginBottom: '1rem',
+				})}
+				data-testid="options-summary-badges"
+			>
+				{badges.map(badge => (
+					<span
+						key={badge.id}
+						className={css({
+							display: 'inline-block',
+							padding: '0.25rem 0.75rem',
+							border: '1px solid {colors.ink}',
+									fontSize: 's',
+							backgroundColor: '{colors.paper}',
+							whiteSpace: 'nowrap',
+						})}
+						data-testid={`badge-${badge.id}`}
+					>
+						{badge.label}
+					</span>
+				))}
+			</div>
+
+			{/* URL input with Copy and QR buttons */}
+			<InputWithButton
+				inputId="shareable-url"
+				inputType="text"
+				inputReadOnly
+				inputValue={shareableURL}
+				inputOnClick={e => e.target.select()}
+				inputOnFocus={e => e.target.select()}
+				inputOnTouchStart={e => {
+					e.target.focus();
+					e.target.select();
+				}}
+				fontFamily="monospace"
+				fontSize="s"
+				marginBottom={showQR ? '0' : '0.75rem'}
+				cursor="text"
+				buttonLabel={copySuccess ? 'Copied!' : 'Copy'}
+				buttonOnClick={handleCopy}
+				buttonActive={copySuccess}
+				rightButton2Label={showQR ? 'Hide QR' : 'QR'}
+				rightButton2OnClick={handleToggleQR}
+				rightButton2Active={showQR}
+			/>
+
+			{/* QR Code display - full width box centered underneath URL field */}
 			{showQR && (
 				<div
 					ref={qrRef}
 					className={css({
-						marginTop: '1rem',
+						marginTop: '0',
 						padding: '1rem',
 						border: '1px solid {colors.ink}',
-							backgroundColor: 'white',
-						display: 'inline-block',
+						borderTop: 'none',
+						backgroundColor: 'white',
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+						justifyContent: 'center',
 					})}
 				>
 					<QRCodeSVG value={shareableURL} size={200} level="M" />

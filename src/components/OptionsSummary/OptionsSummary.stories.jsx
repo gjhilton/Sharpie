@@ -1,17 +1,45 @@
 import { fn } from 'storybook/test';
-import OptionsSummary from './OptionsSummary';
+import { createMemoryHistory, RouterProvider, Outlet } from '@tanstack/react-router';
+import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { GameOptionsProvider } from '@context/GameOptionsContext.jsx';
+import OptionsSummary from './OptionsSummary';
 
-// Wrapper component to provide context
-const OptionsSummaryWithContext = props => (
-	<GameOptionsProvider>
-		<OptionsSummary {...props} />
-	</GameOptionsProvider>
-);
+// Wrapper that provides full context stack for OptionsSummary
+const StorybookWrapper = ({ children, searchParams = {} }) => {
+	// Create a router with GameOptionsProvider in the tree
+	const rootRoute = createRootRoute({
+		component: () => (
+			<GameOptionsProvider>
+				<Outlet />
+			</GameOptionsProvider>
+		),
+	});
+
+	const indexRoute = createRoute({
+		getParentRoute: () => rootRoute,
+		path: '/',
+		component: () => children,
+	});
+
+	const routeTree = rootRoute.addChildren([indexRoute]);
+
+	const memoryHistory = createMemoryHistory({
+		initialEntries: [
+			'/' + (Object.keys(searchParams).length ? '?' + new URLSearchParams(searchParams).toString() : ''),
+		],
+	});
+
+	const router = createRouter({
+		routeTree,
+		history: memoryHistory,
+	});
+
+	return <RouterProvider router={router} />;
+};
 
 export default {
-	title: 'Sections/OptionsSummary',
-	component: OptionsSummaryWithContext,
+	title: 'Components/OptionsSummary',
+	component: OptionsSummary,
 	tags: ['autodocs'],
 	argTypes: {
 		options: {
@@ -22,6 +50,15 @@ export default {
 			description: 'Number of enabled alphabets',
 		},
 	},
+	decorators: [
+		(Story, context) => (
+			<StorybookWrapper searchParams={context.args.searchParams || {}}>
+				<div style={{ maxWidth: '600px', padding: '20px' }}>
+					<Story />
+				</div>
+			</StorybookWrapper>
+		),
+	],
 };
 
 // Story: Default settings
@@ -39,6 +76,7 @@ export const DefaultSettings = {
 			showBaseline: true,
 		},
 		alphabetCount: 4,
+		searchParams: {},
 	},
 };
 
@@ -57,6 +95,7 @@ export const MinusculesOnlyMode = {
 			showBaseline: true,
 		},
 		alphabetCount: 4,
+		searchParams: { m: 'i' },
 	},
 };
 
@@ -75,6 +114,7 @@ export const MajusculesOnlyMode = {
 			showBaseline: true,
 		},
 		alphabetCount: 4,
+		searchParams: { m: 'j' },
 	},
 };
 
@@ -93,6 +133,7 @@ export const LimitedAlphabets = {
 			showBaseline: true,
 		},
 		alphabetCount: 1,
+		searchParams: {},
 	},
 };
 
@@ -111,6 +152,7 @@ export const SingleAlphabet = {
 			showBaseline: true,
 		},
 		alphabetCount: 1,
+		searchParams: {},
 	},
 };
 
@@ -129,6 +171,7 @@ export const TwentySixLetters = {
 			showBaseline: true,
 		},
 		alphabetCount: 4,
+		searchParams: { l: '0' },
 	},
 };
 
@@ -147,6 +190,7 @@ export const BaselinesOff = {
 			showBaseline: false,
 		},
 		alphabetCount: 4,
+		searchParams: { b: '0' },
 	},
 };
 
@@ -165,5 +209,6 @@ export const AllCustomSettings = {
 			showBaseline: false,
 		},
 		alphabetCount: 2,
+		searchParams: { m: 'i', l: '0', b: '0' },
 	},
 };

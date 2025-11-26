@@ -7,6 +7,7 @@ import DisclosureSection from '@components/DisclosureSection/DisclosureSection.j
 import SourceFigure from '@components/SourceFigure/SourceFigure.jsx';
 import HeroSection from '@components/HeroSection/HeroSection.jsx';
 import OptionsSection from '@components/OptionsSection/OptionsSection.jsx';
+import OptionsSummary from '@components/OptionsSummary/OptionsSummary.jsx';
 import HowToPlaySection from '@components/HowToPlaySection/HowToPlaySection.jsx';
 import NextStepsSection from '@components/NextStepsSection/NextStepsSection.jsx';
 import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection.jsx';
@@ -47,7 +48,17 @@ const LandingScreen = () => {
 				<HeroSection onPlay={handlePlay} />
 
 				<main>
-					<DisclosureSection title="Options">
+					<DisclosureSection
+						title="Options"
+						additionalComponent={
+							<OptionsSummary
+								options={options}
+								alphabetCount={countEnabledAlphabets(
+									options.enabledAlphabets
+								)}
+							/>
+						}
+					>
 						<OptionsSection
 							gameModeOptions={GAME_MODE_OPTIONS}
 							selectedMode={options.mode}

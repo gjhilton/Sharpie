@@ -178,4 +178,65 @@ describe('DisclosureSection', () => {
 			expect(screen.getByText('Item 2')).toBeInTheDocument();
 		});
 	});
+
+	describe('Additional Component', () => {
+		it('renders additionalComponent when provided', () => {
+			const AdditionalComponent = <div>Additional Content</div>;
+			render(
+				<DisclosureSection
+					title="Test Section"
+					additionalComponent={AdditionalComponent}
+				>
+					<p>Main Content</p>
+				</DisclosureSection>
+			);
+
+			expect(screen.getByText('Additional Content')).toBeInTheDocument();
+		});
+
+		it('does not render additionalComponent when not provided', () => {
+			render(
+				<DisclosureSection title="Test Section">
+					<p>Main Content</p>
+				</DisclosureSection>
+			);
+
+			expect(
+				screen.queryByText('Additional Content')
+			).not.toBeInTheDocument();
+		});
+
+		it('renders additionalComponent when section is collapsed', () => {
+			const AdditionalComponent = <div>Additional Content</div>;
+			render(
+				<DisclosureSection
+					title="Test Section"
+					additionalComponent={AdditionalComponent}
+				>
+					<p>Main Content</p>
+				</DisclosureSection>
+			);
+
+			expect(screen.getByText('Additional Content')).toBeInTheDocument();
+			expect(
+				screen.queryByText('Main Content')
+			).not.toBeInTheDocument();
+		});
+
+		it('renders additionalComponent when section is expanded', () => {
+			const AdditionalComponent = <div>Additional Content</div>;
+			render(
+				<DisclosureSection
+					title="Test Section"
+					defaultExpanded={true}
+					additionalComponent={AdditionalComponent}
+				>
+					<p>Main Content</p>
+				</DisclosureSection>
+			);
+
+			expect(screen.getByText('Additional Content')).toBeInTheDocument();
+			expect(screen.getByText('Main Content')).toBeInTheDocument();
+		});
+	});
 });

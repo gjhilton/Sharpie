@@ -60,11 +60,14 @@ test.describe('Landing Page Content', () => {
 		});
 
 		test('should display question bank statistics', async ({ page }) => {
-			// Dynamic numbers, so just check structure - use the paragraph containing the stats
-			await expect(page.getByText(/Question bank:/)).toBeVisible();
-			await expect(page.getByText(/characters from/)).toBeVisible();
-			// Check for the actual structure rather than just "alphabets"
-			await expect(page.getByText(/\d+ alphabets/)).toBeVisible();
+			// Options is already expanded by beforeEach hook
+			// Wait for content to be visible
+			await page.waitForTimeout(200);
+
+			// Match the entire paragraph pattern (text is split across multiple elements)
+			await expect(
+				page.getByText(/Question bank:.*characters from.*alphabets/i)
+			).toBeVisible();
 		});
 
 		test('should display Choose alphabets button', async ({ page }) => {

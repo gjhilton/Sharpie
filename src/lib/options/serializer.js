@@ -138,9 +138,10 @@ export const deserializeOptions = searchParams => {
 			searchParams.a !== undefined
 				? deserializeValue('alphabets', searchParams.a)
 				: defaults.enabledAlphabets,
-		twentyFourLetterAlphabet: searchParams.l
-			? deserializeValue('twentyFourLetter', searchParams.l)
-			: defaults.twentyFourLetterAlphabet,
+		twentyFourLetterAlphabet:
+			searchParams.l !== undefined
+				? deserializeValue('twentyFourLetter', searchParams.l)
+				: defaults.twentyFourLetterAlphabet,
 		showBaseline:
 			searchParams.b !== undefined
 				? deserializeValue('showBaseline', searchParams.b)

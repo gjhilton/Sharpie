@@ -38,6 +38,15 @@ vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
 	),
 }));
 
+vi.mock('@components/OptionsSummary/OptionsSummary.jsx', () => ({
+	default: ({ options, alphabetCount }) => (
+		<div data-testid="mock-options-summary">
+			<div data-testid="summary-mode">{options.mode}</div>
+			<div data-testid="summary-alphabets">{alphabetCount}</div>
+		</div>
+	),
+}));
+
 vi.mock('@components/HowToPlaySection/HowToPlaySection.jsx', () => ({
 	default: () => <div data-testid="mock-how-to-play">How to play</div>,
 }));

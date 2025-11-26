@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { css } from '../../../dist/styled-system/css';
 
-const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
+const DisclosureSection = ({
+	title,
+	defaultExpanded = false,
+	additionalComponent,
+	children,
+}) => {
 	const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
 	const toggle = () => setIsExpanded(prev => !prev);
@@ -25,7 +30,8 @@ const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
 					gridTemplateColumns: '1fr 2fr',
 					gap: '2rem',
 					alignItems: 'start',
-					marginBottom: isExpanded ? '2rem' : '0',
+					marginBottom:
+						isExpanded || additionalComponent ? '2rem' : '0',
 					cursor: 'pointer',
 				})}
 				onClick={toggle}
@@ -63,6 +69,16 @@ const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
 					<span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
 				</div>
 			</div>
+
+			{additionalComponent && (
+				<div
+					className={css({
+						marginBottom: isExpanded ? '2rem' : '0',
+					})}
+				>
+					{additionalComponent}
+				</div>
+			)}
 
 			{isExpanded && <div>{children}</div>}
 		</div>

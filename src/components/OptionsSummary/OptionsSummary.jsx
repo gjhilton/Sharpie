@@ -3,6 +3,7 @@ import { QRCodeSVG } from 'qrcode.react';
 import { css } from '../../../dist/styled-system/css';
 import { serializeOptions } from '@lib/options/serializer.js';
 import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
+import InputWithButton from '@components/InputWithButton/InputWithButton.jsx';
 
 const OptionsSummary = ({ options, alphabetCount }) => {
 	const { resetOptions } = useGameOptionsContext();
@@ -143,8 +144,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 							display: 'inline-block',
 							padding: '0.25rem 0.75rem',
 							border: '1px solid {colors.ink}',
-							borderRadius: '4px',
-							fontSize: 's',
+									fontSize: 's',
 							backgroundColor: '{colors.paper}',
 							whiteSpace: 'nowrap',
 						})}
@@ -155,41 +155,25 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 				))}
 			</div>
 
-			{/* Shareable link label */}
-			<label
-				htmlFor="shareable-url"
-				className={css({
-					display: 'block',
-					fontSize: 's',
-					marginBottom: '0.5rem',
-					fontWeight: 'bold',
-				})}
-			>
-				Shareable link:
-			</label>
-
-			{/* URL input */}
-			<input
-				id="shareable-url"
-				type="text"
-				readOnly
-				value={shareableURL}
-				className={css({
-					width: '100%',
-					padding: '0.5rem',
-					border: '1px solid {colors.ink}',
-					borderRadius: '4px',
-					fontFamily: 'monospace',
-					fontSize: 's',
-					backgroundColor: '{colors.paper}',
-					marginBottom: '0.75rem',
-					cursor: 'text',
-					_focusVisible: {
-						outline: '2px solid {colors.ink}',
-						outlineOffset: '2px',
-					},
-				})}
-				onClick={e => e.target.select()}
+			{/* URL input with Copy button */}
+			<InputWithButton
+				inputId="shareable-url"
+				inputType="text"
+				inputReadOnly
+				inputValue={shareableURL}
+				inputOnClick={e => e.target.select()}
+				inputOnFocus={e => e.target.select()}
+				inputOnTouchStart={e => {
+					e.target.focus();
+					e.target.select();
+				}}
+				fontFamily="monospace"
+				fontSize="s"
+				marginBottom="0.75rem"
+				cursor="text"
+				buttonLabel={copySuccess ? 'Copied!' : 'Copy'}
+				buttonOnClick={handleCopy}
+				buttonActive={copySuccess}
 			/>
 
 			{/* Action buttons */}
@@ -203,42 +187,11 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 			>
 				<button
 					type="button"
-					onClick={handleCopy}
-					className={css({
-						padding: '0.5rem 1rem',
-						border: '1px solid {colors.ink}',
-						borderRadius: '4px',
-						backgroundColor: copySuccess
-							? '{colors.ink}'
-							: '{colors.paper}',
-						color: copySuccess ? '{colors.paper}' : '{colors.ink}',
-						cursor: 'pointer',
-						fontSize: 's',
-						fontWeight: 'bold',
-						transition: 'all 150ms ease-in-out',
-						_hover: {
-							transform: 'scale(1.02)',
-						},
-						_active: {
-							transform: 'scale(0.98)',
-						},
-						_focusVisible: {
-							outline: '2px solid {colors.ink}',
-							outlineOffset: '2px',
-						},
-					})}
-				>
-					{copySuccess ? 'Copied!' : 'Copy'}
-				</button>
-
-				<button
-					type="button"
 					onClick={handleToggleQR}
 					className={css({
 						padding: '0.5rem 1rem',
 						border: '1px solid {colors.ink}',
-						borderRadius: '4px',
-						backgroundColor: showQR
+							backgroundColor: showQR
 							? '{colors.ink}'
 							: '{colors.paper}',
 						color: showQR ? '{colors.paper}' : '{colors.ink}',
@@ -267,8 +220,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 					className={css({
 						padding: '0.5rem 1rem',
 						border: '1px solid {colors.ink}',
-						borderRadius: '4px',
-						backgroundColor: '{colors.paper}',
+							backgroundColor: '{colors.paper}',
 						color: '{colors.ink}',
 						cursor: 'pointer',
 						fontSize: 's',
@@ -298,8 +250,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 						marginTop: '1rem',
 						padding: '1rem',
 						border: '1px solid {colors.ink}',
-						borderRadius: '4px',
-						backgroundColor: 'white',
+							backgroundColor: 'white',
 						display: 'inline-block',
 					})}
 				>
@@ -316,8 +267,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 							className={css({
 								padding: '0.5rem 1rem',
 								border: '1px solid {colors.ink}',
-								borderRadius: '4px',
-								backgroundColor: '{colors.paper}',
+											backgroundColor: '{colors.paper}',
 								color: '{colors.ink}',
 								cursor: 'pointer',
 								fontSize: 's',

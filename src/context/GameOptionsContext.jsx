@@ -21,13 +21,30 @@ export const GameOptionsProvider = ({ children }) => {
 		});
 	}, [navigate]);
 
+	const toggleOption = useCallback((key) => {
+		const currentValue = options[key];
+		if (typeof currentValue !== 'boolean') {
+			console.warn(`toggleOption called on non-boolean option: ${key}`);
+			return;
+		}
+		updateOption(key, !currentValue);
+	}, [options, updateOption]);
+
+	const cycleMode = useCallback(() => {
+		const currentMode = options.mode;
+		const modeOrder = ['minuscule', 'majuscule', 'all'];
+		const currentIndex = modeOrder.indexOf(currentMode);
+		const nextIndex = (currentIndex + 1) % modeOrder.length;
+		updateOption('mode', modeOrder[nextIndex]);
+	}, [options, updateOption]);
+
 	const resetOptions = useCallback(() => {
 		navigate({ search: {}, replace: true });
 	}, [navigate]);
 
 	const value = useMemo(
-		() => ({ options, updateOption, resetOptions }),
-		[options, updateOption, resetOptions]
+		() => ({ options, updateOption, toggleOption, cycleMode, resetOptions }),
+		[options, updateOption, toggleOption, cycleMode, resetOptions]
 	);
 
 	return (

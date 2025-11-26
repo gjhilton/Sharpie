@@ -4,6 +4,16 @@ import userEvent from '@testing-library/user-event';
 import OptionsSection from './OptionsSection';
 import { GAME_MODES, GAME_MODE_OPTIONS } from '@constants/stages.js';
 
+// Mock the GameOptionsContext
+const mockResetOptions = vi.fn();
+const mockCycleMode = vi.fn();
+vi.mock('@context/GameOptionsContext.jsx', () => ({
+	useGameOptionsContext: () => ({
+		resetOptions: mockResetOptions,
+		cycleMode: mockCycleMode,
+	}),
+}));
+
 vi.mock('@components/Layout/Layout.jsx', () => ({
 	Paragraph: ({ children }) => <p>{children}</p>,
 }));

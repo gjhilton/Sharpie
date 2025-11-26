@@ -5,9 +5,13 @@ import OptionsSummary from './OptionsSummary';
 
 // Mock the GameOptionsContext
 const mockResetOptions = vi.fn();
+const mockToggleOption = vi.fn();
+const mockCycleMode = vi.fn();
 vi.mock('@context/GameOptionsContext.jsx', () => ({
 	useGameOptionsContext: () => ({
 		resetOptions: mockResetOptions,
+		toggleOption: mockToggleOption,
+		cycleMode: mockCycleMode,
 	}),
 }));
 
@@ -19,45 +23,60 @@ describe('OptionsSummary', () => {
 		showBaseline: true,
 	};
 
+	const defaultProps = {
+		options: defaultOptions,
+		alphabetCount: 2,
+		onShowCatalogue: vi.fn(),
+	};
+
 	describe('Badge rendering', () => {
-		it('should render mode badge as "ALL" when mode is all', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			expect(screen.getByText('ALL')).toBeInTheDocument();
+		it('should render mode badge with both ticks when mode is all', () => {
+			render(<OptionsSummary {...defaultProps} />);
+			const badge = screen.getByTestId('badge-mode');
+			expect(badge).toHaveTextContent('minuscules');
+			expect(badge).toHaveTextContent('MAJUSCULES');
+			expect(badge).toHaveTextContent('✓');
 		});
 
-		it('should render mode badge as "minuscules only" when mode is minuscule', () => {
+		it('should render mode badge with minuscule tick when mode is minuscule', () => {
 			const options = { ...defaultOptions, mode: 'minuscule' };
-			render(<OptionsSummary options={options} alphabetCount={2} />);
-			expect(screen.getByText('minuscules only')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} options={options} />);
+			const badge = screen.getByTestId('badge-mode');
+			expect(badge).toHaveTextContent('minuscules');
+			expect(badge).toHaveTextContent('✓');
+			expect(badge).toHaveTextContent('MAJUSCULES');
+			expect(badge).toHaveTextContent('✗');
 		});
 
-		it('should render mode badge as "MAJUSCULES only" when mode is majuscule', () => {
+		it('should render mode badge with majuscule tick when mode is majuscule', () => {
 			const options = { ...defaultOptions, mode: 'majuscule' };
-			render(<OptionsSummary options={options} alphabetCount={2} />);
-			expect(screen.getByText('MAJUSCULES only')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} options={options} />);
+			const badge = screen.getByTestId('badge-mode');
+			expect(badge).toHaveTextContent('minuscules');
+			expect(badge).toHaveTextContent('✗');
+			expect(badge).toHaveTextContent('MAJUSCULES');
+			expect(badge).toHaveTextContent('✓');
 		});
 
 		it('should render alphabet count badge with plural', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			expect(screen.getByText('2 alphabets')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} />);
+			const badge = screen.getByTestId('badge-alphabets');
+			expect(badge).toHaveTextContent('Alphabets');
+			expect(badge).toHaveTextContent('2');
 		});
 
 		it('should render alphabet count badge with singular', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={1} />
-			);
-			expect(screen.getByText('1 alphabet')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} alphabetCount={1} />);
+			const badge = screen.getByTestId('badge-alphabets');
+			expect(badge).toHaveTextContent('Alphabets');
+			expect(badge).toHaveTextContent('1');
 		});
 
 		it('should render 24 letters badge when twentyFourLetterAlphabet is true', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			expect(screen.getByText('24 letters')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} />);
+			const badge = screen.getByTestId('badge-letters');
+			expect(badge).toHaveTextContent('Letters');
+			expect(badge).toHaveTextContent('24');
 		});
 
 		it('should render 26 letters badge when twentyFourLetterAlphabet is false', () => {
@@ -65,77 +84,63 @@ describe('OptionsSummary', () => {
 				...defaultOptions,
 				twentyFourLetterAlphabet: false,
 			};
-			render(<OptionsSummary options={options} alphabetCount={2} />);
-			expect(screen.getByText('26 letters')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} options={options} />);
+			const badge = screen.getByTestId('badge-letters');
+			expect(badge).toHaveTextContent('Letters');
+			expect(badge).toHaveTextContent('26');
 		});
 
-		it('should render Baselines ON badge when showBaseline is true', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			expect(screen.getByText('Baselines ON')).toBeInTheDocument();
+		it('should render Baseline with tick when showBaseline is true', () => {
+			render(<OptionsSummary {...defaultProps} />);
+			const badge = screen.getByTestId('badge-baseline');
+			expect(badge).toHaveTextContent('Baseline');
+			expect(badge).toHaveTextContent('✓');
 		});
 
-		it('should render Baselines OFF badge when showBaseline is false', () => {
+		it('should render Baseline with cross when showBaseline is false', () => {
 			const options = { ...defaultOptions, showBaseline: false };
-			render(<OptionsSummary options={options} alphabetCount={2} />);
-			expect(screen.getByText('Baselines OFF')).toBeInTheDocument();
+			render(<OptionsSummary {...defaultProps} options={options} />);
+			const badge = screen.getByTestId('badge-baseline');
+			expect(badge).toHaveTextContent('Baseline');
+			expect(badge).toHaveTextContent('✗');
 		});
 	});
 
 	describe('URL display', () => {
 		it('should display shareable URL input', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			const input = screen.getByLabelText('Shareable link:');
+			render(<OptionsSummary {...defaultProps} />);
+			const input = screen.getByRole('textbox');
 			expect(input).toBeInTheDocument();
 			expect(input).toHaveAttribute('readonly');
 		});
 
 		it('should generate URL containing origin', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			const input = screen.getByLabelText('Shareable link:');
+			render(<OptionsSummary {...defaultProps} />);
+			const input = screen.getByRole('textbox');
 			expect(input.value).toContain(window.location.origin);
 		});
 	});
 
 	describe('Button rendering', () => {
 		it('should render Copy button', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
+			render(<OptionsSummary {...defaultProps} />);
 			expect(
 				screen.getByRole('button', { name: /copy/i })
 			).toBeInTheDocument();
 		});
 
-		it('should render Show QR Code button', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
+		it('should render QR button', () => {
+			render(<OptionsSummary {...defaultProps} />);
 			expect(
-				screen.getByRole('button', { name: /show qr code/i })
+				screen.getByRole('button', { name: /^qr$/i })
 			).toBeInTheDocument();
 		});
 
-		it('should render Reset to Defaults button', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			expect(
-				screen.getByRole('button', { name: /reset to defaults/i })
-			).toBeInTheDocument();
-		});
 	});
 
 	describe('QR Code toggle', () => {
 		it('should not show QR code by default', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
+			render(<OptionsSummary {...defaultProps} />);
 			expect(
 				screen.queryByRole('button', { name: /download qr code/i })
 			).not.toBeInTheDocument();
@@ -143,17 +148,15 @@ describe('OptionsSummary', () => {
 
 		it('should toggle QR code display when button is clicked', async () => {
 			const user = userEvent.setup();
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
+			render(<OptionsSummary {...defaultProps} />);
 
 			const toggleButton = screen.getByRole('button', {
-				name: /show qr code/i,
+				name: /^qr$/i,
 			});
 			await user.click(toggleButton);
 
 			expect(
-				screen.getByRole('button', { name: /hide qr code/i })
+				screen.getByRole('button', { name: /^hide qr$/i })
 			).toBeInTheDocument();
 			expect(
 				screen.getByRole('button', { name: /download qr code/i })
@@ -164,9 +167,7 @@ describe('OptionsSummary', () => {
 	describe('Copy functionality', () => {
 		it('should show success feedback after copying', async () => {
 			const user = userEvent.setup();
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
+			render(<OptionsSummary {...defaultProps} />);
 
 			const copyButton = screen.getByRole('button', { name: /copy/i });
 			await user.click(copyButton);
@@ -177,59 +178,12 @@ describe('OptionsSummary', () => {
 		});
 	});
 
-	describe('Reset functionality', () => {
-		it('should call resetOptions when confirmed', async () => {
-			const user = userEvent.setup();
-			const confirmSpy = vi
-				.spyOn(window, 'confirm')
-				.mockReturnValue(true);
-			mockResetOptions.mockClear();
-
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-
-			const resetButton = screen.getByRole('button', {
-				name: /reset to defaults/i,
-			});
-			await user.click(resetButton);
-
-			expect(confirmSpy).toHaveBeenCalled();
-			expect(mockResetOptions).toHaveBeenCalled();
-
-			confirmSpy.mockRestore();
-		});
-
-		it('should not call resetOptions when cancelled', async () => {
-			const user = userEvent.setup();
-			const confirmSpy = vi
-				.spyOn(window, 'confirm')
-				.mockReturnValue(false);
-			mockResetOptions.mockClear();
-
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-
-			const resetButton = screen.getByRole('button', {
-				name: /reset to defaults/i,
-			});
-			await user.click(resetButton);
-
-			expect(confirmSpy).toHaveBeenCalled();
-			expect(mockResetOptions).not.toHaveBeenCalled();
-
-			confirmSpy.mockRestore();
-		});
-	});
-
 	describe('Accessibility', () => {
-		it('should have accessible label for URL input', () => {
-			render(
-				<OptionsSummary options={defaultOptions} alphabetCount={2} />
-			);
-			const input = screen.getByLabelText('Shareable link:');
+		it('should have accessible URL input with id', () => {
+			render(<OptionsSummary {...defaultProps} />);
+			const input = screen.getByRole('textbox');
 			expect(input).toBeInTheDocument();
+			expect(input).toHaveAttribute('id', 'shareable-url');
 		});
 	});
 });

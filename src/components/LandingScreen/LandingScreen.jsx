@@ -56,6 +56,7 @@ const LandingScreen = () => {
 								alphabetCount={countEnabledAlphabets(
 									options.enabledAlphabets
 								)}
+								onShowCatalogue={handleShowCatalogue}
 							/>
 						}
 					>

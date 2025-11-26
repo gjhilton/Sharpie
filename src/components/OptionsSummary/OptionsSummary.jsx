@@ -2,11 +2,16 @@ import { useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { css } from '../../../dist/styled-system/css';
 import { serializeOptions } from '@lib/options/serializer.js';
-import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
 import InputWithButton from '@components/InputWithButton/InputWithButton.jsx';
+import Badge from '@components/Badge/Badge.jsx';
+import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
 
-const OptionsSummary = ({ options, alphabetCount }) => {
-	const { resetOptions } = useGameOptionsContext();
+const Strong = ({ children }) => (
+	<span style={{ fontWeight: 'bold' }}>{children}</span>
+);
+
+const OptionsSummary = ({ options, alphabetCount, onShowCatalogue }) => {
+	const { toggleOption, cycleMode } = useGameOptionsContext();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const qrRef = useRef(null);
@@ -27,25 +32,47 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 		{
 			id: 'mode',
 			label:
-				options.mode === 'all'
-					? 'ALL'
-					: options.mode === 'minuscule'
-						? 'minuscules only'
-						: 'MAJUSCULES only',
+				options.mode === 'all' ? (
+					<>
+						minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✓</Strong>
+					</>
+				) : options.mode === 'minuscule' ? (
+					<>
+						minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✗</Strong>
+					</>
+				) : (
+					<>
+						minuscules <Strong>✗</Strong> MAJUSCULES <Strong>✓</Strong>
+					</>
+				),
+			onClick: cycleMode,
 		},
 		{
 			id: 'alphabets',
-			label: `${alphabetCount} alphabet${alphabetCount === 1 ? '' : 's'}`,
+			label: (
+				<>
+					Alphabets <Strong>{alphabetCount}</Strong>
+				</>
+			),
+			onClick: onShowCatalogue,
 		},
 		{
 			id: 'letters',
-			label: options.twentyFourLetterAlphabet
-				? '24 letters'
-				: '26 letters',
+			label: options.twentyFourLetterAlphabet ? (
+				<>Letters <Strong>24</Strong></>
+			) : (
+				<>Letters <Strong>26</Strong></>
+			),
+			onClick: () => toggleOption('twentyFourLetterAlphabet'),
 		},
 		{
 			id: 'baseline',
-			label: options.showBaseline ? 'Baselines ON' : 'Baselines OFF',
+			label: options.showBaseline ? (
+				<>Baseline <Strong>✓</Strong></>
+			) : (
+				<>Baseline <Strong>✗</Strong></>
+			),
+			onClick: () => toggleOption('showBaseline'),
 		},
 	];
 
@@ -109,17 +136,6 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 		img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
 	};
 
-	// Reset to defaults
-	const handleReset = () => {
-		if (
-			window.confirm(
-				'Reset all settings to defaults? This will clear your current configuration.'
-			)
-		) {
-			resetOptions();
-		}
-	};
-
 	return (
 		<div
 			className={css({
@@ -127,40 +143,6 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 			})}
 			data-testid="options-summary"
 		>
-			{/* Reset button at top */}
-			<div
-				className={css({
-					marginBottom: '1rem',
-				})}
-			>
-				<button
-					type="button"
-					onClick={handleReset}
-					className={css({
-						padding: '0.5rem 1rem',
-						border: '1px solid {colors.ink}',
-							backgroundColor: '{colors.paper}',
-						color: '{colors.ink}',
-						cursor: 'pointer',
-						fontSize: 's',
-						fontWeight: 'bold',
-						transition: 'all 150ms ease-in-out',
-						_hover: {
-							transform: 'scale(1.02)',
-						},
-						_active: {
-							transform: 'scale(0.98)',
-						},
-						_focusVisible: {
-							outline: '2px solid {colors.ink}',
-							outlineOffset: '2px',
-						},
-					})}
-				>
-					Reset to Defaults
-				</button>
-			</div>
-
 			{/* Badges */}
 			<div
 				className={css({
@@ -172,20 +154,13 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 				data-testid="options-summary-badges"
 			>
 				{badges.map(badge => (
-					<span
+					<Badge
 						key={badge.id}
-						className={css({
-							display: 'inline-block',
-							padding: '0.25rem 0.75rem',
-							border: '1px solid {colors.ink}',
-									fontSize: 's',
-							backgroundColor: '{colors.paper}',
-							whiteSpace: 'nowrap',
-						})}
-						data-testid={`badge-${badge.id}`}
+						testId={`badge-${badge.id}`}
+						onClick={badge.onClick}
 					>
 						{badge.label}
-					</span>
+					</Badge>
 				))}
 			</div>
 

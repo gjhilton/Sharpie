@@ -9,14 +9,13 @@ const Badge = ({ children, testId, onClick }) => {
 				display: 'inline-block',
 				padding: '0.25rem 0.75rem',
 				fontSize: 's',
-				backgroundColor: '#E3F2FD',
+				backgroundColor: 'lemonchiffon',
 				whiteSpace: 'nowrap',
 				borderRadius: '100px',
 				cursor: isClickable ? 'pointer' : 'default',
 				transition: isClickable ? 'all 150ms ease-in-out' : 'none',
 				_hover: isClickable ? {
-					transform: 'scale(1.05)',
-					backgroundColor: '#BBDEFB',
+					transform: 'scale(1.05)'
 				} : {},
 				_active: isClickable ? {
 					transform: 'scale(0.95)',

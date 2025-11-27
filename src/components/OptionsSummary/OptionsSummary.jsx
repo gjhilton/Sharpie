@@ -5,8 +5,15 @@ import { OPTIONS } from '@lib/options/schema.js';
 import Badge from '@components/Badge/Badge.jsx';
 import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
 
-const Strong = ({ children }) => (
-	<span style={{ fontWeight: 'bold' }}>{children}</span>
+const Strong = ({ children, isError }) => (
+	<span
+		className={css({
+			fontWeight: 'bold',
+			...(isError && { color: 'error' }),
+		})}
+	>
+		{children}
+	</span>
 );
 
 const OptionsSummary = ({ options, alphabetCount }) => {
@@ -18,16 +25,34 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 		const parts = [];
 
 		if (labelData.text) parts.push(labelData.text);
-		if (labelData.icon) parts.push(<Strong key="icon1">{labelData.icon}</Strong>);
+		if (labelData.icon)
+			parts.push(
+				<Strong key="icon1" isError={labelData.icon === '✗'}>
+					{labelData.icon}
+				</Strong>
+			);
 		if (labelData.value) parts.push(<Strong key="value">{labelData.value}</Strong>);
 		if (labelData.text2) parts.push(labelData.text2);
-		if (labelData.icon2) parts.push(<Strong key="icon2">{labelData.icon2}</Strong>);
+		if (labelData.icon2)
+			parts.push(
+				<Strong key="icon2" isError={labelData.icon2 === '✗'}>
+					{labelData.icon2}
+				</Strong>
+			);
 
 		return parts.length > 0 ? (
 			<>
-				{parts.map((part, idx) => (
-					<span key={idx}>{typeof part === 'string' ? part + ' ' : part}</span>
-				))}
+				{parts.map((part, idx) => {
+					// Add extra space before text2 (MAJUSCULES)
+					const isText2 = typeof part === 'string' && part === labelData.text2;
+					const prefix = isText2 && labelData.text ? ' ' : '';
+					return (
+						<span key={idx}>
+							{prefix}
+							{typeof part === 'string' ? part + ' ' : part}
+						</span>
+					);
+				})}
 			</>
 		) : null;
 	};

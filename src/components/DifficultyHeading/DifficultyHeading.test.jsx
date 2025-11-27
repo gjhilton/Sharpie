@@ -102,7 +102,7 @@ describe('DifficultyHeading', () => {
 			expect(handleDeselectAll).toHaveBeenCalledWith('medium');
 		});
 
-		it('disables select all link when all alphabets are selected', async () => {
+		it('disables select all link when all hands are selected', async () => {
 			const handleSelectAll = vi.fn();
 			const user = userEvent.setup();
 
@@ -122,7 +122,7 @@ describe('DifficultyHeading', () => {
 			expect(handleSelectAll).not.toHaveBeenCalled();
 		});
 
-		it('disables deselect all link when no alphabets are selected', async () => {
+		it('disables deselect all link when no hands are selected', async () => {
 			const handleDeselectAll = vi.fn();
 			const user = userEvent.setup();
 
@@ -170,7 +170,7 @@ describe('DifficultyHeading', () => {
 			expect(deselectAllButton).toBeDisabled();
 		});
 
-		it('enables both links when some but not all alphabets are selected', () => {
+		it('enables both links when some but not all hands are selected', () => {
 			render(
 				<DifficultyHeading
 					difficulty="easy"

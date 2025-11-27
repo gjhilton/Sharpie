@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AlphabetRow from './AlphabetRow';
+import HandRow from './HandRow';
 
-describe('AlphabetRow', () => {
+describe('HandRow', () => {
 	const mockMetadata = {
-		title: 'Test Alphabet',
+		title: 'Test Hand',
 		date: '1594',
 		sourceUri: 'https://example.com/source',
 		difficulty: 'medium',
@@ -19,8 +19,8 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
-					name="TestAlphabet"
+				<HandRow
+					name="TestHand"
 					metadata={mockMetadata}
 					isEnabled={false}
 					onToggle={() => {}}
@@ -30,7 +30,7 @@ describe('AlphabetRow', () => {
 
 		expect(screen.getByRole('switch')).toBeInTheDocument();
 		expect(screen.getByText('1594')).toBeInTheDocument();
-		expect(screen.getByText('Test Alphabet')).toBeInTheDocument();
+		expect(screen.getByText('Test Hand')).toBeInTheDocument();
 		expect(
 			screen.getByRole('link', { name: 'source' })
 		).toBeInTheDocument();
@@ -44,8 +44,8 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
-					name="TestAlphabet"
+				<HandRow
+					name="TestHand"
 					metadata={mockMetadata}
 					isEnabled={true}
 					onToggle={() => {}}
@@ -65,8 +65,8 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
-					name="TestAlphabet"
+				<HandRow
+					name="TestHand"
 					metadata={mockMetadata}
 					isEnabled={false}
 					onToggle={() => {}}
@@ -89,8 +89,8 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
-					name="TestAlphabet"
+				<HandRow
+					name="TestHand"
 					metadata={mockMetadata}
 					isEnabled={false}
 					onToggle={handleToggle}
@@ -112,8 +112,8 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
-					name="TestAlphabet"
+				<HandRow
+					name="TestHand"
 					metadata={mockMetadata}
 					isEnabled={false}
 					onToggle={() => {}}
@@ -135,8 +135,8 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
-					name="TestAlphabet"
+				<HandRow
+					name="TestHand"
 					metadata={mockMetadata}
 					isEnabled={false}
 					onToggle={() => {}}
@@ -161,7 +161,7 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
+				<HandRow
 					name="Hill"
 					metadata={metadataWithSlashDate}
 					isEnabled={true}
@@ -173,7 +173,7 @@ describe('AlphabetRow', () => {
 		expect(screen.getByText('1574/5')).toBeInTheDocument();
 	});
 
-	it('renders with different alphabet names', () => {
+	it('renders with different hand names', () => {
 		const { rerender } = render(
 			<div
 				style={{
@@ -181,7 +181,7 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
+				<HandRow
 					name="NBacon"
 					metadata={mockMetadata}
 					isEnabled={false}
@@ -192,7 +192,7 @@ describe('AlphabetRow', () => {
 
 		expect(screen.getByRole('switch')).toHaveAttribute(
 			'id',
-			'alphabet-NBacon'
+			'hand-NBacon'
 		);
 
 		rerender(
@@ -202,7 +202,7 @@ describe('AlphabetRow', () => {
 					gridTemplateColumns: 'auto 1fr auto auto',
 				}}
 			>
-				<AlphabetRow
+				<HandRow
 					name="Howard"
 					metadata={mockMetadata}
 					isEnabled={false}
@@ -213,7 +213,7 @@ describe('AlphabetRow', () => {
 
 		expect(screen.getByRole('switch')).toHaveAttribute(
 			'id',
-			'alphabet-Howard'
+			'hand-Howard'
 		);
 	});
 });

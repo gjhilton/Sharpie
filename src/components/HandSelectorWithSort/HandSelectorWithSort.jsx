@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import SortSelector from '@components/SortSelector/SortSelector.jsx';
-import AlphabetList from '@components/AlphabetList/AlphabetList.jsx';
+import HandList from '@components/HandList/HandList.jsx';
 import {
-	sortAlphabetsByDate,
-	sortAlphabetsByName,
-	sortAlphabetsByDifficulty,
-	groupAlphabetsByDifficulty,
-} from '@utilities/alphabetSorting.js';
+	sortHandsByDate,
+	sortHandsByName,
+	sortHandsByDifficulty,
+	groupHandsByDifficulty,
+} from '@utilities/handSorting.js';
 
 const SORT_OPTIONS = [
 	{ value: 'date', label: 'By Date' },
@@ -14,32 +14,32 @@ const SORT_OPTIONS = [
 	{ value: 'difficulty', label: 'By Difficulty' },
 ];
 
-const AlphabetSelectorWithSort = ({
-	alphabetNames,
-	alphabetsMetadata,
-	enabledAlphabets,
+const HandSelectorWithSort = ({
+	handNames,
+	handsMetadata,
+	enabledHands,
 	onToggle,
 	onBatchToggle,
 }) => {
 	const [sortMode, setSortMode] = useState('date');
 
-	// Determine sorted alphabets and difficulty groups based on sort mode
-	let sortedAlphabets = [];
+	// Determine sorted hands and difficulty groups based on sort mode
+	let sortedHands = [];
 	let difficultyGroups = null;
 	let showDifficultyGroups = false;
 
 	if (sortMode === 'date') {
-		sortedAlphabets = sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		sortedHands = sortHandsByDate(handNames, handsMetadata);
 	} else if (sortMode === 'name') {
-		sortedAlphabets = sortAlphabetsByName(alphabetNames);
+		sortedHands = sortHandsByName(handNames);
 	} else if (sortMode === 'difficulty') {
-		sortedAlphabets = sortAlphabetsByDifficulty(
-			alphabetNames,
-			alphabetsMetadata
+		sortedHands = sortHandsByDifficulty(
+			handNames,
+			handsMetadata
 		);
-		difficultyGroups = groupAlphabetsByDifficulty(
-			alphabetNames,
-			alphabetsMetadata
+		difficultyGroups = groupHandsByDifficulty(
+			handNames,
+			handsMetadata
 		);
 		showDifficultyGroups = true;
 	}
@@ -52,16 +52,16 @@ const AlphabetSelectorWithSort = ({
 		// Use batch toggle if available, otherwise fall back to individual toggles
 		if (onBatchToggle) {
 			const updates = {};
-			difficultyGroups[difficulty].forEach(alphabetName => {
-				if (!enabledAlphabets[alphabetName]) {
-					updates[alphabetName] = true;
+			difficultyGroups[difficulty].forEach(handName => {
+				if (!enabledHands[handName]) {
+					updates[handName] = true;
 				}
 			});
 			onBatchToggle(updates);
 		} else {
-			difficultyGroups[difficulty].forEach(alphabetName => {
-				if (!enabledAlphabets[alphabetName]) {
-					onToggle(alphabetName);
+			difficultyGroups[difficulty].forEach(handName => {
+				if (!enabledHands[handName]) {
+					onToggle(handName);
 				}
 			});
 		}
@@ -75,16 +75,16 @@ const AlphabetSelectorWithSort = ({
 		// Use batch toggle if available, otherwise fall back to individual toggles
 		if (onBatchToggle) {
 			const updates = {};
-			difficultyGroups[difficulty].forEach(alphabetName => {
-				if (enabledAlphabets[alphabetName]) {
-					updates[alphabetName] = false;
+			difficultyGroups[difficulty].forEach(handName => {
+				if (enabledHands[handName]) {
+					updates[handName] = false;
 				}
 			});
 			onBatchToggle(updates);
 		} else {
-			difficultyGroups[difficulty].forEach(alphabetName => {
-				if (enabledAlphabets[alphabetName]) {
-					onToggle(alphabetName);
+			difficultyGroups[difficulty].forEach(handName => {
+				if (enabledHands[handName]) {
+					onToggle(handName);
 				}
 			});
 		}
@@ -97,10 +97,10 @@ const AlphabetSelectorWithSort = ({
 				onChange={setSortMode}
 				options={SORT_OPTIONS}
 			/>
-			<AlphabetList
-				alphabets={sortedAlphabets}
-				alphabetsMetadata={alphabetsMetadata}
-				enabledAlphabets={enabledAlphabets}
+			<HandList
+				hands={sortedHands}
+				handsMetadata={handsMetadata}
+				enabledHands={enabledHands}
 				onToggle={onToggle}
 				showDifficultyGroups={showDifficultyGroups}
 				difficultyGroups={difficultyGroups}
@@ -111,4 +111,4 @@ const AlphabetSelectorWithSort = ({
 	);
 };
 
-export default AlphabetSelectorWithSort;
+export default HandSelectorWithSort;

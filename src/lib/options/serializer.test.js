@@ -21,20 +21,20 @@ describe('serializeValue', () => {
 		expect(serializeValue('showBaseline', false)).toBe('0');
 	});
 
-	it('should serialize alphabet sets from objects', () => {
-		const alphabets = {
+	it('should serialize hand sets from objects', () => {
+		const hands = {
 			'BeauChesne-Baildon': true,
 			Hill: true,
 			Joscelyn: false,
 		};
-		const result = serializeValue('alphabets', alphabets);
+		const result = serializeValue('hands', hands);
 		expect(result).toContain('006');
 		expect(result).toContain('007');
 		expect(result).not.toContain('011');
 	});
 
-	it('should return empty string for empty alphabet set', () => {
-		expect(serializeValue('alphabets', [])).toBe('');
+	it('should return empty string for empty hand set', () => {
+		expect(serializeValue('hands', [])).toBe('');
 	});
 });
 
@@ -52,8 +52,8 @@ describe('deserializeValue', () => {
 		expect(deserializeValue('showBaseline', '0')).toBe(false);
 	});
 
-	it('should deserialize alphabet sets as objects', () => {
-		const result = deserializeValue('alphabets', '006,007');
+	it('should deserialize hand sets as objects', () => {
+		const result = deserializeValue('hands', '006,007');
 		expect(typeof result).toBe('object');
 		expect(result['BeauChesne-Baildon']).toBe(true);
 		expect(result['Hill']).toBe(true);
@@ -87,9 +87,9 @@ describe('deserializeOptions', () => {
 		expect(result.mode).toBe('minuscule');
 		expect(result.numLetters).toBe(true);
 		expect(result.showBaseline).toBe(false);
-		expect(typeof result.enabledAlphabets).toBe('object');
-		expect(result.enabledAlphabets['BeauChesne-Baildon']).toBe(true);
-		expect(result.enabledAlphabets['Hill']).toBe(true);
+		expect(typeof result.enabledHands).toBe('object');
+		expect(result.enabledHands['BeauChesne-Baildon']).toBe(true);
+		expect(result.enabledHands['Hill']).toBe(true);
 	});
 
 	it('should use defaults for missing params', () => {
@@ -98,8 +98,8 @@ describe('deserializeOptions', () => {
 		expect(result.mode).toBe('all');
 		expect(result.numLetters).toBe(true);
 		expect(result.showBaseline).toBe(true);
-		expect(typeof result.enabledAlphabets).toBe('object');
-		expect(Object.keys(result.enabledAlphabets).length).toBeGreaterThan(0);
+		expect(typeof result.enabledHands).toBe('object');
+		expect(Object.keys(result.enabledHands).length).toBeGreaterThan(0);
 	});
 });
 

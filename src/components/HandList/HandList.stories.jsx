@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import AlphabetList from '@components/AlphabetList/AlphabetList.jsx';
+import HandList from '@components/HandList/HandList.jsx';
 
 export default {
-	title: 'Components/AlphabetList',
-	component: AlphabetList,
+	title: 'Components/HandList',
+	component: HandList,
 	tags: ['autodocs'],
 };
 
-const mockAlphabetsMetadata = {
+const mockHandsMetadata = {
 	Joscelyn: {
 		title: 'Joscelyn typeface, drawn by Peter Baker',
 		date: '2019',
@@ -42,34 +42,34 @@ const mockAlphabetsMetadata = {
 	},
 };
 
-const AlphabetListWithState = args => {
-	const alphabetNames = args.alphabets || Object.keys(mockAlphabetsMetadata);
-	const [enabledAlphabets, setEnabledAlphabets] = useState(
-		args.enabledAlphabets ||
-			Object.fromEntries(alphabetNames.map(name => [name, true]))
+const HandListWithState = args => {
+	const handNames = args.hands || Object.keys(mockHandsMetadata);
+	const [enabledHands, setEnabledHands] = useState(
+		args.enabledHands ||
+			Object.fromEntries(handNames.map(name => [name, true]))
 	);
 
 	const handleToggle = name => {
-		setEnabledAlphabets(prev => ({
+		setEnabledHands(prev => ({
 			...prev,
 			[name]: !prev[name],
 		}));
 	};
 
 	return (
-		<AlphabetList
+		<HandList
 			{...args}
-			alphabetsMetadata={mockAlphabetsMetadata}
-			enabledAlphabets={enabledAlphabets}
+			handsMetadata={mockHandsMetadata}
+			enabledHands={enabledHands}
 			onToggle={handleToggle}
 		/>
 	);
 };
 
 export const FlatListByDate = {
-	render: AlphabetListWithState,
+	render: HandListWithState,
 	args: {
-		alphabets: [
+		hands: [
 			'BeauChesne-Baildon',
 			'Hill',
 			'Howard',
@@ -81,9 +81,9 @@ export const FlatListByDate = {
 };
 
 export const FlatListByName = {
-	render: AlphabetListWithState,
+	render: HandListWithState,
 	args: {
-		alphabets: [
+		hands: [
 			'BeauChesne-Baildon',
 			'Hill',
 			'Howard',
@@ -95,9 +95,9 @@ export const FlatListByName = {
 };
 
 export const GroupedByDifficulty = {
-	render: AlphabetListWithState,
+	render: HandListWithState,
 	args: {
-		alphabets: [],
+		hands: [],
 		showDifficultyGroups: true,
 		difficultyGroups: {
 			easy: ['Joscelyn'],
@@ -108,16 +108,16 @@ export const GroupedByDifficulty = {
 };
 
 export const MixedEnabledDisabled = {
-	render: AlphabetListWithState,
+	render: HandListWithState,
 	args: {
-		alphabets: [
+		hands: [
 			'BeauChesne-Baildon',
 			'Hill',
 			'Howard',
 			'NBacon',
 			'Joscelyn',
 		],
-		enabledAlphabets: {
+		enabledHands: {
 			Joscelyn: true,
 			NBacon: false,
 			Howard: true,
@@ -129,9 +129,9 @@ export const MixedEnabledDisabled = {
 };
 
 export const OnlyEasyDifficulty = {
-	render: AlphabetListWithState,
+	render: HandListWithState,
 	args: {
-		alphabets: [],
+		hands: [],
 		showDifficultyGroups: true,
 		difficultyGroups: {
 			easy: ['Joscelyn'],
@@ -142,9 +142,9 @@ export const OnlyEasyDifficulty = {
 };
 
 export const EmptyList = {
-	render: AlphabetListWithState,
+	render: HandListWithState,
 	args: {
-		alphabets: [],
+		hands: [],
 		showDifficultyGroups: false,
 	},
 };

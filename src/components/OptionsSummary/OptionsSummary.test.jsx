@@ -24,14 +24,14 @@ vi.mock('@context/GameOptionsContext.jsx', () => ({
 describe('OptionsSummary', () => {
 	const defaultOptions = {
 		mode: 'all',
-		enabledAlphabets: { 'BeauChesne-Baildon': true, Hill: true },
+		enabledHands: { 'BeauChesne-Baildon': true, Hill: true },
 		numLetters: true,
 		showBaseline: true,
 	};
 
 	const defaultProps = {
 		options: defaultOptions,
-		alphabetCount: 2,
+		handCount: 2,
 	};
 
 	describe('Badge rendering', () => {
@@ -63,17 +63,17 @@ describe('OptionsSummary', () => {
 			expect(badge).toHaveTextContent('✓');
 		});
 
-		it('should render alphabet count badge with plural', () => {
+		it('should render hand count badge with plural', () => {
 			render(<OptionsSummary {...defaultProps} />);
-			const badge = screen.getByTestId('badge-enabledAlphabets');
-			expect(badge).toHaveTextContent('Alphabets');
+			const badge = screen.getByTestId('badge-enabledHands');
+			expect(badge).toHaveTextContent('Hands');
 			expect(badge).toHaveTextContent('2');
 		});
 
-		it('should render alphabet count badge with singular', () => {
-			render(<OptionsSummary {...defaultProps} alphabetCount={1} />);
-			const badge = screen.getByTestId('badge-enabledAlphabets');
-			expect(badge).toHaveTextContent('Alphabets');
+		it('should render hand count badge with singular', () => {
+			render(<OptionsSummary {...defaultProps} handCount={1} />);
+			const badge = screen.getByTestId('badge-enabledHands');
+			expect(badge).toHaveTextContent('Hands');
 			expect(badge).toHaveTextContent('1');
 		});
 
@@ -142,11 +142,11 @@ describe('OptionsSummary', () => {
 			expect(mockCycleMode).toHaveBeenCalled();
 		});
 
-		it('should navigate to catalogue when alphabets badge is clicked', async () => {
+		it('should navigate to catalogue when hands badge is clicked', async () => {
 			const user = userEvent.setup();
 			render(<OptionsSummary {...defaultProps} />);
 
-			const badge = screen.getByTestId('badge-enabledAlphabets');
+			const badge = screen.getByTestId('badge-enabledHands');
 			await user.click(badge);
 
 			expect(mockNavigate).toHaveBeenCalledWith({

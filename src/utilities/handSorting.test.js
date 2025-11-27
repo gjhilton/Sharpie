@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import {
-	sortAlphabetsByDate,
-	sortAlphabetsByName,
-	sortAlphabetsByDifficulty,
-	groupAlphabetsByDifficulty,
-} from './alphabetSorting.js';
+	sortHandsByDate,
+	sortHandsByName,
+	sortHandsByDifficulty,
+	groupHandsByDifficulty,
+} from './handSorting.js';
 
-describe('alphabetSorting', () => {
+describe('handSorting', () => {
 	const mockMetadata = {
 		NBacon: {
 			title: 'Letter from the Privy Council to Nathaniel Bacon',
@@ -43,9 +43,9 @@ describe('alphabetSorting', () => {
 		'Hill',
 	];
 
-	describe('sortAlphabetsByDate', () => {
-		it('sorts alphabets chronologically by date (oldest first)', () => {
-			const result = sortAlphabetsByDate(allNames, mockMetadata);
+	describe('sortHandsByDate', () => {
+		it('sorts hands chronologically by date (oldest first)', () => {
+			const result = sortHandsByDate(allNames, mockMetadata);
 			expect(result).toEqual([
 				'BeauChesne-Baildon',
 				'Hill',
@@ -56,37 +56,31 @@ describe('alphabetSorting', () => {
 		});
 
 		it('handles dates with slashes correctly', () => {
-			const result = sortAlphabetsByDate(
-				['Howard', 'Hill'],
-				mockMetadata
-			);
+			const result = sortHandsByDate(['Howard', 'Hill'], mockMetadata);
 			// Hill is 1574/5, Howard is 1579/80
 			expect(result).toEqual(['Hill', 'Howard']);
 		});
 
 		it('does not mutate the original array', () => {
 			const original = [...allNames];
-			sortAlphabetsByDate(allNames, mockMetadata);
+			sortHandsByDate(allNames, mockMetadata);
 			expect(allNames).toEqual(original);
 		});
 
 		it('handles empty array', () => {
-			const result = sortAlphabetsByDate([], mockMetadata);
+			const result = sortHandsByDate([], mockMetadata);
 			expect(result).toEqual([]);
 		});
 
 		it('handles missing metadata by placing items at end', () => {
-			const result = sortAlphabetsByDate(
-				['NBacon', 'Unknown'],
-				mockMetadata
-			);
+			const result = sortHandsByDate(['NBacon', 'Unknown'], mockMetadata);
 			expect(result).toEqual(['NBacon', 'Unknown']);
 		});
 	});
 
-	describe('sortAlphabetsByName', () => {
-		it('sorts alphabets alphabetically', () => {
-			const result = sortAlphabetsByName(allNames);
+	describe('sortHandsByName', () => {
+		it('sorts hands alphabetically', () => {
+			const result = sortHandsByName(allNames);
 			expect(result).toEqual([
 				'BeauChesne-Baildon',
 				'Hill',
@@ -98,29 +92,29 @@ describe('alphabetSorting', () => {
 
 		it('does not mutate the original array', () => {
 			const original = [...allNames];
-			sortAlphabetsByName(allNames);
+			sortHandsByName(allNames);
 			expect(allNames).toEqual(original);
 		});
 
 		it('handles empty array', () => {
-			const result = sortAlphabetsByName([]);
+			const result = sortHandsByName([]);
 			expect(result).toEqual([]);
 		});
 
 		it('handles single item', () => {
-			const result = sortAlphabetsByName(['NBacon']);
+			const result = sortHandsByName(['NBacon']);
 			expect(result).toEqual(['NBacon']);
 		});
 
 		it('is case-sensitive', () => {
-			const result = sortAlphabetsByName(['zebra', 'Apple', 'banana']);
+			const result = sortHandsByName(['zebra', 'Apple', 'banana']);
 			expect(result).toEqual(['Apple', 'banana', 'zebra']);
 		});
 	});
 
-	describe('sortAlphabetsByDifficulty', () => {
-		it('sorts alphabets by difficulty level (easy, medium, hard)', () => {
-			const result = sortAlphabetsByDifficulty(allNames, mockMetadata);
+	describe('sortHandsByDifficulty', () => {
+		it('sorts hands by difficulty level (easy, medium, hard)', () => {
+			const result = sortHandsByDifficulty(allNames, mockMetadata);
 			expect(result).toEqual([
 				'Joscelyn', // easy
 				'Howard', // medium (1579/80)
@@ -132,22 +126,19 @@ describe('alphabetSorting', () => {
 
 		it('sorts by date within same difficulty level', () => {
 			const mediumAlphabets = ['NBacon', 'Howard'];
-			const result = sortAlphabetsByDifficulty(
-				mediumAlphabets,
-				mockMetadata
-			);
+			const result = sortHandsByDifficulty(mediumAlphabets, mockMetadata);
 			// Howard (1579/80) before NBacon (1594)
 			expect(result).toEqual(['Howard', 'NBacon']);
 		});
 
 		it('does not mutate the original array', () => {
 			const original = [...allNames];
-			sortAlphabetsByDifficulty(allNames, mockMetadata);
+			sortHandsByDifficulty(allNames, mockMetadata);
 			expect(allNames).toEqual(original);
 		});
 
 		it('handles empty array', () => {
-			const result = sortAlphabetsByDifficulty([], mockMetadata);
+			const result = sortHandsByDifficulty([], mockMetadata);
 			expect(result).toEqual([]);
 		});
 
@@ -156,7 +147,7 @@ describe('alphabetSorting', () => {
 				...mockMetadata,
 				Unknown: { date: '1500' },
 			};
-			const result = sortAlphabetsByDifficulty(
+			const result = sortHandsByDifficulty(
 				['Joscelyn', 'Unknown', 'Hill'],
 				metadata
 			);
@@ -165,9 +156,9 @@ describe('alphabetSorting', () => {
 		});
 	});
 
-	describe('groupAlphabetsByDifficulty', () => {
-		it('groups alphabets by difficulty level', () => {
-			const result = groupAlphabetsByDifficulty(allNames, mockMetadata);
+	describe('groupHandsByDifficulty', () => {
+		it('groups hands by difficulty level', () => {
+			const result = groupHandsByDifficulty(allNames, mockMetadata);
 			expect(result).toEqual({
 				easy: ['Joscelyn'],
 				medium: ['Howard', 'NBacon'],
@@ -176,7 +167,7 @@ describe('alphabetSorting', () => {
 		});
 
 		it('sorts each group by date', () => {
-			const result = groupAlphabetsByDifficulty(allNames, mockMetadata);
+			const result = groupHandsByDifficulty(allNames, mockMetadata);
 			// Check hard group is sorted by date
 			expect(result.hard).toEqual(['BeauChesne-Baildon', 'Hill']);
 			// Check medium group is sorted by date
@@ -184,20 +175,20 @@ describe('alphabetSorting', () => {
 		});
 
 		it('handles empty array', () => {
-			const result = groupAlphabetsByDifficulty([], mockMetadata);
+			const result = groupHandsByDifficulty([], mockMetadata);
 			expect(result).toEqual({});
 		});
 
 		it('defaults to medium difficulty for missing metadata', () => {
-			const result = groupAlphabetsByDifficulty(['Unknown'], {});
+			const result = groupHandsByDifficulty(['Unknown'], {});
 			expect(result).toEqual({
 				medium: ['Unknown'],
 			});
 		});
 
-		it('handles alphabets with only one difficulty level', () => {
+		it('handles hands with only one difficulty level', () => {
 			const easyOnly = ['Joscelyn'];
-			const result = groupAlphabetsByDifficulty(easyOnly, mockMetadata);
+			const result = groupHandsByDifficulty(easyOnly, mockMetadata);
 			expect(result).toEqual({
 				easy: ['Joscelyn'],
 			});

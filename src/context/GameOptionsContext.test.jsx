@@ -40,7 +40,7 @@ vi.mock('@lib/options/index.js', () => {
 		},
 		deserializeOptions: (search) => ({
 			mode: search.m === 'i' ? 'minuscule' : search.m === 'j' ? 'majuscule' : 'all',
-			enabledAlphabets: { 'BeauChesne-Baildon': true, Hill: true },
+			enabledHands: { 'BeauChesne-Baildon': true, Hill: true },
 			numLetters: search.l !== 'f',
 			showBaseline: search.b !== 'f',
 		}),
@@ -99,7 +99,7 @@ describe('GameOptionsContext', () => {
 			expect(result.current.options.mode).toBe('all');
 			expect(result.current.options.numLetters).toBe(true);
 			expect(result.current.options.showBaseline).toBe(true);
-			expect(result.current.options.enabledAlphabets).toBeDefined();
+			expect(result.current.options.enabledHands).toBeDefined();
 		});
 
 		it('should deserialize options from URL search params', () => {
@@ -228,7 +228,7 @@ describe('GameOptionsContext', () => {
 			consoleSpy.mockRestore();
 		});
 
-		it('should warn and not toggle enabledAlphabets', () => {
+		it('should warn and not toggle enabledHands', () => {
 			const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
 
 			const { result } = renderHook(() => useGameOptionsContext(), {
@@ -236,11 +236,11 @@ describe('GameOptionsContext', () => {
 			});
 
 			act(() => {
-				result.current.toggleOption('enabledAlphabets');
+				result.current.toggleOption('enabledHands');
 			});
 
 			expect(consoleSpy).toHaveBeenCalledWith(
-				'toggleOption called on non-boolean option: enabledAlphabets'
+				'toggleOption called on non-boolean option: enabledHands'
 			);
 			expect(mockNavigate).not.toHaveBeenCalled();
 

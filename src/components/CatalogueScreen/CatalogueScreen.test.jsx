@@ -22,8 +22,8 @@ vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
 	),
 }));
 
-vi.mock('@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx', () => ({
-	default: ({ onToggle, onBatchToggle, enabledAlphabets }) => (
+vi.mock('@components/HandSelectorWithSort/HandSelectorWithSort.jsx', () => ({
+	default: ({ onToggle, onBatchToggle, enabledHands }) => (
 		<div data-testid="alphabet-selector">
 			<button
 				onClick={() => onToggle('test-alphabet')}
@@ -38,7 +38,7 @@ vi.mock('@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx', () 
 				Batch Toggle
 			</button>
 			<div data-testid="enabled-state">
-				{JSON.stringify(enabledAlphabets)}
+				{JSON.stringify(enabledHands)}
 			</div>
 		</div>
 	),
@@ -52,11 +52,11 @@ vi.mock('@components/LinkAsButton/LinkAsButton.jsx', () => ({
 	),
 }));
 
-// Mock alphabets data
-vi.mock('@data/alphabets.json', () => ({
+// Mock hands data
+vi.mock('@data/hands.json', () => ({
 	default: {
 		'test-alphabet': {
-			title: 'Test Alphabet',
+			title: 'Test Hand',
 			date: '1900',
 			isDefaultEnabled: true,
 			difficulty: 'easy',
@@ -94,7 +94,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 	useGameOptions: () => ({
 		options: {
 			mode: 'all',
-			enabledAlphabets: {
+			enabledHands: {
 				'test-alphabet': true,
 			},
 			twentyFourLetterAlphabet: false,
@@ -122,9 +122,9 @@ vi.mock('@context/DatabaseContext.jsx', () => ({
 				graphs: [{ character: 'a', source: 'test-alphabet' }],
 			},
 		]),
-		countEnabledAlphabets: vi.fn(() => 2),
+		countEnabledHands: vi.fn(() => 2),
 		countEnabledCharacters: vi.fn(() => 52),
-		getAllAlphabetNames: vi.fn(() => ['test-alphabet']),
+		getAllHandNames: vi.fn(() => ['test-alphabet']),
 	}),
 }));
 
@@ -138,10 +138,10 @@ describe('CatalogueScreen', () => {
 	describe('Component Structure', () => {
 		it('renders the page title', () => {
 			render(<CatalogueScreen />);
-			expect(screen.getByText('Choose Alphabets')).toBeInTheDocument();
+			expect(screen.getByText('Choose Hands')).toBeInTheDocument();
 		});
 
-		it('renders the alphabet selector', () => {
+		it('renders the hand selector', () => {
 			render(<CatalogueScreen />);
 			expect(screen.getByTestId('alphabet-selector')).toBeInTheDocument();
 		});
@@ -158,7 +158,7 @@ describe('CatalogueScreen', () => {
 	});
 
 	describe('Selection Status', () => {
-		it('displays alphabet and character counts', () => {
+		it('displays hand and character counts', () => {
 			render(<CatalogueScreen />);
 			expect(
 				screen.getByText(/you have enabled/i)
@@ -167,10 +167,10 @@ describe('CatalogueScreen', () => {
 			expect(screen.getByText('52')).toBeInTheDocument();
 		});
 
-		it('shows descriptive text about alphabets', () => {
+		it('shows descriptive text about hands', () => {
 			render(<CatalogueScreen />);
 			expect(
-				screen.getByText(/The alphabets Sharpie tests/i)
+				screen.getByText(/The hands Sharpie tests/i)
 			).toBeInTheDocument();
 		});
 	});
@@ -207,7 +207,7 @@ describe('CatalogueScreen', () => {
 	});
 
 	describe('Alphabet Selection', () => {
-		it('can toggle individual alphabets', async () => {
+		it('can toggle individual hands', async () => {
 			const user = userEvent.setup();
 			render(<CatalogueScreen />);
 
@@ -217,7 +217,7 @@ describe('CatalogueScreen', () => {
 			expect(screen.getByTestId('enabled-state')).toBeInTheDocument();
 		});
 
-		it('can batch toggle alphabets', async () => {
+		it('can batch toggle hands', async () => {
 			const user = userEvent.setup();
 			render(<CatalogueScreen />);
 

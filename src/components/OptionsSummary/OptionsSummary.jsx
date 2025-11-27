@@ -16,7 +16,7 @@ const Strong = ({ children, isError }) => (
 	</span>
 );
 
-const OptionsSummary = ({ options, alphabetCount }) => {
+const OptionsSummary = ({ options, handCount }) => {
 	const { toggleOption, cycleMode } = useGameOptionsContext();
 	const navigate = useNavigate();
 
@@ -64,7 +64,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 			.sort((a, b) => a.badge.order - b.badge.order)
 			.map(option => {
 				const value = options[option.key];
-				const context = { alphabetCount };
+				const context = { handCount };
 				const labelData = option.badge.renderLabel(value, context);
 
 				// Determine onClick handler based on action type
@@ -83,7 +83,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 					onClick,
 				};
 			});
-	}, [options, alphabetCount, toggleOption, cycleMode, navigate]);
+	}, [options, handCount, toggleOption, cycleMode, navigate]);
 
 	return (
 		<div

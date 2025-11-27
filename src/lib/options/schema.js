@@ -33,16 +33,16 @@ export const OPTIONS = {
 		},
 	},
 
-	alphabets: {
-		key: 'enabledAlphabets',
-		type: 'alphabetSet',
+	hands: {
+		key: 'enabledHands',
+		type: 'handSet',
 		urlParam: 'a',
-		default: null, // uses alphabets.json isDefaultEnabled
+		default: null, // uses hands.json isDefaultEnabled
 		badge: {
 			order: 2,
-			renderLabel: (value, { alphabetCount }) => ({
-				text: 'Alphabets',
-				value: alphabetCount,
+			renderLabel: (value, { handCount }) => ({
+				text: 'Hands',
+				value: handCount,
 			}),
 			action: 'navigate',
 			navigationPath: '/catalogue',

@@ -55,7 +55,7 @@ test.describe('Landing Page Content', () => {
 
 		test('should display Alphabets subsection title', async ({ page }) => {
 			await expect(
-				page.getByRole('heading', { name: 'Alphabets' })
+				page.getByRole('heading', { name: 'Hands' })
 			).toBeVisible();
 		});
 
@@ -66,13 +66,13 @@ test.describe('Landing Page Content', () => {
 
 			// Match the entire paragraph pattern (text is split across multiple elements)
 			await expect(
-				page.getByText(/Question bank:.*characters from.*alphabets/i)
+				page.getByText(/Question bank:.*characters from.*hands/i)
 			).toBeVisible();
 		});
 
-		test('should display Choose alphabets button', async ({ page }) => {
+		test('should display Choose hands button', async ({ page }) => {
 			const button = page.getByRole('button', {
-				name: /choose alphabets/i,
+				name: /choose hands/i,
 			});
 			await expect(button).toBeVisible();
 		});
@@ -243,7 +243,7 @@ test.describe('Landing Page Content', () => {
 		}) => {
 			await expect(
 				page.getByText(
-					/For some alphabets.*we show you a fragment of a whole word/
+					/For some hands.*we show you a fragment of a whole word/
 				)
 			).toBeVisible();
 			await expect(

@@ -5,7 +5,7 @@ import { describe, it, expect, vi } from 'vitest';
 import {
 	extractCharacter,
 	categorizeCharacter,
-	getAlphabetName,
+	getHandName,
 	getAssetFolderName,
 	escapeSingleQuotes,
 	escapeDoubleQuotes,
@@ -142,15 +142,13 @@ describe('categorizeCharacter', () => {
 // Path Utilities
 // =============================================================================
 
-describe('getAlphabetName', () => {
+describe('getHandName', () => {
 	it('extracts parent directory name', () => {
-		expect(getAlphabetName('/a/b/Joscelyn/joscelyn-assets')).toBe(
-			'Joscelyn'
-		);
+		expect(getHandName('/a/b/Joscelyn/joscelyn-assets')).toBe('Joscelyn');
 	});
 
 	it('handles BeauChesne-Baildon path', () => {
-		expect(getAlphabetName('/src/BeauChesne-Baildon/BCB-assets')).toBe(
+		expect(getHandName('/src/BeauChesne-Baildon/BCB-assets')).toBe(
 			'BeauChesne-Baildon'
 		);
 	});

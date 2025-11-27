@@ -296,16 +296,16 @@ test.describe('Badge Interactions - Click Functionality', () => {
 		});
 	});
 
-	test.describe('Alphabets Badge - Navigate to Catalogue', () => {
-		test('should navigate to catalogue when alphabets badge is clicked', async ({
+	test.describe('Hands Badge - Navigate to Catalogue', () => {
+		test('should navigate to catalogue when hands badge is clicked', async ({
 			page,
 		}) => {
-			const alphabetsBadge = page.getByTestId('badge-enabledAlphabets');
+			const handsBadge = page.getByTestId('badge-enabledHands');
 
-			await expect(alphabetsBadge).toContainText('Alphabets');
+			await expect(handsBadge).toContainText('Hands');
 
 			// Click to navigate
-			await alphabetsBadge.click();
+			await handsBadge.click();
 
 			// Should navigate to catalogue page
 			await expect(page).toHaveURL(/\/catalogue/);
@@ -317,8 +317,8 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			// Set some options
 			await page.goto('/?m=i&l=f');
 
-			const alphabetsBadge = page.getByTestId('badge-enabledAlphabets');
-			await alphabetsBadge.click();
+			const handsBadge = page.getByTestId('badge-enabledHands');
+			await handsBadge.click();
 
 			// Should navigate with options preserved
 			await expect(page).toHaveURL(/\/catalogue/);

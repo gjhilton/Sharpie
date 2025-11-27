@@ -5,24 +5,24 @@
 import { OPTIONS } from './schema.js';
 import { getDefaults, isDefaultValue } from './defaults.js';
 import {
-	validateAlphabetIds,
+	validateHandIds,
 	getDefaultEnabledIds,
-	getAlphabetKeyById,
-	getAllAlphabetIds,
-	getAlphabetIdByKey,
-} from './alphabets.js';
+	getHandKeyById,
+	getAllHandIds,
+	getHandIdByKey,
+} from './hands.js';
 
 /**
- * Convert array of alphabet IDs to object mapping alphabet names to booleans
- * @param {string[]} ids - Array of alphabet IDs (e.g., ['beau1570', 'hill1574'])
+ * Convert array of hand IDs to object mapping hand names to booleans
+ * @param {string[]} ids - Array of hand IDs (e.g., ['beau1570', 'hill1574'])
  * @returns {Object} - Object mapping names to booleans (e.g., { 'BeauChesne-Baildon': true, 'Hill': true })
  */
 const idsToEnabledObject = ids => {
-	const allIds = getAllAlphabetIds();
+	const allIds = getAllHandIds();
 	const result = {};
 
 	allIds.forEach(id => {
-		const key = getAlphabetKeyById(id);
+		const key = getHandKeyById(id);
 		if (key) {
 			result[key] = ids.includes(id);
 		}
@@ -32,14 +32,14 @@ const idsToEnabledObject = ids => {
 };
 
 /**
- * Convert object mapping alphabet names to booleans to array of enabled alphabet IDs
+ * Convert object mapping hand names to booleans to array of enabled hand IDs
  * @param {Object} enabledObj - Object mapping names to booleans (e.g., { 'BeauChesne-Baildon': true, 'Hill': false })
- * @returns {string[]} - Array of enabled alphabet IDs (e.g., ['beau1570'])
+ * @returns {string[]} - Array of enabled hand IDs (e.g., ['beau1570'])
  */
 const enabledObjectToIds = enabledObj => {
 	return Object.entries(enabledObj)
 		.filter(([, enabled]) => enabled === true)
-		.map(([name]) => getAlphabetIdByKey(name))
+		.map(([name]) => getHandIdByKey(name))
 		.filter(Boolean);
 };
 
@@ -58,12 +58,12 @@ export const serializeValue = (optionKey, value) => {
 			);
 		case 'boolean':
 			return value ? '1' : '0';
-		case 'alphabetSet': {
+		case 'handSet': {
 			// Convert object format to array of IDs
 			const ids = Array.isArray(value)
 				? value
 				: enabledObjectToIds(value);
-			// Return empty string when no alphabets enabled (not null)
+			// Return empty string when no hands enabled (not null)
 			// This allows distinguishing "user disabled all" from "not set"
 			if (ids.length === 0) return '';
 			return ids.join(',');
@@ -91,13 +91,13 @@ export const deserializeValue = (optionKey, urlValue) => {
 		}
 		case 'boolean':
 			return urlValue === '1';
-		case 'alphabetSet': {
-			// Empty string means user explicitly disabled all alphabets
+		case 'handSet': {
+			// Empty string means user explicitly disabled all hands
 			if (urlValue === '') {
 				return idsToEnabledObject([]);
 			}
 			const ids = urlValue.split(',').filter(Boolean);
-			const validIds = validateAlphabetIds(ids);
+			const validIds = validateHandIds(ids);
 			const finalIds =
 				validIds.length > 0 ? validIds : getDefaultEnabledIds();
 			// Convert array of IDs to object format
@@ -134,10 +134,10 @@ export const deserializeOptions = searchParams => {
 		mode: searchParams.m
 			? deserializeValue('mode', searchParams.m)
 			: defaults.mode,
-		enabledAlphabets:
+		enabledHands:
 			searchParams.a !== undefined
-				? deserializeValue('alphabets', searchParams.a)
-				: defaults.enabledAlphabets,
+				? deserializeValue('hands', searchParams.a)
+				: defaults.enabledHands,
 		numLetters:
 			searchParams.l !== undefined
 				? deserializeValue('numLetters', searchParams.l)
@@ -158,11 +158,8 @@ export const serializeOptions = options => {
 	if (options.mode !== undefined) {
 		Object.assign(params, serializeOption('mode', options.mode));
 	}
-	if (options.enabledAlphabets !== undefined) {
-		Object.assign(
-			params,
-			serializeOption('alphabets', options.enabledAlphabets)
-		);
+	if (options.enabledHands !== undefined) {
+		Object.assign(params, serializeOption('hands', options.enabledHands));
 	}
 	if (options.numLetters !== undefined) {
 		Object.assign(

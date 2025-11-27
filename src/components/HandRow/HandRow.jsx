@@ -2,11 +2,11 @@ import React from 'react';
 import { css } from '../../../dist/styled-system/css';
 import Toggle from '@components/Toggle/Toggle.jsx';
 
-const AlphabetRow = ({ name, metadata, isEnabled, onToggle }) => {
+const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 	return (
 		<React.Fragment>
 			<Toggle
-				id={`alphabet-${name}`}
+				id={`hand-${name}`}
 				checked={isEnabled}
 				onChange={onToggle}
 			/>
@@ -30,4 +30,4 @@ const AlphabetRow = ({ name, metadata, isEnabled, onToggle }) => {
 	);
 };
 
-export default AlphabetRow;
+export default HandRow;

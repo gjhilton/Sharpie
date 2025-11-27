@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AlphabetSelectorWithSort from './AlphabetSelectorWithSort';
+import HandSelectorWithSort from './HandSelectorWithSort';
 
-describe('AlphabetSelectorWithSort', () => {
-	const mockAlphabetsMetadata = {
+describe('HandSelectorWithSort', () => {
+	const mockHandsMetadata = {
 		Joscelyn: {
 			title: 'Joscelyn typeface',
 			date: '2019',
@@ -31,20 +31,20 @@ describe('AlphabetSelectorWithSort', () => {
 		},
 	};
 
-	const mockAlphabetNames = ['Joscelyn', 'NBacon', 'Howard', 'Hill'];
-	const mockEnabledAlphabets = {
+	const mockHandNames = ['Joscelyn', 'NBacon', 'Howard', 'Hill'];
+	const mockEnabledHands = {
 		Joscelyn: true,
 		NBacon: false,
 		Howard: true,
 		Hill: false,
 	};
 
-	it('renders sort selector and alphabet list', () => {
+	it('renders sort selector and hand list', () => {
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -56,10 +56,10 @@ describe('AlphabetSelectorWithSort', () => {
 
 	it('defaults to sorting by date', () => {
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -68,12 +68,12 @@ describe('AlphabetSelectorWithSort', () => {
 		expect(select).toHaveValue('date');
 	});
 
-	it('displays alphabets sorted by date initially', () => {
+	it('displays hands sorted by date initially', () => {
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -90,10 +90,10 @@ describe('AlphabetSelectorWithSort', () => {
 		const user = userEvent.setup();
 
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -113,10 +113,10 @@ describe('AlphabetSelectorWithSort', () => {
 		const user = userEvent.setup();
 
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -132,10 +132,10 @@ describe('AlphabetSelectorWithSort', () => {
 
 	it('does not show difficulty headings when not sorted by difficulty', () => {
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -147,14 +147,14 @@ describe('AlphabetSelectorWithSort', () => {
 		expect(screen.queryByText('Difficulty: Hard')).not.toBeInTheDocument();
 	});
 
-	it('groups alphabets by difficulty correctly', async () => {
+	it('groups hands by difficulty correctly', async () => {
 		const user = userEvent.setup();
 
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -169,15 +169,15 @@ describe('AlphabetSelectorWithSort', () => {
 		expect(headings[2]).toHaveTextContent('Difficulty: Hard');
 	});
 
-	it('calls onToggle when alphabet is toggled', async () => {
+	it('calls onToggle when hand is toggled', async () => {
 		const handleToggle = vi.fn();
 		const user = userEvent.setup();
 
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={handleToggle}
 			/>
 		);
@@ -193,10 +193,10 @@ describe('AlphabetSelectorWithSort', () => {
 		const user = userEvent.setup();
 
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={handleToggle}
 			/>
 		);
@@ -214,10 +214,10 @@ describe('AlphabetSelectorWithSort', () => {
 
 	it('renders all three sort options', () => {
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={mockAlphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={mockEnabledAlphabets}
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
 				onToggle={() => {}}
 			/>
 		);
@@ -233,12 +233,12 @@ describe('AlphabetSelectorWithSort', () => {
 		).toBeInTheDocument();
 	});
 
-	it('handles empty alphabet list', () => {
+	it('handles empty hand list', () => {
 		render(
-			<AlphabetSelectorWithSort
-				alphabetNames={[]}
-				alphabetsMetadata={{}}
-				enabledAlphabets={{}}
+			<HandSelectorWithSort
+				handNames={[]}
+				handsMetadata={{}}
+				enabledHands={{}}
 				onToggle={() => {}}
 			/>
 		);
@@ -248,11 +248,11 @@ describe('AlphabetSelectorWithSort', () => {
 	});
 
 	describe('Bulk selection', () => {
-		it('calls onToggle for each disabled alphabet when select all is clicked', async () => {
+		it('calls onToggle for each disabled hand when select all is clicked', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: true,
 				NBacon: false,
 				Howard: false,
@@ -260,10 +260,10 @@ describe('AlphabetSelectorWithSort', () => {
 			};
 
 			render(
-				<AlphabetSelectorWithSort
-					alphabetNames={mockAlphabetNames}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={handleToggle}
 				/>
 			);
@@ -281,11 +281,11 @@ describe('AlphabetSelectorWithSort', () => {
 			expect(handleToggle).toHaveBeenCalledWith('Howard');
 		});
 
-		it('calls onToggle for each enabled alphabet when deselect all is clicked', async () => {
+		it('calls onToggle for each enabled hand when deselect all is clicked', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: true,
 				NBacon: true,
 				Howard: true,
@@ -293,10 +293,10 @@ describe('AlphabetSelectorWithSort', () => {
 			};
 
 			render(
-				<AlphabetSelectorWithSort
-					alphabetNames={mockAlphabetNames}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={handleToggle}
 				/>
 			);
@@ -314,11 +314,11 @@ describe('AlphabetSelectorWithSort', () => {
 			expect(handleToggle).toHaveBeenCalledWith('Howard');
 		});
 
-		it('does not call onToggle if all alphabets in group are already selected', async () => {
+		it('does not call onToggle if all hands in group are already selected', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: true,
 				NBacon: false,
 				Howard: false,
@@ -326,10 +326,10 @@ describe('AlphabetSelectorWithSort', () => {
 			};
 
 			render(
-				<AlphabetSelectorWithSort
-					alphabetNames={mockAlphabetNames}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={handleToggle}
 				/>
 			);
@@ -346,11 +346,11 @@ describe('AlphabetSelectorWithSort', () => {
 			expect(handleToggle).not.toHaveBeenCalled();
 		});
 
-		it('does not call onToggle if no alphabets in group are selected', async () => {
+		it('does not call onToggle if no hands in group are selected', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: false,
 				NBacon: false,
 				Howard: false,
@@ -358,10 +358,10 @@ describe('AlphabetSelectorWithSort', () => {
 			};
 
 			render(
-				<AlphabetSelectorWithSort
-					alphabetNames={mockAlphabetNames}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={handleToggle}
 				/>
 			);
@@ -378,11 +378,11 @@ describe('AlphabetSelectorWithSort', () => {
 			expect(handleToggle).not.toHaveBeenCalled();
 		});
 
-		it('handles select all when some alphabets are already selected', async () => {
+		it('handles select all when some hands are already selected', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: false,
 				NBacon: true,
 				Howard: false,
@@ -390,10 +390,10 @@ describe('AlphabetSelectorWithSort', () => {
 			};
 
 			render(
-				<AlphabetSelectorWithSort
-					alphabetNames={mockAlphabetNames}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={handleToggle}
 				/>
 			);
@@ -411,11 +411,11 @@ describe('AlphabetSelectorWithSort', () => {
 			expect(handleToggle).toHaveBeenCalledWith('Howard');
 		});
 
-		it('handles deselect all when some alphabets are already deselected', async () => {
+		it('handles deselect all when some hands are already deselected', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: false,
 				NBacon: true,
 				Howard: false,
@@ -423,10 +423,10 @@ describe('AlphabetSelectorWithSort', () => {
 			};
 
 			render(
-				<AlphabetSelectorWithSort
-					alphabetNames={mockAlphabetNames}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={handleToggle}
 				/>
 			);

@@ -21,7 +21,7 @@ const OptionsSection = ({
 	showBaseline,
 	onShowBaselineChange,
 	characterCount,
-	alphabetCount,
+	handCount,
 	onShowCatalogue,
 	options,
 }) => {
@@ -46,12 +46,12 @@ const OptionsSection = ({
 			</Paragraph>
 		</SubSection>
 
-		<SubSection title="Alphabets">
+		<SubSection title="Hands">
 			<Paragraph>
 				Question bank: <strong>{characterCount}</strong> characters from{' '}
-				<strong>{alphabetCount}</strong> alphabets.
+				<strong>{handCount}</strong> hands.
 			</Paragraph>
-			<Button label="Choose alphabets" onClick={onShowCatalogue} />
+			<Button label="Choose hands" onClick={onShowCatalogue} />
 		</SubSection>
 
 		<SubSection title="26 letters vs 24">

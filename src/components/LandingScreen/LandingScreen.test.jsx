@@ -32,17 +32,17 @@ vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
 	default: ({ onShowCatalogue }) => (
 		<div data-testid="mock-options">
 			<button onClick={onShowCatalogue} data-testid="catalogue-button">
-				Choose alphabets
+				Choose hands
 			</button>
 		</div>
 	),
 }));
 
 vi.mock('@components/OptionsSummary/OptionsSummary.jsx', () => ({
-	default: ({ options, alphabetCount }) => (
+	default: ({ options, handCount }) => (
 		<div data-testid="mock-options-summary">
 			<div data-testid="summary-mode">{options.mode}</div>
-			<div data-testid="summary-alphabets">{alphabetCount}</div>
+			<div data-testid="summary-hands">{handCount}</div>
 		</div>
 	),
 }));
@@ -84,7 +84,7 @@ vi.mock('@data/DB.js', () => ({
 
 // Mock database utilities
 vi.mock('@utilities/database.js', () => ({
-	countEnabledAlphabets: vi.fn(() => 5),
+	countEnabledHands: vi.fn(() => 5),
 	countEnabledCharacters: vi.fn(() => 123),
 }));
 
@@ -103,7 +103,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 	useGameOptions: () => ({
 		options: {
 			mode: 'all',
-			enabledAlphabets: {
+			enabledHands: {
 				McKerrow: true,
 				PCAttorney: true,
 			},
@@ -126,7 +126,7 @@ vi.mock('@context/DatabaseContext.jsx', () => ({
 			},
 		},
 		countEnabledCharacters: vi.fn(() => 123),
-		countEnabledAlphabets: vi.fn(() => 5),
+		countEnabledHands: vi.fn(() => 5),
 	}),
 }));
 

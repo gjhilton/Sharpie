@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '../../../dist/styled-system/css';
-import AlphabetRow from '@components/AlphabetRow/AlphabetRow.jsx';
+import HandRow from '@components/HandRow/HandRow.jsx';
 import DifficultyHeading from '@components/DifficultyHeading/DifficultyHeading.jsx';
 import { DIFFICULTY_ORDER } from '@constants/difficulty.js';
 
@@ -12,10 +12,10 @@ const gridStyles = css({
 	marginTop: '2rem',
 });
 
-const AlphabetList = ({
-	alphabets,
-	alphabetsMetadata,
-	enabledAlphabets,
+const HandList = ({
+	hands,
+	handsMetadata,
+	enabledHands,
 	onToggle,
 	showDifficultyGroups = false,
 	difficultyGroups = null,
@@ -27,17 +27,17 @@ const AlphabetList = ({
 		return (
 			<div className={gridStyles}>
 				{DIFFICULTY_ORDER.map(difficulty => {
-					const alphabetsInGroup = difficultyGroups[difficulty];
-					if (!alphabetsInGroup || alphabetsInGroup.length === 0) {
+					const handsInGroup = difficultyGroups[difficulty];
+					if (!handsInGroup || handsInGroup.length === 0) {
 						return null;
 					}
 
 					// Calculate selection states for this difficulty group
-					const selectedCount = alphabetsInGroup.filter(
-						name => enabledAlphabets[name]
+					const selectedCount = handsInGroup.filter(
+						name => enabledHands[name]
 					).length;
 					const allSelected =
-						selectedCount === alphabetsInGroup.length;
+						selectedCount === handsInGroup.length;
 					const noneSelected = selectedCount === 0;
 
 					return (
@@ -49,12 +49,12 @@ const AlphabetList = ({
 								onSelectAll={onSelectAll}
 								onDeselectAll={onDeselectAll}
 							/>
-							{alphabetsInGroup.map(name => (
-								<AlphabetRow
+							{handsInGroup.map(name => (
+								<HandRow
 									key={name}
 									name={name}
-									metadata={alphabetsMetadata[name]}
-									isEnabled={enabledAlphabets[name] || false}
+									metadata={handsMetadata[name]}
+									isEnabled={enabledHands[name] || false}
 									onToggle={() => onToggle(name)}
 								/>
 							))}
@@ -68,12 +68,12 @@ const AlphabetList = ({
 	// Render flat list without grouping
 	return (
 		<div className={gridStyles}>
-			{alphabets.map(name => (
-				<AlphabetRow
+			{hands.map(name => (
+				<HandRow
 					key={name}
 					name={name}
-					metadata={alphabetsMetadata[name]}
-					isEnabled={enabledAlphabets[name] || false}
+					metadata={handsMetadata[name]}
+					isEnabled={enabledHands[name] || false}
 					onToggle={() => onToggle(name)}
 				/>
 			))}
@@ -81,5 +81,5 @@ const AlphabetList = ({
 	);
 };
 
-export { AlphabetList };
-export default AlphabetList;
+export { HandList };
+export default HandList;

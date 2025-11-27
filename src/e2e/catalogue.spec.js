@@ -116,7 +116,7 @@ test.describe('Catalogue Screen', () => {
 	});
 });
 
-test.describe('Alphabet Sorting', () => {
+test.describe('Hand Sorting', () => {
 	test.beforeEach(async ({ page }) => {
 		await navigateToCatalogue(page);
 	});
@@ -151,8 +151,8 @@ test.describe('Alphabet Sorting', () => {
 	}) => {
 		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
 
-		// Get initial order (by date) - get all alphabet IDs
-		const allToggles = page.locator('[id^="alphabet-"]');
+		// Get initial order (by date) - get all hand IDs
+		const allToggles = page.locator('[id^="hand-"]');
 		const count = await allToggles.count();
 		const initialOrder = [];
 		for (let i = 0; i < count; i++) {
@@ -216,11 +216,11 @@ test.describe('Alphabet Sorting', () => {
 		await expect(difficultyHeading).not.toBeVisible();
 	});
 
-	test('should maintain alphabet toggle state when changing sort order', async ({
+	test('should maintain hand toggle state when changing sort order', async ({
 		page,
 	}) => {
 		// Find a toggle and check its state
-		const firstToggle = page.locator('[id^="alphabet-"]').first();
+		const firstToggle = page.locator('[id^="hand-"]').first();
 		const toggleId = await firstToggle.getAttribute('id');
 		const initialState = await firstToggle.getAttribute('aria-checked');
 
@@ -307,17 +307,17 @@ test.describe('Bulk Selection', () => {
 		const selectCount = await selectAllButtons.count();
 		const deselectCount = await deselectAllButtons.count();
 
-		// Should have at least one of each (depends on alphabets present)
+		// Should have at least one of each (depends on hands present)
 		// Note: counts may differ if some buttons are disabled - just verify both types exist
 		expect(selectCount).toBeGreaterThan(0);
 		expect(deselectCount).toBeGreaterThan(0);
 	});
 
-	test('should select all alphabets in a difficulty group when clicking select all', async ({
+	test('should select all hands in a difficulty group when clicking select all', async ({
 		page,
 	}) => {
 		// First, deselect all in a group to make "select all" enabled
-		// (All alphabets are selected by default, so "select all" is disabled)
+		// (All hands are selected by default, so "select all" is disabled)
 		const firstDeselectAllButton = page
 			.getByRole('button', { name: 'deselect all' })
 			.first();
@@ -325,7 +325,7 @@ test.describe('Bulk Selection', () => {
 		await page.waitForTimeout(200);
 
 		// Get all toggles
-		const allToggles = page.locator('[id^="alphabet-"]');
+		const allToggles = page.locator('[id^="hand-"]');
 		const toggleCount = await allToggles.count();
 
 		// Count how many are enabled after deselect
@@ -355,16 +355,16 @@ test.describe('Bulk Selection', () => {
 			}
 		}
 
-		// Should have more enabled alphabets after clicking select all
+		// Should have more enabled hands after clicking select all
 		expect(enabledCountAfter).toBeGreaterThan(enabledCountBefore);
 	});
 
-	test('should deselect all alphabets in a difficulty group when clicking deselect all', async ({
+	test('should deselect all hands in a difficulty group when clicking deselect all', async ({
 		page,
 	}) => {
-		// All alphabets are selected by default, so we can test deselect directly
+		// All hands are selected by default, so we can test deselect directly
 		// Get count of enabled toggles before
-		const allToggles = page.locator('[id^="alphabet-"]');
+		const allToggles = page.locator('[id^="hand-"]');
 		const toggleCount = await allToggles.count();
 
 		let enabledCountBefore = 0;
@@ -393,24 +393,24 @@ test.describe('Bulk Selection', () => {
 			}
 		}
 
-		// Should have fewer enabled alphabets after clicking deselect all
+		// Should have fewer enabled hands after clicking deselect all
 		expect(enabledCountAfter).toBeLessThan(enabledCountBefore);
 	});
 
-	test('should disable select all button when all alphabets in group are selected', async ({
+	test('should disable select all button when all hands in group are selected', async ({
 		page,
 	}) => {
-		// All alphabets are selected by default, so select all should already be disabled
+		// All hands are selected by default, so select all should already be disabled
 		const firstSelectAllButton = page
 			.getByRole('button', { name: 'select all' })
 			.first();
 
-		// The select all button should be disabled (all alphabets are selected by default)
+		// The select all button should be disabled (all hands are selected by default)
 		const isDisabled = await firstSelectAllButton.isDisabled();
 		expect(isDisabled).toBe(true);
 	});
 
-	test('should disable deselect all button when no alphabets in group are selected', async ({
+	test('should disable deselect all button when no hands in group are selected', async ({
 		page,
 	}) => {
 		// Click deselect all for first group
@@ -452,7 +452,7 @@ test.describe('Bulk Selection', () => {
 		// by testing a single deselect/select cycle on the first group
 
 		// Get all toggles and count initial enabled (all should be enabled by default)
-		const allToggles = page.locator('[id^="alphabet-"]');
+		const allToggles = page.locator('[id^="hand-"]');
 		const toggleCount = await allToggles.count();
 		expect(toggleCount).toBeGreaterThan(0);
 

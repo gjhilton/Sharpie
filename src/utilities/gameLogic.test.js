@@ -241,7 +241,7 @@ describe('gameLogic', () => {
 			});
 		});
 
-		describe('24-letter alphabet mode', () => {
+		describe('24-letter hand mode', () => {
 			it('should accept i for j when mode is enabled', () => {
 				const result = gameLogic.checkAttempt('i', 'j', true);
 				expect(result).toEqual({
@@ -322,7 +322,7 @@ describe('gameLogic', () => {
 				});
 			});
 
-			it('should still reject unrelated incorrect letters in 24-letter alphabet mode', () => {
+			it('should still reject unrelated incorrect letters in 24-letter hand mode', () => {
 				const result = gameLogic.checkAttempt('x', 'j', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.INCORRECT,
@@ -330,7 +330,7 @@ describe('gameLogic', () => {
 				});
 			});
 
-			it('should not accept lowercase for uppercase in 24-letter alphabet mode', () => {
+			it('should not accept lowercase for uppercase in 24-letter hand mode', () => {
 				const result = gameLogic.checkAttempt('i', 'J', true);
 				expect(result).toEqual({
 					status: gameLogic.STATUS.INCORRECT,

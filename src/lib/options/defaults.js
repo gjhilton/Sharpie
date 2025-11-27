@@ -3,23 +3,23 @@
  */
 
 import { OPTIONS } from './schema.js';
-import alphabetsData from '@data/alphabets.json';
+import handsData from '@data/hands.json';
 
 /**
- * Get default enabled alphabet IDs based on isDefaultEnabled flag
+ * Get default enabled hand IDs based on isDefaultEnabled flag
  */
-export const getDefaultAlphabetIds = () => {
-	return Object.entries(alphabetsData)
+export const getDefaultHandIds = () => {
+	return Object.entries(handsData)
 		.filter(([, data]) => data.isDefaultEnabled)
 		.map(([, data]) => data.id);
 };
 
 /**
- * Get default enabled alphabets as object mapping names to booleans
+ * Get default enabled hands as object mapping names to booleans
  */
-export const getDefaultEnabledAlphabets = () => {
+export const getDefaultEnabledHands = () => {
 	const result = {};
-	Object.entries(alphabetsData).forEach(([name, data]) => {
+	Object.entries(handsData).forEach(([name, data]) => {
 		result[name] = data.isDefaultEnabled === true;
 	});
 	return result;
@@ -31,7 +31,7 @@ export const getDefaultEnabledAlphabets = () => {
 export const getDefaults = () => {
 	return {
 		mode: OPTIONS.mode.default,
-		enabledAlphabets: getDefaultEnabledAlphabets(),
+		enabledHands: getDefaultEnabledHands(),
 		numLetters: OPTIONS.numLetters.default,
 		showBaseline: OPTIONS.showBaseline.default,
 	};
@@ -42,8 +42,8 @@ export const getDefaults = () => {
  */
 export const isDefaultValue = (key, value) => {
 	const defaults = getDefaults();
-	if (key === 'enabledAlphabets') {
-		const defaultObj = defaults.enabledAlphabets;
+	if (key === 'enabledHands') {
+		const defaultObj = defaults.enabledHands;
 		if (typeof value !== 'object' || value === null) return false;
 
 		// Check if all keys match and all values match

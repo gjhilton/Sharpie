@@ -23,7 +23,7 @@ const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
 const LandingScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
-	const { DB, countEnabledCharacters, countEnabledAlphabets } = useDatabase();
+	const { DB, countEnabledCharacters, countEnabledHands } = useDatabase();
 
 	const handlePlay = () => navigate({ to: '/play', search: prev => prev });
 	const handleShowCatalogue = () => navigate({ to: '/catalogue', search: prev => prev });
@@ -53,7 +53,7 @@ const LandingScreen = () => {
 						additionalComponent={
 							<OptionsSummary
 								options={options}
-								alphabetCount={countEnabledAlphabets(options.enabledAlphabets)}
+								handCount={countEnabledHands(options.enabledHands)}
 							/>
 						}
 					>
@@ -67,9 +67,9 @@ const LandingScreen = () => {
 							onShowBaselineChange={handleShowBaselineChange}
 							characterCount={countEnabledCharacters(
 								DB,
-								options.enabledAlphabets
+								options.enabledHands
 							)}
-							alphabetCount={countEnabledAlphabets(options.enabledAlphabets)}
+							handCount={countEnabledHands(options.enabledHands)}
 							onShowCatalogue={handleShowCatalogue}
 							options={options}
 						/>

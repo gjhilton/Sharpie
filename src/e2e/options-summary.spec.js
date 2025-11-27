@@ -11,11 +11,11 @@ test.describe('Options Summary - Badge Display', () => {
 		await expect(modeBadge).toContainText('MAJUSCULES');
 	});
 
-	test('should display correct alphabet count badge with plural', async ({
+	test('should display correct hand count badge with plural', async ({
 		page,
 	}) => {
-		const alphabetBadge = page.locator('text=/Alphabets \\d+/');
-		await expect(alphabetBadge).toBeVisible();
+		const handBadge = page.locator('text=/Hands \\d+/');
+		await expect(handBadge).toBeVisible();
 	});
 
 	test('should display 24 letters badge by default', async ({ page }) => {
@@ -32,8 +32,8 @@ test.describe('Options Summary - Badge Display', () => {
 		await expect(modeBadge).toContainText('minuscules');
 		await expect(modeBadge).toContainText('MAJUSCULES');
 		// Alphabets
-		const alphabetBadge = page.locator('text=/Alphabets \\d+/');
-		await expect(alphabetBadge).toBeVisible();
+		const handBadge = page.locator('text=/Hands \\d+/');
+		await expect(handBadge).toBeVisible();
 		// Letters
 		const lettersBadge = page.locator('text=/Letters 2[46]/');
 		await expect(lettersBadge).toBeVisible();
@@ -121,8 +121,8 @@ test.describe('Options Summary - Badge Display', () => {
 		const modeBadge = page.getByTestId('badge-mode');
 		await expect(modeBadge).toContainText('minuscules');
 		await expect(modeBadge).toContainText('MAJUSCULES');
-		const alphabetBadge = page.locator('text=/Alphabets \\d+/');
-		await expect(alphabetBadge).toBeVisible();
+		const handBadge = page.locator('text=/Hands \\d+/');
+		await expect(handBadge).toBeVisible();
 	});
 });
 

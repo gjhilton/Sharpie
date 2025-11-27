@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AlphabetList from './AlphabetList';
+import HandList from './HandList';
 
-describe('AlphabetList', () => {
-	const mockAlphabetsMetadata = {
+describe('HandList', () => {
+	const mockHandsMetadata = {
 		Joscelyn: {
 			title: 'Joscelyn typeface',
 			date: '2019',
@@ -25,19 +25,19 @@ describe('AlphabetList', () => {
 		},
 	};
 
-	const mockEnabledAlphabets = {
+	const mockEnabledHands = {
 		Joscelyn: true,
 		NBacon: false,
 		Hill: true,
 	};
 
 	describe('Flat list mode', () => {
-		it('renders all alphabets in flat list', () => {
+		it('renders all hands in flat list', () => {
 			render(
-				<AlphabetList
-					alphabets={['Joscelyn', 'NBacon', 'Hill']}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={['Joscelyn', 'NBacon', 'Hill']}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 				/>
 			);
@@ -53,10 +53,10 @@ describe('AlphabetList', () => {
 
 		it('does not render difficulty headings in flat mode', () => {
 			render(
-				<AlphabetList
-					alphabets={['Joscelyn', 'NBacon', 'Hill']}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={['Joscelyn', 'NBacon', 'Hill']}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={false}
 				/>
@@ -75,10 +75,10 @@ describe('AlphabetList', () => {
 
 		it('displays correct toggle states', () => {
 			render(
-				<AlphabetList
-					alphabets={['Joscelyn', 'NBacon']}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={['Joscelyn', 'NBacon']}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 				/>
 			);
@@ -88,15 +88,15 @@ describe('AlphabetList', () => {
 			expect(toggles[1]).toHaveAttribute('aria-checked', 'false'); // NBacon
 		});
 
-		it('calls onToggle with correct alphabet name', async () => {
+		it('calls onToggle with correct hand name', async () => {
 			const handleToggle = vi.fn();
 			const user = userEvent.setup();
 
 			render(
-				<AlphabetList
-					alphabets={['Joscelyn', 'NBacon']}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={['Joscelyn', 'NBacon']}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={handleToggle}
 				/>
 			);
@@ -117,10 +117,10 @@ describe('AlphabetList', () => {
 
 		it('renders difficulty headings when grouped', () => {
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
@@ -134,12 +134,12 @@ describe('AlphabetList', () => {
 			expect(screen.getByText('Difficulty: Hard')).toBeInTheDocument();
 		});
 
-		it('renders alphabets under correct difficulty headings', () => {
+		it('renders hands under correct difficulty headings', () => {
 			const { container } = render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
@@ -157,7 +157,7 @@ describe('AlphabetList', () => {
 			expect(mediumHeading.tagName).toBe('H3');
 			expect(hardHeading.tagName).toBe('H3');
 
-			// Check alphabets are present
+			// Check hands are present
 			expect(screen.getByText('Joscelyn typeface')).toBeInTheDocument();
 			expect(
 				screen.getByText('Letter from Nathaniel Bacon')
@@ -175,10 +175,10 @@ describe('AlphabetList', () => {
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={groupsWithEmpty}
@@ -196,10 +196,10 @@ describe('AlphabetList', () => {
 
 		it('renders groups in correct order (easy, medium, hard)', () => {
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
@@ -219,10 +219,10 @@ describe('AlphabetList', () => {
 			const user = userEvent.setup();
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={mockEnabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
 					onToggle={handleToggle}
 					showDifficultyGroups={true}
 					difficultyGroups={mockDifficultyGroups}
@@ -239,21 +239,21 @@ describe('AlphabetList', () => {
 	});
 
 	describe('Bulk selection controls', () => {
-		it('calculates allSelected correctly when all alphabets in group are selected', () => {
+		it('calculates allSelected correctly when all hands in group are selected', () => {
 			const difficultyGroups = {
 				easy: ['Joscelyn', 'NBacon'],
 			};
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: true,
 				NBacon: true,
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={difficultyGroups}
@@ -267,21 +267,21 @@ describe('AlphabetList', () => {
 			expect(selectAllButton).toBeDisabled();
 		});
 
-		it('calculates noneSelected correctly when no alphabets in group are selected', () => {
+		it('calculates noneSelected correctly when no hands in group are selected', () => {
 			const difficultyGroups = {
 				medium: ['NBacon', 'Hill'],
 			};
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				NBacon: false,
 				Hill: false,
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={difficultyGroups}
@@ -295,22 +295,22 @@ describe('AlphabetList', () => {
 			expect(deselectAllButton).toBeDisabled();
 		});
 
-		it('enables both links when some but not all alphabets are selected', () => {
+		it('enables both links when some but not all hands are selected', () => {
 			const difficultyGroups = {
 				hard: ['Joscelyn', 'NBacon', 'Hill'],
 			};
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: true,
 				NBacon: false,
 				Hill: true,
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={difficultyGroups}
@@ -335,10 +335,10 @@ describe('AlphabetList', () => {
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={{ Joscelyn: false }}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={{ Joscelyn: false }}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={difficultyGroups}
@@ -362,10 +362,10 @@ describe('AlphabetList', () => {
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={{ NBacon: true }}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={{ NBacon: true }}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={difficultyGroups}
@@ -387,17 +387,17 @@ describe('AlphabetList', () => {
 				hard: ['Hill'],
 			};
 
-			const enabledAlphabets = {
+			const enabledHands = {
 				Joscelyn: true,
 				NBacon: false,
 				Hill: true,
 			};
 
 			render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={enabledAlphabets}
+				<HandList
+					hands={[]}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
 					onToggle={() => {}}
 					showDifficultyGroups={true}
 					difficultyGroups={difficultyGroups}
@@ -426,10 +426,10 @@ describe('AlphabetList', () => {
 	describe('Edge cases', () => {
 		it('renders empty list', () => {
 			const { container } = render(
-				<AlphabetList
-					alphabets={[]}
-					alphabetsMetadata={{}}
-					enabledAlphabets={{}}
+				<HandList
+					hands={[]}
+					handsMetadata={{}}
+					enabledHands={{}}
 					onToggle={() => {}}
 				/>
 			);
@@ -439,10 +439,10 @@ describe('AlphabetList', () => {
 
 		it('handles missing enabled state (defaults to false)', () => {
 			render(
-				<AlphabetList
-					alphabets={['Joscelyn']}
-					alphabetsMetadata={mockAlphabetsMetadata}
-					enabledAlphabets={{}}
+				<HandList
+					hands={['Joscelyn']}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={{}}
 					onToggle={() => {}}
 				/>
 			);

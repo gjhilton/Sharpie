@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import AlphabetRow from '@components/AlphabetRow/AlphabetRow.jsx';
+import HandRow from '@components/HandRow/HandRow.jsx';
 
 export default {
-	title: 'Components/AlphabetRow',
-	component: AlphabetRow,
+	title: 'Components/HandRow',
+	component: HandRow,
 	tags: ['autodocs'],
 	decorators: [
 		Story => (
@@ -21,11 +21,11 @@ export default {
 	],
 };
 
-const AlphabetRowWithState = args => {
+const HandRowWithState = args => {
 	const [isEnabled, setIsEnabled] = useState(args.isEnabled);
 
 	return (
-		<AlphabetRow
+		<HandRow
 			{...args}
 			isEnabled={isEnabled}
 			onToggle={() => setIsEnabled(!isEnabled)}
@@ -34,7 +34,7 @@ const AlphabetRowWithState = args => {
 };
 
 export const Enabled = {
-	render: AlphabetRowWithState,
+	render: HandRowWithState,
 	args: {
 		name: 'Joscelyn',
 		metadata: {
@@ -48,7 +48,7 @@ export const Enabled = {
 };
 
 export const Disabled = {
-	render: AlphabetRowWithState,
+	render: HandRowWithState,
 	args: {
 		name: 'NBacon',
 		metadata: {
@@ -63,7 +63,7 @@ export const Disabled = {
 };
 
 export const WithSlashDate = {
-	render: AlphabetRowWithState,
+	render: HandRowWithState,
 	args: {
 		name: 'Hill',
 		metadata: {
@@ -78,7 +78,7 @@ export const WithSlashDate = {
 };
 
 export const LongTitle = {
-	render: AlphabetRowWithState,
+	render: HandRowWithState,
 	args: {
 		name: 'BeauChesne-Baildon',
 		metadata: {
@@ -94,7 +94,7 @@ export const LongTitle = {
 
 export const MultipleRows = {
 	render: () => {
-		const alphabets = [
+		const hands = [
 			{
 				name: 'Joscelyn',
 				metadata: {
@@ -131,7 +131,7 @@ export const MultipleRows = {
 		];
 
 		const [enabledState, setEnabledState] = useState(
-			Object.fromEntries(alphabets.map(a => [a.name, a.isEnabled]))
+			Object.fromEntries(hands.map(h => [h.name, h.isEnabled]))
 		);
 
 		return (
@@ -143,16 +143,16 @@ export const MultipleRows = {
 					alignItems: 'start',
 				}}
 			>
-				{alphabets.map(alphabet => (
-					<AlphabetRow
-						key={alphabet.name}
-						name={alphabet.name}
-						metadata={alphabet.metadata}
-						isEnabled={enabledState[alphabet.name]}
+				{hands.map(hand => (
+					<HandRow
+						key={hand.name}
+						name={hand.name}
+						metadata={hand.metadata}
+						isEnabled={enabledState[hand.name]}
 						onToggle={() =>
 							setEnabledState(prev => ({
 								...prev,
-								[alphabet.name]: !prev[alphabet.name],
+								[hand.name]: !prev[hand.name],
 							}))
 						}
 					/>

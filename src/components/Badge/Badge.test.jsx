@@ -241,7 +241,7 @@ describe('Badge', () => {
 			expect(badge).toHaveTextContent('✓');
 		});
 
-		it('should render alphabet count badge with current format', () => {
+		it('should render hand count badge with current format', () => {
 			render(
 				<Badge testId="badge-alphabets">
 					Alphabets <Strong>3</Strong>

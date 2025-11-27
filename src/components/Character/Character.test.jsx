@@ -107,7 +107,7 @@ describe('Character', () => {
 		).not.toBeInTheDocument();
 	});
 
-	it('should show alphabet info with date in CORRECT_ANSWER state', () => {
+	it('should show hand info with date in CORRECT_ANSWER state', () => {
 		render(
 			<Character
 				{...defaultProps}
@@ -121,7 +121,7 @@ describe('Character', () => {
 		expect(link).toHaveAttribute('target', '_blank');
 	});
 
-	it('should not show alphabet info in AWAIT_ANSWER state', () => {
+	it('should not show hand info in AWAIT_ANSWER state', () => {
 		render(
 			<Character {...defaultProps} state={CHARACTER_STATE.AWAIT_ANSWER} />
 		);
@@ -131,7 +131,7 @@ describe('Character', () => {
 		).not.toBeInTheDocument();
 	});
 
-	it('should not show alphabet info in INCORRECT_ANSWER state', () => {
+	it('should not show hand info in INCORRECT_ANSWER state', () => {
 		render(
 			<Character
 				{...defaultProps}
@@ -230,7 +230,7 @@ describe('Character', () => {
 			expect(noteElement.tagName).toBe('SPAN');
 		});
 
-		it('should display both note and alphabet info in CORRECT_ANSWER state', () => {
+		it('should display both note and hand info in CORRECT_ANSWER state', () => {
 			render(
 				<Character
 					{...defaultProps}

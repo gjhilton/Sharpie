@@ -16,11 +16,11 @@ describe('OPTIONS schema', () => {
 		expect(OPTIONS.mode.values.majuscule).toBeDefined();
 	});
 
-	it('should define alphabets option', () => {
-		expect(OPTIONS.alphabets).toBeDefined();
-		expect(OPTIONS.alphabets.key).toBe('enabledAlphabets');
-		expect(OPTIONS.alphabets.type).toBe('alphabetSet');
-		expect(OPTIONS.alphabets.urlParam).toBe('a');
+	it('should define hands option', () => {
+		expect(OPTIONS.hands).toBeDefined();
+		expect(OPTIONS.hands.key).toBe('enabledHands');
+		expect(OPTIONS.hands.type).toBe('handSet');
+		expect(OPTIONS.hands.urlParam).toBe('a');
 	});
 
 	it('should define numLetters option', () => {
@@ -43,7 +43,7 @@ describe('OPTIONS schema', () => {
 describe('getOptionByKey', () => {
 	it('should find option by key', () => {
 		expect(getOptionByKey('mode')).toBe(OPTIONS.mode);
-		expect(getOptionByKey('enabledAlphabets')).toBe(OPTIONS.alphabets);
+		expect(getOptionByKey('enabledHands')).toBe(OPTIONS.hands);
 		expect(getOptionByKey('numLetters')).toBe(OPTIONS.numLetters);
 		expect(getOptionByKey('showBaseline')).toBe(OPTIONS.showBaseline);
 	});
@@ -56,7 +56,7 @@ describe('getOptionByKey', () => {
 describe('getOptionByUrlParam', () => {
 	it('should find option by URL param', () => {
 		expect(getOptionByUrlParam('m')).toBe(OPTIONS.mode);
-		expect(getOptionByUrlParam('a')).toBe(OPTIONS.alphabets);
+		expect(getOptionByUrlParam('a')).toBe(OPTIONS.hands);
 		expect(getOptionByUrlParam('l')).toBe(OPTIONS.numLetters);
 		expect(getOptionByUrlParam('b')).toBe(OPTIONS.showBaseline);
 	});

@@ -15,7 +15,7 @@ export const GameOptionsProvider = ({ children }) => {
 	const options = useMemo(() => deserializeOptions(search), [search]);
 
 	const updateOption = useCallback((key, value) => {
-		// Key can be either the schema key (e.g., 'alphabets') or option.key (e.g., 'enabledAlphabets')
+		// Key can be either the schema key (e.g., 'hands') or option.key (e.g., 'enabledHands')
 		// First check if it's a schema key
 		let schemaKey = key;
 		if (!OPTIONS[key]) {

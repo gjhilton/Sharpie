@@ -106,7 +106,7 @@ vi.mock('@components/ResetOptionsSection/ResetOptionsSection.jsx', () => ({
 describe('OptionsSection', () => {
 	const defaultOptions = {
 		mode: GAME_MODES.ALL,
-		enabledAlphabets: { standard: true },
+		enabledHands: { standard: true },
 		numLetters: false,
 		showBaseline: false,
 	};
@@ -120,7 +120,7 @@ describe('OptionsSection', () => {
 		showBaseline: false,
 		onShowBaselineChange: vi.fn(),
 		characterCount: 80,
-		alphabetCount: 3,
+		handCount: 3,
 		onShowCatalogue: vi.fn(),
 		options: defaultOptions,
 	};
@@ -129,7 +129,7 @@ describe('OptionsSection', () => {
 		render(<OptionsSection {...defaultProps} />);
 
 		expect(screen.getByText('Identify...')).toBeInTheDocument();
-		expect(screen.getByText('Alphabets')).toBeInTheDocument();
+		expect(screen.getByText('Hands')).toBeInTheDocument();
 		expect(screen.getByText('26 letters vs 24')).toBeInTheDocument();
 		expect(screen.getByText('Baselines')).toBeInTheDocument();
 	});
@@ -167,19 +167,19 @@ describe('OptionsSection', () => {
 		expect(screen.getByText('3')).toBeInTheDocument();
 	});
 
-	it('renders Choose alphabets button', () => {
+	it('renders Choose hands button', () => {
 		render(<OptionsSection {...defaultProps} />);
 
-		expect(screen.getByRole('button', { name: 'Choose alphabets' })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: 'Choose hands' })).toBeInTheDocument();
 	});
 
-	it('calls onShowCatalogue when Choose alphabets is clicked', async () => {
+	it('calls onShowCatalogue when Choose hands is clicked', async () => {
 		const onShowCatalogue = vi.fn();
 		const user = userEvent.setup();
 
 		render(<OptionsSection {...defaultProps} onShowCatalogue={onShowCatalogue} />);
 
-		await user.click(screen.getByRole('button', { name: 'Choose alphabets' }));
+		await user.click(screen.getByRole('button', { name: 'Choose hands' }));
 
 		expect(onShowCatalogue).toHaveBeenCalledTimes(1);
 	});
@@ -201,13 +201,13 @@ describe('OptionsSection', () => {
 		expect(onShowBaselineChange).toHaveBeenCalledWith(true);
 	});
 
-	it('renders 24-letter alphabet toggle', () => {
+	it('renders 24-letter hand toggle', () => {
 		render(<OptionsSection {...defaultProps} />);
 
 		expect(screen.getByLabelText('24-letter alphabet')).toBeInTheDocument();
 	});
 
-	it('calls onNumLettersChange when alphabet toggle is clicked', async () => {
+	it('calls onNumLettersChange when hand toggle is clicked', async () => {
 		const onNumLettersChange = vi.fn();
 		const user = userEvent.setup();
 

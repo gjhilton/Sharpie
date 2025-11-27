@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
+import HandSelectorWithSort from '@components/HandSelectorWithSort/HandSelectorWithSort.jsx';
 
 export default {
-	title: 'Components/AlphabetSelectorWithSort',
-	component: AlphabetSelectorWithSort,
+	title: 'Components/HandSelectorWithSort',
+	component: HandSelectorWithSort,
 	tags: ['autodocs'],
 };
 
-const mockAlphabetsMetadata = {
+const mockHandsMetadata = {
 	Joscelyn: {
 		title: 'Joscelyn typeface, drawn by Peter Baker',
 		date: '2019',
@@ -42,39 +42,39 @@ const mockAlphabetsMetadata = {
 	},
 };
 
-const AlphabetSelectorWithState = args => {
-	const alphabetNames = Object.keys(mockAlphabetsMetadata);
-	const [enabledAlphabets, setEnabledAlphabets] = useState(
-		Object.fromEntries(alphabetNames.map(name => [name, true]))
+const HandSelectorWithState = args => {
+	const handNames = Object.keys(mockHandsMetadata);
+	const [enabledHands, setEnabledHands] = useState(
+		Object.fromEntries(handNames.map(name => [name, true]))
 	);
 
 	const handleToggle = name => {
-		setEnabledAlphabets(prev => ({
+		setEnabledHands(prev => ({
 			...prev,
 			[name]: !prev[name],
 		}));
 	};
 
 	return (
-		<AlphabetSelectorWithSort
+		<HandSelectorWithSort
 			{...args}
-			alphabetNames={alphabetNames}
-			alphabetsMetadata={mockAlphabetsMetadata}
-			enabledAlphabets={enabledAlphabets}
+			handNames={handNames}
+			handsMetadata={mockHandsMetadata}
+			enabledHands={enabledHands}
 			onToggle={handleToggle}
 		/>
 	);
 };
 
 export const Default = {
-	render: AlphabetSelectorWithState,
+	render: HandSelectorWithState,
 	args: {},
 };
 
 export const WithMixedStates = {
 	render: () => {
-		const alphabetNames = Object.keys(mockAlphabetsMetadata);
-		const [enabledAlphabets, setEnabledAlphabets] = useState({
+		const handNames = Object.keys(mockHandsMetadata);
+		const [enabledHands, setEnabledHands] = useState({
 			Joscelyn: true,
 			NBacon: false,
 			Howard: true,
@@ -83,17 +83,17 @@ export const WithMixedStates = {
 		});
 
 		const handleToggle = name => {
-			setEnabledAlphabets(prev => ({
+			setEnabledHands(prev => ({
 				...prev,
 				[name]: !prev[name],
 			}));
 		};
 
 		return (
-			<AlphabetSelectorWithSort
-				alphabetNames={alphabetNames}
-				alphabetsMetadata={mockAlphabetsMetadata}
-				enabledAlphabets={enabledAlphabets}
+			<HandSelectorWithSort
+				handNames={handNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={enabledHands}
 				onToggle={handleToggle}
 			/>
 		);
@@ -101,12 +101,12 @@ export const WithMixedStates = {
 };
 
 export const Interactive = {
-	render: AlphabetSelectorWithState,
+	render: HandSelectorWithState,
 	args: {},
 	parameters: {
 		docs: {
 			description: {
-				story: 'Try changing the sort order and toggling alphabets to see the component in action.',
+				story: 'Try changing the sort order and toggling hands to see the component in action.',
 			},
 		},
 	},

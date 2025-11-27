@@ -71,7 +71,7 @@ const mockLocation = {
 describe('ShareURLSection', () => {
 	const mockOptions = {
 		mode: 'both',
-		enabledAlphabets: { standard: true },
+		enabledHands: { standard: true },
 		numLetters: true,
 		showBaseline: false,
 	};
@@ -132,7 +132,7 @@ describe('ShareURLSection', () => {
 		it('should generate base URL when options are defaults', () => {
 			const defaultOptions = {
 				mode: 'both',
-				enabledAlphabets: {},
+				enabledHands: {},
 				numLetters: true,
 				showBaseline: false,
 			};

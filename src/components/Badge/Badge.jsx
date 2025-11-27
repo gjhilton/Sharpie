@@ -6,6 +6,7 @@ const Badge = ({ children, testId, onClick }) => {
 	return (
 		<span
 			className={css({
+			border: '1px solid black',
 				display: 'inline-block',
 				padding: '0.25rem 0.75rem',
 				fontSize: 's',

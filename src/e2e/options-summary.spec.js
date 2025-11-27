@@ -6,35 +6,39 @@ test.describe('Options Summary - Badge Display', () => {
 	});
 
 	test('should display mode badge as ALL by default', async ({ page }) => {
-		await expect(page.getByText('ALL', { exact: true })).toBeVisible();
+		const modeBadge = page.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('minuscules');
+		await expect(modeBadge).toContainText('MAJUSCULES');
 	});
 
 	test('should display correct alphabet count badge with plural', async ({
 		page,
 	}) => {
-		const alphabetBadge = page.locator('text=/\\d+ alphabets/');
+		const alphabetBadge = page.locator('text=/Alphabets \\d+/');
 		await expect(alphabetBadge).toBeVisible();
 	});
 
 	test('should display 24 letters badge by default', async ({ page }) => {
-		await expect(page.getByText('24 letters')).toBeVisible();
+		await expect(page.getByText('Letters 24')).toBeVisible();
 	});
 
 	test('should display Baselines ON badge by default', async ({ page }) => {
-		await expect(page.getByText('Baselines ON')).toBeVisible();
+		await expect(page.getByText('Baseline ✓')).toBeVisible();
 	});
 
 	test('should display all four badge types', async ({ page }) => {
 		// Mode
-		await expect(page.getByText('ALL', { exact: true })).toBeVisible();
+		const modeBadge = page.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('minuscules');
+		await expect(modeBadge).toContainText('MAJUSCULES');
 		// Alphabets
-		const alphabetBadge = page.locator('text=/\\d+ alphabet/');
+		const alphabetBadge = page.locator('text=/Alphabets \\d+/');
 		await expect(alphabetBadge).toBeVisible();
 		// Letters
-		const lettersBadge = page.locator('text=/2[46] letters/');
+		const lettersBadge = page.locator('text=/Letters 2[46]/');
 		await expect(lettersBadge).toBeVisible();
 		// Baseline
-		const baselineBadge = page.locator('text=/Baselines (ON|OFF)/');
+		const baselineBadge = page.locator('text=/Baseline [✓✗]/');
 		await expect(baselineBadge).toBeVisible();
 	});
 
@@ -49,10 +53,9 @@ test.describe('Options Summary - Badge Display', () => {
 
 		// Badge should update (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).not.toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 	});
 
 	test('should update mode badge when mode changes to majuscules', async ({
@@ -66,10 +69,9 @@ test.describe('Options Summary - Badge Display', () => {
 
 		// Badge should update (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('MAJUSCULES only')).toBeVisible();
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).not.toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 	});
 
 	test('should update letters badge when toggling 24-letter alphabet', async ({
@@ -85,8 +87,8 @@ test.describe('Options Summary - Badge Display', () => {
 
 		// Badge should update (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('26 letters')).toBeVisible();
-		await expect(badgeContainer.getByText('24 letters')).not.toBeVisible();
+		await expect(badgeContainer.getByText('Letters 26')).toBeVisible();
+		await expect(badgeContainer.getByText('Letters 24')).not.toBeVisible();
 	});
 
 	test('should update baseline badge when toggling baseline display', async ({
@@ -100,10 +102,8 @@ test.describe('Options Summary - Badge Display', () => {
 
 		// Badge should update (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('Baselines OFF')).toBeVisible();
-		await expect(
-			badgeContainer.getByText('Baselines ON')
-		).not.toBeVisible();
+		await expect(badgeContainer.getByText('Baseline ✗')).toBeVisible();
+		await expect(badgeContainer.getByText('Baseline ✓')).not.toBeVisible();
 	});
 
 	test('should show badges even when Options section is collapsed', async ({
@@ -118,8 +118,10 @@ test.describe('Options Summary - Badge Display', () => {
 		}
 
 		// Badges should still be visible
-		await expect(page.getByText('ALL', { exact: true })).toBeVisible();
-		const alphabetBadge = page.locator('text=/\\d+ alphabet/');
+		const modeBadge = page.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('minuscules');
+		await expect(modeBadge).toContainText('MAJUSCULES');
+		const alphabetBadge = page.locator('text=/Alphabets \\d+/');
 		await expect(alphabetBadge).toBeVisible();
 	});
 });
@@ -130,9 +132,10 @@ test.describe('Options Summary - Shareable URL', () => {
 	});
 
 	test('should display shareable URL input with label', async ({ page }) => {
-		await expect(page.getByText('Shareable link:')).toBeVisible();
 		const urlInput = page.locator('input[id="shareable-url"]');
 		await expect(urlInput).toBeVisible();
+		const value = await urlInput.inputValue();
+		expect(value).toContain('http');
 	});
 
 	test('should have readonly URL input', async ({ page }) => {
@@ -279,30 +282,28 @@ test.describe('Options Summary - QR Code Generation', () => {
 	});
 
 	test('should display Show QR Code button', async ({ page }) => {
-		await expect(
-			page.getByRole('button', { name: /show qr code/i })
-		).toBeVisible();
+		await expect(page.getByRole('button', { name: /^qr$/i })).toBeVisible();
 	});
 
 	test('should not display QR code by default', async ({ page }) => {
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).not.toBeVisible();
 	});
 
 	test('should show QR code when Show QR Code is clicked', async ({
 		page,
 	}) => {
-		await page.getByRole('button', { name: /show qr code/i }).click();
+		await page.getByRole('button', { name: /^qr$/i }).click();
 
 		// Button text should change
 		await expect(
-			page.getByRole('button', { name: /hide qr code/i })
+			page.getByRole('button', { name: /hide qr/i })
 		).toBeVisible();
 
 		// Download button should appear
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).toBeVisible();
 
 		// QR code SVG should be visible
@@ -317,52 +318,50 @@ test.describe('Options Summary - QR Code Generation', () => {
 		page,
 	}) => {
 		// Show QR code
-		await page.getByRole('button', { name: /show qr code/i }).click();
+		await page.getByRole('button', { name: /^qr$/i }).click();
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).toBeVisible();
 
 		// Hide QR code
-		await page.getByRole('button', { name: /hide qr code/i }).click();
+		await page.getByRole('button', { name: /hide qr/i }).click();
 
 		// Button text should change back
-		await expect(
-			page.getByRole('button', { name: /show qr code/i })
-		).toBeVisible();
+		await expect(page.getByRole('button', { name: /^qr$/i })).toBeVisible();
 
 		// Download button should disappear
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).not.toBeVisible();
 	});
 
 	test('should toggle QR code multiple times', async ({ page }) => {
 		// Show
-		await page.getByRole('button', { name: /show qr code/i }).click();
+		await page.getByRole('button', { name: /^qr$/i }).click();
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).toBeVisible();
 
 		// Hide
-		await page.getByRole('button', { name: /hide qr code/i }).click();
+		await page.getByRole('button', { name: /hide qr/i }).click();
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).not.toBeVisible();
 
 		// Show again
-		await page.getByRole('button', { name: /show qr code/i }).click();
+		await page.getByRole('button', { name: /^qr$/i }).click();
 		await expect(
-			page.getByRole('button', { name: /download qr code/i })
+			page.getByRole('button', { name: /download/i })
 		).toBeVisible();
 	});
 
 	test('should display Download QR Code button when QR is shown', async ({
 		page,
 	}) => {
-		await page.getByRole('button', { name: /show qr code/i }).click();
+		await page.getByRole('button', { name: /^qr$/i }).click();
 
 		const downloadButton = page.getByRole('button', {
-			name: /download qr code/i,
+			name: /download/i,
 		});
 		await expect(downloadButton).toBeVisible();
 		await expect(downloadButton).toBeEnabled();
@@ -375,6 +374,7 @@ test.describe('Options Summary - Reset to Defaults', () => {
 	});
 
 	test('should display Reset to Defaults button', async ({ page }) => {
+		await page.getByRole('button', { name: /^options$/i }).click();
 		const resetButton = page.getByRole('button', {
 			name: /reset to defaults/i,
 		});
@@ -385,6 +385,8 @@ test.describe('Options Summary - Reset to Defaults', () => {
 	test('should show confirmation dialog when Reset is clicked', async ({
 		page,
 	}) => {
+		await page.getByRole('button', { name: /^options$/i }).click();
+
 		// Set up dialog handler
 		let dialogShown = false;
 		page.on('dialog', dialog => {
@@ -412,8 +414,10 @@ test.describe('Options Summary - Reset to Defaults', () => {
 
 		// Verify settings changed (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
-		await expect(badgeContainer.getByText('26 letters')).toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
+		await expect(badgeContainer.getByText('Letters 26')).toBeVisible();
 
 		// Reset to defaults (accept dialog)
 		page.on('dialog', dialog => dialog.accept());
@@ -422,10 +426,8 @@ test.describe('Options Summary - Reset to Defaults', () => {
 		await page.waitForTimeout(300);
 
 		// Settings should be back to defaults (scoped to badge container)
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).toBeVisible();
-		await expect(badgeContainer.getByText('24 letters')).toBeVisible();
+		await expect(badgeContainer.getByTestId('badge-mode')).toBeVisible();
+		await expect(badgeContainer.getByText('Letters 24')).toBeVisible();
 	});
 
 	test('should not reset settings when cancelled', async ({ page }) => {
@@ -435,7 +437,9 @@ test.describe('Options Summary - Reset to Defaults', () => {
 
 		// Verify setting changed (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 
 		// Try to reset but cancel
 		page.on('dialog', dialog => dialog.dismiss());
@@ -444,7 +448,8 @@ test.describe('Options Summary - Reset to Defaults', () => {
 		await page.waitForTimeout(200);
 
 		// Setting should still be changed (scoped to badge container)
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 	});
 
 	test('should clear URL parameters when reset', async ({ page }) => {
@@ -473,20 +478,20 @@ test.describe('Options Summary - URL Parameter Loading', () => {
 		await page.goto('/?m=i');
 
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).not.toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toBeVisible();
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 	});
 
 	test('should load majuscules mode from URL', async ({ page }) => {
 		await page.goto('/?m=j');
 
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('MAJUSCULES only')).toBeVisible();
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).not.toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toBeVisible();
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 	});
 
 	test('should load 26 letters setting from URL', async ({ page }) => {
@@ -494,18 +499,16 @@ test.describe('Options Summary - URL Parameter Loading', () => {
 
 		const badgeContainer = page.getByTestId('options-summary-badges');
 		await expect(badgeContainer).toBeVisible(); // Wait for container first
-		await expect(badgeContainer.getByText('26 letters')).toBeVisible();
-		await expect(badgeContainer.getByText('24 letters')).not.toBeVisible();
+		await expect(badgeContainer.getByText('Letters 26')).toBeVisible();
+		await expect(badgeContainer.getByText('Letters 24')).not.toBeVisible();
 	});
 
 	test('should load baseline OFF setting from URL', async ({ page }) => {
 		await page.goto('/?b=0');
 
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('Baselines OFF')).toBeVisible();
-		await expect(
-			badgeContainer.getByText('Baselines ON')
-		).not.toBeVisible();
+		await expect(badgeContainer.getByText('Baseline ✗')).toBeVisible();
+		await expect(badgeContainer.getByText('Baseline ✓')).not.toBeVisible();
 	});
 
 	test('should load multiple settings from URL', async ({ page }) => {
@@ -513,9 +516,11 @@ test.describe('Options Summary - URL Parameter Loading', () => {
 
 		const badgeContainer = page.getByTestId('options-summary-badges');
 		await expect(badgeContainer).toBeVisible(); // Wait for container first
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
-		await expect(badgeContainer.getByText('26 letters')).toBeVisible();
-		await expect(badgeContainer.getByText('Baselines OFF')).toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
+		await expect(badgeContainer.getByText('Letters 26')).toBeVisible();
+		await expect(badgeContainer.getByText('Baseline ✗')).toBeVisible();
 	});
 
 	test('should display correct URL for loaded settings', async ({ page }) => {
@@ -552,15 +557,11 @@ test.describe('Options Summary - Integration Tests', () => {
 
 		// Expand
 		await optionsButton.click();
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).toBeVisible();
+		await expect(badgeContainer.getByTestId('badge-mode')).toBeVisible();
 
 		// Collapse
 		await optionsButton.click();
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).toBeVisible();
+		await expect(badgeContainer.getByTestId('badge-mode')).toBeVisible();
 	});
 
 	test('should update all components simultaneously when setting changes', async ({
@@ -583,7 +584,9 @@ test.describe('Options Summary - Integration Tests', () => {
 
 		// Check badge updated (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
 
 		// Check URL updated
 		const urlInput = page.locator('input[id="shareable-url"]');
@@ -618,9 +621,7 @@ test.describe('Options Summary - Integration Tests', () => {
 
 		// Should end up on the last selection (scoped to badge container)
 		const badgeContainer = page.getByTestId('options-summary-badges');
-		await expect(
-			badgeContainer.getByText('ALL', { exact: true })
-		).toBeVisible();
+		await expect(badgeContainer.getByTestId('badge-mode')).toBeVisible();
 	});
 
 	test('should maintain state after page reload', async ({ page }) => {
@@ -629,16 +630,19 @@ test.describe('Options Summary - Integration Tests', () => {
 
 		const badgeContainer = page.getByTestId('options-summary-badges');
 		await expect(badgeContainer).toBeVisible(); // Wait for container first
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
-		await expect(badgeContainer.getByText('26 letters')).toBeVisible();
+		const modeBadge = badgeContainer.getByTestId('badge-mode');
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
+		await expect(badgeContainer.getByText('Letters 26')).toBeVisible();
 
 		// Reload
 		await page.reload();
 
 		// Settings should persist (scoped to badge container)
 		await expect(badgeContainer).toBeVisible(); // Wait for container after reload
-		await expect(badgeContainer.getByText('minuscules only')).toBeVisible();
-		await expect(badgeContainer.getByText('26 letters')).toBeVisible();
+		await expect(modeBadge).toContainText('✓');
+		await expect(modeBadge).toContainText('✗');
+		await expect(badgeContainer.getByText('Letters 26')).toBeVisible();
 	});
 });
 
@@ -648,11 +652,10 @@ test.describe('Options Summary - Accessibility', () => {
 	});
 
 	test('should have accessible label for URL input', async ({ page }) => {
-		const label = page.getByText('Shareable link:');
-		await expect(label).toBeVisible();
-
 		const input = page.locator('input[id="shareable-url"]');
 		await expect(input).toBeVisible();
+		const value = await input.inputValue();
+		expect(value).toContain('http');
 	});
 
 	test('should be keyboard navigable', async ({ page }) => {

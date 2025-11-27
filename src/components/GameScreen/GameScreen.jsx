@@ -14,7 +14,7 @@ const GameScreen = () => {
 
 	const {
 		mode: gameMode,
-		twentyFourLetterAlphabet = false,
+		numLetters: twentyFourLetterAlphabet = false,
 		showBaseline = false,
 		enabledAlphabets = null,
 	} = options;

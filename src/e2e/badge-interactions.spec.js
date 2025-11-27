@@ -131,7 +131,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 		test('should toggle from 24 to 26 letters when clicked', async ({
 			page,
 		}) => {
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 
 			// Wait for badge to be visible and ready
 			await lettersBadge.waitFor({ state: 'visible' });
@@ -159,7 +159,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			// Set initial state to 26 letters
 			await page.goto('/?l=f');
 
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 			await lettersBadge.waitFor({ state: 'visible' });
 			await expect(lettersBadge).toContainText('26');
 
@@ -176,7 +176,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 		});
 
 		test('should toggle multiple times correctly', async ({ page }) => {
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 			await lettersBadge.waitFor({ state: 'visible' });
 
 			// Toggle to 26
@@ -203,7 +203,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 		test('should update URL when letters badge is clicked', async ({
 			page,
 		}) => {
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 			const urlInput = page.locator('input[id="shareable-url"]');
 
 			await lettersBadge.waitFor({ state: 'visible' });
@@ -360,7 +360,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 		test('should activate letters badge with Enter key', async ({
 			page,
 		}) => {
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 
 			await lettersBadge.waitFor({ state: 'visible' });
 			await lettersBadge.scrollIntoViewIfNeeded();
@@ -431,7 +431,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			page,
 		}) => {
 			const modeBadge = page.getByTestId('badge-mode');
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 			const baselineBadge = page.getByTestId('badge-showBaseline');
 
 			// Click mode badge
@@ -474,7 +474,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			page,
 		}) => {
 			const modeBadge = page.getByTestId('badge-mode');
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 			const urlInput = page.locator('input[id="shareable-url"]');
 
 			await modeBadge.click();
@@ -495,7 +495,7 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			page,
 		}) => {
 			const modeBadge = page.getByTestId('badge-mode');
-			const lettersBadge = page.getByTestId('badge-letters');
+			const lettersBadge = page.getByTestId('badge-numLetters');
 
 			// Make changes via badges
 			await modeBadge.click();

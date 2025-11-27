@@ -15,8 +15,8 @@ describe('serializeValue', () => {
 	});
 
 	it('should serialize boolean values', () => {
-		expect(serializeValue('twentyFourLetter', true)).toBe('1');
-		expect(serializeValue('twentyFourLetter', false)).toBe('0');
+		expect(serializeValue('numLetters', true)).toBe('1');
+		expect(serializeValue('numLetters', false)).toBe('0');
 		expect(serializeValue('showBaseline', true)).toBe('1');
 		expect(serializeValue('showBaseline', false)).toBe('0');
 	});
@@ -46,8 +46,8 @@ describe('deserializeValue', () => {
 	});
 
 	it('should deserialize boolean values', () => {
-		expect(deserializeValue('twentyFourLetter', '1')).toBe(true);
-		expect(deserializeValue('twentyFourLetter', '0')).toBe(false);
+		expect(deserializeValue('numLetters', '1')).toBe(true);
+		expect(deserializeValue('numLetters', '0')).toBe(false);
 		expect(deserializeValue('showBaseline', '1')).toBe(true);
 		expect(deserializeValue('showBaseline', '0')).toBe(false);
 	});
@@ -85,7 +85,7 @@ describe('deserializeOptions', () => {
 		});
 
 		expect(result.mode).toBe('minuscule');
-		expect(result.twentyFourLetterAlphabet).toBe(true);
+		expect(result.numLetters).toBe(true);
 		expect(result.showBaseline).toBe(false);
 		expect(typeof result.enabledAlphabets).toBe('object');
 		expect(result.enabledAlphabets['BeauChesne-Baildon']).toBe(true);
@@ -96,7 +96,7 @@ describe('deserializeOptions', () => {
 		const result = deserializeOptions({});
 
 		expect(result.mode).toBe('all');
-		expect(result.twentyFourLetterAlphabet).toBe(true);
+		expect(result.numLetters).toBe(true);
 		expect(result.showBaseline).toBe(true);
 		expect(typeof result.enabledAlphabets).toBe('object');
 		expect(Object.keys(result.enabledAlphabets).length).toBeGreaterThan(0);
@@ -107,7 +107,7 @@ describe('serializeOptions', () => {
 	it('should serialize non-default options', () => {
 		const result = serializeOptions({
 			mode: 'minuscule',
-			twentyFourLetterAlphabet: false,
+			numLetters: false,
 		});
 
 		expect(result.m).toBe('i');
@@ -118,7 +118,7 @@ describe('serializeOptions', () => {
 		const result = serializeOptions({
 			mode: 'all',
 			showBaseline: true,
-			twentyFourLetterAlphabet: true,
+			numLetters: true,
 		});
 
 		expect(result.m).toBeUndefined();

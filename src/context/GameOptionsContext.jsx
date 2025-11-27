@@ -4,7 +4,7 @@
 
 import { createContext, useContext, useMemo, useCallback } from 'react';
 import { useSearch, useNavigate } from '@tanstack/react-router';
-import { deserializeOptions, serializeOption } from '@lib/options/index.js';
+import { deserializeOptions, serializeOption, getOptionByKey, OPTIONS } from '@lib/options/index.js';
 
 const GameOptionsContext = createContext(null);
 
@@ -15,8 +15,24 @@ export const GameOptionsProvider = ({ children }) => {
 	const options = useMemo(() => deserializeOptions(search), [search]);
 
 	const updateOption = useCallback((key, value) => {
+		// Key can be either the schema key (e.g., 'alphabets') or option.key (e.g., 'enabledAlphabets')
+		// First check if it's a schema key
+		let schemaKey = key;
+		if (!OPTIONS[key]) {
+			// Not a schema key, try finding by option.key
+			const optionConfig = getOptionByKey(key);
+			if (!optionConfig) {
+				console.warn(`updateOption called with unknown key: ${key}`);
+				return;
+			}
+			// Find the schema key
+			schemaKey = Object.keys(OPTIONS).find(
+				k => OPTIONS[k] === optionConfig
+			);
+		}
+
 		navigate({
-			search: prev => ({ ...prev, ...serializeOption(key, value) }),
+			search: prev => ({ ...prev, ...serializeOption(schemaKey, value) }),
 			replace: true,
 		});
 	}, [navigate]);

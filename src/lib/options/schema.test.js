@@ -23,12 +23,12 @@ describe('OPTIONS schema', () => {
 		expect(OPTIONS.alphabets.urlParam).toBe('a');
 	});
 
-	it('should define twentyFourLetter option', () => {
-		expect(OPTIONS.twentyFourLetter).toBeDefined();
-		expect(OPTIONS.twentyFourLetter.key).toBe('twentyFourLetterAlphabet');
-		expect(OPTIONS.twentyFourLetter.type).toBe('boolean');
-		expect(OPTIONS.twentyFourLetter.urlParam).toBe('l');
-		expect(OPTIONS.twentyFourLetter.default).toBe(true);
+	it('should define numLetters option', () => {
+		expect(OPTIONS.numLetters).toBeDefined();
+		expect(OPTIONS.numLetters.key).toBe('numLetters');
+		expect(OPTIONS.numLetters.type).toBe('boolean');
+		expect(OPTIONS.numLetters.urlParam).toBe('l');
+		expect(OPTIONS.numLetters.default).toBe(true);
 	});
 
 	it('should define showBaseline option', () => {
@@ -44,9 +44,7 @@ describe('getOptionByKey', () => {
 	it('should find option by key', () => {
 		expect(getOptionByKey('mode')).toBe(OPTIONS.mode);
 		expect(getOptionByKey('enabledAlphabets')).toBe(OPTIONS.alphabets);
-		expect(getOptionByKey('twentyFourLetterAlphabet')).toBe(
-			OPTIONS.twentyFourLetter
-		);
+		expect(getOptionByKey('numLetters')).toBe(OPTIONS.numLetters);
 		expect(getOptionByKey('showBaseline')).toBe(OPTIONS.showBaseline);
 	});
 
@@ -59,7 +57,7 @@ describe('getOptionByUrlParam', () => {
 	it('should find option by URL param', () => {
 		expect(getOptionByUrlParam('m')).toBe(OPTIONS.mode);
 		expect(getOptionByUrlParam('a')).toBe(OPTIONS.alphabets);
-		expect(getOptionByUrlParam('l')).toBe(OPTIONS.twentyFourLetter);
+		expect(getOptionByUrlParam('l')).toBe(OPTIONS.numLetters);
 		expect(getOptionByUrlParam('b')).toBe(OPTIONS.showBaseline);
 	});
 

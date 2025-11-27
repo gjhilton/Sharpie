@@ -100,8 +100,8 @@ describe('OptionsSection', () => {
 		gameModeOptions: GAME_MODE_OPTIONS,
 		selectedMode: GAME_MODES.ALL,
 		onModeChange: vi.fn(),
-		twentyFourLetterAlphabet: false,
-		onTwentyFourLetterChange: vi.fn(),
+		numLetters: false,
+		onNumLettersChange: vi.fn(),
 		showBaseline: false,
 		onShowBaselineChange: vi.fn(),
 		characterCount: 80,
@@ -191,15 +191,15 @@ describe('OptionsSection', () => {
 		expect(screen.getByLabelText('24-letter alphabet')).toBeInTheDocument();
 	});
 
-	it('calls onTwentyFourLetterChange when alphabet toggle is clicked', async () => {
-		const onTwentyFourLetterChange = vi.fn();
+	it('calls onNumLettersChange when alphabet toggle is clicked', async () => {
+		const onNumLettersChange = vi.fn();
 		const user = userEvent.setup();
 
-		render(<OptionsSection {...defaultProps} onTwentyFourLetterChange={onTwentyFourLetterChange} />);
+		render(<OptionsSection {...defaultProps} onNumLettersChange={onNumLettersChange} />);
 
 		await user.click(screen.getByLabelText('24-letter alphabet'));
 
-		expect(onTwentyFourLetterChange).toHaveBeenCalledWith(true);
+		expect(onNumLettersChange).toHaveBeenCalledWith(true);
 	});
 
 	it('renders BaselineExamples component', () => {

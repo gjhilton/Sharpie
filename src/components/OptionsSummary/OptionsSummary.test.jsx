@@ -3,6 +3,12 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OptionsSummary from './OptionsSummary';
 
+// Mock TanStack Router
+const mockNavigate = vi.fn();
+vi.mock('@tanstack/react-router', () => ({
+	useNavigate: () => mockNavigate,
+}));
+
 // Mock the GameOptionsContext
 const mockResetOptions = vi.fn();
 const mockToggleOption = vi.fn();
@@ -19,14 +25,13 @@ describe('OptionsSummary', () => {
 	const defaultOptions = {
 		mode: 'all',
 		enabledAlphabets: { 'BeauChesne-Baildon': true, Hill: true },
-		twentyFourLetterAlphabet: true,
+		numLetters: true,
 		showBaseline: true,
 	};
 
 	const defaultProps = {
 		options: defaultOptions,
 		alphabetCount: 2,
-		onShowCatalogue: vi.fn(),
 	};
 
 	describe('Badge rendering', () => {
@@ -60,39 +65,39 @@ describe('OptionsSummary', () => {
 
 		it('should render alphabet count badge with plural', () => {
 			render(<OptionsSummary {...defaultProps} />);
-			const badge = screen.getByTestId('badge-alphabets');
+			const badge = screen.getByTestId('badge-enabledAlphabets');
 			expect(badge).toHaveTextContent('Alphabets');
 			expect(badge).toHaveTextContent('2');
 		});
 
 		it('should render alphabet count badge with singular', () => {
 			render(<OptionsSummary {...defaultProps} alphabetCount={1} />);
-			const badge = screen.getByTestId('badge-alphabets');
+			const badge = screen.getByTestId('badge-enabledAlphabets');
 			expect(badge).toHaveTextContent('Alphabets');
 			expect(badge).toHaveTextContent('1');
 		});
 
-		it('should render 24 letters badge when twentyFourLetterAlphabet is true', () => {
+		it('should render 24 letters badge when numLetters is true', () => {
 			render(<OptionsSummary {...defaultProps} />);
-			const badge = screen.getByTestId('badge-letters');
+			const badge = screen.getByTestId('badge-numLetters');
 			expect(badge).toHaveTextContent('Letters');
 			expect(badge).toHaveTextContent('24');
 		});
 
-		it('should render 26 letters badge when twentyFourLetterAlphabet is false', () => {
+		it('should render 26 letters badge when numLetters is false', () => {
 			const options = {
 				...defaultOptions,
-				twentyFourLetterAlphabet: false,
+				numLetters: false,
 			};
 			render(<OptionsSummary {...defaultProps} options={options} />);
-			const badge = screen.getByTestId('badge-letters');
+			const badge = screen.getByTestId('badge-numLetters');
 			expect(badge).toHaveTextContent('Letters');
 			expect(badge).toHaveTextContent('26');
 		});
 
 		it('should render Baseline with tick when showBaseline is true', () => {
 			render(<OptionsSummary {...defaultProps} />);
-			const badge = screen.getByTestId('badge-baseline');
+			const badge = screen.getByTestId('badge-showBaseline');
 			expect(badge).toHaveTextContent('Baseline');
 			expect(badge).toHaveTextContent('✓');
 		});
@@ -100,7 +105,7 @@ describe('OptionsSummary', () => {
 		it('should render Baseline with cross when showBaseline is false', () => {
 			const options = { ...defaultOptions, showBaseline: false };
 			render(<OptionsSummary {...defaultProps} options={options} />);
-			const badge = screen.getByTestId('badge-baseline');
+			const badge = screen.getByTestId('badge-showBaseline');
 			expect(badge).toHaveTextContent('Baseline');
 			expect(badge).toHaveTextContent('✗');
 		});

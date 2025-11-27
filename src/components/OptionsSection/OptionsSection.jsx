@@ -16,8 +16,8 @@ const OptionsSection = ({
 	gameModeOptions,
 	selectedMode,
 	onModeChange,
-	twentyFourLetterAlphabet,
-	onTwentyFourLetterChange,
+	numLetters,
+	onNumLettersChange,
 	showBaseline,
 	onShowBaselineChange,
 	characterCount,
@@ -105,10 +105,10 @@ const OptionsSection = ({
 				placeholders={{
 					ALPHABET_TOGGLE: (
 						<Toggle
-							id="twenty-four-letter-alphabet"
+							id="num-letters"
 							label="24-letter alphabet"
-							checked={twentyFourLetterAlphabet}
-							onChange={onTwentyFourLetterChange}
+							checked={numLetters}
+							onChange={onNumLettersChange}
 						/>
 					),
 				}}

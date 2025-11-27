@@ -32,7 +32,7 @@ export const getDefaults = () => {
 	return {
 		mode: OPTIONS.mode.default,
 		enabledAlphabets: getDefaultEnabledAlphabets(),
-		twentyFourLetterAlphabet: OPTIONS.twentyFourLetter.default,
+		numLetters: OPTIONS.numLetters.default,
 		showBaseline: OPTIONS.showBaseline.default,
 	};
 };

@@ -30,8 +30,8 @@ const LandingScreen = () => {
 	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
 
 	const handleModeChange = e => updateOption('mode', e.target.value);
-	const handleTwentyFourLetterChange = checked =>
-		updateOption('twentyFourLetter', checked);
+	const handleNumLettersChange = checked =>
+		updateOption('numLetters', checked);
 	const handleShowBaselineChange = checked =>
 		updateOption('showBaseline', checked);
 
@@ -56,7 +56,6 @@ const LandingScreen = () => {
 								alphabetCount={countEnabledAlphabets(
 									options.enabledAlphabets
 								)}
-								onShowCatalogue={handleShowCatalogue}
 							/>
 						}
 					>
@@ -64,8 +63,8 @@ const LandingScreen = () => {
 							gameModeOptions={GAME_MODE_OPTIONS}
 							selectedMode={options.mode}
 							onModeChange={handleModeChange}
-							twentyFourLetterAlphabet={options.twentyFourLetterAlphabet}
-							onTwentyFourLetterChange={handleTwentyFourLetterChange}
+							numLetters={options.numLetters}
+							onNumLettersChange={handleNumLettersChange}
 							showBaseline={options.showBaseline}
 							onShowBaselineChange={handleShowBaselineChange}
 							characterCount={countEnabledCharacters(

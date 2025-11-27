@@ -1,7 +1,9 @@
 import { useState, useRef } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
+import { useNavigate } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
 import { serializeOptions } from '@lib/options/serializer.js';
+import { OPTIONS } from '@lib/options/schema.js';
 import InputWithButton from '@components/InputWithButton/InputWithButton.jsx';
 import Badge from '@components/Badge/Badge.jsx';
 import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
@@ -10,8 +12,9 @@ const Strong = ({ children }) => (
 	<span style={{ fontWeight: 'bold' }}>{children}</span>
 );
 
-const OptionsSummary = ({ options, alphabetCount, onShowCatalogue }) => {
+const OptionsSummary = ({ options, alphabetCount }) => {
 	const { toggleOption, cycleMode } = useGameOptionsContext();
+	const navigate = useNavigate();
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const qrRef = useRef(null);
@@ -27,54 +30,50 @@ const OptionsSummary = ({ options, alphabetCount, onShowCatalogue }) => {
 
 	const shareableURL = generateURL();
 
-	// Generate badge data
-	const badges = [
-		{
-			id: 'mode',
-			label:
-				options.mode === 'all' ? (
-					<>
-						minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✓</Strong>
-					</>
-				) : options.mode === 'minuscule' ? (
-					<>
-						minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✗</Strong>
-					</>
-				) : (
-					<>
-						minuscules <Strong>✗</Strong> MAJUSCULES <Strong>✓</Strong>
-					</>
-				),
-			onClick: cycleMode,
-		},
-		{
-			id: 'alphabets',
-			label: (
-				<>
-					Alphabets <Strong>{alphabetCount}</Strong>
-				</>
-			),
-			onClick: onShowCatalogue,
-		},
-		{
-			id: 'letters',
-			label: options.twentyFourLetterAlphabet ? (
-				<>Letters <Strong>24</Strong></>
-			) : (
-				<>Letters <Strong>26</Strong></>
-			),
-			onClick: () => toggleOption('twentyFourLetterAlphabet'),
-		},
-		{
-			id: 'baseline',
-			label: options.showBaseline ? (
-				<>Baseline <Strong>✓</Strong></>
-			) : (
-				<>Baseline <Strong>✗</Strong></>
-			),
-			onClick: () => toggleOption('showBaseline'),
-		},
-	];
+	// Helper to render badge label from schema
+	const renderBadgeLabel = (labelData) => {
+		const parts = [];
+
+		if (labelData.text) parts.push(labelData.text);
+		if (labelData.icon) parts.push(<Strong key="icon1">{labelData.icon}</Strong>);
+		if (labelData.value) parts.push(<Strong key="value">{labelData.value}</Strong>);
+		if (labelData.text2) parts.push(labelData.text2);
+		if (labelData.icon2) parts.push(<Strong key="icon2">{labelData.icon2}</Strong>);
+
+		return parts.length > 0 ? (
+			<>
+				{parts.map((part, idx) => (
+					<span key={idx}>{typeof part === 'string' ? part + ' ' : part}</span>
+				))}
+			</>
+		) : null;
+	};
+
+	// Generate badges from schema
+	const badges = Object.values(OPTIONS)
+		.filter(option => option.badge)
+		.sort((a, b) => a.badge.order - b.badge.order)
+		.map(option => {
+			const value = options[option.key];
+			const context = { alphabetCount };
+			const labelData = option.badge.renderLabel(value, context);
+
+			// Determine onClick handler based on action type
+			let onClick;
+			if (option.badge.action === 'toggle') {
+				onClick = () => toggleOption(option.key);
+			} else if (option.badge.action === 'cycle') {
+				onClick = cycleMode;
+			} else if (option.badge.action === 'navigate') {
+				onClick = () => navigate({ to: option.badge.navigationPath, search: prev => prev });
+			}
+
+			return {
+				id: option.key,
+				label: renderBadgeLabel(labelData),
+				onClick,
+			};
+		});
 
 	// Copy to clipboard
 	const handleCopy = async () => {

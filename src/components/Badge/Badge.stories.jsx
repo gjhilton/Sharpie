@@ -1,4 +1,9 @@
+import { fn } from '@storybook/test';
 import Badge from './Badge';
+
+const Strong = ({ children }) => (
+	<span style={{ fontWeight: 'bold' }}>{children}</span>
+);
 
 export default {
 	title: 'Components/Badge',
@@ -13,6 +18,13 @@ export default {
 			control: 'text',
 			description: 'Optional test ID for the badge',
 		},
+		onClick: {
+			description: 'Optional click handler - makes the badge interactive',
+			action: 'clicked',
+		},
+	},
+	args: {
+		onClick: fn(),
 	},
 };
 
@@ -27,15 +39,21 @@ export const Default = {
 export const ModeBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>ALL</Badge>
-			<Badge>minuscules only</Badge>
-			<Badge>MAJUSCULES only</Badge>
+			<Badge>
+				minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✓</Strong>
+			</Badge>
+			<Badge>
+				minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✗</Strong>
+			</Badge>
+			<Badge>
+				minuscules <Strong>✗</Strong> MAJUSCULES <Strong>✓</Strong>
+			</Badge>
 		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Different mode badge variations used in OptionsSummary',
+				story: 'Different mode badge variations used in OptionsSummary. Shows which letter types are active.',
 			},
 		},
 	},
@@ -45,16 +63,16 @@ export const ModeBadges = {
 export const AlphabetCountBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>1 alphabet</Badge>
-			<Badge>2 alphabets</Badge>
-			<Badge>3 alphabets</Badge>
-			<Badge>5 alphabets</Badge>
+			<Badge>Alphabets <Strong>1</Strong></Badge>
+			<Badge>Alphabets <Strong>2</Strong></Badge>
+			<Badge>Alphabets <Strong>3</Strong></Badge>
+			<Badge>Alphabets <Strong>5</Strong></Badge>
 		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Badges showing alphabet counts',
+				story: 'Badges showing alphabet counts with bold numbers',
 			},
 		},
 	},
@@ -64,14 +82,14 @@ export const AlphabetCountBadges = {
 export const LetterCountBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>24 letters</Badge>
-			<Badge>26 letters</Badge>
+			<Badge>Letters <Strong>24</Strong></Badge>
+			<Badge>Letters <Strong>26</Strong></Badge>
 		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Badges showing letter counts (with or without J and V)',
+				story: 'Badges showing letter counts (24 without J and V, 26 with all letters)',
 			},
 		},
 	},
@@ -81,14 +99,14 @@ export const LetterCountBadges = {
 export const ToggleStateBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>Baselines ON</Badge>
-			<Badge>Baselines OFF</Badge>
+			<Badge>Baseline <Strong>✓</Strong></Badge>
+			<Badge>Baseline <Strong>✗</Strong></Badge>
 		</div>
 	),
 	parameters: {
 		docs: {
 			description: {
-				story: 'Badges showing toggle states',
+				story: 'Badges showing toggle states with bold icons',
 			},
 		},
 	},
@@ -134,10 +152,10 @@ export const LongTextBadge = {
 export const BadgeGroup = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge testId="badge-mode">ALL</Badge>
-			<Badge testId="badge-alphabets">3 alphabets</Badge>
-			<Badge testId="badge-letters">26 letters</Badge>
-			<Badge testId="badge-baseline">Baselines ON</Badge>
+			<Badge testId="badge-mode">minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✓</Strong></Badge>
+			<Badge testId="badge-alphabets">Alphabets <Strong>3</Strong></Badge>
+			<Badge testId="badge-letters">Letters <Strong>26</Strong></Badge>
+			<Badge testId="badge-baseline">Baseline <Strong>✓</Strong></Badge>
 		</div>
 	),
 	parameters: {
@@ -172,6 +190,57 @@ export const EmptyBadge = {
 		docs: {
 			description: {
 				story: 'Badge with no content (edge case)',
+			},
+		},
+	},
+};
+
+// Story: Interactive Badge
+export const InteractiveBadge = {
+	args: {
+		children: 'Click me',
+		onClick: fn(),
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Badge with onClick handler - becomes interactive with hover and active states. Click to see the action logged.',
+			},
+		},
+	},
+};
+
+// Story: Clickable vs Non-Clickable
+export const ClickableComparison = {
+	render: () => (
+		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+			<Badge>Non-clickable</Badge>
+			<Badge onClick={fn()}>Clickable</Badge>
+		</div>
+	),
+	parameters: {
+		docs: {
+			description: {
+				story: 'Comparison of non-clickable badge (no onClick) and clickable badge (with onClick). Clickable badges show hover effects.',
+			},
+		},
+	},
+};
+
+// Story: Interactive Toggle Example
+export const InteractiveToggleExample = {
+	render: () => {
+		const [enabled, setEnabled] = fn();
+		return (
+			<Badge onClick={() => setEnabled(!enabled)}>
+				Option <Strong>{enabled ? '✓' : '✗'}</Strong>
+			</Badge>
+		);
+	},
+	parameters: {
+		docs: {
+			description: {
+				story: 'Example of a toggle-style interactive badge, like those used for boolean options in OptionsSummary.',
 			},
 		},
 	},

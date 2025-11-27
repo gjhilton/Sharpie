@@ -138,10 +138,10 @@ export const deserializeOptions = searchParams => {
 			searchParams.a !== undefined
 				? deserializeValue('alphabets', searchParams.a)
 				: defaults.enabledAlphabets,
-		twentyFourLetterAlphabet:
+		numLetters:
 			searchParams.l !== undefined
-				? deserializeValue('twentyFourLetter', searchParams.l)
-				: defaults.twentyFourLetterAlphabet,
+				? deserializeValue('numLetters', searchParams.l)
+				: defaults.numLetters,
 		showBaseline:
 			searchParams.b !== undefined
 				? deserializeValue('showBaseline', searchParams.b)
@@ -164,13 +164,10 @@ export const serializeOptions = options => {
 			serializeOption('alphabets', options.enabledAlphabets)
 		);
 	}
-	if (options.twentyFourLetterAlphabet !== undefined) {
+	if (options.numLetters !== undefined) {
 		Object.assign(
 			params,
-			serializeOption(
-				'twentyFourLetter',
-				options.twentyFourLetterAlphabet
-			)
+			serializeOption('numLetters', options.numLetters)
 		);
 	}
 	if (options.showBaseline !== undefined) {

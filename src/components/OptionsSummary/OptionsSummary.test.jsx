@@ -111,84 +111,48 @@ describe('OptionsSummary', () => {
 		});
 	});
 
-	describe('URL display', () => {
-		it('should display shareable URL input', () => {
-			render(<OptionsSummary {...defaultProps} />);
-			const input = screen.getByRole('textbox');
-			expect(input).toBeInTheDocument();
-			expect(input).toHaveAttribute('readonly');
-		});
-
-		it('should generate URL containing origin', () => {
-			render(<OptionsSummary {...defaultProps} />);
-			const input = screen.getByRole('textbox');
-			expect(input.value).toContain(window.location.origin);
-		});
-	});
-
-	describe('Button rendering', () => {
-		it('should render Copy button', () => {
-			render(<OptionsSummary {...defaultProps} />);
-			expect(
-				screen.getByRole('button', { name: /copy/i })
-			).toBeInTheDocument();
-		});
-
-		it('should render QR button', () => {
-			render(<OptionsSummary {...defaultProps} />);
-			expect(
-				screen.getByRole('button', { name: /^qr$/i })
-			).toBeInTheDocument();
-		});
-
-	});
-
-	describe('QR Code toggle', () => {
-		it('should not show QR code by default', () => {
-			render(<OptionsSummary {...defaultProps} />);
-			expect(
-				screen.queryByRole('button', { name: /download qr code/i })
-			).not.toBeInTheDocument();
-		});
-
-		it('should toggle QR code display when button is clicked', async () => {
+	describe('Badge interactions', () => {
+		it('should call toggleOption when numLetters badge is clicked', async () => {
 			const user = userEvent.setup();
 			render(<OptionsSummary {...defaultProps} />);
 
-			const toggleButton = screen.getByRole('button', {
-				name: /^qr$/i,
+			const badge = screen.getByTestId('badge-numLetters');
+			await user.click(badge);
+
+			expect(mockToggleOption).toHaveBeenCalledWith('numLetters');
+		});
+
+		it('should call toggleOption when showBaseline badge is clicked', async () => {
+			const user = userEvent.setup();
+			render(<OptionsSummary {...defaultProps} />);
+
+			const badge = screen.getByTestId('badge-showBaseline');
+			await user.click(badge);
+
+			expect(mockToggleOption).toHaveBeenCalledWith('showBaseline');
+		});
+
+		it('should call cycleMode when mode badge is clicked', async () => {
+			const user = userEvent.setup();
+			render(<OptionsSummary {...defaultProps} />);
+
+			const badge = screen.getByTestId('badge-mode');
+			await user.click(badge);
+
+			expect(mockCycleMode).toHaveBeenCalled();
+		});
+
+		it('should navigate to catalogue when alphabets badge is clicked', async () => {
+			const user = userEvent.setup();
+			render(<OptionsSummary {...defaultProps} />);
+
+			const badge = screen.getByTestId('badge-enabledAlphabets');
+			await user.click(badge);
+
+			expect(mockNavigate).toHaveBeenCalledWith({
+				to: '/catalogue',
+				search: expect.any(Function),
 			});
-			await user.click(toggleButton);
-
-			expect(
-				screen.getByRole('button', { name: /^hide qr$/i })
-			).toBeInTheDocument();
-			expect(
-				screen.getByRole('button', { name: /download qr code/i })
-			).toBeInTheDocument();
-		});
-	});
-
-	describe('Copy functionality', () => {
-		it('should show success feedback after copying', async () => {
-			const user = userEvent.setup();
-			render(<OptionsSummary {...defaultProps} />);
-
-			const copyButton = screen.getByRole('button', { name: /copy/i });
-			await user.click(copyButton);
-
-			expect(
-				screen.getByRole('button', { name: /copied/i })
-			).toBeInTheDocument();
-		});
-	});
-
-	describe('Accessibility', () => {
-		it('should have accessible URL input with id', () => {
-			render(<OptionsSummary {...defaultProps} />);
-			const input = screen.getByRole('textbox');
-			expect(input).toBeInTheDocument();
-			expect(input).toHaveAttribute('id', 'shareable-url');
 		});
 	});
 });

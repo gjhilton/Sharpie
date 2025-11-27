@@ -116,12 +116,15 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			page,
 		}) => {
 			const modeBadge = page.getByTestId('badge-mode');
-			const urlInput = page.locator('input[id="shareable-url"]');
 
 			// Click to cycle to minuscule
 			await modeBadge.click();
 			await page.waitForTimeout(200);
 
+			// Expand Options to see URL
+			await page.getByRole('button', { name: /^options$/i }).click();
+
+			const urlInput = page.locator('input[id="shareable-url"]');
 			const url = await urlInput.inputValue();
 			expect(url).toContain('m=');
 		});
@@ -204,7 +207,6 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			page,
 		}) => {
 			const lettersBadge = page.getByTestId('badge-numLetters');
-			const urlInput = page.locator('input[id="shareable-url"]');
 
 			await lettersBadge.waitFor({ state: 'visible' });
 			await lettersBadge.scrollIntoViewIfNeeded();
@@ -214,6 +216,10 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			await lettersBadge.dispatchEvent('click');
 			await page.waitForTimeout(800);
 
+			// Expand Options to see URL
+			await page.getByRole('button', { name: /^options$/i }).click();
+
+			const urlInput = page.locator('input[id="shareable-url"]');
 			const url = await urlInput.inputValue();
 			expect(url).toContain('l=');
 		});
@@ -276,12 +282,15 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			page,
 		}) => {
 			const baselineBadge = page.getByTestId('badge-showBaseline');
-			const urlInput = page.locator('input[id="shareable-url"]');
 
 			// Click to toggle
 			await baselineBadge.click();
 			await page.waitForTimeout(200);
 
+			// Expand Options to see URL
+			await page.getByRole('button', { name: /^options$/i }).click();
+
+			const urlInput = page.locator('input[id="shareable-url"]');
 			const url = await urlInput.inputValue();
 			expect(url).toContain('b=');
 		});
@@ -475,7 +484,6 @@ test.describe('Badge Interactions - Click Functionality', () => {
 		}) => {
 			const modeBadge = page.getByTestId('badge-mode');
 			const lettersBadge = page.getByTestId('badge-numLetters');
-			const urlInput = page.locator('input[id="shareable-url"]');
 
 			await modeBadge.click();
 			await page.waitForTimeout(300);
@@ -486,6 +494,10 @@ test.describe('Badge Interactions - Click Functionality', () => {
 			await lettersBadge.dispatchEvent('click');
 			await page.waitForTimeout(800);
 
+			// Expand Options to see URL
+			await page.getByRole('button', { name: /^options$/i }).click();
+
+			const urlInput = page.locator('input[id="shareable-url"]');
 			const url = await urlInput.inputValue();
 			expect(url).toContain('m=');
 			expect(url).toContain('l=');

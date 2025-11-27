@@ -95,7 +95,22 @@ vi.mock('@data/baselines.md?raw', () => ({
 	default: 'Baselines content',
 }));
 
+vi.mock('@components/ShareURLSection/ShareURLSection.jsx', () => ({
+	default: () => <div data-testid="share-url-section">Share URL Section</div>,
+}));
+
+vi.mock('@components/ResetOptionsSection/ResetOptionsSection.jsx', () => ({
+	default: () => <div data-testid="reset-options-section">Reset Options Section</div>,
+}));
+
 describe('OptionsSection', () => {
+	const defaultOptions = {
+		mode: GAME_MODES.ALL,
+		enabledAlphabets: { standard: true },
+		numLetters: false,
+		showBaseline: false,
+	};
+
 	const defaultProps = {
 		gameModeOptions: GAME_MODE_OPTIONS,
 		selectedMode: GAME_MODES.ALL,
@@ -107,6 +122,7 @@ describe('OptionsSection', () => {
 		characterCount: 80,
 		alphabetCount: 3,
 		onShowCatalogue: vi.fn(),
+		options: defaultOptions,
 	};
 
 	it('renders all subsections', () => {
@@ -206,5 +222,17 @@ describe('OptionsSection', () => {
 		render(<OptionsSection {...defaultProps} />);
 
 		expect(screen.getByTestId('baseline-examples')).toBeInTheDocument();
+	});
+
+	it('renders ShareURLSection', () => {
+		render(<OptionsSection {...defaultProps} />);
+
+		expect(screen.getByTestId('share-url-section')).toBeInTheDocument();
+	});
+
+	it('renders ResetOptionsSection', () => {
+		render(<OptionsSection {...defaultProps} />);
+
+		expect(screen.getByTestId('reset-options-section')).toBeInTheDocument();
 	});
 });

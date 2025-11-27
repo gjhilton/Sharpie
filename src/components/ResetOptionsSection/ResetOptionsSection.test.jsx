@@ -2,10 +2,37 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ResetOptionsSection from './ResetOptionsSection';
-import { GameOptionsProvider } from '@context/GameOptionsContext';
+
+// Mock the GameOptionsContext
+const mockResetOptions = vi.fn();
+vi.mock('@context/GameOptionsContext.jsx', () => ({
+	useGameOptionsContext: () => ({
+		resetOptions: mockResetOptions,
+	}),
+}));
+
+// Mock SubSection
+vi.mock('@components/SubSection/SubSection.jsx', () => ({
+	default: ({ title, children }) => (
+		<section>
+			<h3>{title}</h3>
+			{children}
+		</section>
+	),
+}));
+
+// Mock Layout components
+vi.mock('@components/Layout/Layout.jsx', () => ({
+	Paragraph: ({ children }) => <p>{children}</p>,
+}));
+
+// Mock markdown
+vi.mock('@data/reset-options.md?raw', () => ({
+	default: 'Reset all your settings back to the defaults',
+}));
 
 const renderWithProvider = (component) => {
-	return render(<GameOptionsProvider>{component}</GameOptionsProvider>);
+	return render(component);
 };
 
 describe('ResetOptionsSection', () => {

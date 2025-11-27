@@ -115,15 +115,15 @@ describe('DisclosureSection', () => {
 	});
 
 	describe('Layout', () => {
-		it('displays title on left and content on right when expanded', () => {
-			const { container } = render(
+		it('displays title and content when expanded', () => {
+			render(
 				<DisclosureSection title="Test Section" defaultExpanded={true}>
 					<p>Content on right</p>
 				</DisclosureSection>
 			);
 
-			const grid = container.querySelector('[class*="grid"]');
-			expect(grid).toBeInTheDocument();
+			expect(screen.getByText('Test Section')).toBeInTheDocument();
+			expect(screen.getByText('Content on right')).toBeInTheDocument();
 		});
 
 		it('only shows title when collapsed', () => {

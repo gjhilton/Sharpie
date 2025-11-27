@@ -5,7 +5,6 @@ const DisclosureSection = ({
 	title,
 	defaultExpanded = false,
 	additionalComponent,
-	urlComponent,
 	children,
 }) => {
 	const [isExpanded, setIsExpanded] = useState(defaultExpanded);
@@ -82,17 +81,6 @@ const DisclosureSection = ({
 					<span aria-hidden="true">{isExpanded ? '−' : '+'}</span>
 				</div>
 			</div>
-
-			{urlComponent && (
-				<div
-					className={css({
-						marginTop: '1.5rem',
-						marginBottom: isExpanded ? '2rem' : '0',
-					})}
-				>
-					{urlComponent}
-				</div>
-			)}
 
 			{isExpanded && <div>{children}</div>}
 		</div>

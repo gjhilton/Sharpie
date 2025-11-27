@@ -129,6 +129,8 @@ test.describe('Options Summary - Badge Display', () => {
 test.describe('Options Summary - Shareable URL', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
+		// Expand Options section to access URL input
+		await page.getByRole('button', { name: /^options$/i }).click();
 	});
 
 	test('should display shareable URL input with label', async ({ page }) => {
@@ -156,8 +158,7 @@ test.describe('Options Summary - Shareable URL', () => {
 		const urlInput = page.locator('input[id="shareable-url"]');
 		const initialURL = await urlInput.inputValue();
 
-		// Expand Options and change mode
-		await page.getByRole('button', { name: /^options$/i }).click();
+		// Change mode (already expanded in beforeEach)
 		await page.getByLabel(/Minuscules only/i).click();
 
 		await page.waitForTimeout(100);
@@ -172,8 +173,7 @@ test.describe('Options Summary - Shareable URL', () => {
 	}) => {
 		const urlInput = page.locator('input[id="shareable-url"]');
 
-		// Expand Options and toggle 24-letter (click to turn OFF for 26 letters)
-		await page.getByRole('button', { name: /^options$/i }).click();
+		// Toggle 24-letter (click to turn OFF for 26 letters)
 		await page.getByLabel(/24-letter alphabet/i).click();
 
 		await page.waitForTimeout(200);
@@ -187,8 +187,7 @@ test.describe('Options Summary - Shareable URL', () => {
 	}) => {
 		const urlInput = page.locator('input[id="shareable-url"]');
 
-		// Expand Options and toggle baseline
-		await page.getByRole('button', { name: /^options$/i }).click();
+		// Toggle baseline
 		await page.getByLabel(/Show baseline/i).click();
 
 		await page.waitForTimeout(100);
@@ -209,6 +208,8 @@ test.describe('Options Summary - Shareable URL', () => {
 test.describe('Options Summary - Copy Functionality', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
+		// Expand Options section to access Copy button
+		await page.getByRole('button', { name: /^options$/i }).click();
 		// Grant clipboard permissions
 		await page
 			.context()
@@ -260,8 +261,7 @@ test.describe('Options Summary - Copy Functionality', () => {
 	});
 
 	test('should copy updated URL after settings change', async ({ page }) => {
-		// Change a setting
-		await page.getByRole('button', { name: /^options$/i }).click();
+		// Change a setting (already expanded in beforeEach)
 		await page.getByLabel(/Minuscules only/i).click();
 		await page.waitForTimeout(100);
 
@@ -279,6 +279,8 @@ test.describe('Options Summary - Copy Functionality', () => {
 test.describe('Options Summary - QR Code Generation', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
+		// Expand Options section to access QR button
+		await page.getByRole('button', { name: /^options$/i }).click();
 	});
 
 	test('should display Show QR Code button', async ({ page }) => {
@@ -461,7 +463,7 @@ test.describe('Options Summary - Reset to Defaults', () => {
 		const urlWithParams = await urlInput.inputValue();
 		expect(urlWithParams).toContain('m=');
 
-		// Reset
+		// Reset (scroll to reset section if needed)
 		page.on('dialog', dialog => dialog.accept());
 		await page.getByRole('button', { name: /reset to defaults/i }).click();
 
@@ -527,6 +529,9 @@ test.describe('Options Summary - URL Parameter Loading', () => {
 		const queryString = 'm=i&l=0';
 		await page.goto(`/?${queryString}`);
 
+		// Expand Options to see URL input
+		await page.getByRole('button', { name: /^options$/i }).click();
+
 		const urlInput = page.locator('input[id="shareable-url"]');
 		const displayedURL = await urlInput.inputValue();
 
@@ -588,7 +593,7 @@ test.describe('Options Summary - Integration Tests', () => {
 		await expect(modeBadge).toContainText('✓');
 		await expect(modeBadge).toContainText('✗');
 
-		// Check URL updated
+		// Check URL updated (should be visible since Options is expanded)
 		const urlInput = page.locator('input[id="shareable-url"]');
 		const url = await urlInput.inputValue();
 		expect(url).toContain('m=');
@@ -649,6 +654,8 @@ test.describe('Options Summary - Integration Tests', () => {
 test.describe('Options Summary - Accessibility', () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
+		// Expand Options section to access URL input
+		await page.getByRole('button', { name: /^options$/i }).click();
 	});
 
 	test('should have accessible label for URL input', async ({ page }) => {
@@ -659,10 +666,7 @@ test.describe('Options Summary - Accessibility', () => {
 	});
 
 	test('should be keyboard navigable', async ({ page }) => {
-		// Wait for OptionsSummary to be visible
-		await expect(page.getByTestId('options-summary')).toBeVisible();
-
-		// Focus and interact with Copy button via keyboard
+		// Focus and interact with Copy button via keyboard (already expanded in beforeEach)
 		const copyButton = page.getByRole('button', { name: /^copy$/i });
 		await expect(copyButton).toBeVisible();
 		await copyButton.focus();
@@ -681,7 +685,7 @@ test.describe('Options Summary - Accessibility', () => {
 	});
 
 	test('should activate buttons with Enter key', async ({ page }) => {
-		// Focus Copy button
+		// Focus Copy button (already expanded in beforeEach)
 		const copyButton = page.getByRole('button', { name: /^copy$/i });
 		await copyButton.focus();
 

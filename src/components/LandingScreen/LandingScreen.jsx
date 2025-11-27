@@ -35,6 +35,11 @@ const LandingScreen = () => {
 	const handleShowBaselineChange = checked =>
 		updateOption('showBaseline', checked);
 
+	const optionsSummary = OptionsSummary({
+		options,
+		alphabetCount: countEnabledAlphabets(options.enabledAlphabets),
+	});
+
 	return (
 		<PageWidth>
 			<Article>
@@ -50,14 +55,8 @@ const LandingScreen = () => {
 				<main>
 					<DisclosureSection
 						title="Options"
-						additionalComponent={
-							<OptionsSummary
-								options={options}
-								alphabetCount={countEnabledAlphabets(
-									options.enabledAlphabets
-								)}
-							/>
-						}
+						additionalComponent={optionsSummary.badges}
+						urlComponent={optionsSummary.urlSection}
 					>
 						<OptionsSection
 							gameModeOptions={GAME_MODE_OPTIONS}

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
 import { useNavigate } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
@@ -12,23 +12,10 @@ const Strong = ({ children }) => (
 	<span style={{ fontWeight: 'bold' }}>{children}</span>
 );
 
-const OptionsSummary = ({ options, alphabetCount }) => {
+// Badges component - extracted to prevent state issues
+const OptionsBadges = ({ options, alphabetCount }) => {
 	const { toggleOption, cycleMode } = useGameOptionsContext();
 	const navigate = useNavigate();
-	const [copySuccess, setCopySuccess] = useState(false);
-	const [showQR, setShowQR] = useState(false);
-	const qrRef = useRef(null);
-
-	// Generate shareable URL
-	const generateURL = () => {
-		const serialized = serializeOptions(options);
-		const params = new URLSearchParams(serialized);
-		const queryString = params.toString();
-		const baseUrl = `${window.location.origin}${window.location.pathname}`;
-		return queryString ? `${baseUrl}?${queryString}` : baseUrl;
-	};
-
-	const shareableURL = generateURL();
 
 	// Helper to render badge label from schema
 	const renderBadgeLabel = (labelData) => {
@@ -50,30 +37,69 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 	};
 
 	// Generate badges from schema
-	const badges = Object.values(OPTIONS)
-		.filter(option => option.badge)
-		.sort((a, b) => a.badge.order - b.badge.order)
-		.map(option => {
-			const value = options[option.key];
-			const context = { alphabetCount };
-			const labelData = option.badge.renderLabel(value, context);
+	const badges = useMemo(() => {
+		return Object.values(OPTIONS)
+			.filter(option => option.badge)
+			.sort((a, b) => a.badge.order - b.badge.order)
+			.map(option => {
+				const value = options[option.key];
+				const context = { alphabetCount };
+				const labelData = option.badge.renderLabel(value, context);
 
-			// Determine onClick handler based on action type
-			let onClick;
-			if (option.badge.action === 'toggle') {
-				onClick = () => toggleOption(option.key);
-			} else if (option.badge.action === 'cycle') {
-				onClick = cycleMode;
-			} else if (option.badge.action === 'navigate') {
-				onClick = () => navigate({ to: option.badge.navigationPath, search: prev => prev });
-			}
+				// Determine onClick handler based on action type
+				let onClick;
+				if (option.badge.action === 'toggle') {
+					onClick = () => toggleOption(option.key);
+				} else if (option.badge.action === 'cycle') {
+					onClick = cycleMode;
+				} else if (option.badge.action === 'navigate') {
+					onClick = () => navigate({ to: option.badge.navigationPath, search: prev => prev });
+				}
 
-			return {
-				id: option.key,
-				label: renderBadgeLabel(labelData),
-				onClick,
-			};
-		});
+				return {
+					id: option.key,
+					label: renderBadgeLabel(labelData),
+					onClick,
+				};
+			});
+	}, [options, alphabetCount, toggleOption, cycleMode, navigate]);
+
+	return (
+		<div
+			className={css({
+				display: 'flex',
+				flexWrap: 'wrap',
+				gap: '0.5rem',
+			})}
+			data-testid="options-summary-badges"
+		>
+			{badges.map(badge => (
+				<Badge
+					key={badge.id}
+					testId={`badge-${badge.id}`}
+					onClick={badge.onClick}
+				>
+					{badge.label}
+				</Badge>
+			))}
+		</div>
+	);
+};
+
+// URL Section component - extracted to maintain state properly
+const URLSection = ({ options }) => {
+	const [copySuccess, setCopySuccess] = useState(false);
+	const [showQR, setShowQR] = useState(false);
+	const qrRef = useRef(null);
+
+	// Generate shareable URL
+	const shareableURL = useMemo(() => {
+		const serialized = serializeOptions(options);
+		const params = new URLSearchParams(serialized);
+		const queryString = params.toString();
+		const baseUrl = `${window.location.origin}${window.location.pathname}`;
+		return queryString ? `${baseUrl}?${queryString}` : baseUrl;
+	}, [options]);
 
 	// Copy to clipboard
 	const handleCopy = async () => {
@@ -136,33 +162,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 	};
 
 	return (
-		<div
-			className={css({
-				marginTop: '1rem',
-			})}
-			data-testid="options-summary"
-		>
-			{/* Badges */}
-			<div
-				className={css({
-					display: 'flex',
-					flexWrap: 'wrap',
-					gap: '0.5rem',
-					marginBottom: '1rem',
-				})}
-				data-testid="options-summary-badges"
-			>
-				{badges.map(badge => (
-					<Badge
-						key={badge.id}
-						testId={`badge-${badge.id}`}
-						onClick={badge.onClick}
-					>
-						{badge.label}
-					</Badge>
-				))}
-			</div>
-
+		<>
 			{/* URL input with Copy and QR buttons */}
 			<InputWithButton
 				inputId="shareable-url"
@@ -216,7 +216,7 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 							className={css({
 								padding: '0.5rem 1rem',
 								border: '1px solid {colors.ink}',
-											backgroundColor: '{colors.paper}',
+								backgroundColor: '{colors.paper}',
 								color: '{colors.ink}',
 								cursor: 'pointer',
 								fontSize: 's',
@@ -234,13 +234,21 @@ const OptionsSummary = ({ options, alphabetCount }) => {
 								},
 							})}
 						>
-							Download QR Code
+							Download
 						</button>
 					</div>
 				</div>
 			)}
-		</div>
+		</>
 	);
+};
+
+// Main component that returns both parts
+const OptionsSummary = ({ options, alphabetCount }) => {
+	return {
+		badges: <OptionsBadges options={options} alphabetCount={alphabetCount} />,
+		urlSection: <URLSection options={options} />,
+	};
 };
 
 export default OptionsSummary;

@@ -1,4 +1,0 @@
-[11/28/2025, 12:40:08 AM] layer "C-003.png": Duplicate path: C-003.png
-[11/28/2025, 12:40:08 AM] layer "C-003.png": Duplicate path: C-003.png
-[11/28/2025, 12:40:08 AM] layer "C-003.png": Duplicate path: C-003.png
-[11/28/2025, 12:40:08 AM] layer "C-003.png": Duplicate path: C-003.png

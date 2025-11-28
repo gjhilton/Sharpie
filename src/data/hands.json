@@ -53,5 +53,13 @@
 		"date": "1574/5",
 		"isDefaultEnabled": true,
 		"difficulty": "hard"
+	},
+	"Wolsey": {
+		"id": "007",
+		"title": "Cardinal Wolsey to Henry VIII, 5 July 1527, (SP1/42, f.156r-158r)",
+		"sourceUri": "https://www.nationalarchives.gov.uk/education/resources/the-english-reformation-c1527-1590/henry-viiis-divorce-1527/",
+		"date": "1527",
+		"isDefaultEnabled": true,
+		"difficulty": "medium"
 	}
 }

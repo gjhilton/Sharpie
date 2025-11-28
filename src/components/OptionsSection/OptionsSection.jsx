@@ -6,6 +6,8 @@ import SubSection from '@components/SubSection/SubSection.jsx';
 import { RadioGroup } from '@components/RadioGroup/RadioGroup.jsx';
 import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
 import BaselineExamples from '@components/BaselineExamples/BaselineExamples.jsx';
+import ShareURLSection from '@components/ShareURLSection/ShareURLSection.jsx';
+import ResetOptionsSection from '@components/ResetOptionsSection/ResetOptionsSection.jsx';
 import identifyContent from '@data/identify.md?raw';
 import alphabetContent from '@data/alphabet.md?raw';
 import baselinesContent from '@data/baselines.md?raw';
@@ -14,16 +16,18 @@ const OptionsSection = ({
 	gameModeOptions,
 	selectedMode,
 	onModeChange,
-	twentyFourLetterAlphabet,
-	onTwentyFourLetterChange,
+	numLetters,
+	onNumLettersChange,
 	showBaseline,
 	onShowBaselineChange,
 	characterCount,
-	alphabetCount,
+	handCount,
 	onShowCatalogue,
-}) => (
-	<>
-		<SubSection title="Identify...">
+	options,
+}) => {
+	return (
+		<>
+			<SubSection title="Identify...">
 			<RadioGroup
 				legend="Game mode"
 				name="gameMode"
@@ -42,12 +46,12 @@ const OptionsSection = ({
 			</Paragraph>
 		</SubSection>
 
-		<SubSection title="Alphabets">
+		<SubSection title="Hands">
 			<Paragraph>
 				Question bank: <strong>{characterCount}</strong> characters from{' '}
-				<strong>{alphabetCount}</strong> alphabets.
+				<strong>{handCount}</strong> hands.
 			</Paragraph>
-			<Button label="Choose alphabets" onClick={onShowCatalogue} />
+			<Button label="Choose hands" onClick={onShowCatalogue} />
 		</SubSection>
 
 		<SubSection title="26 letters vs 24">
@@ -56,10 +60,10 @@ const OptionsSection = ({
 				placeholders={{
 					ALPHABET_TOGGLE: (
 						<Toggle
-							id="twenty-four-letter-alphabet"
+							id="num-letters"
 							label="24-letter alphabet"
-							checked={twentyFourLetterAlphabet}
-							onChange={onTwentyFourLetterChange}
+							checked={numLetters}
+							onChange={onNumLettersChange}
 						/>
 					),
 				}}
@@ -82,7 +86,12 @@ const OptionsSection = ({
 				}}
 			/>
 		</SubSection>
-	</>
-);
+
+		<ShareURLSection options={options} />
+
+		<ResetOptionsSection />
+		</>
+	);
+};
 
 export default OptionsSection;

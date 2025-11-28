@@ -14,15 +14,15 @@ const GameScreen = () => {
 
 	const {
 		mode: gameMode,
-		twentyFourLetterAlphabet = false,
+		numLetters: twentyFourLetterAlphabet = false,
 		showBaseline = false,
-		enabledAlphabets = null,
+		enabledHands = null,
 	} = options;
 
 	const graphs = gameLogic.getGraphsForGameMode(
 		DB,
 		gameMode,
-		enabledAlphabets
+		enabledHands
 	);
 	const [currentSolution, setCurrentSolution] = useState(
 		gameLogic.createRandomSolution(graphs)

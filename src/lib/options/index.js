@@ -4,22 +4,18 @@
 
 export { OPTIONS, getOptionByKey, getOptionByUrlParam } from './schema.js';
 
-export {
-	getDefaults,
-	getDefaultAlphabetIds,
-	isDefaultValue,
-} from './defaults.js';
+export { getDefaults, getDefaultHandIds, isDefaultValue } from './defaults.js';
 
 export {
-	getAllAlphabetIds,
+	getAllHandIds,
 	getDefaultEnabledIds,
-	getAlphabetById,
-	getAlphabetKeyById,
-	getAlphabetIdByKey,
-	validateAlphabetIds,
+	getHandById,
+	getHandKeyById,
+	getHandIdByKey,
+	validateHandIds,
 	keysToIds,
 	idsToKeys,
-} from './alphabets.js';
+} from './hands.js';
 
 export {
 	serializeValue,

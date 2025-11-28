@@ -56,7 +56,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 	useGameOptions: () => ({
 		options: {
 			mode: 'all',
-			enabledAlphabets: {},
+			enabledHands: {},
 			twentyFourLetterAlphabet: false,
 			showBaseline: true,
 		},

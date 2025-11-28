@@ -69,15 +69,15 @@ test.describe('Landing Screen', () => {
 		await expect(bothRadio).toBeChecked();
 	});
 
-	test('should have Choose alphabets button in Options', async ({ page }) => {
+	test('should have Choose hands button in Options', async ({ page }) => {
 		// Expand Options section first
 		const optionsHeader = page.getByRole('button', { name: /options/i });
 		await optionsHeader.click();
 
-		const chooseAlphabetsButton = page.getByRole('button', {
-			name: /choose alphabets/i,
+		const chooseHandsButton = page.getByRole('button', {
+			name: /choose hands/i,
 		});
-		await expect(chooseAlphabetsButton).toBeVisible();
+		await expect(chooseHandsButton).toBeVisible();
 	});
 
 	test('should display question bank statistics in Options', async ({
@@ -89,7 +89,7 @@ test.describe('Landing Screen', () => {
 
 		// Check for the question bank text pattern
 		await expect(
-			page.getByText(/Question bank:.*characters from.*alphabets/i)
+			page.getByText(/Question bank:.*characters from.*hands/i)
 		).toBeVisible();
 	});
 
@@ -119,7 +119,7 @@ test.describe('Landing Screen', () => {
 		await expect(baselineToggle).toBeChecked();
 	});
 
-	test('should navigate to catalogue when clicking Choose alphabets', async ({
+	test('should navigate to catalogue when clicking Choose hands', async ({
 		page,
 	}) => {
 		// Expand Options section first

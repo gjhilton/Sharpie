@@ -123,7 +123,7 @@ describe('CorrectAnswer', () => {
 		expect(character).toHaveAttribute('data-character', 'B');
 	});
 
-	it('should pass alphabet information to Character', () => {
+	it('should pass hand information to Character', () => {
 		const onNext = vi.fn();
 		const alphabetMetadata = {
 			title: 'Test Source',
@@ -291,7 +291,7 @@ describe('IncorrectAnswer', () => {
 		);
 	});
 
-	it('should pass alphabet information to correct Character', () => {
+	it('should pass hand information to correct Character', () => {
 		const onNext = vi.fn();
 		const alphabetMetadata = {
 			title: 'Test Source',

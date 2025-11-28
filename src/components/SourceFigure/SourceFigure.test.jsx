@@ -2,10 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import SourceFigure from './SourceFigure';
 
-vi.mock('@data/alphabets.json', () => ({
+vi.mock('@data/hands.json', () => ({
 	default: {
 		'BeauChesne-Baildon': {
-			title: 'Test Alphabet Title',
+			title: 'Test Hand Title',
 			sourceUri: 'https://example.com/source',
 		},
 	},
@@ -19,9 +19,9 @@ describe('SourceFigure', () => {
 		expect(img).toHaveAttribute('src', 'secretary_hand.gif');
 	});
 
-	it('should render the alphabet title in figcaption', () => {
+	it('should render the hand title in figcaption', () => {
 		render(<SourceFigure />);
-		expect(screen.getByText('Test Alphabet Title')).toBeInTheDocument();
+		expect(screen.getByText('Test Hand Title')).toBeInTheDocument();
 	});
 
 	it('should render a source link', () => {

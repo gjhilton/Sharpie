@@ -6,41 +6,41 @@ import {
 	isOnGameScreen,
 } from '../config/playwright/helpers/test-helpers.js';
 
-test.describe('Alphabet Selection on Catalogue Page', () => {
+test.describe('Hand Selection on Catalogue Page', () => {
 	test.beforeEach(async ({ page }) => {
 		await navigateToCatalogue(page);
 	});
 
 	test.describe('Page Structure', () => {
-		test('should display Choose Alphabets heading', async ({ page }) => {
+		test('should display Choose Hands heading', async ({ page }) => {
 			await expect(
-				page.getByRole('heading', { name: 'Choose Alphabets' })
+				page.getByRole('heading', { name: 'Choose Hands' })
 			).toBeVisible();
 		});
 
-		test('should display explanatory paragraph about alphabets', async ({
+		test('should display explanatory paragraph about hands', async ({
 			page,
 		}) => {
 			await expect(
-				page.getByText(/alphabets Sharpie tests are extracted/)
+				page.getByText(/hands Sharpie tests are extracted/)
 			).toBeVisible();
 		});
 
-		test('should display selection status with alphabet and character counts', async ({
+		test('should display selection status with hand and character counts', async ({
 			page,
 		}) => {
-			await expect(page.getByText(/enabled.*alphabets/)).toBeVisible();
+			await expect(page.getByText(/enabled.*hands/)).toBeVisible();
 			await expect(page.getByText(/characters/)).toBeVisible();
 		});
 
-		test('should display all alphabet toggles', async ({ page }) => {
-			// Should have toggle switches for each alphabet
+		test('should display all hand toggles', async ({ page }) => {
+			// Should have toggle switches for each hand
 			const toggles = page.getByRole('switch');
 			const count = await toggles.count();
 			expect(count).toBeGreaterThanOrEqual(1);
 		});
 
-		test('should display alphabet metadata (date, title, source)', async ({
+		test('should display hand metadata (date, title, source)', async ({
 			page,
 		}) => {
 			// Check for date pattern
@@ -60,10 +60,8 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 	});
 
 	test.describe('Toggle Functionality', () => {
-		test('should have all alphabets enabled by default', async ({
-			page,
-		}) => {
-			// All toggles should start checked (all alphabets enabled by default)
+		test('should have all hands enabled by default', async ({ page }) => {
+			// All toggles should start checked (all hands enabled by default)
 			const toggles = page.getByRole('switch');
 			const count = await toggles.count();
 
@@ -72,7 +70,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			}
 		});
 
-		test('should toggle alphabet OFF when clicking enabled toggle', async ({
+		test('should toggle hand OFF when clicking enabled toggle', async ({
 			page,
 		}) => {
 			const firstToggle = page.getByRole('switch').first();
@@ -87,7 +85,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			await expect(firstToggle).not.toBeChecked();
 		});
 
-		test('should toggle alphabet ON when clicking disabled toggle', async ({
+		test('should toggle hand ON when clicking disabled toggle', async ({
 			page,
 		}) => {
 			const firstToggle = page.getByRole('switch').first();
@@ -107,12 +105,12 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			page,
 		}) => {
 			// Get initial count
-			const statusText = page.getByText(/enabled.*alphabets.*characters/);
+			const statusText = page.getByText(/enabled.*hands.*characters/);
 			const initialText = await statusText.textContent();
 			const initialCharMatch = initialText.match(/(\d+) characters/);
 			const initialCharCount = parseInt(initialCharMatch[1]);
 
-			// Disable one alphabet
+			// Disable one hand
 			const firstToggle = page.getByRole('switch').first();
 			await firstToggle.click();
 
@@ -124,20 +122,20 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			expect(newCharCount).toBeLessThan(initialCharCount);
 		});
 
-		test('should update alphabet count when toggling', async ({ page }) => {
+		test('should update hand count when toggling', async ({ page }) => {
 			// Get initial count
-			const statusText = page.getByText(/enabled.*alphabets/);
+			const statusText = page.getByText(/enabled.*hands/);
 			const initialText = await statusText.textContent();
-			const initialMatch = initialText.match(/(\d+) alphabets/);
+			const initialMatch = initialText.match(/(\d+) hands/);
 			const initialCount = parseInt(initialMatch[1]);
 
-			// Disable one alphabet
+			// Disable one hand
 			const firstToggle = page.getByRole('switch').first();
 			await firstToggle.click();
 
-			// Alphabet count should decrease by 1
+			// Hand count should decrease by 1
 			const newText = await statusText.textContent();
-			const newMatch = newText.match(/(\d+) alphabets/);
+			const newMatch = newText.match(/(\d+) hands/);
 			const newCount = parseInt(newMatch[1]);
 
 			expect(newCount).toBe(initialCount - 1);
@@ -159,10 +157,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			await expect(firstToggle).not.toBeChecked();
 		});
 
-		test('should dim character images when alphabet is disabled', async ({
+		test('should dim character images when hand is disabled', async ({
 			page,
 		}) => {
-			// Disable first alphabet
+			// Disable first hand
 			const firstToggle = page.getByRole('switch').first();
 			await firstToggle.click();
 
@@ -175,16 +173,16 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			const opacity = await parentDiv.evaluate(el => el.style.opacity);
 
 			// At least some images should be dimmed
-			// (We can't easily know which images belong to which alphabet in E2E)
+			// (We can't easily know which images belong to which hand in E2E)
 			expect(['1', '0.2', '']).toContain(opacity);
 		});
 	});
 
-	test.describe('Error State - No Alphabets Selected', () => {
-		test('should show error message when all alphabets are disabled', async ({
+	test.describe('Error State - No Hands Selected', () => {
+		test('should show error message when all hands are disabled', async ({
 			page,
 		}) => {
-			// Disable all alphabets
+			// Disable all hands
 			const toggles = page.getByRole('switch');
 			const count = await toggles.count();
 
@@ -197,14 +195,14 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 
 			// Error message should appear
 			await expect(
-				page.getByText(/Error.*select at least one alphabet/i)
+				page.getByText(/Error.*select at least one hand/i)
 			).toBeVisible();
 		});
 
-		test('should disable Back to Menu button when no alphabets selected', async ({
+		test('should disable Back to Menu button when no hands selected', async ({
 			page,
 		}) => {
-			// Disable all alphabets
+			// Disable all hands
 			const toggles = page.getByRole('switch');
 			const count = await toggles.count();
 
@@ -217,7 +215,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 
 			// Back button should be replaced with error text
 			await expect(
-				page.getByText(/Not allowed.*Select one or more alphabets/i)
+				page.getByText(/Not allowed.*Select one or more hands/i)
 			).toBeVisible();
 
 			// The button itself should not exist
@@ -227,10 +225,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			await expect(backButton).not.toBeVisible();
 		});
 
-		test('should show zero counts when no alphabets selected', async ({
+		test('should show zero counts when no hands selected', async ({
 			page,
 		}) => {
-			// Disable all alphabets
+			// Disable all hands
 			const toggles = page.getByRole('switch');
 			const count = await toggles.count();
 
@@ -241,17 +239,17 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 				}
 			}
 
-			// The status text is replaced with an error message when no alphabets selected
+			// The status text is replaced with an error message when no hands selected
 			// So check for the error state which indicates zero selection
 			await expect(
-				page.getByText(/Error.*select at least one alphabet/i)
+				page.getByText(/Error.*select at least one hand/i)
 			).toBeVisible();
 		});
 
-		test('should re-enable Back button when alphabet is selected again', async ({
+		test('should re-enable Back button when hand is selected again', async ({
 			page,
 		}) => {
-			// Disable all alphabets
+			// Disable all hands
 			const toggles = page.getByRole('switch');
 			const count = await toggles.count();
 
@@ -264,10 +262,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 
 			// Verify error state
 			await expect(
-				page.getByText(/Not allowed.*Select one or more alphabets/i)
+				page.getByText(/Not allowed.*Select one or more hands/i)
 			).toBeVisible();
 
-			// Re-enable first alphabet
+			// Re-enable first hand
 			await toggles.first().click();
 
 			// Back button should reappear
@@ -278,7 +276,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 		});
 	});
 
-	test.describe('Alphabet Metadata Display', () => {
+	test.describe('Hand Metadata Display', () => {
 		test('should display source links that open in new tab', async ({
 			page,
 		}) => {
@@ -289,7 +287,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			await expect(firstLink).toHaveAttribute('rel', /noopener/);
 		});
 
-		test('should display alphabets sorted by date', async ({ page }) => {
+		test('should display hands sorted by date', async ({ page }) => {
 			// Get all date texts
 			const dates = page.locator('span').filter({ hasText: /^\d{4}/ });
 			const dateTexts = [];
@@ -306,8 +304,8 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			expect(dateTexts.length).toBeGreaterThanOrEqual(1);
 		});
 
-		test('should display alphabet titles', async ({ page }) => {
-			// Check for known alphabet title text patterns
+		test('should display hand titles', async ({ page }) => {
+			// Check for known hand title text patterns
 			const hasTitle = await page
 				.getByText(/Letter|typeface|Commonplace/)
 				.first()
@@ -317,17 +315,17 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 	});
 
 	test.describe('Persistence and Integration', () => {
-		test('should persist alphabet selection when returning to landing', async ({
+		test('should persist hand selection when returning to landing', async ({
 			page,
 		}) => {
-			// Disable first alphabet
+			// Disable first hand
 			const firstToggle = page.getByRole('switch').first();
 			await firstToggle.click();
 
 			// Get the new counts
-			const statusText = page.getByText(/enabled.*alphabets/);
+			const statusText = page.getByText(/enabled.*hands/);
 			const catalogueText = await statusText.textContent();
-			const alphabetMatch = catalogueText.match(/(\d+) alphabets/);
+			const alphabetMatch = catalogueText.match(/(\d+) hands/);
 			const expectedAlphabetCount = alphabetMatch[1];
 
 			// Return to menu
@@ -347,15 +345,15 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			const landingStats = page.getByText(/Question bank:/);
 			await expect(landingStats).toBeVisible();
 
-			// The counts should reflect the disabled alphabet
+			// The counts should reflect the disabled hand
 			const landingText = await landingStats.textContent();
-			expect(landingText).toContain(`${expectedAlphabetCount} alphabets`);
+			expect(landingText).toContain(`${expectedAlphabetCount} hands`);
 		});
 
-		test('should affect gameplay with selected alphabets only', async ({
+		test('should affect gameplay with selected hands only', async ({
 			page,
 		}) => {
-			// Disable one alphabet to reduce the pool
+			// Disable one hand to reduce the pool
 			const firstToggle = page.getByRole('switch').first();
 			await firstToggle.click();
 
@@ -372,7 +370,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			const onGame = await isOnGameScreen(page);
 			expect(onGame).toBe(true);
 
-			// Game should be playable with reduced alphabet set
+			// Game should be playable with reduced hand set
 			const characterImage = page
 				.locator('img[alt="Character to identify"]')
 				.first();
@@ -382,15 +380,15 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 		test('should update landing page statistics after selection change', async ({
 			page,
 		}) => {
-			// Disable two alphabets
+			// Disable two hands
 			const toggles = page.getByRole('switch');
 			await toggles.nth(0).click();
 			await toggles.nth(1).click();
 
 			// Get counts
-			const statusText = page.getByText(/enabled.*alphabets/);
+			const statusText = page.getByText(/enabled.*hands/);
 			const catalogueText = await statusText.textContent();
-			const alphaMatch = catalogueText.match(/(\d+) alphabets/);
+			const alphaMatch = catalogueText.match(/(\d+) hands/);
 			const charMatch = catalogueText.match(/(\d+) characters/);
 			const expectedAlphabets = alphaMatch[1];
 			const expectedCharacters = charMatch[1];
@@ -412,7 +410,7 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			await expect(
 				page.getByText(
 					new RegExp(
-						`${expectedCharacters} characters from ${expectedAlphabets} alphabets`
+						`${expectedCharacters} characters from ${expectedAlphabets} hands`
 					)
 				)
 			).toBeVisible();
@@ -485,10 +483,10 @@ test.describe('Alphabet Selection on Catalogue Page', () => {
 			expect(onMenu).toBe(true);
 		});
 
-		test('should allow scrolling after toggling alphabets', async ({
+		test('should allow scrolling after toggling hands', async ({
 			page,
 		}) => {
-			// Toggle an alphabet
+			// Toggle a hand
 			const firstToggle = page.getByRole('switch').first();
 			await firstToggle.click();
 

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import AlphabetSelectorWithSort from '@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx';
+import HandSelectorWithSort from '@components/HandSelectorWithSort/HandSelectorWithSort.jsx';
 import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
 import {
 	PageTitle,
@@ -11,7 +11,7 @@ import {
 	Heading,
 	PageWidth,
 } from '@components/Layout/Layout.jsx';
-import alphabetsData from '@data/alphabets.json';
+import handsData from '@data/hands.json';
 import * as catalogueLogic from '@utilities/catalogueLogic.js';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 import { useDatabase } from '@context/DatabaseContext.jsx';
@@ -77,7 +77,7 @@ const LetterGallery = ({
 	letter,
 	glyphs,
 	showBaseline,
-	enabledAlphabets,
+	enabledHands,
 	getImagePath,
 }) => (
 	<article className={css({ marginBottom: STYLES.verticalGap })}>
@@ -95,7 +95,7 @@ const LetterGallery = ({
 					key={index}
 					graph={glyph}
 					showBaseline={showBaseline}
-					isEnabled={enabledAlphabets[glyph.source]}
+					isEnabled={enabledHands[glyph.source]}
 					getImagePath={getImagePath}
 				/>
 			))}
@@ -106,7 +106,7 @@ const LetterGallery = ({
 const LetterCaseGroup = ({
 	letters,
 	showBaseline,
-	enabledAlphabets,
+	enabledHands,
 	getImagePath,
 }) => (
 	<section
@@ -121,7 +121,7 @@ const LetterCaseGroup = ({
 				letter={character}
 				glyphs={graphs}
 				showBaseline={showBaseline}
-				enabledAlphabets={enabledAlphabets}
+				enabledHands={enabledHands}
 				getImagePath={getImagePath}
 			/>
 		))}
@@ -186,7 +186,7 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 					cursor: 'not-allowed',
 				})}
 			>
-				Not allowed! Select one or more alphabets to continue
+				Not allowed! Select one or more hands to continue
 			</span>
 		);
 	}
@@ -194,20 +194,20 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	return <LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>;
 };
 
-const SelectionStatus = ({ isError, alphabetCount, characterCount }) => {
+const SelectionStatus = ({ isError, handCount, characterCount }) => {
 	if (isError) {
 		return (
 			<Paragraph className={css({ color: '{colors.error}' })}>
-				<strong>Error:</strong> Please select at least one alphabet.
+				<strong>Error:</strong> Please select at least one hand.
 			</Paragraph>
 		);
 	}
 
 	return (
 		<Paragraph>
-			Enable the alphabets you'd like to work on from the list below. At present
-			you have enabled <strong>{alphabetCount}</strong>{' '}
-			{alphabetCount === 1 ? 'alphabet' : 'alphabets'} (
+			Enable the hands you'd like to work on from the list below. At present
+			you have enabled <strong>{handCount}</strong>{' '}
+			{handCount === 1 ? 'hand' : 'hands'} (
 			<strong>{characterCount}</strong> characters).
 		</Paragraph>
 	);
@@ -220,12 +220,12 @@ const CatalogueScreen = () => {
 		DB,
 		getImagePath,
 		getEnabledGraphSets,
-		countEnabledAlphabets,
+		countEnabledHands,
 		countEnabledCharacters,
-		getAllAlphabetNames,
+		getAllHandNames,
 	} = useDatabase();
 
-	const { showBaseline = false, enabledAlphabets } = options;
+	const { showBaseline = false, enabledHands } = options;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -237,24 +237,24 @@ const CatalogueScreen = () => {
 	const letterGroups = catalogueLogic.groupGraphsByGraphSetAndCharacter(
 		getEnabledGraphSets(DB)
 	);
-	const alphabetCount = countEnabledAlphabets(enabledAlphabets);
-	const characterCount = countEnabledCharacters(DB, enabledAlphabets);
-	const hasNoSelection = alphabetCount === 0 || characterCount === 0;
+	const handCount = countEnabledHands(enabledHands);
+	const characterCount = countEnabledCharacters(DB, enabledHands);
+	const hasNoSelection = handCount === 0 || characterCount === 0;
 
-	const handleToggleAlphabet = name => {
-		const newEnabledAlphabets = {
-			...enabledAlphabets,
-			[name]: !enabledAlphabets[name],
+	const handleToggleHand = name => {
+		const newEnabledHands = {
+			...enabledHands,
+			[name]: !enabledHands[name],
 		};
-		updateOption('alphabets', newEnabledAlphabets);
+		updateOption('hands', newEnabledHands);
 	};
 
-	const handleBatchToggleAlphabets = updates => {
-		const newEnabledAlphabets = {
-			...enabledAlphabets,
+	const handleBatchToggleHands = updates => {
+		const newEnabledHands = {
+			...enabledHands,
 			...updates,
 		};
-		updateOption('alphabets', newEnabledAlphabets);
+		updateOption('hands', newEnabledHands);
 	};
 
 	return (
@@ -274,29 +274,29 @@ const CatalogueScreen = () => {
 						fontSize: 'xl',
 					})}
 				>
-					Choose Alphabets
+					Choose Hands
 				</Heading>
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<Paragraph>
-						The alphabets Sharpie tests are extracted from a range of source
+						The hands Sharpie tests are extracted from a range of source
 						documents. Expanding the time and stylistic coverage of the
-						alphabets available for practice is the current top priority. Watch
+						hands available for practice is the current top priority. Watch
 						this space.
 					</Paragraph>
 
 					<SelectionStatus
 						isError={hasNoSelection}
-						alphabetCount={alphabetCount}
+						handCount={handCount}
 						characterCount={characterCount}
 					/>
 
-					<AlphabetSelectorWithSort
-						enabledAlphabets={enabledAlphabets}
-						alphabetNames={getAllAlphabetNames(DB)}
-						alphabetsMetadata={alphabetsData}
-						onToggle={handleToggleAlphabet}
-						onBatchToggle={handleBatchToggleAlphabets}
+					<HandSelectorWithSort
+						enabledHands={enabledHands}
+						handNames={getAllHandNames(DB)}
+						handsMetadata={handsData}
+						onToggle={handleToggleHand}
+						onBatchToggle={handleBatchToggleHands}
 
 					/>
 				</div>
@@ -309,7 +309,7 @@ const CatalogueScreen = () => {
 					key={group.title}
 					letters={group.characters}
 					showBaseline={showBaseline}
-					enabledAlphabets={enabledAlphabets}
+					enabledHands={enabledHands}
 					getImagePath={getImagePath}
 				/>
 			))}

@@ -1,7 +1,12 @@
 import { useState } from 'react';
 import { css } from '../../../dist/styled-system/css';
 
-const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
+const DisclosureSection = ({
+	title,
+	defaultExpanded = false,
+	additionalComponent,
+	children,
+}) => {
 	const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
 	const toggle = () => setIsExpanded(prev => !prev);
@@ -21,10 +26,9 @@ const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
 		>
 			<div
 				className={css({
-					display: 'grid',
-					gridTemplateColumns: '1fr 2fr',
-					gap: '2rem',
-					alignItems: 'start',
+					display: 'flex',
+					alignItems: 'center',
+					gap: '1rem',
 					marginBottom: isExpanded ? '2rem' : '0',
 					cursor: 'pointer',
 				})}
@@ -35,6 +39,7 @@ const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
 						margin: '0',
 						fontSize: 'l',
 						fontWeight: 'bold',
+						flexShrink: 0,
 					})}
 				>
 					<button
@@ -52,12 +57,25 @@ const DisclosureSection = ({ title, defaultExpanded = false, children }) => {
 						{title}
 					</button>
 				</h2>
+				{additionalComponent && (
+					<div
+						onClick={(e) => e.stopPropagation()}
+						className={css({
+							cursor: 'default',
+							flexGrow: 1,
+						})}
+					>
+						{additionalComponent}
+					</div>
+				)}
 				<div
 					className={css({
 						textAlign: 'right',
 						cursor: 'pointer',
 						fontSize: '2rem',
 						lineHeight: '1',
+						flexShrink: 0,
+						marginLeft: additionalComponent ? '0' : 'auto',
 					})}
 				>
 					<span aria-hidden="true">{isExpanded ? '−' : '+'}</span>

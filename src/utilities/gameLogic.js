@@ -34,9 +34,9 @@ export const getGraphSetTitle = gameMode => {
  * Gets graphs for the current game mode
  * @param {object} DB - The database object
  * @param {string} gameMode - The game mode (minuscule, majuscule, or all)
- * @param {object} enabledAlphabets - Optional object mapping alphabet names to enabled status
+ * @param {object} enabledHands - Optional object mapping hand names to enabled status
  */
-export const getGraphsForGameMode = (DB, gameMode, enabledAlphabets = null) => {
+export const getGraphsForGameMode = (DB, gameMode, enabledHands = null) => {
 	let graphs;
 	if (gameMode === GAME_MODES.ALL) {
 		const enabledGraphSets = db.getEnabledGraphSets(DB);
@@ -47,9 +47,9 @@ export const getGraphsForGameMode = (DB, gameMode, enabledAlphabets = null) => {
 		graphs = db.getGraphs(graphSet);
 	}
 
-	// Filter by enabled alphabets if provided
-	if (enabledAlphabets) {
-		graphs = db.filterGraphsByEnabledAlphabets(graphs, enabledAlphabets);
+	// Filter by enabled hands if provided
+	if (enabledHands) {
+		graphs = db.filterGraphsByEnabledHands(graphs, enabledHands);
 	}
 
 	return graphs;

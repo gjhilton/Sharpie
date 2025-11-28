@@ -1,0 +1,3 @@
+[11/28/2025, 8:51:32 PM] layer "F-004.pnf": Unsupported extension: pnf
+[11/28/2025, 8:51:32 PM] layer "J001.ng": Unsupported extension: ng
+[11/28/2025, 8:51:32 PM] layer "J002.png]": Expected end of input but "]" found.

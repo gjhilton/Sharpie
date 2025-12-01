@@ -216,4 +216,106 @@ describe('HandRow', () => {
 			'hand-Howard'
 		);
 	});
+
+	it('displays letter counts when provided', () => {
+		const metadataWithCounts = {
+			...mockMetadata,
+			majuscules: 26,
+			minuscules: 26,
+		};
+
+		render(
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
+				<HandRow
+					name="TestHand"
+					metadata={metadataWithCounts}
+					isEnabled={false}
+					onToggle={() => {}}
+				/>
+			</div>
+		);
+
+		expect(screen.getByText(/\(52 characters: 26 min, 26 maj\)/)).toBeInTheDocument();
+	});
+
+	it('does not display letter counts when not provided', () => {
+		render(
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
+				<HandRow
+					name="TestHand"
+					metadata={mockMetadata}
+					isEnabled={false}
+					onToggle={() => {}}
+				/>
+			</div>
+		);
+
+		expect(screen.queryByText(/characters:/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/min/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/maj/)).not.toBeInTheDocument();
+	});
+
+	it('handles zero letter counts', () => {
+		const metadataWithZeroCounts = {
+			...mockMetadata,
+			majuscules: 0,
+			minuscules: 0,
+		};
+
+		render(
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
+				<HandRow
+					name="TestHand"
+					metadata={metadataWithZeroCounts}
+					isEnabled={false}
+					onToggle={() => {}}
+				/>
+			</div>
+		);
+
+		expect(screen.queryByText(/characters:/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/min/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/maj/)).not.toBeInTheDocument();
+	});
+
+	it('displays mixed letter counts correctly', () => {
+		const metadataWithMixedCounts = {
+			...mockMetadata,
+			majuscules: 73,
+			minuscules: 125,
+		};
+
+		render(
+			<div
+				style={{
+					display: 'grid',
+					gridTemplateColumns: 'auto 1fr auto auto',
+				}}
+			>
+				<HandRow
+					name="TestHand"
+					metadata={metadataWithMixedCounts}
+					isEnabled={false}
+					onToggle={() => {}}
+				/>
+			</div>
+		);
+
+		expect(screen.getByText(/\(198 characters: 125 min, 73 maj\)/)).toBeInTheDocument();
+	});
 });

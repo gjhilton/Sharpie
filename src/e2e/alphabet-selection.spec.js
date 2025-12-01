@@ -30,7 +30,14 @@ test.describe('Hand Selection on Catalogue Page', () => {
 			page,
 		}) => {
 			await expect(page.getByText(/enabled.*hands/)).toBeVisible();
-			await expect(page.getByText(/characters/)).toBeVisible();
+			await expect(page.getByText(/characters total/)).toBeVisible();
+		});
+
+		test('should display letter counts (minuscule and majuscule)', async ({
+			page,
+		}) => {
+			await expect(page.getByText(/minuscule/)).toBeVisible();
+			await expect(page.getByText(/majuscule/)).toBeVisible();
 		});
 
 		test('should display all hand toggles', async ({ page }) => {

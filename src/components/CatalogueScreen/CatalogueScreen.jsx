@@ -194,7 +194,7 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	return <LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>;
 };
 
-const SelectionStatus = ({ isError, handCount, characterCount }) => {
+const SelectionStatus = ({ isError, handCount, characterCount, letterCounts }) => {
 	if (isError) {
 		return (
 			<Paragraph className={css({ color: '{colors.error}' })}>
@@ -205,10 +205,18 @@ const SelectionStatus = ({ isError, handCount, characterCount }) => {
 
 	return (
 		<Paragraph>
-			Enable the hands you'd like to work on from the list below. At present
-			you have enabled <strong>{handCount}</strong>{' '}
+			Enable the hands you'd like to work on from the list below. You have enabled <strong>{handCount}</strong>{' '}
 			{handCount === 1 ? 'hand' : 'hands'} (
-			<strong>{characterCount}</strong> characters).
+			<strong>{letterCounts && letterCounts.total > 0 ? letterCounts.total : 0}</strong> characters total:{' '}
+			{letterCounts && letterCounts.total > 0 ? (
+				<>
+					<strong>{letterCounts.minuscules}</strong> minuscule,{' '}
+					<strong>{letterCounts.majuscules}</strong> majuscule
+				</>
+			) : (
+				<>0 minuscule, 0 majuscule</>
+			)}
+			).
 		</Paragraph>
 	);
 };
@@ -223,6 +231,7 @@ const CatalogueScreen = () => {
 		countEnabledHands,
 		countEnabledCharacters,
 		getAllHandNames,
+		countEnabledLetters,
 	} = useDatabase();
 
 	const { showBaseline = false, enabledHands } = options;
@@ -239,6 +248,7 @@ const CatalogueScreen = () => {
 	);
 	const handCount = countEnabledHands(enabledHands);
 	const characterCount = countEnabledCharacters(DB, enabledHands);
+	const letterCounts = countEnabledLetters(DB, enabledHands);
 	const hasNoSelection = handCount === 0 || characterCount === 0;
 
 	const handleToggleHand = name => {
@@ -289,6 +299,7 @@ const CatalogueScreen = () => {
 						isError={hasNoSelection}
 						handCount={handCount}
 						characterCount={characterCount}
+						letterCounts={letterCounts}
 					/>
 
 					<HandSelectorWithSort

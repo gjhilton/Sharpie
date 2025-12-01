@@ -13,6 +13,7 @@ import {
 	buildSourceEntry,
 	generateSources,
 	generateCharacterSets,
+	countLettersForHand,
 	toOutputImage,
 	groupByCategory,
 	sortByCharacter,
@@ -232,6 +233,110 @@ describe('buildSourceEntry', () => {
 			difficulty: 'medium',
 		});
 	});
+
+	it('includes letter counts when provided', () => {
+		const metadata = {
+			Joscelyn: {
+				title: 'Joscelyn Font',
+				sourceUri: 'https://example.com',
+				date: '2019',
+				difficulty: 'easy',
+			},
+		};
+		const letterCounts = { majuscules: 26, minuscules: 26 };
+		const entry = buildSourceEntry('Joscelyn', metadata, letterCounts);
+		expect(entry).toEqual({
+			title: 'Joscelyn Font',
+			sourceUri: 'https://example.com',
+			date: '2019',
+			difficulty: 'easy',
+			majuscules: 26,
+			minuscules: 26,
+		});
+	});
+
+	it('does not include letter counts when zero', () => {
+		const metadata = {
+			Test: {
+				title: 'Test',
+				sourceUri: 'https://example.com',
+				date: '2020',
+				difficulty: 'medium',
+			},
+		};
+		const letterCounts = { majuscules: 0, minuscules: 0 };
+		const entry = buildSourceEntry('Test', metadata, letterCounts);
+		expect(entry).toEqual({
+			title: 'Test',
+			sourceUri: 'https://example.com',
+			date: '2020',
+			difficulty: 'medium',
+			majuscules: 0,
+			minuscules: 0,
+		});
+	});
+});
+
+describe('countLettersForHand', () => {
+	it('counts majuscule and minuscule letters for a hand', () => {
+		const entries = [
+			{
+				images: [
+					{ alphabet: 'TestHand', category: 'MAJUSCULES' },
+					{ alphabet: 'TestHand', category: 'MAJUSCULES' },
+					{ alphabet: 'TestHand', category: 'minuscules' },
+					{ alphabet: 'TestHand', category: 'minuscules' },
+					{ alphabet: 'TestHand', category: 'minuscules' },
+				],
+			},
+		];
+		const result = countLettersForHand(entries, 'TestHand');
+		expect(result).toEqual({ majuscules: 2, minuscules: 3 });
+	});
+
+	it('ignores letters from other hands', () => {
+		const entries = [
+			{
+				images: [
+					{ alphabet: 'TestHand', category: 'MAJUSCULES' },
+					{ alphabet: 'OtherHand', category: 'MAJUSCULES' },
+					{ alphabet: 'TestHand', category: 'minuscules' },
+					{ alphabet: 'OtherHand', category: 'minuscules' },
+				],
+			},
+		];
+		const result = countLettersForHand(entries, 'TestHand');
+		expect(result).toEqual({ majuscules: 1, minuscules: 1 });
+	});
+
+	it('ignores Others category', () => {
+		const entries = [
+			{
+				images: [
+					{ alphabet: 'TestHand', category: 'MAJUSCULES' },
+					{ alphabet: 'TestHand', category: 'Others' },
+					{ alphabet: 'TestHand', category: 'Others' },
+				],
+			},
+		];
+		const result = countLettersForHand(entries, 'TestHand');
+		expect(result).toEqual({ majuscules: 1, minuscules: 0 });
+	});
+
+	it('returns zeros for hand with no letters', () => {
+		const entries = [
+			{
+				images: [{ alphabet: 'OtherHand', category: 'MAJUSCULES' }],
+			},
+		];
+		const result = countLettersForHand(entries, 'TestHand');
+		expect(result).toEqual({ majuscules: 0, minuscules: 0 });
+	});
+
+	it('handles empty entries', () => {
+		const result = countLettersForHand([], 'TestHand');
+		expect(result).toEqual({ majuscules: 0, minuscules: 0 });
+	});
 });
 
 describe('generateSources', () => {
@@ -248,12 +353,33 @@ describe('generateSources', () => {
 		const entries = [
 			{
 				alphabetName: 'Joscelyn',
-				images: [{ alphabet: 'Joscelyn', character: 'a' }],
+				images: [
+					{
+						alphabet: 'Joscelyn',
+						character: 'a',
+						category: 'minuscules',
+					},
+				],
 			},
 		];
 		const result = generateSources(entries, mockMetadata);
 		expect(result).toHaveProperty('Joscelyn');
 		expect(result.Joscelyn.title).toBe('Joscelyn Font');
+	});
+
+	it('includes letter counts in sources', () => {
+		const entries = [
+			{
+				images: [
+					{ alphabet: 'Joscelyn', category: 'MAJUSCULES' },
+					{ alphabet: 'Joscelyn', category: 'minuscules' },
+					{ alphabet: 'Joscelyn', category: 'minuscules' },
+				],
+			},
+		];
+		const result = generateSources(entries, mockMetadata);
+		expect(result.Joscelyn.majuscules).toBe(1);
+		expect(result.Joscelyn.minuscules).toBe(2);
 	});
 
 	it('warns for unknown sources', () => {
@@ -424,6 +550,32 @@ describe('formatSourceEntry', () => {
 			difficulty: 'easy',
 		});
 		expect(result).toContain("title: 'Author\\'s Book'");
+	});
+
+	it('includes letter counts when present', () => {
+		const result = formatSourceEntry('Test', {
+			title: 'Test Title',
+			sourceUri: 'https://example.com',
+			date: '2020',
+			difficulty: 'easy',
+			majuscules: 26,
+			minuscules: 26,
+		});
+		expect(result).toContain('majuscules: 26');
+		expect(result).toContain('minuscules: 26');
+	});
+
+	it('includes zero letter counts', () => {
+		const result = formatSourceEntry('Test', {
+			title: 'Test Title',
+			sourceUri: 'https://example.com',
+			date: '2020',
+			difficulty: 'easy',
+			majuscules: 0,
+			minuscules: 5,
+		});
+		expect(result).toContain('majuscules: 0');
+		expect(result).toContain('minuscules: 5');
 	});
 });
 

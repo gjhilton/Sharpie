@@ -657,3 +657,140 @@ describe('Edge cases and defensive tests', () => {
 		expect(result).toEqual([]);
 	});
 });
+
+describe('countEnabledLetters', () => {
+	test('counts majuscules and minuscules for enabled hands', () => {
+		const testDB = {
+			sources: {
+				Joscelyn: { majuscules: 26, minuscules: 26 },
+				McKerrow: { majuscules: 73, minuscules: 125 },
+				Hill: { majuscules: 20, minuscules: 49 },
+			},
+		};
+		const enabledHands = { Joscelyn: true, McKerrow: true, Hill: false };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 99, // 26 + 73
+			minuscules: 151, // 26 + 125
+			total: 250,
+		});
+	});
+
+	test('returns zeros when no hands enabled', () => {
+		const testDB = {
+			sources: {
+				Joscelyn: { majuscules: 26, minuscules: 26 },
+			},
+		};
+		const enabledHands = { Joscelyn: false };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 0,
+			minuscules: 0,
+			total: 0,
+		});
+	});
+
+	test('handles missing letter count properties', () => {
+		const testDB = {
+			sources: {
+				HandWithCounts: { majuscules: 10, minuscules: 20 },
+				HandWithoutCounts: {},
+			},
+		};
+		const enabledHands = { HandWithCounts: true, HandWithoutCounts: true };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 10,
+			minuscules: 20,
+			total: 30,
+		});
+	});
+
+	test('counts only enabled hands, ignoring disabled ones', () => {
+		const testDB = {
+			sources: {
+				Hand1: { majuscules: 5, minuscules: 10 },
+				Hand2: { majuscules: 15, minuscules: 20 },
+				Hand3: { majuscules: 25, minuscules: 30 },
+			},
+		};
+		const enabledHands = {
+			Hand1: true,
+			Hand2: false,
+			Hand3: true,
+		};
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 30, // 5 + 25
+			minuscules: 40, // 10 + 30
+			total: 70,
+		});
+	});
+
+	test('handles zero counts', () => {
+		const testDB = {
+			sources: {
+				EmptyHand: { majuscules: 0, minuscules: 0 },
+			},
+		};
+		const enabledHands = { EmptyHand: true };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 0,
+			minuscules: 0,
+			total: 0,
+		});
+	});
+
+	test('ignores hands not in database', () => {
+		const testDB = {
+			sources: {
+				ExistingHand: { majuscules: 10, minuscules: 20 },
+			},
+		};
+		const enabledHands = {
+			ExistingHand: true,
+			NonExistentHand: true,
+		};
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 10,
+			minuscules: 20,
+			total: 30,
+		});
+	});
+
+	test('returns zeros for empty enabledHands object', () => {
+		const testDB = {
+			sources: {
+				Hand1: { majuscules: 10, minuscules: 20 },
+			},
+		};
+		const result = db.countEnabledLetters(testDB, {});
+		expect(result).toEqual({
+			majuscules: 0,
+			minuscules: 0,
+			total: 0,
+		});
+	});
+
+	test('total always equals majuscules plus minuscules', () => {
+		const testDB = {
+			sources: {
+				Hand1: { majuscules: 26, minuscules: 26 },
+				Hand2: { majuscules: 73, minuscules: 125 },
+				Hand3: { majuscules: 20, minuscules: 49 },
+			},
+		};
+		const enabledHands = { Hand1: true, Hand2: true, Hand3: false };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+
+		// Critical assertion: total must equal sum
+		expect(result.total).toBe(result.majuscules + result.minuscules);
+		// Also verify the actual values
+		expect(result.majuscules).toBe(99);
+		expect(result.minuscules).toBe(151);
+		expect(result.total).toBe(250);
+	});
+});

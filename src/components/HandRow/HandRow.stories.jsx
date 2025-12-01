@@ -42,6 +42,8 @@ export const Enabled = {
 			date: '2019',
 			sourceUri: 'https://github.com/psb1558/Joscelyn-font/releases',
 			difficulty: 'easy',
+			majuscules: 26,
+			minuscules: 26,
 		},
 		isEnabled: true,
 	},
@@ -57,6 +59,8 @@ export const Disabled = {
 			sourceUri:
 				'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
 			difficulty: 'medium',
+			majuscules: 1,
+			minuscules: 21,
 		},
 		isEnabled: false,
 	},
@@ -72,6 +76,8 @@ export const WithSlashDate = {
 			sourceUri:
 				'https://search.library.yale.edu/catalog/9970402713408651',
 			difficulty: 'hard',
+			majuscules: 20,
+			minuscules: 49,
 		},
 		isEnabled: true,
 	},
@@ -87,6 +93,8 @@ export const LongTitle = {
 			sourceUri:
 				'https://archive.org/details/bim_early-english-books-1475-1640_a-booke-containing-diuer_de-beau-chesne-john-a_1615',
 			difficulty: 'hard',
+			majuscules: 52,
+			minuscules: 45,
 		},
 		isEnabled: false,
 	},
@@ -103,6 +111,8 @@ export const MultipleRows = {
 					sourceUri:
 						'https://github.com/psb1558/Joscelyn-font/releases',
 					difficulty: 'easy',
+					majuscules: 26,
+					minuscules: 26,
 				},
 				isEnabled: true,
 			},
@@ -114,6 +124,8 @@ export const MultipleRows = {
 					sourceUri:
 						'https://digitalcollections.folger.edu/bib244302-309435-xd502_27?language=en',
 					difficulty: 'medium',
+					majuscules: 1,
+					minuscules: 21,
 				},
 				isEnabled: false,
 			},
@@ -125,6 +137,8 @@ export const MultipleRows = {
 					sourceUri:
 						'https://search.library.yale.edu/catalog/9970402713408651',
 					difficulty: 'hard',
+					majuscules: 20,
+					minuscules: 49,
 				},
 				isEnabled: true,
 			},

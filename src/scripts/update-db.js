@@ -139,17 +139,51 @@ export function extractHandNames(allEntries) {
 /**
  * Build source entry from metadata or generate placeholder
  */
-export function buildSourceEntry(handName, metadata) {
+export function buildSourceEntry(handName, metadata, letterCounts = {}) {
+	let sourceEntry;
 	if (metadata[handName]) {
 		const { title, sourceUri, date, difficulty } = metadata[handName];
-		return { title, sourceUri, date, difficulty };
+		sourceEntry = { title, sourceUri, date, difficulty };
+	} else {
+		sourceEntry = {
+			title: `${handName} source`,
+			sourceUri: `https://example.com/${handName.toLowerCase()}`,
+			date: 'unknown',
+			difficulty: 'medium',
+		};
 	}
-	return {
-		title: `${handName} source`,
-		sourceUri: `https://example.com/${handName.toLowerCase()}`,
-		date: 'unknown',
-		difficulty: 'medium',
-	};
+
+	// Add letter counts if available
+	if (letterCounts.majuscules !== undefined) {
+		sourceEntry.majuscules = letterCounts.majuscules;
+	}
+	if (letterCounts.minuscules !== undefined) {
+		sourceEntry.minuscules = letterCounts.minuscules;
+	}
+
+	return sourceEntry;
+}
+
+/**
+ * Count majuscule and minuscule images for a specific hand
+ */
+export function countLettersForHand(allEntries, handName) {
+	let majuscules = 0;
+	let minuscules = 0;
+
+	allEntries.forEach(entry => {
+		entry.images.forEach(img => {
+			if (img.alphabet === handName) {
+				if (img.category === CATEGORIES.MAJUSCULES) {
+					majuscules++;
+				} else if (img.category === CATEGORIES.MINUSCULES) {
+					minuscules++;
+				}
+			}
+		});
+	});
+
+	return { majuscules, minuscules };
 }
 
 /**
@@ -165,7 +199,8 @@ export function generateSources(allEntries, handMetadata = {}) {
 				`⚠️  Source "${name}" not found in hands.json, using placeholder`
 			);
 		}
-		sources[name] = buildSourceEntry(name, handMetadata);
+		const letterCounts = countLettersForHand(allEntries, name);
+		sources[name] = buildSourceEntry(name, handMetadata, letterCounts);
 	});
 
 	return sources;
@@ -247,11 +282,23 @@ export function generateCharacterSets(allEntries) {
  * Format a single source entry as JS code
  */
 export function formatSourceEntry(key, value) {
+	const fields = [
+		`title: '${escapeSingleQuotes(value.title)}'`,
+		`sourceUri: '${escapeSingleQuotes(value.sourceUri)}'`,
+		`date: '${escapeSingleQuotes(value.date)}'`,
+		`difficulty: '${escapeSingleQuotes(value.difficulty)}'`,
+	];
+
+	// Add letter counts if present
+	if (value.majuscules !== undefined) {
+		fields.push(`majuscules: ${value.majuscules}`);
+	}
+	if (value.minuscules !== undefined) {
+		fields.push(`minuscules: ${value.minuscules}`);
+	}
+
 	return `\t\t"${key}": {
-\t\t\ttitle: '${escapeSingleQuotes(value.title)}',
-\t\t\tsourceUri: '${escapeSingleQuotes(value.sourceUri)}',
-\t\t\tdate: '${escapeSingleQuotes(value.date)}',
-\t\t\tdifficulty: '${escapeSingleQuotes(value.difficulty)}'
+${fields.map(f => `\t\t\t${f}`).join(',\n')}
 \t\t}`;
 }
 

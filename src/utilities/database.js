@@ -121,3 +121,20 @@ export const sortHandsByDate = (handNames, handsMetadata) => {
 		return yearA - yearB;
 	});
 };
+
+/**
+ * Count total majuscule and minuscule letters for enabled hands
+ */
+export const countEnabledLetters = (db, enabledHands) => {
+	let majuscules = 0;
+	let minuscules = 0;
+
+	Object.entries(enabledHands).forEach(([handName, isEnabled]) => {
+		if (isEnabled && db.sources[handName]) {
+			majuscules += db.sources[handName].majuscules || 0;
+			minuscules += db.sources[handName].minuscules || 0;
+		}
+	});
+
+	return { majuscules, minuscules, total: majuscules + minuscules };
+};

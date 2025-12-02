@@ -40,10 +40,7 @@ export default defineConfig({
 		alias: {
 			'@': resolve(__dirname, '..'),
 			'@components': resolve(__dirname, '../components'),
-			'@constants': resolve(__dirname, '../constants'),
-			'@context': resolve(__dirname, '../context'),
 			'@data': resolve(__dirname, '../data'),
-			'@utilities': resolve(__dirname, '../utilities'),
 			'@style': resolve(__dirname, '../style'),
 			'@lib': resolve(__dirname, '../lib'),
 			'@generated': resolve(__dirname, '../../dist/styled-system'),

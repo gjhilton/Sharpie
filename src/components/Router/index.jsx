@@ -10,7 +10,7 @@ import {
 	createRoute,
 	Outlet,
 } from '@tanstack/react-router';
-import { GameOptionsProvider } from '@context/GameOptionsContext.jsx';
+import { GameOptionsProvider } from '@lib/context/GameOptionsContext.jsx';
 import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary.jsx';
 import { LoadingScreen } from '@components/LoadingScreen/LoadingScreen.jsx';
 

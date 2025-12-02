@@ -4,8 +4,8 @@ import KB from '@components/KB/KB.jsx';
 import Character, {
 	CHARACTER_STATE,
 } from '@components/Character/Character.jsx';
-import { STATUS } from '@utilities/gameLogic.js';
-import { GAME_MODES } from '@constants/stages.js';
+import { STATUS } from '@lib/utilities/gameLogic.js';
+import { GAME_MODES } from '@lib/constants/stages.js';
 import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 
 const SPACING = {

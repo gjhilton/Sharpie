@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import { css } from '../../../dist/styled-system/css';
 import { Paragraph } from '@components/Layout/Layout.jsx';
 import SubSection from '@components/SubSection/SubSection.jsx';
-import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
+import { useGameOptionsContext } from '@lib/context/GameOptionsContext.jsx';
 import resetOptionsContent from '@data/reset-options.md?raw';
 
 const ResetOptionsSection = () => {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { version } from '@utilities/version.js';
-import packageJson from '../../package.json';
+import { version } from '@lib/utilities/version.js';
+import packageJson from '../../../package.json';
 
 describe('version utility', () => {
 	it('should export a version', () => {

@@ -1,4 +1,4 @@
-import { DIFFICULTY_ORDER } from '@constants/difficulty.js';
+import { DIFFICULTY_ORDER } from '@lib/constants/difficulty.js';
 
 /**
  * Sort hands chronologically by date (oldest first)

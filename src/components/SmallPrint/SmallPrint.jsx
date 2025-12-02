@@ -1,6 +1,6 @@
 import { css } from '../../../dist/styled-system/css';
 import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
-import { version } from '@utilities/version.js';
+import { version } from '@lib/utilities/version.js';
 
 const SmallPrint = ({ onShowFeedback }) => (
 	<footer

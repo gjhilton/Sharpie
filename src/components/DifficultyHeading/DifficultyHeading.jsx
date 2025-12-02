@@ -1,5 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
-import { DIFFICULTY_LABELS } from '@constants/difficulty.js';
+import { DIFFICULTY_LABELS } from '@lib/constants/difficulty.js';
 import BulkSelectionControls from '@components/BulkSelectionControls/BulkSelectionControls.jsx';
 
 const DifficultyHeading = ({

@@ -1,7 +1,7 @@
 import { css } from '../../../dist/styled-system/css';
 import ExampleCard from '@components/ExampleCard/ExampleCard.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import { getBaseUrl } from '@utilities/url.js';
+import { getBaseUrl } from '@lib/utilities/url.js';
 
 const BaselineExamples = () => {
 	const exampleImagePath = `${getBaseUrl()}data/Joscelyn/joscelyn-minuscule-assets/b.png`;

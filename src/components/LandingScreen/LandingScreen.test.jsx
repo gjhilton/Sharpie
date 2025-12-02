@@ -83,7 +83,7 @@ vi.mock('@data/DB.js', () => ({
 }));
 
 // Mock database utilities
-vi.mock('@utilities/database.js', () => ({
+vi.mock('@lib/utilities/database.js', () => ({
 	countEnabledHands: vi.fn(() => 5),
 	countEnabledCharacters: vi.fn(() => 123),
 }));
@@ -116,7 +116,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 }));
 
 // Mock database context
-vi.mock('@context/DatabaseContext.jsx', () => ({
+vi.mock('@lib/context/DatabaseContext.jsx', () => ({
 	useDatabase: () => ({
 		DB: {
 			sources: {

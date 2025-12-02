@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { DB } from '@data/DB.js';
-import * as db from '@utilities/database.js';
+import * as db from '@lib/utilities/database.js';
 
 /**
  * DatabaseContext provides access to the DB and database utilities

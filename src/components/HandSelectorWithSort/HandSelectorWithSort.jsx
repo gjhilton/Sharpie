@@ -6,7 +6,7 @@ import {
 	sortHandsByName,
 	sortHandsByDifficulty,
 	groupHandsByDifficulty,
-} from '@utilities/handSorting.js';
+} from '@lib/utilities/handSorting.js';
 
 const SORT_OPTIONS = [
 	{ value: 'date', label: 'By Date' },

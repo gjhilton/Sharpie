@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
-import * as gameLogic from '@utilities/gameLogic.js';
-import * as db from '@utilities/database.js';
-import { GAME_MODES } from '@constants/stages.js';
+import * as gameLogic from '@lib/utilities/gameLogic.js';
+import * as db from '@lib/utilities/database.js';
+import { GAME_MODES } from '@lib/constants/stages.js';
 
-vi.mock('@utilities/database.js');
+vi.mock('@lib/utilities/database.js');
 
 describe('gameLogic', () => {
 	describe('STATUS constants', () => {

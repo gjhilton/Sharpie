@@ -8,7 +8,7 @@ import {
 	StatusDisplay,
 	GamePresentation,
 } from './GamePresentation';
-import { STATUS } from '@utilities/gameLogic.js';
+import { STATUS } from '@lib/utilities/gameLogic.js';
 import { CHARACTER_STATE } from '@components/Character/Character.jsx';
 
 // Mock child components

@@ -1,5 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
-import { getBaseUrl } from '@utilities/url.js';
+import { getBaseUrl } from '@lib/utilities/url.js';
 
 const ContextImage = () => (
 	<img

@@ -10,7 +10,7 @@ import {
 	createMemoryHistory,
 	RouterProvider,
 } from '@tanstack/react-router';
-import { GameOptionsProvider } from '@context/GameOptionsContext.jsx';
+import { GameOptionsProvider } from '@lib/context/GameOptionsContext.jsx';
 
 /**
  * Create a test router with optional initial path

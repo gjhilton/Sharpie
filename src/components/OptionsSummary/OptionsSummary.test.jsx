@@ -13,7 +13,7 @@ vi.mock('@tanstack/react-router', () => ({
 const mockResetOptions = vi.fn();
 const mockToggleOption = vi.fn();
 const mockCycleMode = vi.fn();
-vi.mock('@context/GameOptionsContext.jsx', () => ({
+vi.mock('@lib/context/GameOptionsContext.jsx', () => ({
 	useGameOptionsContext: () => ({
 		resetOptions: mockResetOptions,
 		toggleOption: mockToggleOption,

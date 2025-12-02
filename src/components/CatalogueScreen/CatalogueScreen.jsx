@@ -12,9 +12,9 @@ import {
 	PageWidth,
 } from '@components/Layout/Layout.jsx';
 import handsData from '@data/hands.json';
-import * as catalogueLogic from '@utilities/catalogueLogic.js';
+import * as catalogueLogic from '@lib/utilities/catalogueLogic.js';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
-import { useDatabase } from '@context/DatabaseContext.jsx';
+import { useDatabase } from '@lib/context/DatabaseContext.jsx';
 
 const STYLES = {
 	verticalGap: '2rem',

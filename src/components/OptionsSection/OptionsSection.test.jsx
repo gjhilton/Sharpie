@@ -2,12 +2,12 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import OptionsSection from './OptionsSection';
-import { GAME_MODES, GAME_MODE_OPTIONS } from '@constants/stages.js';
+import { GAME_MODES, GAME_MODE_OPTIONS } from '@lib/constants/stages.js';
 
 // Mock the GameOptionsContext
 const mockResetOptions = vi.fn();
 const mockCycleMode = vi.fn();
-vi.mock('@context/GameOptionsContext.jsx', () => ({
+vi.mock('@lib/context/GameOptionsContext.jsx', () => ({
 	useGameOptionsContext: () => ({
 		resetOptions: mockResetOptions,
 		cycleMode: mockCycleMode,

@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import * as db from '@utilities/database.js';
+import * as db from '@lib/utilities/database.js';
 
 const mockDB = {
 	sources: {

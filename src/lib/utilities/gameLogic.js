@@ -1,5 +1,5 @@
-import * as db from '@utilities/database.js';
-import { GAME_MODES } from '@constants/stages.js';
+import * as db from '@lib/utilities/database.js';
+import { GAME_MODES } from '@lib/constants/stages.js';
 
 export const STATUS = {
 	NONE: 'none',

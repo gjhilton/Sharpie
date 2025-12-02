@@ -5,7 +5,7 @@ import ResetOptionsSection from './ResetOptionsSection';
 
 // Mock the GameOptionsContext
 const mockResetOptions = vi.fn();
-vi.mock('@context/GameOptionsContext.jsx', () => ({
+vi.mock('@lib/context/GameOptionsContext.jsx', () => ({
 	useGameOptionsContext: () => ({
 		resetOptions: mockResetOptions,
 	}),

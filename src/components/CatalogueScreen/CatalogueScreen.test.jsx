@@ -65,7 +65,7 @@ vi.mock('@data/hands.json', () => ({
 }));
 
 // Mock catalogue logic
-vi.mock('@utilities/catalogueLogic.js', () => ({
+vi.mock('@lib/utilities/catalogueLogic.js', () => ({
 	groupGraphsByGraphSetAndCharacter: vi.fn(() => [
 		{
 			title: 'minuscule',
@@ -106,7 +106,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 }));
 
 // Mock database context
-vi.mock('@context/DatabaseContext.jsx', () => ({
+vi.mock('@lib/context/DatabaseContext.jsx', () => ({
 	useDatabase: () => ({
 		DB: {
 			sources: {

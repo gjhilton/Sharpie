@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import * as gameLogic from '@utilities/gameLogic.js';
+import * as gameLogic from '@lib/utilities/gameLogic.js';
 import { GamePresentation } from '@components/GamePresentation/GamePresentation.jsx';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
-import { useDatabase } from '@context/DatabaseContext.jsx';
+import { useDatabase } from '@lib/context/DatabaseContext.jsx';
 
 export const STATUS = gameLogic.STATUS;
 

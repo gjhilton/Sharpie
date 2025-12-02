@@ -13,7 +13,7 @@ import NextStepsSection from '@components/NextStepsSection/NextStepsSection.jsx'
 import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection.jsx';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 import { OPTIONS } from '@lib/options/schema.js';
-import { useDatabase } from '@context/DatabaseContext.jsx';
+import { useDatabase } from '@lib/context/DatabaseContext.jsx';
 
 // Build mode options from schema
 const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(

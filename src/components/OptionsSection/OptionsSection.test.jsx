@@ -4,6 +4,16 @@ import userEvent from '@testing-library/user-event';
 import OptionsSection from './OptionsSection';
 import { GAME_MODES, GAME_MODE_OPTIONS } from '@constants/stages.js';
 
+// Mock the GameOptionsContext
+const mockResetOptions = vi.fn();
+const mockCycleMode = vi.fn();
+vi.mock('@context/GameOptionsContext.jsx', () => ({
+	useGameOptionsContext: () => ({
+		resetOptions: mockResetOptions,
+		cycleMode: mockCycleMode,
+	}),
+}));
+
 vi.mock('@components/Layout/Layout.jsx', () => ({
 	Paragraph: ({ children }) => <p>{children}</p>,
 }));
@@ -85,25 +95,41 @@ vi.mock('@data/baselines.md?raw', () => ({
 	default: 'Baselines content',
 }));
 
+vi.mock('@components/ShareURLSection/ShareURLSection.jsx', () => ({
+	default: () => <div data-testid="share-url-section">Share URL Section</div>,
+}));
+
+vi.mock('@components/ResetOptionsSection/ResetOptionsSection.jsx', () => ({
+	default: () => <div data-testid="reset-options-section">Reset Options Section</div>,
+}));
+
 describe('OptionsSection', () => {
+	const defaultOptions = {
+		mode: GAME_MODES.ALL,
+		enabledHands: { standard: true },
+		numLetters: false,
+		showBaseline: false,
+	};
+
 	const defaultProps = {
 		gameModeOptions: GAME_MODE_OPTIONS,
 		selectedMode: GAME_MODES.ALL,
 		onModeChange: vi.fn(),
-		twentyFourLetterAlphabet: false,
-		onTwentyFourLetterChange: vi.fn(),
+		numLetters: false,
+		onNumLettersChange: vi.fn(),
 		showBaseline: false,
 		onShowBaselineChange: vi.fn(),
 		characterCount: 80,
-		alphabetCount: 3,
+		handCount: 3,
 		onShowCatalogue: vi.fn(),
+		options: defaultOptions,
 	};
 
 	it('renders all subsections', () => {
 		render(<OptionsSection {...defaultProps} />);
 
 		expect(screen.getByText('Identify...')).toBeInTheDocument();
-		expect(screen.getByText('Alphabets')).toBeInTheDocument();
+		expect(screen.getByText('Hands')).toBeInTheDocument();
 		expect(screen.getByText('26 letters vs 24')).toBeInTheDocument();
 		expect(screen.getByText('Baselines')).toBeInTheDocument();
 	});
@@ -141,19 +167,19 @@ describe('OptionsSection', () => {
 		expect(screen.getByText('3')).toBeInTheDocument();
 	});
 
-	it('renders Choose alphabets button', () => {
+	it('renders Choose hands button', () => {
 		render(<OptionsSection {...defaultProps} />);
 
-		expect(screen.getByRole('button', { name: 'Choose alphabets' })).toBeInTheDocument();
+		expect(screen.getByRole('button', { name: 'Choose hands' })).toBeInTheDocument();
 	});
 
-	it('calls onShowCatalogue when Choose alphabets is clicked', async () => {
+	it('calls onShowCatalogue when Choose hands is clicked', async () => {
 		const onShowCatalogue = vi.fn();
 		const user = userEvent.setup();
 
 		render(<OptionsSection {...defaultProps} onShowCatalogue={onShowCatalogue} />);
 
-		await user.click(screen.getByRole('button', { name: 'Choose alphabets' }));
+		await user.click(screen.getByRole('button', { name: 'Choose hands' }));
 
 		expect(onShowCatalogue).toHaveBeenCalledTimes(1);
 	});
@@ -175,26 +201,38 @@ describe('OptionsSection', () => {
 		expect(onShowBaselineChange).toHaveBeenCalledWith(true);
 	});
 
-	it('renders 24-letter alphabet toggle', () => {
+	it('renders 24-letter hand toggle', () => {
 		render(<OptionsSection {...defaultProps} />);
 
 		expect(screen.getByLabelText('24-letter alphabet')).toBeInTheDocument();
 	});
 
-	it('calls onTwentyFourLetterChange when alphabet toggle is clicked', async () => {
-		const onTwentyFourLetterChange = vi.fn();
+	it('calls onNumLettersChange when hand toggle is clicked', async () => {
+		const onNumLettersChange = vi.fn();
 		const user = userEvent.setup();
 
-		render(<OptionsSection {...defaultProps} onTwentyFourLetterChange={onTwentyFourLetterChange} />);
+		render(<OptionsSection {...defaultProps} onNumLettersChange={onNumLettersChange} />);
 
 		await user.click(screen.getByLabelText('24-letter alphabet'));
 
-		expect(onTwentyFourLetterChange).toHaveBeenCalledWith(true);
+		expect(onNumLettersChange).toHaveBeenCalledWith(true);
 	});
 
 	it('renders BaselineExamples component', () => {
 		render(<OptionsSection {...defaultProps} />);
 
 		expect(screen.getByTestId('baseline-examples')).toBeInTheDocument();
+	});
+
+	it('renders ShareURLSection', () => {
+		render(<OptionsSection {...defaultProps} />);
+
+		expect(screen.getByTestId('share-url-section')).toBeInTheDocument();
+	});
+
+	it('renders ResetOptionsSection', () => {
+		render(<OptionsSection {...defaultProps} />);
+
+		expect(screen.getByTestId('reset-options-section')).toBeInTheDocument();
 	});
 });

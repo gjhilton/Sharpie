@@ -7,6 +7,7 @@ import DisclosureSection from '@components/DisclosureSection/DisclosureSection.j
 import SourceFigure from '@components/SourceFigure/SourceFigure.jsx';
 import HeroSection from '@components/HeroSection/HeroSection.jsx';
 import OptionsSection from '@components/OptionsSection/OptionsSection.jsx';
+import OptionsSummary from '@components/OptionsSummary/OptionsSummary.jsx';
 import HowToPlaySection from '@components/HowToPlaySection/HowToPlaySection.jsx';
 import NextStepsSection from '@components/NextStepsSection/NextStepsSection.jsx';
 import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection.jsx';
@@ -22,15 +23,15 @@ const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
 const LandingScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
-	const { DB, countEnabledCharacters, countEnabledAlphabets } = useDatabase();
+	const { DB, countEnabledCharacters, countEnabledHands } = useDatabase();
 
 	const handlePlay = () => navigate({ to: '/play', search: prev => prev });
 	const handleShowCatalogue = () => navigate({ to: '/catalogue', search: prev => prev });
 	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
 
 	const handleModeChange = e => updateOption('mode', e.target.value);
-	const handleTwentyFourLetterChange = checked =>
-		updateOption('twentyFourLetter', checked);
+	const handleNumLettersChange = checked =>
+		updateOption('numLetters', checked);
 	const handleShowBaselineChange = checked =>
 		updateOption('showBaseline', checked);
 
@@ -47,21 +48,30 @@ const LandingScreen = () => {
 				<HeroSection onPlay={handlePlay} />
 
 				<main>
-					<DisclosureSection title="Options">
+					<DisclosureSection
+						title="Options"
+						additionalComponent={
+							<OptionsSummary
+								options={options}
+								handCount={countEnabledHands(options.enabledHands)}
+							/>
+						}
+					>
 						<OptionsSection
 							gameModeOptions={GAME_MODE_OPTIONS}
 							selectedMode={options.mode}
 							onModeChange={handleModeChange}
-							twentyFourLetterAlphabet={options.twentyFourLetterAlphabet}
-							onTwentyFourLetterChange={handleTwentyFourLetterChange}
+							numLetters={options.numLetters}
+							onNumLettersChange={handleNumLettersChange}
 							showBaseline={options.showBaseline}
 							onShowBaselineChange={handleShowBaselineChange}
 							characterCount={countEnabledCharacters(
 								DB,
-								options.enabledAlphabets
+								options.enabledHands
 							)}
-							alphabetCount={countEnabledAlphabets(options.enabledAlphabets)}
+							handCount={countEnabledHands(options.enabledHands)}
 							onShowCatalogue={handleShowCatalogue}
+							options={options}
 						/>
 					</DisclosureSection>
 

@@ -20,7 +20,10 @@ export default defineConfig({
 
 	/* Reporter to use. See https://playwright.dev/docs/test-reporters */
 	reporter: [
-		['html', { outputFolder: 'playwright/playwright-report' }],
+		[
+			'html',
+			{ outputFolder: 'playwright/playwright-report', open: 'never' },
+		],
 		['list'],
 	],
 

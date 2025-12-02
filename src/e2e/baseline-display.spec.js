@@ -410,7 +410,7 @@ test.describe('Baseline Display Feature', () => {
 	});
 
 	test.describe('Combined Options', () => {
-		test('baselines and 24-letter alphabet can be used together', async ({
+		test('baselines and 24-letter hand can be used together', async ({
 			page,
 		}) => {
 			// Expand Options section
@@ -451,7 +451,7 @@ test.describe('Baseline Display Feature', () => {
 			expect(hasCombinedLetters).toBeTruthy();
 		});
 
-		test('baselines OFF with 24-letter alphabet ON', async ({ page }) => {
+		test('baselines OFF with 24-letter hand ON', async ({ page }) => {
 			// Expand Options section
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,

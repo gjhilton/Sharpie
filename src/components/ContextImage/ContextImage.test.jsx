@@ -16,7 +16,7 @@ describe('ContextImage', () => {
 		expect(img).toBeInTheDocument();
 	});
 
-	it('should use Howard alphabet image', () => {
+	it('should use Howard hand image', () => {
 		render(<ContextImage />);
 		const img = screen.getByRole('img');
 		expect(img.src).toContain('Howard-assets/e-word-7asd.png');

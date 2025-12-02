@@ -17,7 +17,7 @@ const PATHS = {
 	alphabets: join(PROJECT_ROOT, 'src/artwork/alphabets'),
 	database: join(PROJECT_ROOT, 'src/data/DB.js'),
 	publicData: join(PROJECT_ROOT, 'src/public/data'),
-	metadata: join(PROJECT_ROOT, 'src/data/alphabets.json'),
+	metadata: join(PROJECT_ROOT, 'src/data/hands.json'),
 };
 
 const CATEGORIES = {
@@ -81,9 +81,9 @@ export function categorizeCharacter(char) {
 // =============================================================================
 
 /**
- * Get alphabet name from asset path (parent directory name)
+ * Get hand name from asset path (parent directory name)
  */
-export function getAlphabetName(assetPath) {
+export function getHandName(assetPath) {
 	return basename(dirname(assetPath));
 }
 
@@ -101,7 +101,7 @@ export function getAssetFolderName(assetPath) {
 /**
  * Build a single image entry from file info
  */
-export function buildImageEntry(file, alphabetName, assetFolderName, metadata) {
+export function buildImageEntry(file, handName, assetFolderName, metadata) {
 	const sanitizedFile = sanitizeFilename(file);
 	const character = extractCharacter(file);
 	const category = categorizeCharacter(character);
@@ -112,9 +112,9 @@ export function buildImageEntry(file, alphabetName, assetFolderName, metadata) {
 	const entry = {
 		img: sanitizedFile,
 		character,
-		alphabet: alphabetName,
+		alphabet: handName,
 		category,
-		relativePath: `${alphabetName}/${assetFolderName}/${sanitizedFile}`,
+		relativePath: `${handName}/${assetFolderName}/${sanitizedFile}`,
 	};
 
 	if (note) entry.note = note;
@@ -126,9 +126,9 @@ export function buildImageEntry(file, alphabetName, assetFolderName, metadata) {
 // =============================================================================
 
 /**
- * Extract unique alphabet names from processed entries
+ * Extract unique hand names from processed entries
  */
-export function extractAlphabetNames(allEntries) {
+export function extractHandNames(allEntries) {
 	const names = new Set();
 	allEntries.forEach(entry => {
 		entry.images.forEach(img => names.add(img.alphabet));
@@ -139,33 +139,68 @@ export function extractAlphabetNames(allEntries) {
 /**
  * Build source entry from metadata or generate placeholder
  */
-export function buildSourceEntry(alphabetName, metadata) {
-	if (metadata[alphabetName]) {
-		const { title, sourceUri, date, difficulty } = metadata[alphabetName];
-		return { title, sourceUri, date, difficulty };
+export function buildSourceEntry(handName, metadata, letterCounts = {}) {
+	let sourceEntry;
+	if (metadata[handName]) {
+		const { title, sourceUri, date, difficulty } = metadata[handName];
+		sourceEntry = { title, sourceUri, date, difficulty };
+	} else {
+		sourceEntry = {
+			title: `${handName} source`,
+			sourceUri: `https://example.com/${handName.toLowerCase()}`,
+			date: 'unknown',
+			difficulty: 'medium',
+		};
 	}
-	return {
-		title: `${alphabetName} source`,
-		sourceUri: `https://example.com/${alphabetName.toLowerCase()}`,
-		date: 'unknown',
-		difficulty: 'medium',
-	};
+
+	// Add letter counts if available
+	if (letterCounts.majuscules !== undefined) {
+		sourceEntry.majuscules = letterCounts.majuscules;
+	}
+	if (letterCounts.minuscules !== undefined) {
+		sourceEntry.minuscules = letterCounts.minuscules;
+	}
+
+	return sourceEntry;
+}
+
+/**
+ * Count majuscule and minuscule images for a specific hand
+ */
+export function countLettersForHand(allEntries, handName) {
+	let majuscules = 0;
+	let minuscules = 0;
+
+	allEntries.forEach(entry => {
+		entry.images.forEach(img => {
+			if (img.alphabet === handName) {
+				if (img.category === CATEGORIES.MAJUSCULES) {
+					majuscules++;
+				} else if (img.category === CATEGORIES.MINUSCULES) {
+					minuscules++;
+				}
+			}
+		});
+	});
+
+	return { majuscules, minuscules };
 }
 
 /**
  * Generate sources object for DB
  */
-export function generateSources(allEntries, alphabetMetadata = {}) {
+export function generateSources(allEntries, handMetadata = {}) {
 	const sources = {};
-	const alphabetNames = extractAlphabetNames(allEntries);
+	const handNames = extractHandNames(allEntries);
 
-	alphabetNames.forEach(name => {
-		if (!alphabetMetadata[name]) {
+	handNames.forEach(name => {
+		if (!handMetadata[name]) {
 			console.warn(
-				`⚠️  Source "${name}" not found in alphabets.json, using placeholder`
+				`⚠️  Source "${name}" not found in hands.json, using placeholder`
 			);
 		}
-		sources[name] = buildSourceEntry(name, alphabetMetadata);
+		const letterCounts = countLettersForHand(allEntries, name);
+		sources[name] = buildSourceEntry(name, handMetadata, letterCounts);
 	});
 
 	return sources;
@@ -247,11 +282,23 @@ export function generateCharacterSets(allEntries) {
  * Format a single source entry as JS code
  */
 export function formatSourceEntry(key, value) {
+	const fields = [
+		`title: '${escapeSingleQuotes(value.title)}'`,
+		`sourceUri: '${escapeSingleQuotes(value.sourceUri)}'`,
+		`date: '${escapeSingleQuotes(value.date)}'`,
+		`difficulty: '${escapeSingleQuotes(value.difficulty)}'`,
+	];
+
+	// Add letter counts if present
+	if (value.majuscules !== undefined) {
+		fields.push(`majuscules: ${value.majuscules}`);
+	}
+	if (value.minuscules !== undefined) {
+		fields.push(`minuscules: ${value.minuscules}`);
+	}
+
 	return `\t\t"${key}": {
-\t\t\ttitle: '${escapeSingleQuotes(value.title)}',
-\t\t\tsourceUri: '${escapeSingleQuotes(value.sourceUri)}',
-\t\t\tdate: '${escapeSingleQuotes(value.date)}',
-\t\t\tdifficulty: '${escapeSingleQuotes(value.difficulty)}'
+${fields.map(f => `\t\t\t${f}`).join(',\n')}
 \t\t}`;
 }
 
@@ -353,11 +400,11 @@ async function readMetadata(assetPath) {
  * Process a single asset directory - copy files and build entries
  */
 async function processAssetDirectory(assetPath) {
-	const alphabetName = getAlphabetName(assetPath);
+	const handName = getHandName(assetPath);
 	const assetFolderName = getAssetFolderName(assetPath);
-	const destDir = join(PATHS.publicData, alphabetName, assetFolderName);
+	const destDir = join(PATHS.publicData, handName, assetFolderName);
 
-	console.log(`\n📁 Processing ${alphabetName}/${assetFolderName}...`);
+	console.log(`\n📁 Processing ${handName}/${assetFolderName}...`);
 
 	const metadata = await readMetadata(assetPath);
 	if (Object.keys(metadata).length > 0) {
@@ -378,7 +425,7 @@ async function processAssetDirectory(assetPath) {
 	for (const file of files) {
 		const entry = buildImageEntry(
 			file,
-			alphabetName,
+			handName,
 			assetFolderName,
 			metadata
 		);
@@ -392,7 +439,7 @@ async function processAssetDirectory(assetPath) {
 		);
 	}
 
-	return { alphabetName, assetFolderName, images };
+	return { handName, assetFolderName, images };
 }
 
 // =============================================================================
@@ -473,15 +520,13 @@ async function main() {
 		console.log('='.repeat(60));
 		console.log(`Scanning: ${PATHS.alphabets}`);
 
-		// Load alphabet metadata
-		let alphabetMetadata = {};
+		// Load hand metadata
+		let handMetadata = {};
 		try {
-			alphabetMetadata = JSON.parse(
-				await readFile(PATHS.metadata, 'utf-8')
-			);
+			handMetadata = JSON.parse(await readFile(PATHS.metadata, 'utf-8'));
 			console.log(`✓ Loaded metadata from ${PATHS.metadata}`);
 		} catch (error) {
-			console.warn(`⚠️  Could not load alphabets.json: ${error.message}`);
+			console.warn(`⚠️  Could not load hands.json: ${error.message}`);
 		}
 
 		// Find and process asset directories
@@ -495,7 +540,7 @@ async function main() {
 		}
 
 		// Generate and write DB
-		const sources = generateSources(allEntries, alphabetMetadata);
+		const sources = generateSources(allEntries, handMetadata);
 		const characterSets = generateCharacterSets(allEntries);
 		const dbContent = formatDBContent(sources, characterSets);
 

@@ -55,21 +55,24 @@ test.describe('Landing Page Content', () => {
 
 		test('should display Alphabets subsection title', async ({ page }) => {
 			await expect(
-				page.getByRole('heading', { name: 'Alphabets' })
+				page.getByRole('heading', { name: 'Hands' })
 			).toBeVisible();
 		});
 
 		test('should display question bank statistics', async ({ page }) => {
-			// Dynamic numbers, so just check structure - use the paragraph containing the stats
-			await expect(page.getByText(/Question bank:/)).toBeVisible();
-			await expect(page.getByText(/characters from/)).toBeVisible();
-			// Check for the actual structure rather than just "alphabets"
-			await expect(page.getByText(/\d+ alphabets/)).toBeVisible();
+			// Options is already expanded by beforeEach hook
+			// Wait for content to be visible
+			await page.waitForTimeout(200);
+
+			// Match the entire paragraph pattern (text is split across multiple elements)
+			await expect(
+				page.getByText(/Question bank:.*characters from.*hands/i)
+			).toBeVisible();
 		});
 
-		test('should display Choose alphabets button', async ({ page }) => {
+		test('should display Choose hands button', async ({ page }) => {
 			const button = page.getByRole('button', {
-				name: /choose alphabets/i,
+				name: /choose hands/i,
 			});
 			await expect(button).toBeVisible();
 		});
@@ -240,7 +243,7 @@ test.describe('Landing Page Content', () => {
 		}) => {
 			await expect(
 				page.getByText(
-					/For some alphabets.*we show you a fragment of a whole word/
+					/For some hands.*we show you a fragment of a whole word/
 				)
 			).toBeVisible();
 			await expect(

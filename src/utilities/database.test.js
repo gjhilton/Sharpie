@@ -417,46 +417,37 @@ describe('Case sensitivity tests', () => {
 	});
 });
 
-describe('filterGraphsByEnabledAlphabets', () => {
-	test('filters graphs by enabled alphabets', () => {
+describe('filterGraphsByEnabledHands', () => {
+	test('filters graphs by enabled hands', () => {
 		const graphs = [
 			{ character: 'a', img: 'a.png', source: 'joscelyn' },
 			{ character: 'b', img: 'b.png', source: 'hill' },
 			{ character: 'c', img: 'c.png', source: 'joscelyn' },
 		];
-		const enabledAlphabets = { joscelyn: true, hill: false };
-		const result = db.filterGraphsByEnabledAlphabets(
-			graphs,
-			enabledAlphabets
-		);
+		const enabledHands = { joscelyn: true, hill: false };
+		const result = db.filterGraphsByEnabledHands(graphs, enabledHands);
 		expect(result).toHaveLength(2);
 		expect(result[0].source).toBe('joscelyn');
 		expect(result[1].source).toBe('joscelyn');
 	});
 
-	test('returns empty array when no alphabets enabled', () => {
+	test('returns empty array when no hands enabled', () => {
 		const graphs = [
 			{ character: 'a', img: 'a.png', source: 'joscelyn' },
 			{ character: 'b', img: 'b.png', source: 'hill' },
 		];
-		const enabledAlphabets = { joscelyn: false, hill: false };
-		const result = db.filterGraphsByEnabledAlphabets(
-			graphs,
-			enabledAlphabets
-		);
+		const enabledHands = { joscelyn: false, hill: false };
+		const result = db.filterGraphsByEnabledHands(graphs, enabledHands);
 		expect(result).toEqual([]);
 	});
 
-	test('returns all graphs when all alphabets enabled', () => {
+	test('returns all graphs when all hands enabled', () => {
 		const graphs = [
 			{ character: 'a', img: 'a.png', source: 'joscelyn' },
 			{ character: 'b', img: 'b.png', source: 'hill' },
 		];
-		const enabledAlphabets = { joscelyn: true, hill: true };
-		const result = db.filterGraphsByEnabledAlphabets(
-			graphs,
-			enabledAlphabets
-		);
+		const enabledHands = { joscelyn: true, hill: true };
+		const result = db.filterGraphsByEnabledHands(graphs, enabledHands);
 		expect(result).toHaveLength(2);
 	});
 });
@@ -493,15 +484,15 @@ describe('countTotalCharacters', () => {
 });
 
 describe('countEnabledCharacters', () => {
-	test('counts characters from enabled alphabets only', () => {
-		const enabledAlphabets = { joscelyn: true, hill: false };
-		const result = db.countEnabledCharacters(mockDB, enabledAlphabets);
+	test('counts characters from enabled hands only', () => {
+		const enabledHands = { joscelyn: true, hill: false };
+		const result = db.countEnabledCharacters(mockDB, enabledHands);
 		expect(result).toBe(4); // All graphs in mockDB have source: 'joscelyn'
 	});
 
-	test('returns 0 when no alphabets enabled', () => {
-		const enabledAlphabets = { joscelyn: false, hill: false };
-		const result = db.countEnabledCharacters(mockDB, enabledAlphabets);
+	test('returns 0 when no hands enabled', () => {
+		const enabledHands = { joscelyn: false, hill: false };
+		const result = db.countEnabledCharacters(mockDB, enabledHands);
 		expect(result).toBe(0);
 	});
 
@@ -519,111 +510,111 @@ describe('countEnabledCharacters', () => {
 				},
 			],
 		};
-		const enabledAlphabets = { alpha: true, beta: false };
-		const result = db.countEnabledCharacters(mixedDB, enabledAlphabets);
+		const enabledHands = { alpha: true, beta: false };
+		const result = db.countEnabledCharacters(mixedDB, enabledHands);
 		expect(result).toBe(2); // Only 'a' and 'c' from alpha
 	});
 });
 
-describe('getAllAlphabetNames', () => {
+describe('getAllHandNames', () => {
 	test('returns all source keys', () => {
-		const result = db.getAllAlphabetNames(mockDB);
+		const result = db.getAllHandNames(mockDB);
 		expect(result).toEqual(['hill', 'joscelyn']);
 	});
 
 	test('returns empty array for db with no sources', () => {
 		const emptySourcesDB = { sources: {} };
-		const result = db.getAllAlphabetNames(emptySourcesDB);
+		const result = db.getAllHandNames(emptySourcesDB);
 		expect(result).toEqual([]);
 	});
 });
 
-describe('countEnabledAlphabets', () => {
-	test('counts alphabets with true values', () => {
-		const enabledAlphabets = { joscelyn: true, hill: true, other: false };
-		const result = db.countEnabledAlphabets(enabledAlphabets);
+describe('countEnabledHands', () => {
+	test('counts hands with true values', () => {
+		const enabledHands = { joscelyn: true, hill: true, other: false };
+		const result = db.countEnabledHands(enabledHands);
 		expect(result).toBe(2);
 	});
 
 	test('returns 0 when none enabled', () => {
-		const enabledAlphabets = { joscelyn: false, hill: false };
-		const result = db.countEnabledAlphabets(enabledAlphabets);
+		const enabledHands = { joscelyn: false, hill: false };
+		const result = db.countEnabledHands(enabledHands);
 		expect(result).toBe(0);
 	});
 
 	test('returns count for all enabled', () => {
-		const enabledAlphabets = { a: true, b: true, c: true };
-		const result = db.countEnabledAlphabets(enabledAlphabets);
+		const enabledHands = { a: true, b: true, c: true };
+		const result = db.countEnabledHands(enabledHands);
 		expect(result).toBe(3);
 	});
 
 	test('returns 0 for empty object', () => {
-		const result = db.countEnabledAlphabets({});
+		const result = db.countEnabledHands({});
 		expect(result).toBe(0);
 	});
 });
 
-describe('sortAlphabetsByDate', () => {
-	test('sorts alphabets by date in ascending order', () => {
+describe('sortHandsByDate', () => {
+	test('sorts hands by date in ascending order', () => {
 		const alphabetNames = ['modern', 'medieval', 'ancient'];
-		const alphabetsMetadata = {
+		const handsMetadata = {
 			modern: { date: '2019' },
 			medieval: { date: '1574' },
 			ancient: { date: '1200' },
 		};
-		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		const result = db.sortHandsByDate(alphabetNames, handsMetadata);
 		expect(result).toEqual(['ancient', 'medieval', 'modern']);
 	});
 
 	test('handles dates with slashes like "1574/5"', () => {
 		const alphabetNames = ['a', 'b', 'c'];
-		const alphabetsMetadata = {
+		const handsMetadata = {
 			a: { date: '1579/80' },
 			b: { date: '1574/5' },
 			c: { date: '1570' },
 		};
-		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		const result = db.sortHandsByDate(alphabetNames, handsMetadata);
 		expect(result).toEqual(['c', 'b', 'a']);
 	});
 
-	test('puts alphabets without dates at the end', () => {
+	test('puts hands without dates at the end', () => {
 		const alphabetNames = ['noDate', 'hasDate'];
-		const alphabetsMetadata = {
+		const handsMetadata = {
 			hasDate: { date: '1500' },
 			noDate: {},
 		};
-		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		const result = db.sortHandsByDate(alphabetNames, handsMetadata);
 		expect(result).toEqual(['hasDate', 'noDate']);
 	});
 
 	test('handles missing metadata entries', () => {
 		const alphabetNames = ['known', 'unknown'];
-		const alphabetsMetadata = {
+		const handsMetadata = {
 			known: { date: '1600' },
 		};
-		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		const result = db.sortHandsByDate(alphabetNames, handsMetadata);
 		expect(result).toEqual(['known', 'unknown']);
 	});
 
 	test('does not mutate original array', () => {
 		const alphabetNames = ['b', 'a', 'c'];
-		const alphabetsMetadata = {
+		const handsMetadata = {
 			a: { date: '1500' },
 			b: { date: '1600' },
 			c: { date: '1550' },
 		};
 		const original = [...alphabetNames];
-		db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		db.sortHandsByDate(alphabetNames, handsMetadata);
 		expect(alphabetNames).toEqual(original);
 	});
 
-	test('handles alphabets with same date', () => {
+	test('handles hands with same date', () => {
 		const alphabetNames = ['first', 'second'];
-		const alphabetsMetadata = {
+		const handsMetadata = {
 			first: { date: '1574' },
 			second: { date: '1574' },
 		};
-		const result = db.sortAlphabetsByDate(alphabetNames, alphabetsMetadata);
+		const result = db.sortHandsByDate(alphabetNames, handsMetadata);
 		expect(result).toHaveLength(2);
 		expect(result).toContain('first');
 		expect(result).toContain('second');
@@ -664,5 +655,142 @@ describe('Edge cases and defensive tests', () => {
 		};
 		const result = db.getEnabledGraphSets(allDisabled);
 		expect(result).toEqual([]);
+	});
+});
+
+describe('countEnabledLetters', () => {
+	test('counts majuscules and minuscules for enabled hands', () => {
+		const testDB = {
+			sources: {
+				Joscelyn: { majuscules: 26, minuscules: 26 },
+				McKerrow: { majuscules: 73, minuscules: 125 },
+				Hill: { majuscules: 20, minuscules: 49 },
+			},
+		};
+		const enabledHands = { Joscelyn: true, McKerrow: true, Hill: false };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 99, // 26 + 73
+			minuscules: 151, // 26 + 125
+			total: 250,
+		});
+	});
+
+	test('returns zeros when no hands enabled', () => {
+		const testDB = {
+			sources: {
+				Joscelyn: { majuscules: 26, minuscules: 26 },
+			},
+		};
+		const enabledHands = { Joscelyn: false };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 0,
+			minuscules: 0,
+			total: 0,
+		});
+	});
+
+	test('handles missing letter count properties', () => {
+		const testDB = {
+			sources: {
+				HandWithCounts: { majuscules: 10, minuscules: 20 },
+				HandWithoutCounts: {},
+			},
+		};
+		const enabledHands = { HandWithCounts: true, HandWithoutCounts: true };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 10,
+			minuscules: 20,
+			total: 30,
+		});
+	});
+
+	test('counts only enabled hands, ignoring disabled ones', () => {
+		const testDB = {
+			sources: {
+				Hand1: { majuscules: 5, minuscules: 10 },
+				Hand2: { majuscules: 15, minuscules: 20 },
+				Hand3: { majuscules: 25, minuscules: 30 },
+			},
+		};
+		const enabledHands = {
+			Hand1: true,
+			Hand2: false,
+			Hand3: true,
+		};
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 30, // 5 + 25
+			minuscules: 40, // 10 + 30
+			total: 70,
+		});
+	});
+
+	test('handles zero counts', () => {
+		const testDB = {
+			sources: {
+				EmptyHand: { majuscules: 0, minuscules: 0 },
+			},
+		};
+		const enabledHands = { EmptyHand: true };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 0,
+			minuscules: 0,
+			total: 0,
+		});
+	});
+
+	test('ignores hands not in database', () => {
+		const testDB = {
+			sources: {
+				ExistingHand: { majuscules: 10, minuscules: 20 },
+			},
+		};
+		const enabledHands = {
+			ExistingHand: true,
+			NonExistentHand: true,
+		};
+		const result = db.countEnabledLetters(testDB, enabledHands);
+		expect(result).toEqual({
+			majuscules: 10,
+			minuscules: 20,
+			total: 30,
+		});
+	});
+
+	test('returns zeros for empty enabledHands object', () => {
+		const testDB = {
+			sources: {
+				Hand1: { majuscules: 10, minuscules: 20 },
+			},
+		};
+		const result = db.countEnabledLetters(testDB, {});
+		expect(result).toEqual({
+			majuscules: 0,
+			minuscules: 0,
+			total: 0,
+		});
+	});
+
+	test('total always equals majuscules plus minuscules', () => {
+		const testDB = {
+			sources: {
+				Hand1: { majuscules: 26, minuscules: 26 },
+				Hand2: { majuscules: 73, minuscules: 125 },
+				Hand3: { majuscules: 20, minuscules: 49 },
+			},
+		};
+		const enabledHands = { Hand1: true, Hand2: true, Hand3: false };
+		const result = db.countEnabledLetters(testDB, enabledHands);
+
+		// Critical assertion: total must equal sum
+		expect(result.total).toBe(result.majuscules + result.minuscules);
+		// Also verify the actual values
+		expect(result.majuscules).toBe(99);
+		expect(result.minuscules).toBe(151);
+		expect(result.total).toBe(250);
 	});
 });

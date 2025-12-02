@@ -465,7 +465,7 @@ describe('KB Component', () => {
 	});
 
 	describe('24-Letter Alphabet Mode', () => {
-		// Update mock to handle 24-letter alphabet layout
+		// Update mock to handle 24-letter hand layout
 		beforeEach(() => {
 			vi.resetModules();
 			vi.mock('react-simple-keyboard', () => ({

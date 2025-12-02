@@ -63,10 +63,10 @@ export const getEnabledGraphSets = db => {
 };
 
 /**
- * Filter graphs to only include those from enabled alphabets
+ * Filter graphs to only include those from enabled hands
  */
-export const filterGraphsByEnabledAlphabets = (graphs, enabledAlphabets) => {
-	return graphs.filter(graph => enabledAlphabets[graph.source] === true);
+export const filterGraphsByEnabledHands = (graphs, enabledHands) => {
+	return graphs.filter(graph => enabledHands[graph.source] === true);
 };
 
 /**
@@ -78,15 +78,15 @@ export const countTotalCharacters = db => {
 };
 
 /**
- * Count characters from enabled alphabets only
+ * Count characters from enabled hands only
  */
-export const countEnabledCharacters = (db, enabledAlphabets) => {
+export const countEnabledCharacters = (db, enabledHands) => {
 	const graphSets = getAllGraphsets(db);
 	let count = 0;
 	graphSets.forEach(gs => {
-		const filteredGraphs = filterGraphsByEnabledAlphabets(
+		const filteredGraphs = filterGraphsByEnabledHands(
 			getGraphs(gs),
-			enabledAlphabets
+			enabledHands
 		);
 		count += filteredGraphs.length;
 	});
@@ -94,30 +94,47 @@ export const countEnabledCharacters = (db, enabledAlphabets) => {
 };
 
 /**
- * Get list of all alphabet names from the database
+ * Get list of all hand names from the database
  */
-export const getAllAlphabetNames = db => {
+export const getAllHandNames = db => {
 	return Object.keys(db.sources);
 };
 
 /**
- * Count enabled alphabets
+ * Count enabled hands
  */
-export const countEnabledAlphabets = enabledAlphabets => {
-	return Object.values(enabledAlphabets).filter(Boolean).length;
+export const countEnabledHands = enabledHands => {
+	return Object.values(enabledHands).filter(Boolean).length;
 };
 
 /**
- * Sort alphabets by date (chronological order)
+ * Sort hands by date (chronological order)
  * Parses dates like "1570", "1574/5", "1579/80", "2019"
  */
-export const sortAlphabetsByDate = (alphabetNames, alphabetsMetadata) => {
-	return [...alphabetNames].sort((a, b) => {
-		const dateA = alphabetsMetadata[a]?.date || '9999';
-		const dateB = alphabetsMetadata[b]?.date || '9999';
+export const sortHandsByDate = (handNames, handsMetadata) => {
+	return [...handNames].sort((a, b) => {
+		const dateA = handsMetadata[a]?.date || '9999';
+		const dateB = handsMetadata[b]?.date || '9999';
 		// Extract first year from date string (handles "1574/5" -> 1574)
 		const yearA = parseInt(dateA.split('/')[0], 10);
 		const yearB = parseInt(dateB.split('/')[0], 10);
 		return yearA - yearB;
 	});
+};
+
+/**
+ * Count total majuscule and minuscule letters for enabled hands
+ */
+export const countEnabledLetters = (db, enabledHands) => {
+	let majuscules = 0;
+	let minuscules = 0;
+
+	Object.entries(enabledHands).forEach(([handName, isEnabled]) => {
+		if (isEnabled && db.sources[handName]) {
+			majuscules += db.sources[handName].majuscules || 0;
+			minuscules += db.sources[handName].minuscules || 0;
+		}
+	});
+
+	return { majuscules, minuscules, total: majuscules + minuscules };
 };

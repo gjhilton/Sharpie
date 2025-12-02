@@ -106,7 +106,7 @@ export async function navigateToCatalogue(page) {
 	const optionsHeader = page.getByRole('button', { name: /options/i });
 	await optionsHeader.click();
 
-	await page.getByRole('button', { name: /choose alphabets/i }).click();
+	await page.getByRole('button', { name: /choose hands/i }).click();
 
 	// Wait for catalogue to load
 	await page.waitForSelector('h1', { timeout: 5000 });

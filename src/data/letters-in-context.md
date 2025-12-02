@@ -1,4 +1,4 @@
-For some alphabets and characters we show you a fragment of a whole word. You are asked to identify just the letter coloured in heavy black.
+For some hands and characters we show you a fragment of a whole word. You are asked to identify just the letter coloured in heavy black.
 
 {{CONTEXT_IMAGE}}
 

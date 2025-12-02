@@ -22,8 +22,8 @@ vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
 	),
 }));
 
-vi.mock('@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx', () => ({
-	default: ({ onToggle, onBatchToggle, enabledAlphabets }) => (
+vi.mock('@components/HandSelectorWithSort/HandSelectorWithSort.jsx', () => ({
+	default: ({ onToggle, onBatchToggle, enabledHands }) => (
 		<div data-testid="alphabet-selector">
 			<button
 				onClick={() => onToggle('test-alphabet')}
@@ -38,7 +38,7 @@ vi.mock('@components/AlphabetSelectorWithSort/AlphabetSelectorWithSort.jsx', () 
 				Batch Toggle
 			</button>
 			<div data-testid="enabled-state">
-				{JSON.stringify(enabledAlphabets)}
+				{JSON.stringify(enabledHands)}
 			</div>
 		</div>
 	),
@@ -52,11 +52,11 @@ vi.mock('@components/LinkAsButton/LinkAsButton.jsx', () => ({
 	),
 }));
 
-// Mock alphabets data
-vi.mock('@data/alphabets.json', () => ({
+// Mock hands data
+vi.mock('@data/hands.json', () => ({
 	default: {
 		'test-alphabet': {
-			title: 'Test Alphabet',
+			title: 'Test Hand',
 			date: '1900',
 			isDefaultEnabled: true,
 			difficulty: 'easy',
@@ -94,7 +94,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 	useGameOptions: () => ({
 		options: {
 			mode: 'all',
-			enabledAlphabets: {
+			enabledHands: {
 				'test-alphabet': true,
 			},
 			twentyFourLetterAlphabet: false,
@@ -112,6 +112,8 @@ vi.mock('@context/DatabaseContext.jsx', () => ({
 			sources: {
 				'test-alphabet': {
 					title: 'Test Alphabet',
+					majuscules: 26,
+					minuscules: 26,
 				},
 			},
 		},
@@ -122,9 +124,10 @@ vi.mock('@context/DatabaseContext.jsx', () => ({
 				graphs: [{ character: 'a', source: 'test-alphabet' }],
 			},
 		]),
-		countEnabledAlphabets: vi.fn(() => 2),
+		countEnabledHands: vi.fn(() => 2),
 		countEnabledCharacters: vi.fn(() => 52),
-		getAllAlphabetNames: vi.fn(() => ['test-alphabet']),
+		countEnabledLetters: vi.fn(() => ({ majuscules: 26, minuscules: 26, total: 52 })),
+		getAllHandNames: vi.fn(() => ['test-alphabet']),
 	}),
 }));
 
@@ -138,10 +141,10 @@ describe('CatalogueScreen', () => {
 	describe('Component Structure', () => {
 		it('renders the page title', () => {
 			render(<CatalogueScreen />);
-			expect(screen.getByText('Choose Alphabets')).toBeInTheDocument();
+			expect(screen.getByText('Choose Hands')).toBeInTheDocument();
 		});
 
-		it('renders the alphabet selector', () => {
+		it('renders the hand selector', () => {
 			render(<CatalogueScreen />);
 			expect(screen.getByTestId('alphabet-selector')).toBeInTheDocument();
 		});
@@ -158,19 +161,51 @@ describe('CatalogueScreen', () => {
 	});
 
 	describe('Selection Status', () => {
-		it('displays alphabet and character counts', () => {
-			render(<CatalogueScreen />);
+		it('displays hand and character counts', () => {
+			const { container } = render(<CatalogueScreen />);
 			expect(
 				screen.getByText(/you have enabled/i)
 			).toBeInTheDocument();
-			expect(screen.getByText('2')).toBeInTheDocument();
-			expect(screen.getByText('52')).toBeInTheDocument();
+			const textContent = container.textContent;
+			expect(textContent).toMatch(/2.*hands/);
+			expect(textContent).toMatch(/52.*characters total/);
 		});
 
-		it('shows descriptive text about alphabets', () => {
+		it('displays letter counts for enabled hands', () => {
+			const { container } = render(<CatalogueScreen />);
+			const textContent = container.textContent;
+			expect(textContent).toMatch(/26.*minuscule/);
+			expect(textContent).toMatch(/26.*majuscule/);
+			// Verify total equals majuscules + minuscules
+			expect(textContent).toMatch(/52.*characters total.*26.*minuscule.*26.*majuscule/);
+		});
+
+		it('verifies total equals sum of majuscules and minuscules', () => {
+			const { container } = render(<CatalogueScreen />);
+			const textContent = container.textContent;
+
+			// The mock returns: majuscules: 26, minuscules: 26, total: 52
+			// Verify these exact values appear
+			const totalMatch = textContent.match(/(\d+)\s*characters total/);
+			const minMatch = textContent.match(/(\d+)\s*minuscule/);
+			const majMatch = textContent.match(/(\d+)\s*majuscule/);
+
+			expect(totalMatch).toBeTruthy();
+			expect(minMatch).toBeTruthy();
+			expect(majMatch).toBeTruthy();
+
+			const total = parseInt(totalMatch[1]);
+			const min = parseInt(minMatch[1]);
+			const maj = parseInt(majMatch[1]);
+
+			// Critical test: total must equal min + maj
+			expect(total).toBe(min + maj);
+		});
+
+		it('shows descriptive text about hands', () => {
 			render(<CatalogueScreen />);
 			expect(
-				screen.getByText(/The alphabets Sharpie tests/i)
+				screen.getByText(/The hands Sharpie tests/i)
 			).toBeInTheDocument();
 		});
 	});
@@ -207,7 +242,7 @@ describe('CatalogueScreen', () => {
 	});
 
 	describe('Alphabet Selection', () => {
-		it('can toggle individual alphabets', async () => {
+		it('can toggle individual hands', async () => {
 			const user = userEvent.setup();
 			render(<CatalogueScreen />);
 
@@ -217,7 +252,7 @@ describe('CatalogueScreen', () => {
 			expect(screen.getByTestId('enabled-state')).toBeInTheDocument();
 		});
 
-		it('can batch toggle alphabets', async () => {
+		it('can batch toggle hands', async () => {
 			const user = userEvent.setup();
 			render(<CatalogueScreen />);
 

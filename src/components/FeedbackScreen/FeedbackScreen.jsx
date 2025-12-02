@@ -3,6 +3,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { useForm, ValidationError } from '@formspree/react';
 import Button from '@components/Button/Button.jsx';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
+import { Input, Textarea } from '@components/Input/Input.jsx';
 import {
 	PageWidth,
 	PageTitle,
@@ -28,47 +29,6 @@ const FormField = ({ label, children }) => (
 		</label>
 		{children}
 	</div>
-);
-
-const Input = ({ id, type = 'text', name, required = false }) => (
-	<input
-		id={id}
-		type={type}
-		name={name}
-		required={required}
-		className={css({
-			padding: '0.75rem',
-			fontSize: 'm',
-			border: '1px solid {colors.ink}',
-			borderRadius: '4px',
-			backgroundColor: '{colors.paper}',
-			'&:focus': {
-				outline: 'none',
-				borderColor: '{colors.borderFocus}',
-			},
-		})}
-	/>
-);
-
-const Textarea = ({ id, name, required = false }) => (
-	<textarea
-		id={id}
-		name={name}
-		required={required}
-		rows={6}
-		className={css({
-			padding: '0.75rem',
-			fontSize: 'm',
-			border: '1px solid {colors.ink}',
-			backgroundColor: '{colors.paper}',
-			resize: 'vertical',
-			fontFamily: 'inherit',
-			'&:focus': {
-				outline: 'none',
-				borderColor: '{colors.borderFocus}',
-			},
-		})}
-	/>
 );
 
 const ThankYouMessage = ({ onReturnToMenu }) => (

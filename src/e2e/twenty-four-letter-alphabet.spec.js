@@ -6,7 +6,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 	});
 
 	test.describe('Landing Screen - Options Section', () => {
-		test('should display 24-letter alphabet toggle in Options', async ({
+		test('should display 24-letter hand toggle in Options', async ({
 			page,
 		}) => {
 			// Expand Options section
@@ -123,7 +123,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('keyboard should show single letters when mode is OFF', async ({
 			page,
 		}) => {
-			// Turn OFF 24-letter alphabet mode first
+			// Turn OFF 24-letter hand mode first
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
 			});
@@ -211,7 +211,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 		test('should NOT accept alternate letter when mode is OFF', async ({
 			page,
 		}) => {
-			// Turn OFF 24-letter alphabet mode
+			// Turn OFF 24-letter hand mode
 			const optionsHeader = page.getByRole('button', {
 				name: /options/i,
 			});
@@ -301,7 +301,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 	});
 
 	test.describe('Integration with Game Modes', () => {
-		test('24-letter alphabet should work with minuscules game', async ({
+		test('24-letter hand should work with minuscules game', async ({
 			page,
 		}) => {
 			// Mode is ON by default
@@ -328,7 +328,7 @@ test.describe('24-Letter Alphabet Feature', () => {
 			expect(keyboardText).toMatch(/[u]\/[v]/);
 		});
 
-		test('24-letter alphabet should work with MAJUSCULES game', async ({
+		test('24-letter hand should work with MAJUSCULES game', async ({
 			page,
 		}) => {
 			// Mode is ON by default

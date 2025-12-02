@@ -1,5 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
-import alphabets from '@data/alphabets.json';
+import hands from '@data/hands.json';
 
 const SourceFigure = () => (
 	<figure>
@@ -11,12 +11,12 @@ const SourceFigure = () => (
 				fontSize: 's',
 			})}
 		>
-			{alphabets['BeauChesne-Baildon'].title}
+			{hands['BeauChesne-Baildon'].title}
 			<a
-				href={alphabets['BeauChesne-Baildon'].sourceUri}
+				href={hands['BeauChesne-Baildon'].sourceUri}
 				target="_blank"
 				rel="noopener noreferrer"
-				aria-label="View source for BeauChesne-Baildon alphabet"
+				aria-label="View source for BeauChesne-Baildon hand"
 			>
 				{' '}
 				[source]

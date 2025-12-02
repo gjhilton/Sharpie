@@ -5,7 +5,7 @@ import Toggle from '@components/Toggle/Toggle.jsx';
 const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 	const letterCount = (metadata.majuscules || 0) + (metadata.minuscules || 0);
 	const letterCountDisplay = letterCount > 0
-		? `(${letterCount} characters: ${metadata.minuscules || 0} min, ${metadata.majuscules || 0} maj)`
+		? `(${letterCount} characters: ${metadata.minuscules || 0} minuscule, ${metadata.majuscules || 0} majuscule)`
 		: '';
 
 	return (

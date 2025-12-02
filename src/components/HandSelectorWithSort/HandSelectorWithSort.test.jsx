@@ -10,24 +10,32 @@ describe('HandSelectorWithSort', () => {
 			date: '2019',
 			sourceUri: 'https://example.com/joscelyn',
 			difficulty: 'easy',
+			majuscules: 26,
+			minuscules: 26,
 		},
 		NBacon: {
 			title: 'Letter from Nathaniel Bacon',
 			date: '1594',
 			sourceUri: 'https://example.com/nbacon',
 			difficulty: 'medium',
+			majuscules: 1,
+			minuscules: 21,
 		},
 		Howard: {
 			title: 'Letter: Charles Howard',
 			date: '1579/80',
 			sourceUri: 'https://example.com/howard',
 			difficulty: 'medium',
+			majuscules: 7,
+			minuscules: 31,
 		},
 		Hill: {
 			title: 'Commonplace book of William Hill',
 			date: '1574/5',
 			sourceUri: 'https://example.com/hill',
 			difficulty: 'hard',
+			majuscules: 20,
+			minuscules: 49,
 		},
 	};
 
@@ -231,6 +239,22 @@ describe('HandSelectorWithSort', () => {
 		expect(
 			screen.getByRole('option', { name: 'By Difficulty' })
 		).toBeInTheDocument();
+	});
+
+	it('displays letter counts for each hand', () => {
+		render(
+			<HandSelectorWithSort
+				handNames={mockHandNames}
+				handsMetadata={mockHandsMetadata}
+				enabledHands={mockEnabledHands}
+				onToggle={() => {}}
+			/>
+		);
+
+		// Check for Joscelyn's letter count (26 + 26 = 52)
+		expect(screen.getByText(/52 characters: 26 minuscule, 26 majuscule/)).toBeInTheDocument();
+		// Check for NBacon's letter count (1 + 21 = 22)
+		expect(screen.getByText(/22 characters: 21 minuscule, 1 majuscule/)).toBeInTheDocument();
 	});
 
 	it('handles empty hand list', () => {

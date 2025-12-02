@@ -240,7 +240,7 @@ describe('HandRow', () => {
 			</div>
 		);
 
-		expect(screen.getByText(/\(52 characters: 26 min, 26 maj\)/)).toBeInTheDocument();
+		expect(screen.getByText(/\(52 characters: 26 minuscule, 26 majuscule\)/)).toBeInTheDocument();
 	});
 
 	it('does not display letter counts when not provided', () => {
@@ -261,8 +261,8 @@ describe('HandRow', () => {
 		);
 
 		expect(screen.queryByText(/characters:/)).not.toBeInTheDocument();
-		expect(screen.queryByText(/min/)).not.toBeInTheDocument();
-		expect(screen.queryByText(/maj/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/minuscule/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/majuscule/)).not.toBeInTheDocument();
 	});
 
 	it('handles zero letter counts', () => {
@@ -289,8 +289,8 @@ describe('HandRow', () => {
 		);
 
 		expect(screen.queryByText(/characters:/)).not.toBeInTheDocument();
-		expect(screen.queryByText(/min/)).not.toBeInTheDocument();
-		expect(screen.queryByText(/maj/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/minuscule/)).not.toBeInTheDocument();
+		expect(screen.queryByText(/majuscule/)).not.toBeInTheDocument();
 	});
 
 	it('displays mixed letter counts correctly', () => {
@@ -316,6 +316,6 @@ describe('HandRow', () => {
 			</div>
 		);
 
-		expect(screen.getByText(/\(198 characters: 125 min, 73 maj\)/)).toBeInTheDocument();
+		expect(screen.getByText(/\(198 characters: 125 minuscule, 73 majuscule\)/)).toBeInTheDocument();
 	});
 });

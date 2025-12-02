@@ -305,7 +305,7 @@ const CatalogueScreen = () => {
 					<HandSelectorWithSort
 						enabledHands={enabledHands}
 						handNames={getAllHandNames(DB)}
-						handsMetadata={handsData}
+						handsMetadata={DB.sources}
 						onToggle={handleToggleHand}
 						onBatchToggle={handleBatchToggleHands}
 

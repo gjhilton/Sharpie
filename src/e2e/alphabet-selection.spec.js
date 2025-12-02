@@ -36,8 +36,10 @@ test.describe('Hand Selection on Catalogue Page', () => {
 		test('should display letter counts (minuscule and majuscule)', async ({
 			page,
 		}) => {
-			await expect(page.getByText(/minuscule/)).toBeVisible();
-			await expect(page.getByText(/majuscule/)).toBeVisible();
+			// Check for letter counts in the summary paragraph
+			await expect(
+				page.getByText(/characters total:.*minuscule.*majuscule/)
+			).toBeVisible();
 		});
 
 		test('should display all hand toggles', async ({ page }) => {
@@ -392,13 +394,11 @@ test.describe('Hand Selection on Catalogue Page', () => {
 			await toggles.nth(0).click();
 			await toggles.nth(1).click();
 
-			// Get counts
+			// Get hand count from catalogue
 			const statusText = page.getByText(/enabled.*hands/);
 			const catalogueText = await statusText.textContent();
 			const alphaMatch = catalogueText.match(/(\d+) hands/);
-			const charMatch = catalogueText.match(/(\d+) characters/);
 			const expectedAlphabets = alphaMatch[1];
-			const expectedCharacters = charMatch[1];
 
 			// Return to landing
 			const backButton = page.getByRole('button', {
@@ -413,12 +413,10 @@ test.describe('Hand Selection on Catalogue Page', () => {
 			});
 			await optionsHeader.click();
 
-			// Verify counts match
+			// Verify hand count matches (character counts differ between pages - catalogue shows letters only, landing shows all characters)
 			await expect(
 				page.getByText(
-					new RegExp(
-						`${expectedCharacters} characters from ${expectedAlphabets} hands`
-					)
+					new RegExp(`characters from ${expectedAlphabets} hands`)
 				)
 			).toBeVisible();
 		});

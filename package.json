@@ -4,8 +4,8 @@
 	"version": "1.2.5",
 	"type": "module",
 	"scripts": {
-		"dev": "npm run prepare-public && vite --config src/config/vite.config.js",
-		"dev:host": "npm run prepare-public && vite --config src/config/vite.config.js --host --port 8080",
+		"dev": "npm run update-db && npm run prepare-public && vite --config src/config/vite.config.js --host --port 8080",
+		"dev:local": "npm run update-db && npm run prepare-public && vite --config src/config/vite.config.js",
 		"build": "npm run update-db && npm run prepare-public && vite build --config src/config/vite.config.js",
 		"prepare-public": "node src/scripts/prepare-public.js",
 		"lint": "eslint . --config src/config/eslint.config.js",

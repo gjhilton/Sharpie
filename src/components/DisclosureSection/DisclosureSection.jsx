@@ -1,7 +1,14 @@
 import { useState } from 'react';
 import { css } from '../../../dist/styled-system/css';
 
-const DisclosureSection = ({
+const MARGIN_TOP = '-4px';
+const BORDER_WIDTH = '4px';
+const PADDING_VERTICAL = '1rem';
+const HEADING_GAP = '1rem';
+const CONTENT_MARGIN_BOTTOM = '2rem';
+const TOGGLE_FONT_SIZE = '2rem';
+
+export const DisclosureSection = ({
 	title,
 	defaultExpanded = false,
 	additionalComponent,
@@ -14,11 +21,11 @@ const DisclosureSection = ({
 	return (
 		<div
 			className={css({
-				marginTop: '-4px',
-				borderTop: '4px solid {colors.ink}',
-				borderBottom: '4px solid {colors.ink}',
-				paddingTop: '1rem',
-				paddingBottom: '1rem',
+				marginTop: MARGIN_TOP,
+				borderTop: `${BORDER_WIDTH} solid {colors.ink}`,
+				borderBottom: `${BORDER_WIDTH} solid {colors.ink}`,
+				paddingTop: PADDING_VERTICAL,
+				paddingBottom: PADDING_VERTICAL,
 				_first: {
 					marginTop: '0',
 				},
@@ -28,8 +35,8 @@ const DisclosureSection = ({
 				className={css({
 					display: 'flex',
 					alignItems: 'center',
-					gap: '1rem',
-					marginBottom: isExpanded ? '2rem' : '0',
+					gap: HEADING_GAP,
+					marginBottom: isExpanded ? CONTENT_MARGIN_BOTTOM : '0',
 					cursor: 'pointer',
 				})}
 				onClick={toggle}
@@ -72,7 +79,7 @@ const DisclosureSection = ({
 					className={css({
 						textAlign: 'right',
 						cursor: 'pointer',
-						fontSize: '2rem',
+						fontSize: TOGGLE_FONT_SIZE,
 						lineHeight: '1',
 						flexShrink: 0,
 						marginLeft: additionalComponent ? '0' : 'auto',
@@ -86,5 +93,3 @@ const DisclosureSection = ({
 		</div>
 	);
 };
-
-export default DisclosureSection;

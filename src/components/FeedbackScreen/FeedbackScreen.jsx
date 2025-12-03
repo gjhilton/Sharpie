@@ -2,21 +2,26 @@ import { css } from '../../../dist/styled-system/css';
 import { useNavigate } from '@tanstack/react-router';
 import { useForm, ValidationError } from '@formspree/react';
 import { Button } from '@components/Button/Button';
-import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
-import { Input, Textarea } from '@components/Input/Input.jsx';
+import { SmallPrint } from '@components/SmallPrint/SmallPrint';
+import { Input, Textarea } from '@components/Input/Input';
 import {
 	PageWidth,
 	PageTitle,
 	Paragraph,
 	Section,
-} from '@components/Layout/Layout.jsx';
+} from '@components/Layout/Layout';
+
+const FIELD_GAP = '0.5rem';
+const FORM_GAP = '1.5rem';
+const BUTTON_GAP = '1rem';
+const BUTTON_MARGIN_TOP = '1rem';
 
 const FormField = ({ label, children }) => (
 	<div
 		className={css({
 			display: 'flex',
 			flexDirection: 'column',
-			gap: '0.5rem',
+			gap: FIELD_GAP,
 		})}
 	>
 		<label
@@ -43,7 +48,7 @@ const ThankYouMessage = ({ onReturnToMenu }) => (
 	</>
 );
 
-const FeedbackScreen = () => {
+export const FeedbackScreen = () => {
 	const navigate = useNavigate();
 	const [state, handleSubmit] = useForm('xanlrkkz');
 
@@ -74,7 +79,7 @@ const FeedbackScreen = () => {
 					className={css({
 						display: 'flex',
 						flexDirection: 'column',
-						gap: '1.5rem',
+						gap: FORM_GAP,
 					})}
 				>
 					<FormField label="Name">
@@ -116,8 +121,8 @@ const FeedbackScreen = () => {
 					<div
 						className={css({
 							display: 'flex',
-							gap: '1rem',
-							marginTop: '1rem',
+							gap: BUTTON_GAP,
+							marginTop: BUTTON_MARGIN_TOP,
 						})}
 					>
 						<Button
@@ -135,6 +140,3 @@ const FeedbackScreen = () => {
 		</PageWidth>
 	);
 };
-
-export { FeedbackScreen };
-export default FeedbackScreen;

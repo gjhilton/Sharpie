@@ -1,9 +1,5 @@
-/**
- * ErrorBoundary - catches React errors and displays ErrorScreen
- */
-
 import { Component } from 'react';
-import { ErrorScreen } from '@components/ErrorScreen/ErrorScreen.jsx';
+import { ErrorScreen } from '@components/ErrorScreen/ErrorScreen';
 
 export class ErrorBoundary extends Component {
 	constructor(props) {
@@ -16,7 +12,6 @@ export class ErrorBoundary extends Component {
 	}
 
 	componentDidCatch(error, errorInfo) {
-		// Log error to console in development
 		console.error('ErrorBoundary caught an error:', error, errorInfo);
 	}
 

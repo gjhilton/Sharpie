@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import HowToPlaySection from './HowToPlaySection';
+import { HowToPlaySection } from '@components/HowToPlaySection/HowToPlaySection';
 
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
 	default: ({ title, children }) => (

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HeroSection from './HeroSection';
+import { HeroSection } from '@components/HeroSection/HeroSection';
 
 vi.mock('@data/hero.md?raw', () => ({
 	default: 'Test *hero* content with emphasis.',

@@ -1,12 +1,10 @@
 import { css } from '../../../dist/styled-system/css';
 import { Button } from '@components/Button/Button';
-import KB from '@components/KB/KB.jsx';
-import Character, {
-	CHARACTER_STATE,
-} from '@components/Character/Character.jsx';
-import { STATUS } from '@lib/utilities/gameLogic.js';
-import { GAME_MODES } from '@lib/constants/stages.js';
-import { useEnterKey } from '@lib/hooks/useEnterKey.js';
+import { KB } from '@components/KB/KB';
+import { Character, CHARACTER_STATE } from '@components/Character/Character';
+import { STATUS } from '@lib/utilities/gameLogic';
+import { GAME_MODES } from '@lib/constants/stages';
+import { useEnterKey } from '@lib/hooks/useEnterKey';
 
 const SPACING = {
 	SECTION_GAP: '2rem',

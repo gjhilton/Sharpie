@@ -1,18 +1,20 @@
-import React from 'react';
 import { css } from '../../../dist/styled-system/css';
-import HandRow from '@components/HandRow/HandRow.jsx';
+import { HandRow } from '@components/HandRow/HandRow';
 import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
-import { DIFFICULTY_ORDER } from '@lib/constants/difficulty.js';
+import { DIFFICULTY_ORDER } from '@lib/constants/difficulty';
+
+const GRID_GAP = '0.5rem 1rem';
+const MARGIN_TOP = '2rem';
 
 const gridStyles = css({
 	display: 'grid',
 	gridTemplateColumns: 'auto 1fr auto auto',
-	gap: '0.5rem 1rem',
+	gap: GRID_GAP,
 	alignItems: 'start',
-	marginTop: '2rem',
+	marginTop: MARGIN_TOP,
 });
 
-const HandList = ({
+export const HandList = ({
 	hands,
 	handsMetadata,
 	enabledHands,
@@ -41,7 +43,7 @@ const HandList = ({
 					const noneSelected = selectedCount === 0;
 
 					return (
-						<React.Fragment key={difficulty}>
+						<div key={difficulty}>
 							<DifficultyHeading
 								difficulty={difficulty}
 								allSelected={allSelected}
@@ -58,7 +60,7 @@ const HandList = ({
 									onToggle={() => onToggle(name)}
 								/>
 							))}
-						</React.Fragment>
+						</div>
 					);
 				})}
 			</div>
@@ -80,6 +82,3 @@ const HandList = ({
 		</div>
 	);
 };
-
-export { HandList };
-export default HandList;

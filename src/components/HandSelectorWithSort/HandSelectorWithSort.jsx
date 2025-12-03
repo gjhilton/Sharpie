@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import SortSelector from '@components/SortSelector/SortSelector.jsx';
-import HandList from '@components/HandList/HandList.jsx';
+import SortSelector from '@components/SortSelector/SortSelector';
+import { HandList } from '@components/HandList/HandList';
 import {
 	sortHandsByDate,
 	sortHandsByName,
 	sortHandsByDifficulty,
 	groupHandsByDifficulty,
-} from '@lib/utilities/handSorting.js';
+} from '@lib/utilities/handSorting';
 
 const SORT_OPTIONS = [
 	{ value: 'date', label: 'By Date' },
@@ -14,7 +14,7 @@ const SORT_OPTIONS = [
 	{ value: 'difficulty', label: 'By Difficulty' },
 ];
 
-const HandSelectorWithSort = ({
+export const HandSelectorWithSort = ({
 	handNames,
 	handsMetadata,
 	enabledHands,
@@ -110,5 +110,3 @@ const HandSelectorWithSort = ({
 		</div>
 	);
 };
-
-export default HandSelectorWithSort;

@@ -1,15 +1,17 @@
 import { css } from '../../../dist/styled-system/css';
 import ReactMarkdown from 'react-markdown';
 import { Button } from '@components/Button/Button';
-import { PageTitle, Paragraph } from '@components/Layout/Layout.jsx';
+import { PageTitle, Paragraph } from '@components/Layout/Layout';
 import heroContent from '@data/hero.md?raw';
 
-const HeroSection = ({ onPlay }) => (
+const GAP = '2rem';
+
+export const HeroSection = ({ onPlay }) => (
 	<section
 		className={css({
 			display: 'grid',
 			gridTemplateColumns: '1fr 2fr',
-			gap: '2rem',
+			gap: GAP,
 			alignItems: 'start',
 		})}
 	>
@@ -31,5 +33,3 @@ const HeroSection = ({ onPlay }) => (
 		</div>
 	</section>
 );
-
-export default HeroSection;

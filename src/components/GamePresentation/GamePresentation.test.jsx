@@ -13,7 +13,7 @@ import { CHARACTER_STATE } from '@components/Character/Character.jsx';
 
 // Mock child components
 vi.mock('@components/Character/Character.jsx', () => ({
-	default: ({
+	Character: ({
 		state,
 		imagePath,
 		imagePaths,
@@ -43,7 +43,7 @@ vi.mock('@components/Character/Character.jsx', () => ({
 }));
 
 vi.mock('@components/KB/KB.jsx', () => ({
-	default: ({ keyCallback, initialLayout, showShiftKeys }) => (
+	KB: ({ keyCallback, initialLayout, showShiftKeys }) => (
 		<div
 			data-testid="kb"
 			data-initial-layout={initialLayout}

@@ -1,9 +1,10 @@
-/**
- * ErrorScreen - displayed when an error occurs
- */
-
 import { css } from '../../../dist/styled-system/css';
-import { Button } from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
+
+const PADDING = '2rem';
+const GAP = '1.5rem';
+const HEADING_FONT_SIZE = '1.5rem';
+const MAX_WIDTH = '400px';
 
 export const ErrorScreen = ({ error, resetError }) => {
 	return (
@@ -14,14 +15,14 @@ export const ErrorScreen = ({ error, resetError }) => {
 				alignItems: 'center',
 				justifyContent: 'center',
 				minHeight: '100vh',
-				padding: '2rem',
+				padding: PADDING,
 				textAlign: 'center',
-				gap: '1.5rem',
+				gap: GAP,
 			})}
 		>
 			<h1
 				className={css({
-					fontSize: '1.5rem',
+					fontSize: HEADING_FONT_SIZE,
 					fontWeight: 'bold',
 					color: '{colors.ink}',
 				})}
@@ -32,7 +33,7 @@ export const ErrorScreen = ({ error, resetError }) => {
 			<p
 				className={css({
 					color: '{colors.ink/70}',
-					maxWidth: '400px',
+					maxWidth: MAX_WIDTH,
 				})}
 			>
 				{error?.message || 'An unexpected error occurred. Please try again.'}

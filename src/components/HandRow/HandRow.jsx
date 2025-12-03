@@ -1,15 +1,17 @@
-import React from 'react';
 import { css } from '../../../dist/styled-system/css';
-import Toggle from '@components/Toggle/Toggle.jsx';
+import { Toggle } from '@components/Toggle/Toggle';
 
-const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
+const LETTER_COUNT_FONT_SIZE = '0.875rem';
+const LETTER_COUNT_MARGIN_TOP = '0.25rem';
+
+export const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 	const letterCount = (metadata.majuscules || 0) + (metadata.minuscules || 0);
 	const letterCountDisplay = letterCount > 0
 		? `(${letterCount} characters: ${metadata.minuscules || 0} minuscule, ${metadata.majuscules || 0} majuscule)`
 		: '';
 
 	return (
-		<React.Fragment>
+		<>
 			<Toggle
 				id={`hand-${name}`}
 				checked={isEnabled}
@@ -19,7 +21,7 @@ const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 			<div>
 				<div>{metadata.title}</div>
 				{letterCountDisplay && (
-					<div className={css({ fontSize: '0.875rem', color: '{colors.ink/70}', marginTop: '0.25rem' })}>
+					<div className={css({ fontSize: LETTER_COUNT_FONT_SIZE, color: '{colors.ink/70}', marginTop: LETTER_COUNT_MARGIN_TOP })}>
 						{letterCountDisplay}
 					</div>
 				)}
@@ -38,8 +40,6 @@ const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 			>
 				source
 			</a>
-		</React.Fragment>
+		</>
 	);
 };
-
-export default HandRow;

@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import * as gameLogic from '@lib/utilities/gameLogic.js';
-import { GamePresentation } from '@components/GamePresentation/GamePresentation.jsx';
-import { useGameOptions } from '@lib/hooks/useGameOptions.js';
-import { useDatabase } from '@lib/context/DatabaseContext.jsx';
+import * as gameLogic from '@lib/utilities/gameLogic';
+import { GamePresentation } from '@components/GamePresentation/GamePresentation';
+import { useGameOptions } from '@lib/hooks/useGameOptions';
+import { useDatabase } from '@lib/context/DatabaseContext';
 
 export const STATUS = gameLogic.STATUS;
 
-const GameScreen = () => {
+export const GameScreen = () => {
 	const navigate = useNavigate();
 	const { options } = useGameOptions();
 	const { DB } = useDatabase();
@@ -130,6 +130,3 @@ const GameScreen = () => {
 		/>
 	);
 };
-
-export { GameScreen };
-export default GameScreen;

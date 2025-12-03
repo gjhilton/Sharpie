@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import HandSelectorWithSort from '@components/HandSelectorWithSort/HandSelectorWithSort.jsx';
+import { HandSelectorWithSort } from '@components/HandSelectorWithSort/HandSelectorWithSort';
 
 export default {
 	title: 'Components/HandSelectorWithSort',

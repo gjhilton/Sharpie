@@ -26,7 +26,7 @@ vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () 
 }));
 
 vi.mock('@components/ContextImage/ContextImage.jsx', () => ({
-	default: () => <img data-testid="context-image" alt="Context" />,
+	ContextImage: () => <img data-testid="context-image" alt="Context" />,
 }));
 
 vi.mock('@data/how-to-use.md?raw', () => ({

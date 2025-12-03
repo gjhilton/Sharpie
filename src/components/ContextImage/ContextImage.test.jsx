@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import ContextImage from './ContextImage';
+import { ContextImage } from './ContextImage';
 
 describe('ContextImage', () => {
 	it('should render an image', () => {

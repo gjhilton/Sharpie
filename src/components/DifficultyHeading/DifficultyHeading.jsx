@@ -1,8 +1,11 @@
 import { css } from '../../../dist/styled-system/css';
-import { DIFFICULTY_LABELS } from '@lib/constants/difficulty.js';
+import { DIFFICULTY_LABELS } from '@lib/constants/difficulty';
 import { BulkSelectionControls } from '@components/BulkSelectionControls/BulkSelectionControls';
 
-const DifficultyHeading = ({
+const MARGIN_TOP = '1.5rem';
+const MARGIN_BOTTOM = '0.5rem';
+
+export const DifficultyHeading = ({
 	difficulty,
 	allSelected = false,
 	noneSelected = false,
@@ -18,8 +21,8 @@ const DifficultyHeading = ({
 				display: 'flex',
 				justifyContent: 'space-between',
 				alignItems: 'baseline',
-				marginTop: '1.5rem',
-				marginBottom: '0.5rem',
+				marginTop: MARGIN_TOP,
+				marginBottom: MARGIN_BOTTOM,
 			})}
 		>
 			<h3
@@ -42,5 +45,3 @@ const DifficultyHeading = ({
 		</div>
 	);
 };
-
-export default DifficultyHeading;

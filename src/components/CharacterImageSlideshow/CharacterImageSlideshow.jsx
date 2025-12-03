@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
 
-const CharacterImageSlideshow = ({
+const DEFAULT_INTERVAL = 2000;
+
+export const CharacterImageSlideshow = ({
 	imagePaths,
 	caption,
 	graph,
-	interval = 2000,
+	interval = DEFAULT_INTERVAL,
 	showBaseline = false,
 	baselineColor = 'baseline',
 }) => {
@@ -35,5 +37,3 @@ const CharacterImageSlideshow = ({
 		/>
 	);
 };
-
-export default CharacterImageSlideshow;

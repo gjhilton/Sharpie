@@ -1,7 +1,7 @@
 import { css } from '../../../dist/styled-system/css';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import CharacterImageSlideshow from '@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx';
-import Icon, { ICON_TYPE } from '@components/Icon/Icon.jsx';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
+import { CharacterImageSlideshow } from '@components/CharacterImageSlideshow/CharacterImageSlideshow';
+import { Icon, ICON_TYPE } from '@components/Icon/Icon';
 
 const CHARACTER_SIZE = '300px';
 const CHARACTER_LABEL_FONT_SIZE = '24px';
@@ -44,7 +44,7 @@ const Alphabet = ({ alphabetTitle, alphabetLink, alphabetDate }) => (
 	</span>
 );
 
-const Character = ({
+export const Character = ({
 	state,
 	imagePath,
 	imagePaths,
@@ -153,5 +153,3 @@ const Character = ({
 		</div>
 	);
 };
-
-export default Character;

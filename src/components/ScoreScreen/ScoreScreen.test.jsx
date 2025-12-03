@@ -29,7 +29,7 @@ vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
 }));
 
 vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath, caption }) => (
+	CharacterImage: ({ imagePath, caption }) => (
 		<div data-testid={`char-img-${caption}`}>{imagePath}</div>
 	),
 }));

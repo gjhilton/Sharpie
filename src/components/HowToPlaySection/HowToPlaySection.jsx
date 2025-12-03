@@ -1,6 +1,6 @@
 import SubSection from '@components/SubSection/SubSection.jsx';
 import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
-import ContextImage from '@components/ContextImage/ContextImage.jsx';
+import { ContextImage } from '@components/ContextImage/ContextImage';
 import howToUseContent from '@data/how-to-use.md?raw';
 import lettersInContextContent from '@data/letters-in-context.md?raw';
 import hintsContent from '@data/hints.md?raw';

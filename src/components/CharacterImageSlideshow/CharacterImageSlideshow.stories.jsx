@@ -1,4 +1,4 @@
-import CharacterImageSlideshow from './CharacterImageSlideshow';
+import { CharacterImageSlideshow } from '@components/CharacterImageSlideshow/CharacterImageSlideshow';
 
 export default {
 	title: 'Components/CharacterImageSlideshow',

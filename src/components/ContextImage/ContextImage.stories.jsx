@@ -1,4 +1,4 @@
-import ContextImage from './ContextImage';
+import { ContextImage } from '@components/ContextImage/ContextImage';
 
 export default {
 	title: 'Components/ContextImage',

@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '../../../dist/styled-system/css';
 import HandRow from '@components/HandRow/HandRow.jsx';
-import DifficultyHeading from '@components/DifficultyHeading/DifficultyHeading.jsx';
+import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
 import { DIFFICULTY_ORDER } from '@lib/constants/difficulty.js';
 
 const gridStyles = css({

@@ -3,7 +3,7 @@ import { css } from '../../../dist/styled-system/css';
 import { Button } from '@components/Button/Button';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Heading } from '@components/Layout/Layout.jsx';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
 import { useEnterKey } from '@lib/hooks/useEnterKey.js';
 import { useGameOptions } from '@lib/hooks/useGameOptions.js';
 

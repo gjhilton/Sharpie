@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CharacterImageSlideshow from '@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx';
+import { CharacterImageSlideshow } from '@components/CharacterImageSlideshow/CharacterImageSlideshow';
 
 // Mock the CharacterImage component
 vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath, caption, graph }) => (
+	CharacterImage: ({ imagePath, caption, graph }) => (
 		<div data-testid="character-image">
 			<div data-testid="image-path">{imagePath}</div>
 			{caption && <div data-testid="caption">{caption}</div>}

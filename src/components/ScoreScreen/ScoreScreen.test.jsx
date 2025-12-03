@@ -9,7 +9,7 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 
 // Mock child components
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ onClick, label }) => (
+	Button: ({ onClick, label }) => (
 		<button onClick={onClick} data-testid="mock-button">
 			{label}
 		</button>

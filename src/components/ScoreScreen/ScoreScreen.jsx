@@ -1,6 +1,6 @@
 import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
-import Button from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Heading } from '@components/Layout/Layout.jsx';
 import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';

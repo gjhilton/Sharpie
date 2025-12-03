@@ -1,5 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
-import Button from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
 import KB from '@components/KB/KB.jsx';
 import Character, {
 	CHARACTER_STATE,

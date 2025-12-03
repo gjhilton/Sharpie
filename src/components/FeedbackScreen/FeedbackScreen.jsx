@@ -1,7 +1,7 @@
 import { css } from '../../../dist/styled-system/css';
 import { useNavigate } from '@tanstack/react-router';
 import { useForm, ValidationError } from '@formspree/react';
-import Button from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
 import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
 import { Input, Textarea } from '@components/Input/Input.jsx';
 import {

@@ -1,6 +1,6 @@
 import ReactMarkdown from 'react-markdown';
 import { Paragraph } from '@components/Layout/Layout.jsx';
-import Button from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
 import Toggle from '@components/Toggle/Toggle.jsx';
 import SubSection from '@components/SubSection/SubSection.jsx';
 import { RadioGroup } from '@components/RadioGroup/RadioGroup.jsx';

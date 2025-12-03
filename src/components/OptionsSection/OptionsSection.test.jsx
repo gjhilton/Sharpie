@@ -19,7 +19,7 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 }));
 
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ label, onClick }) => <button onClick={onClick}>{label}</button>,
+	Button: ({ label, onClick }) => <button onClick={onClick}>{label}</button>,
 }));
 
 vi.mock('@components/Toggle/Toggle.jsx', () => ({

@@ -8,7 +8,7 @@ vi.mock('@data/hero.md?raw', () => ({
 }));
 
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ label, onClick, hero }) => (
+	Button: ({ label, onClick, hero }) => (
 		<button onClick={onClick} data-hero={hero}>
 			{label}
 		</button>

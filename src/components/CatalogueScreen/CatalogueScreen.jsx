@@ -1,20 +1,20 @@
 import { css } from '../../../dist/styled-system/css';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import HandSelectorWithSort from '@components/HandSelectorWithSort/HandSelectorWithSort.jsx';
-import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
+import { SmallPrint } from '@components/SmallPrint/SmallPrint';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
+import { HandSelectorWithSort } from '@components/HandSelectorWithSort/HandSelectorWithSort';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton';
 import {
 	PageTitle,
 	Paragraph,
 	Heading,
 	PageWidth,
-} from '@components/Layout/Layout.jsx';
+} from '@components/Layout/Layout';
 import handsData from '@data/hands.json';
-import * as catalogueLogic from '@lib/utilities/catalogueLogic.js';
-import { useGameOptions } from '@lib/hooks/useGameOptions.js';
-import { useDatabase } from '@lib/context/DatabaseContext.jsx';
+import * as catalogueLogic from '@lib/utilities/catalogueLogic';
+import { useGameOptions } from '@lib/hooks/useGameOptions';
+import { useDatabase } from '@lib/context/DatabaseContext';
 
 const STYLES = {
 	verticalGap: '2rem',
@@ -221,7 +221,7 @@ const SelectionStatus = ({ isError, handCount, characterCount, letterCounts }) =
 	);
 };
 
-const CatalogueScreen = () => {
+export const CatalogueScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
 	const {
@@ -308,7 +308,6 @@ const CatalogueScreen = () => {
 						handsMetadata={DB.sources}
 						onToggle={handleToggleHand}
 						onBatchToggle={handleBatchToggleHands}
-
 					/>
 				</div>
 			</header>
@@ -329,6 +328,3 @@ const CatalogueScreen = () => {
 		</PageWidth>
 	);
 };
-
-export { CatalogueScreen };
-export default CatalogueScreen;

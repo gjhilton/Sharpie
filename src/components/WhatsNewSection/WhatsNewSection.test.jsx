@@ -12,7 +12,7 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 }));
 
 vi.mock('@components/Changelog/Changelog.jsx', () => ({
-	default: () => (
+	Changelog: () => (
 		<dl data-testid="changelog">
 			<dt>v1.0.0</dt>
 			<dd>Initial release</dd>

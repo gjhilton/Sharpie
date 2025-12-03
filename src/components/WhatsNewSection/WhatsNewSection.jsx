@@ -1,5 +1,5 @@
 import SubSection from '@components/SubSection/SubSection.jsx';
-import Changelog from '@components/Changelog/Changelog.jsx';
+import { Changelog } from '@components/Changelog/Changelog';
 
 const WhatsNewSection = () => (
 	<SubSection title="Changelog">

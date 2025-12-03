@@ -58,7 +58,7 @@ vi.mock('@components/KB/KB.jsx', () => ({
 }));
 
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ onClick, label }) => <button onClick={onClick}>{label}</button>,
+	Button: ({ onClick, label }) => <button onClick={onClick}>{label}</button>,
 }));
 
 describe('Unanswered', () => {

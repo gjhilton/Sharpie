@@ -1,5 +1,9 @@
 import { css } from '../../../dist/styled-system/css';
 
+const TRANSITION_DURATION = '200ms';
+const HOVER_SCALE = 1.02;
+const ACTIVE_SCALE = 0.98;
+
 const ButtonLabel = ({ text }) => (
 	<span
 		className={css({
@@ -22,7 +26,7 @@ const ButtonLabelAux = ({ text }) => (
 	</span>
 );
 
-const Button = ({ onClick, label, disabled, sublabel, hero }) => {
+export const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 	const ariaLabel = sublabel ? `${label} ${sublabel}` : undefined;
 
 	return (
@@ -41,16 +45,16 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 				padding: '1rem 3rem',
 				margin: '2rem 0',
 				textTransform: hero ? 'uppercase' : 'none',
-				transition: 'all 200ms ease-in-out',
+				transition: `all ${TRANSITION_DURATION} ease-in-out`,
 				_hover: {
-					transform: disabled ? 'none' : 'scale(1.02)',
+					transform: disabled ? 'none' : `scale(${HOVER_SCALE})`,
 				},
 				_focusVisible: {
 					outline: '2px solid {colors.ink}',
 					outlineOffset: '2px',
 				},
 				_active: {
-					transform: disabled ? 'none' : 'scale(0.98)',
+					transform: disabled ? 'none' : `scale(${ACTIVE_SCALE})`,
 				},
 			})}
 			onClick={onClick}
@@ -62,6 +66,3 @@ const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 		</button>
 	);
 };
-
-export { Button };
-export default Button;

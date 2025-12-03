@@ -1,6 +1,6 @@
 import { css } from '../../../dist/styled-system/css';
 import ReactMarkdown from 'react-markdown';
-import Button from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
 import { PageTitle, Paragraph } from '@components/Layout/Layout.jsx';
 import heroContent from '@data/hero.md?raw';
 

@@ -5,7 +5,7 @@ import { LandingScreen } from './LandingScreen.jsx';
 
 // Mock child components
 vi.mock('@components/Logo/Logo.jsx', () => ({
-	default: () => <div data-testid="mock-logo">Logo</div>,
+	Logo: () => <div data-testid="mock-logo">Logo</div>,
 	SIZE: { S: 's' },
 }));
 
@@ -29,7 +29,7 @@ vi.mock('@components/DisclosureSection/DisclosureSection.jsx', () => ({
 }));
 
 vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
-	default: ({ onShowCatalogue }) => (
+	OptionsSection: ({ onShowCatalogue }) => (
 		<div data-testid="mock-options">
 			<button onClick={onShowCatalogue} data-testid="catalogue-button">
 				Choose hands
@@ -39,7 +39,7 @@ vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
 }));
 
 vi.mock('@components/OptionsSummary/OptionsSummary.jsx', () => ({
-	default: ({ options, handCount }) => (
+	OptionsSummary: ({ options, handCount }) => (
 		<div data-testid="mock-options-summary">
 			<div data-testid="summary-mode">{options.mode}</div>
 			<div data-testid="summary-hands">{handCount}</div>
@@ -52,7 +52,7 @@ vi.mock('@components/HowToPlaySection/HowToPlaySection.jsx', () => ({
 }));
 
 vi.mock('@components/NextStepsSection/NextStepsSection.jsx', () => ({
-	default: () => <div data-testid="mock-next-steps">Next steps</div>,
+	NextStepsSection: () => <div data-testid="mock-next-steps">Next steps</div>,
 }));
 
 vi.mock('@components/WhatsNewSection/WhatsNewSection.jsx', () => ({

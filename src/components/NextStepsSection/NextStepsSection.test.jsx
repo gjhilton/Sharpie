@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import NextStepsSection from './NextStepsSection';
+import { NextStepsSection } from './NextStepsSection';
 
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
 	default: ({ title, children }) => (
@@ -12,7 +12,7 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 }));
 
 vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	default: ({ content }) => <div data-testid="markdown-content">{content}</div>,
+	MarkdownWithPlaceholders: ({ content }) => <div data-testid="markdown-content">{content}</div>,
 }));
 
 vi.mock('@data/next-steps.md?raw', () => ({

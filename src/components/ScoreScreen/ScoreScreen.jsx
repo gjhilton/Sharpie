@@ -1,20 +1,27 @@
 import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
 import { Button } from '@components/Button/Button';
-import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
-import { Heading } from '@components/Layout/Layout.jsx';
+import SmallPrint from '@components/SmallPrint/SmallPrint';
+import { Heading } from '@components/Layout/Layout';
 import { CharacterImage } from '@components/CharacterImage/CharacterImage';
-import { useEnterKey } from '@lib/hooks/useEnterKey.js';
-import { useGameOptions } from '@lib/hooks/useGameOptions.js';
+import { useEnterKey } from '@lib/hooks/useEnterKey';
+import { useGameOptions } from '@lib/hooks/useGameOptions';
+
+const SECONDS_PER_MINUTE = 60;
 
 const formatTime = seconds => {
-	const mins = Math.floor(seconds / 60);
-	const secs = seconds % 60;
+	const mins = Math.floor(seconds / SECONDS_PER_MINUTE);
+	const secs = seconds % SECONDS_PER_MINUTE;
 	if (mins > 0) {
 		return `${mins}m ${secs}s`;
 	}
 	return `${secs}s`;
 };
+
+const STAT_CARD_PADDING = '1rem';
+const STAT_CARD_BORDER_RADIUS = '8px';
+const STAT_LABEL_FONT_SIZE = 'm';
+const STAT_VALUE_FONT_SIZE = 'xl';
 
 const StatCard = ({ label, value, bgColor, textColor }) => (
 	<div
@@ -22,14 +29,14 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 			display: 'flex',
 			justifyContent: 'space-between',
 			alignItems: 'center',
-			padding: '1rem',
+			padding: STAT_CARD_PADDING,
 			backgroundColor: bgColor,
-			borderRadius: '8px',
+			borderRadius: STAT_CARD_BORDER_RADIUS,
 		})}
 	>
 		<span
 			className={css({
-				fontSize: 'm',
+				fontSize: STAT_LABEL_FONT_SIZE,
 				fontWeight: 'bold',
 				color: textColor,
 			})}
@@ -38,7 +45,7 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 		</span>
 		<span
 			className={css({
-				fontSize: 'xl',
+				fontSize: STAT_VALUE_FONT_SIZE,
 				fontWeight: 'bold',
 				color: textColor,
 			})}
@@ -48,17 +55,23 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 	</div>
 );
 
+const MISTAKE_CARD_PADDING = '1rem';
+const MISTAKE_IMAGE_HEIGHT = '150px';
+const MISTAKE_IMAGE_MARGIN_BOTTOM = '0.5rem';
+const MISTAKE_LABEL_FONT_SIZE = 'm';
+const MISTAKE_LABEL_MARGIN_TOP = '0.5rem';
+
 const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	<div
 		className={css({
-			padding: '1rem',
+			padding: MISTAKE_CARD_PADDING,
 			textAlign: 'center',
 		})}
 	>
 		<div
 			className={css({
-				height: '150px',
-				marginBottom: '0.5rem',
+				height: MISTAKE_IMAGE_HEIGHT,
+				marginBottom: MISTAKE_IMAGE_MARGIN_BOTTOM,
 			})}
 		>
 			<CharacterImage
@@ -69,9 +82,9 @@ const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 		</div>
 		<div
 			className={css({
-				fontSize: 'm',
+				fontSize: MISTAKE_LABEL_FONT_SIZE,
 				fontWeight: 'bold',
-				marginTop: '0.5rem',
+				marginTop: MISTAKE_LABEL_MARGIN_TOP,
 			})}
 		>
 			{graph.character}
@@ -79,19 +92,34 @@ const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	</div>
 );
 
+const DEFAULT_SCORE = {
+	correct: 0,
+	incorrect: 0,
+	percentage: 0,
+	timeElapsed: 0,
+	mistakes: [],
+};
+
+const CONTAINER_MAX_WIDTH = '600px';
+const CONTAINER_PADDING = '2rem';
+const GRID_GAP = '1.5rem';
+const MISTAKES_MAX_WIDTH = '800px';
+const MISTAKES_MARGIN_TOP = '2rem auto 0';
+const MISTAKES_HEADING_MARGIN_BOTTOM = '1.5rem';
+const MISTAKES_GRID_MIN_WIDTH = '150px';
+const MISTAKES_GRID_GAP = '1rem';
+const BUTTON_MARGIN_TOP = '2rem';
+const BUTTON_PADDING_BASE = '0 2rem';
+const BUTTON_PADDING_SM = '0';
+const FOOTER_MARGIN = '2rem auto';
+const FOOTER_PADDING = '0 2rem';
+
 const ScoreScreen = () => {
 	const navigate = useNavigate();
 	const routerState = useRouterState();
 	const { options } = useGameOptions();
 
-	// Get score from router state, or use empty defaults
-	const score = routerState.location.state?.score || {
-		correct: 0,
-		incorrect: 0,
-		percentage: 0,
-		timeElapsed: 0,
-		mistakes: [],
-	};
+	const score = routerState.location.state?.score || DEFAULT_SCORE;
 
 	const { correct, incorrect, percentage, timeElapsed, mistakes = [] } = score;
 	const { showBaseline } = options;
@@ -125,15 +153,15 @@ const ScoreScreen = () => {
 		<div>
 			<div
 				className={css({
-					maxWidth: '600px',
+					maxWidth: CONTAINER_MAX_WIDTH,
 					margin: '0 auto',
-					padding: '2rem',
+					padding: CONTAINER_PADDING,
 				})}
 			>
 				<div
 					className={css({
 						display: 'grid',
-						gap: '1.5rem',
+						gap: GRID_GAP,
 					})}
 				>
 					{stats.map((stat, index) => (
@@ -151,15 +179,15 @@ const ScoreScreen = () => {
 			{mistakes.length > 0 && (
 				<div
 					className={css({
-						maxWidth: '800px',
-						margin: '2rem auto 0',
-						padding: '2rem',
+						maxWidth: MISTAKES_MAX_WIDTH,
+						margin: MISTAKES_MARGIN_TOP,
+						padding: CONTAINER_PADDING,
 					})}
 				>
 					<Heading
 						className={css({
 							textAlign: 'left',
-							marginBottom: '1.5rem',
+							marginBottom: MISTAKES_HEADING_MARGIN_BOTTOM,
 						})}
 					>
 						Letters to Review
@@ -167,8 +195,8 @@ const ScoreScreen = () => {
 					<div
 						className={css({
 							display: 'grid',
-							gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-							gap: '1rem',
+							gridTemplateColumns: `repeat(auto-fill, minmax(${MISTAKES_GRID_MIN_WIDTH}, 1fr))`,
+							gap: MISTAKES_GRID_GAP,
 						})}
 					>
 						{mistakes.map((mistake, index) => (
@@ -187,8 +215,8 @@ const ScoreScreen = () => {
 				className={css({
 					display: 'flex',
 					justifyContent: 'center',
-					marginTop: '2rem',
-					padding: { base: '0 2rem', sm: '0' },
+					marginTop: BUTTON_MARGIN_TOP,
+					padding: { base: BUTTON_PADDING_BASE, sm: BUTTON_PADDING_SM },
 				})}
 			>
 				<Button onClick={handleReturnToMenu} label="Return to Menu" />
@@ -196,9 +224,9 @@ const ScoreScreen = () => {
 
 			<div
 				className={css({
-					maxWidth: '600px',
-					margin: '2rem auto',
-					padding: '0 2rem',
+					maxWidth: CONTAINER_MAX_WIDTH,
+					margin: FOOTER_MARGIN,
+					padding: FOOTER_PADDING,
 				})}
 			>
 				<SmallPrint onShowFeedback={handleShowFeedback} />

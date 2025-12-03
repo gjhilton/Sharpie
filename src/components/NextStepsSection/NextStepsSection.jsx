@@ -1,11 +1,13 @@
-import SubSection from '@components/SubSection/SubSection.jsx';
-import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
+import SubSection from '@components/SubSection/SubSection';
+import { MarkdownWithPlaceholders } from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders';
 import nextStepsContent from '@data/next-steps.md?raw';
 
+const TITLE = 'Additional resources';
+
 const NextStepsSection = () => (
-	<SubSection title="Additional resources">
+	<SubSection title={TITLE}>
 		<MarkdownWithPlaceholders content={nextStepsContent} />
 	</SubSection>
 );
 
-export default NextStepsSection;
+export { NextStepsSection };

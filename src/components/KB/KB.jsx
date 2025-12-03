@@ -8,16 +8,10 @@ const SPECIAL_KEYS = {
 	LOCK: '{lock}',
 };
 
-/**
- * Normalize paired letter labels to their primary letter.
- * Handles formats like 'u/v' -> 'u', 'i(j)' -> 'i'
- */
 const normalizePairedLetter = button => {
-	// Handle 'a/b' format (e.g., 'u/v', 'i/j')
 	if (button.includes('/')) {
 		return button.split('/')[0];
 	}
-	// Handle 'a(b)' format (e.g., 'i(j)', 'u(v)')
 	const parenMatch = button.match(/^([a-zA-Z])\([a-zA-Z]\)$/);
 	if (parenMatch) {
 		return parenMatch[1];
@@ -47,10 +41,8 @@ const KB = ({
 		}
 	};
 
-	// Handle physical keyboard
 	useEffect(() => {
 		const handleKeyDown = event => {
-			// Ignore if target is an input element
 			if (
 				event.target.tagName === 'INPUT' ||
 				event.target.tagName === 'TEXTAREA'
@@ -58,13 +50,11 @@ const KB = ({
 				return;
 			}
 
-			// Handle shift key for layout switching (only if shift keys are shown)
 			if (event.key === 'Shift' && showShiftKeys) {
 				setLayout('shift');
 				return;
 			}
 
-			// Only handle letter keys
 			if (event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
 				event.preventDefault();
 				keyCallback(event.key);
@@ -72,7 +62,6 @@ const KB = ({
 		};
 
 		const handleKeyUp = event => {
-			// Switch back to default layout when shift is released (only if shift keys are shown)
 			if (event.key === 'Shift' && showShiftKeys) {
 				setLayout('default');
 			}
@@ -203,4 +192,3 @@ const KB = ({
 };
 
 export { KB };
-export default KB;

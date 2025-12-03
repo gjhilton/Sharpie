@@ -1,21 +1,22 @@
 import { useNavigate } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
-import { PageWidth, Article } from '@components/Layout/Layout.jsx';
-import Logo, { SIZE } from '@components/Logo/Logo.jsx';
-import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
+import { PageWidth, Article } from '@components/Layout/Layout';
+import { Logo, SIZE } from '@components/Logo/Logo';
+import SmallPrint from '@components/SmallPrint/SmallPrint';
 import { DisclosureSection } from '@components/DisclosureSection/DisclosureSection';
-import SourceFigure from '@components/SourceFigure/SourceFigure.jsx';
+import SourceFigure from '@components/SourceFigure/SourceFigure';
 import { HeroSection } from '@components/HeroSection/HeroSection';
-import OptionsSection from '@components/OptionsSection/OptionsSection.jsx';
-import OptionsSummary from '@components/OptionsSummary/OptionsSummary.jsx';
+import { OptionsSection } from '@components/OptionsSection/OptionsSection';
+import { OptionsSummary } from '@components/OptionsSummary/OptionsSummary';
 import { HowToPlaySection } from '@components/HowToPlaySection/HowToPlaySection';
-import NextStepsSection from '@components/NextStepsSection/NextStepsSection.jsx';
-import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection.jsx';
-import { useGameOptions } from '@lib/hooks/useGameOptions.js';
-import { OPTIONS } from '@lib/options/schema.js';
-import { useDatabase } from '@lib/context/DatabaseContext.jsx';
+import { NextStepsSection } from '@components/NextStepsSection/NextStepsSection';
+import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection';
+import { useGameOptions } from '@lib/hooks/useGameOptions';
+import { OPTIONS } from '@lib/options/schema';
+import { useDatabase } from '@lib/context/DatabaseContext';
 
-// Build mode options from schema
+const MARGIN_BOTTOM_HEADER = '2rem';
+
 const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
 	([value, { label }]) => ({ value, label })
 );
@@ -39,7 +40,7 @@ const LandingScreen = () => {
 		<PageWidth>
 			<Article>
 				<header>
-					<div className={css({ marginBottom: '2rem' })}>
+					<div className={css({ marginBottom: MARGIN_BOTTOM_HEADER })}>
 						<Logo size={SIZE.S} />
 					</div>
 					<SourceFigure />
@@ -95,4 +96,3 @@ const LandingScreen = () => {
 };
 
 export { LandingScreen };
-export default LandingScreen;

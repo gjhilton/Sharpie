@@ -1,13 +1,21 @@
 import { css } from '../../../dist/styled-system/css';
 
+const PADDING = '0.75rem';
+const FONT_SIZE = 'm';
+const BORDER = '1px solid {colors.ink}';
+const BACKGROUND_COLOR = '{colors.paper}';
+const OUTLINE = '2px solid {colors.ink}';
+const OUTLINE_OFFSET = '2px';
+const TEXTAREA_ROWS = 6;
+
 const baseInputStyles = {
-	padding: '0.75rem',
-	fontSize: 'm',
-	border: '1px solid {colors.ink}',
-	backgroundColor: '{colors.paper}',
+	padding: PADDING,
+	fontSize: FONT_SIZE,
+	border: BORDER,
+	backgroundColor: BACKGROUND_COLOR,
 	_focusVisible: {
-		outline: '2px solid {colors.ink}',
-		outlineOffset: '2px',
+		outline: OUTLINE,
+		outlineOffset: OUTLINE_OFFSET,
 	},
 };
 
@@ -33,7 +41,7 @@ const Textarea = ({ id, name, required = false, ...customStyles }) => (
 		id={id}
 		name={name}
 		required={required}
-		rows={6}
+		rows={TEXTAREA_ROWS}
 		className={css(baseInputStyles, {
 			resize: 'vertical',
 			fontFamily: 'inherit',
@@ -42,4 +50,3 @@ const Textarea = ({ id, name, required = false, ...customStyles }) => (
 );
 
 export { Input, Textarea, inputStyles };
-export default Input;

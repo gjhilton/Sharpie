@@ -1,19 +1,27 @@
 import ReactMarkdown from 'react-markdown';
 import { css } from '../../../dist/styled-system/css';
-import { Paragraph } from '@components/Layout/Layout.jsx';
-import SubSection from '@components/SubSection/SubSection.jsx';
-import { useGameOptionsContext } from '@lib/context/GameOptionsContext.jsx';
+import { Paragraph } from '@components/Layout/Layout';
+import SubSection from '@components/SubSection/SubSection';
+import { useGameOptionsContext } from '@lib/context/GameOptionsContext';
 import resetOptionsContent from '@data/reset-options.md?raw';
+
+const PADDING = '0.5rem 1rem';
+const BORDER = '1px solid {colors.ink}';
+const BACKGROUND_COLOR = '{colors.paper}';
+const COLOR = '{colors.ink}';
+const FONT_SIZE = 's';
+const TRANSITION = 'all 150ms ease-in-out';
+const SCALE_HOVER = 'scale(1.02)';
+const SCALE_ACTIVE = 'scale(0.98)';
+const OUTLINE = '2px solid {colors.ink}';
+const OUTLINE_OFFSET = '2px';
+const RESET_CONFIRM_MESSAGE = 'Reset all settings to defaults? This will clear your current configuration.';
 
 const ResetOptionsSection = () => {
 	const { resetOptions } = useGameOptionsContext();
 
 	const handleReset = () => {
-		if (
-			window.confirm(
-				'Reset all settings to defaults? This will clear your current configuration.'
-			)
-		) {
+		if (window.confirm(RESET_CONFIRM_MESSAGE)) {
 			resetOptions();
 		}
 	};
@@ -34,23 +42,23 @@ const ResetOptionsSection = () => {
 				type="button"
 				onClick={handleReset}
 				className={css({
-					padding: '0.5rem 1rem',
-					border: '1px solid {colors.ink}',
-					backgroundColor: '{colors.paper}',
-					color: '{colors.ink}',
+					padding: PADDING,
+					border: BORDER,
+					backgroundColor: BACKGROUND_COLOR,
+					color: COLOR,
 					cursor: 'pointer',
-					fontSize: 's',
+					fontSize: FONT_SIZE,
 					fontWeight: 'bold',
-					transition: 'all 150ms ease-in-out',
+					transition: TRANSITION,
 					_hover: {
-						transform: 'scale(1.02)',
+						transform: SCALE_HOVER,
 					},
 					_active: {
-						transform: 'scale(0.98)',
+						transform: SCALE_ACTIVE,
 					},
 					_focusVisible: {
-						outline: '2px solid {colors.ink}',
-						outlineOffset: '2px',
+						outline: OUTLINE,
+						outlineOffset: OUTLINE_OFFSET,
 					},
 				})}
 			>
@@ -60,4 +68,5 @@ const ResetOptionsSection = () => {
 	);
 };
 
+export { ResetOptionsSection };
 export default ResetOptionsSection;

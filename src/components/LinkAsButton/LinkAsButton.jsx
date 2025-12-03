@@ -1,45 +1,41 @@
 import { css } from '../../../dist/styled-system/css';
 
-/**
- * A button that looks exactly like a link.
- * Use for actions that should look like links but are semantically buttons.
- * Inherits font styles from parent for seamless integration.
- */
+const PADDING = 0;
+const MARGIN = 0;
+const OPACITY_DISABLED = 0.5;
+const OUTLINE = '2px solid {colors.toggleActive}';
+const OUTLINE_OFFSET = '2px';
+
 const LinkAsButton = ({ children, onClick, disabled = false, className }) => (
 	<button
 		type="button"
 		onClick={onClick}
 		disabled={disabled}
 		className={`${css({
-			// Reset button styles completely
 			background: 'none',
 			border: 'none',
-			padding: 0,
-			margin: 0,
+			padding: PADDING,
+			margin: MARGIN,
 			font: 'inherit',
 			fontSize: 'inherit',
 			fontFamily: 'inherit',
 			fontWeight: 'inherit',
 			lineHeight: 'inherit',
 			textAlign: 'inherit',
-			// Look like a link
 			color: 'inherit',
 			textDecoration: 'underline',
 			cursor: 'pointer',
-			// Disabled state
 			'&:disabled': {
 				cursor: 'not-allowed',
-				opacity: 0.5,
+				opacity: OPACITY_DISABLED,
 				textDecoration: 'none',
 			},
-			// Hover state (only when not disabled)
 			'&:hover:not(:disabled)': {
 				color: '{colors.toggleActive}',
 			},
-			// Focus state for accessibility
 			'&:focus-visible': {
-				outline: '2px solid {colors.toggleActive}',
-				outlineOffset: '2px',
+				outline: OUTLINE,
+				outlineOffset: OUTLINE_OFFSET,
 			},
 		})} ${className || ''}`}
 	>

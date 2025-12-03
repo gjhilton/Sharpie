@@ -1,8 +1,3 @@
-/**
- * TanStack Router configuration
- * URL = source of truth for game options
- */
-
 import { lazy, Suspense } from 'react';
 import {
 	createRouter,
@@ -10,28 +5,34 @@ import {
 	createRoute,
 	Outlet,
 } from '@tanstack/react-router';
-import { GameOptionsProvider } from '@lib/context/GameOptionsContext.jsx';
-import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary.jsx';
-import { LoadingScreen } from '@components/LoadingScreen/LoadingScreen.jsx';
+import { GameOptionsProvider } from '@lib/context/GameOptionsContext';
+import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
+import { LoadingScreen } from '@components/LoadingScreen/LoadingScreen';
 
-// Lazy load screens
 const LandingScreen = lazy(
-	() => import('@components/LandingScreen/LandingScreen.jsx')
+	() => import('@components/LandingScreen/LandingScreen')
 );
 const GameScreen = lazy(
-	() => import('@components/GameScreen/GameScreen.jsx')
+	() => import('@components/GameScreen/GameScreen')
 );
 const ScoreScreen = lazy(
-	() => import('@components/ScoreScreen/ScoreScreen.jsx')
+	() => import('@components/ScoreScreen/ScoreScreen')
 );
 const CatalogueScreen = lazy(
-	() => import('@components/CatalogueScreen/CatalogueScreen.jsx')
+	() => import('@components/CatalogueScreen/CatalogueScreen')
 );
 const FeedbackScreen = lazy(
-	() => import('@components/FeedbackScreen/FeedbackScreen.jsx')
+	() => import('@components/FeedbackScreen/FeedbackScreen')
 );
 
-// Root layout - wraps all routes with providers
+const BASEPATH = '/Sharpie';
+const DEFAULT_PRELOAD = 'intent';
+const PATH_ROOT = '/';
+const PATH_PLAY = '/play';
+const PATH_SCORE = '/score';
+const PATH_CATALOGUE = '/catalogue';
+const PATH_FEEDBACK = '/feedback';
+
 const RootLayout = () => (
 	<ErrorBoundary>
 		<GameOptionsProvider>
@@ -42,43 +43,40 @@ const RootLayout = () => (
 	</ErrorBoundary>
 );
 
-// Root route
 const rootRoute = createRootRoute({
 	component: RootLayout,
 });
 
-// Route definitions
 const indexRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: '/',
+	path: PATH_ROOT,
 	component: LandingScreen,
 });
 
 const playRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: '/play',
+	path: PATH_PLAY,
 	component: GameScreen,
 });
 
 const scoreRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: '/score',
+	path: PATH_SCORE,
 	component: ScoreScreen,
 });
 
 const catalogueRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: '/catalogue',
+	path: PATH_CATALOGUE,
 	component: CatalogueScreen,
 });
 
 const feedbackRoute = createRoute({
 	getParentRoute: () => rootRoute,
-	path: '/feedback',
+	path: PATH_FEEDBACK,
 	component: FeedbackScreen,
 });
 
-// Build route tree
 const routeTree = rootRoute.addChildren([
 	indexRoute,
 	playRoute,
@@ -87,14 +85,12 @@ const routeTree = rootRoute.addChildren([
 	feedbackRoute,
 ]);
 
-// Create router instance
 export const router = createRouter({
 	routeTree,
-	basepath: '/Sharpie',
-	defaultPreload: 'intent',
+	basepath: BASEPATH,
+	defaultPreload: DEFAULT_PRELOAD,
 });
 
-// Export routes for type-safe navigation
 export {
 	rootRoute,
 	indexRoute,

@@ -1,20 +1,26 @@
 import { css } from '../../../dist/styled-system/css';
 
+const GRID_COLUMNS = '1fr 2fr';
+const GAP = '2rem';
+const MARGIN_BOTTOM = '1.5rem';
+const HEADING_MARGIN = '0';
+const FONT_SIZE = 'm';
+
 const SubSection = ({ title, children }) => (
 	<div
 		className={css({
 			display: 'grid',
-			gridTemplateColumns: '1fr 2fr',
-			gap: '2rem',
+			gridTemplateColumns: GRID_COLUMNS,
+			gap: GAP,
 			alignItems: 'baseline',
-			marginBottom: '1.5rem',
+			marginBottom: MARGIN_BOTTOM,
 		})}
 	>
 		<h3
 			className={css({
-				margin: '0',
+				margin: HEADING_MARGIN,
 				fontWeight: 'bold',
-				fontSize: 'm',
+				fontSize: FONT_SIZE,
 			})}
 		>
 			{title}
@@ -23,4 +29,5 @@ const SubSection = ({ title, children }) => (
 	</div>
 );
 
+export { SubSection };
 export default SubSection;

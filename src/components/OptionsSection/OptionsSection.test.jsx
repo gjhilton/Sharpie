@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import OptionsSection from './OptionsSection';
+import { OptionsSection } from './OptionsSection';
 import { GAME_MODES, GAME_MODE_OPTIONS } from '@lib/constants/stages.js';
 
 // Mock the GameOptionsContext
@@ -66,7 +66,7 @@ vi.mock('@components/RadioGroup/RadioGroup.jsx', () => ({
 }));
 
 vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	default: ({ content, placeholders }) => (
+	MarkdownWithPlaceholders: ({ content, placeholders }) => (
 		<div data-testid="markdown-content">
 			{content}
 			{placeholders &&

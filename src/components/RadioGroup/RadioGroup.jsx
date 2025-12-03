@@ -1,9 +1,15 @@
 import { css } from '../../../dist/styled-system/css';
-import { Fieldset, Legend } from '@components/Layout/Layout.jsx';
+import { Fieldset, Legend } from '@components/Layout/Layout';
+
+const RADIO_SIZE = '1.2rem';
+const GAP_SMALL = '0.5rem';
+const GAP_NONE = '0';
+const LINE_HEIGHT = '1.6';
+const MARGIN_BOTTOM = '1rem';
 
 const radioInputStyles = css({
-	width: '1.2rem',
-	height: '1.2rem',
+	width: RADIO_SIZE,
+	height: RADIO_SIZE,
 });
 
 const RadioOption = ({ name, value, checked, onChange, children }) => (
@@ -11,7 +17,7 @@ const RadioOption = ({ name, value, checked, onChange, children }) => (
 		className={css({
 			display: 'flex',
 			alignItems: 'center',
-			gap: '0.5rem',
+			gap: GAP_SMALL,
 			cursor: 'pointer',
 			fontWeight: checked ? 'bold' : 'normal',
 		})}
@@ -39,7 +45,7 @@ const RadioGroup = ({
 }) => (
 	<Fieldset
 		className={`${css({
-			marginBottom: '1rem',
+			marginBottom: MARGIN_BOTTOM,
 		})} ${className || ''}`}
 	>
 		<Legend visuallyHidden={!legendVisible}>{legend}</Legend>
@@ -47,8 +53,8 @@ const RadioGroup = ({
 			className={css({
 				display: 'flex',
 				flexDirection: 'column',
-				gap: '0',
-				lineHeight: '1.6',
+				gap: GAP_NONE,
+				lineHeight: LINE_HEIGHT,
 			})}
 		>
 			{options.map(option => (
@@ -67,4 +73,3 @@ const RadioGroup = ({
 );
 
 export { RadioOption, RadioGroup };
-export default RadioGroup;

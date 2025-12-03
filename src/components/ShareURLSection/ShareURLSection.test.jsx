@@ -25,7 +25,7 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 
 // Mock InputWithButton - pass through all props to actual buttons
 vi.mock('@components/InputWithButton/InputWithButton.jsx', () => ({
-	default: (props) => {
+	InputWithButton: (props) => {
 		const {
 			inputValue,
 			buttonLabel,

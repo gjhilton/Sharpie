@@ -1,13 +1,13 @@
 import ReactMarkdown from 'react-markdown';
-import { Paragraph } from '@components/Layout/Layout.jsx';
+import { Paragraph } from '@components/Layout/Layout';
 import { Button } from '@components/Button/Button';
-import Toggle from '@components/Toggle/Toggle.jsx';
-import SubSection from '@components/SubSection/SubSection.jsx';
-import { RadioGroup } from '@components/RadioGroup/RadioGroup.jsx';
-import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
+import Toggle from '@components/Toggle/Toggle';
+import SubSection from '@components/SubSection/SubSection';
+import { RadioGroup } from '@components/RadioGroup/RadioGroup';
+import { MarkdownWithPlaceholders } from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders';
 import { BaselineExamples } from '@components/BaselineExamples/BaselineExamples';
-import ShareURLSection from '@components/ShareURLSection/ShareURLSection.jsx';
-import ResetOptionsSection from '@components/ResetOptionsSection/ResetOptionsSection.jsx';
+import ShareURLSection from '@components/ShareURLSection/ShareURLSection';
+import ResetOptionsSection from '@components/ResetOptionsSection/ResetOptionsSection';
 import identifyContent from '@data/identify.md?raw';
 import alphabetContent from '@data/alphabet.md?raw';
 import baselinesContent from '@data/baselines.md?raw';
@@ -94,4 +94,4 @@ const OptionsSection = ({
 	);
 };
 
-export default OptionsSection;
+export { OptionsSection };

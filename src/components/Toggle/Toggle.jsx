@@ -1,5 +1,27 @@
 import { css } from '../../../dist/styled-system/css';
 
+const GAP = '0.75rem';
+const MARGIN_BOTTOM = '1rem';
+const TOGGLE_WIDTH = '51px';
+const TOGGLE_HEIGHT = '31px';
+const TOGGLE_BORDER_RADIUS = '31px';
+const TRANSITION_BACKGROUND = 'background-color 0.25s ease-in-out';
+const TRANSITION_LEFT = 'left 0.25s ease-in-out';
+const OPACITY_DISABLED = 0.5;
+const OPACITY_ENABLED = 1;
+const OUTLINE = '2px solid {colors.toggleActive}';
+const OUTLINE_OFFSET = '2px';
+const SCALE_ACTIVE = 'scale(0.98)';
+const KNOB_TOP = '2px';
+const KNOB_LEFT_UNCHECKED = '2px';
+const KNOB_LEFT_CHECKED = '22px';
+const KNOB_SIZE = '27px';
+const KNOB_BORDER_RADIUS = '50%';
+const KNOB_BOX_SHADOW = '0 3px 8px {colors.ink/15}, 0 1px 1px {colors.ink/16}';
+const FONT_SIZE = 'm';
+const KEY_SPACE = ' ';
+const KEY_ENTER = 'Enter';
+
 const Toggle = ({
 	id,
 	label,
@@ -9,7 +31,7 @@ const Toggle = ({
 	disabled = false,
 }) => {
 	const handleKeyDown = e => {
-		if (e.key === ' ' || e.key === 'Enter') {
+		if (e.key === KEY_SPACE || e.key === KEY_ENTER) {
 			e.preventDefault();
 			onChange(!checked);
 		}
@@ -22,8 +44,8 @@ const Toggle = ({
 			className={css({
 				display: 'flex',
 				alignItems: 'center',
-				gap: '0.75rem',
-				marginBottom: '1rem',
+				gap: GAP,
+				marginBottom: MARGIN_BOTTOM,
 			})}
 		>
 			<button
@@ -36,38 +58,37 @@ const Toggle = ({
 				onKeyDown={handleKeyDown}
 				className={css({
 					position: 'relative',
-					width: '51px',
-					height: '31px',
-					borderRadius: '31px',
+					width: TOGGLE_WIDTH,
+					height: TOGGLE_HEIGHT,
+					borderRadius: TOGGLE_BORDER_RADIUS,
 					backgroundColor: checked
 						? '{colors.toggleActive}'
 						: '{colors.toggleInactive}',
 					border: 'none',
 					cursor: disabled ? 'not-allowed' : 'pointer',
-					transition: 'background-color 0.25s ease-in-out',
-					opacity: disabled ? 0.5 : 1,
+					transition: TRANSITION_BACKGROUND,
+					opacity: disabled ? OPACITY_DISABLED : OPACITY_ENABLED,
 					flexShrink: 0,
 					'&:focus': {
-						outline: '2px solid {colors.toggleActive}',
-						outlineOffset: '2px',
+						outline: OUTLINE,
+						outlineOffset: OUTLINE_OFFSET,
 					},
 					'&:active:not(:disabled)': {
-						transform: 'scale(0.98)',
+						transform: SCALE_ACTIVE,
 					},
 				})}
 			>
 				<span
 					className={css({
 						position: 'absolute',
-						top: '2px',
-						left: checked ? '22px' : '2px',
-						width: '27px',
-						height: '27px',
-						borderRadius: '50%',
+						top: KNOB_TOP,
+						left: checked ? KNOB_LEFT_CHECKED : KNOB_LEFT_UNCHECKED,
+						width: KNOB_SIZE,
+						height: KNOB_SIZE,
+						borderRadius: KNOB_BORDER_RADIUS,
 						backgroundColor: '{colors.paper}',
-						boxShadow:
-							'0 3px 8px {colors.ink/15}, 0 1px 1px {colors.ink/16}',
-						transition: 'left 0.25s ease-in-out',
+						boxShadow: KNOB_BOX_SHADOW,
+						transition: TRANSITION_LEFT,
 					})}
 				/>
 			</button>
@@ -75,9 +96,9 @@ const Toggle = ({
 				htmlFor={id}
 				onClick={() => onChange(!checked)}
 				className={css({
-					fontSize: 'm',
+					fontSize: FONT_SIZE,
 					cursor: disabled ? 'not-allowed' : 'pointer',
-					opacity: disabled ? 0.5 : 1,
+					opacity: disabled ? OPACITY_DISABLED : OPACITY_ENABLED,
 				})}
 			>
 				{labelContent}

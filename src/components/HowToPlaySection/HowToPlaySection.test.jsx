@@ -12,7 +12,7 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 }));
 
 vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	default: ({ content, placeholders }) => (
+	MarkdownWithPlaceholders: ({ content, placeholders }) => (
 		<div data-testid="markdown-content">
 			{content}
 			{placeholders &&

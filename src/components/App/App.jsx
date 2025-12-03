@@ -1,14 +1,11 @@
 import { RouterProvider } from '@tanstack/react-router';
 import { router } from '@components/Router';
-import { DatabaseProvider } from '@lib/context/DatabaseContext.jsx';
+import { DatabaseProvider } from '@lib/context/DatabaseContext';
 
-const App = () => {
+export const App = () => {
 	return (
 		<DatabaseProvider>
 			<RouterProvider router={router} />
 		</DatabaseProvider>
 	);
 };
-
-export { App };
-export default App;

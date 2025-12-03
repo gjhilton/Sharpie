@@ -79,8 +79,8 @@ vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () 
 	),
 }));
 
-vi.mock('@components/BaselineExamples/BaselineExamples.jsx', () => ({
-	default: () => <div data-testid="baseline-examples">Baseline Examples</div>,
+vi.mock('@components/BaselineExamples/BaselineExamples', () => ({
+	BaselineExamples: () => <div data-testid="baseline-examples">Baseline Examples</div>,
 }));
 
 vi.mock('@data/identify.md?raw', () => ({

@@ -5,7 +5,7 @@ import Toggle from '@components/Toggle/Toggle.jsx';
 import SubSection from '@components/SubSection/SubSection.jsx';
 import { RadioGroup } from '@components/RadioGroup/RadioGroup.jsx';
 import MarkdownWithPlaceholders from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx';
-import BaselineExamples from '@components/BaselineExamples/BaselineExamples.jsx';
+import { BaselineExamples } from '@components/BaselineExamples/BaselineExamples';
 import ShareURLSection from '@components/ShareURLSection/ShareURLSection.jsx';
 import ResetOptionsSection from '@components/ResetOptionsSection/ResetOptionsSection.jsx';
 import identifyContent from '@data/identify.md?raw';

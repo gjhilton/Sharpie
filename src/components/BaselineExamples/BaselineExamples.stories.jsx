@@ -1,4 +1,4 @@
-import BaselineExamples from './BaselineExamples';
+import { BaselineExamples } from './BaselineExamples';
 
 export default {
 	title: 'Components/BaselineExamples',

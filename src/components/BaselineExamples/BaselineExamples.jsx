@@ -1,37 +1,44 @@
 import { css } from '../../../dist/styled-system/css';
-import ExampleCard from '@components/ExampleCard/ExampleCard.jsx';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import { getBaseUrl } from '@lib/utilities/url.js';
+import { ExampleCard } from '@components/ExampleCard/ExampleCard';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
+import { getBaseUrl } from '@lib/utilities/url';
 
-const BaselineExamples = () => {
-	const exampleImagePath = `${getBaseUrl()}data/Joscelyn/joscelyn-minuscule-assets/b.png`;
+const GRID_GAP = '2rem';
+const MARGIN_TOP = '2rem';
+const MARGIN_BOTTOM = '1rem';
+
+const EXAMPLE_IMAGE = {
+	path: 'data/Joscelyn/joscelyn-minuscule-assets/b.png',
+	character: 'Joscelyn minuscule b',
+};
+
+export const BaselineExamples = () => {
+	const exampleImagePath = `${getBaseUrl()}${EXAMPLE_IMAGE.path}`;
 
 	return (
 		<div
 			className={css({
 				display: 'grid',
 				gridTemplateColumns: { base: '1fr', md: '1fr 1fr' },
-				gap: '2rem',
-				marginTop: '2rem',
-				marginBottom: '1rem',
+				gap: GRID_GAP,
+				marginTop: MARGIN_TOP,
+				marginBottom: MARGIN_BOTTOM,
 			})}
 		>
 			<ExampleCard title="Without baseline">
 				<CharacterImage
 					imagePath={exampleImagePath}
-					caption="Joscelyn minuscule b"
+					caption={EXAMPLE_IMAGE.character}
 					showBaseline={false}
 				/>
 			</ExampleCard>
 			<ExampleCard title="With baseline">
 				<CharacterImage
 					imagePath={exampleImagePath}
-					caption="Joscelyn minuscule b with baseline"
-					showBaseline={true}
+					caption={`${EXAMPLE_IMAGE.character} with baseline`}
+					showBaseline
 				/>
 			</ExampleCard>
 		</div>
 	);
 };
-
-export default BaselineExamples;

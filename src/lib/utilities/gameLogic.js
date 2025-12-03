@@ -7,11 +7,7 @@ export const STATUS = {
 	INCORRECT: 'incorrect',
 };
 
-/**
- * Letter pairs for 24-letter alphabet mode
- * In secretary hand, I/J and U/V were not distinguished
- */
-export const DOUBLED_LETTERS = {
+const DOUBLED_LETTERS = {
 	i: 'j',
 	j: 'i',
 	I: 'J',
@@ -22,10 +18,7 @@ export const DOUBLED_LETTERS = {
 	V: 'U',
 };
 
-/**
- * Gets the title for a graph set based on game mode
- */
-export const getGraphSetTitle = gameMode => {
+const getGraphSetTitle = gameMode => {
 	if (gameMode === GAME_MODES.ALL) return null;
 	return gameMode === GAME_MODES.MINUSCULE ? 'minuscules' : 'MAJUSCULES';
 };

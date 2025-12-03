@@ -5,18 +5,6 @@
 import { OPTIONS } from './schema.js';
 import handsData from '@data/hands.json';
 
-/**
- * Get default enabled hand IDs based on isDefaultEnabled flag
- */
-export const getDefaultHandIds = () => {
-	return Object.entries(handsData)
-		.filter(([, data]) => data.isDefaultEnabled)
-		.map(([, data]) => data.id);
-};
-
-/**
- * Get default enabled hands as object mapping names to booleans
- */
 export const getDefaultEnabledHands = () => {
 	const result = {};
 	Object.entries(handsData).forEach(([name, data]) => {

@@ -8,22 +8,6 @@ const DIFFICULTIES = {
 	hard: 'Hard',
 };
 
-/**
- * Difficulty level constants
- * Creates constants like DIFFICULTY_LEVELS.EASY = 'easy'
- */
-export const DIFFICULTY_LEVELS = Object.keys(DIFFICULTIES).reduce(
-	(acc, key) => {
-		acc[key.toUpperCase()] = key;
-		return acc;
-	},
-	{}
-);
-
-/**
- * Difficulty keys in order (easy -> medium -> hard)
- * Used for sorting alphabets by difficulty
- */
 export const DIFFICULTY_ORDER = Object.keys(DIFFICULTIES);
 
 /**

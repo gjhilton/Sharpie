@@ -1,18 +1,15 @@
 import { DIFFICULTY_ORDER } from '@lib/constants/difficulty.js';
 
-/**
- * Sort hands chronologically by date (oldest first)
- * @param {Array} handNames - Array of hand name strings
- * @param {Object} handsMetadata - Metadata object containing date, difficulty, etc.
- * @returns {Array} Sorted array of hand names
- */
+const parseYearFromDate = dateString => {
+	return parseInt(dateString.split('/')[0], 10);
+};
+
 export const sortHandsByDate = (handNames, handsMetadata) => {
 	return [...handNames].sort((a, b) => {
 		const dateA = handsMetadata[a]?.date || '9999';
 		const dateB = handsMetadata[b]?.date || '9999';
-		// Extract first year from date string (handles "1574/5" -> 1574)
-		const yearA = parseInt(dateA.split('/')[0], 10);
-		const yearB = parseInt(dateB.split('/')[0], 10);
+		const yearA = parseYearFromDate(dateA);
+		const yearB = parseYearFromDate(dateB);
 		return yearA - yearB;
 	});
 };
@@ -46,11 +43,10 @@ export const sortHandsByDifficulty = (handNames, handsMetadata) => {
 			return orderA - orderB;
 		}
 
-		// If same difficulty, sort by date
 		const dateA = handsMetadata[a]?.date || '9999';
 		const dateB = handsMetadata[b]?.date || '9999';
-		const yearA = parseInt(dateA.split('/')[0], 10);
-		const yearB = parseInt(dateB.split('/')[0], 10);
+		const yearA = parseYearFromDate(dateA);
+		const yearB = parseYearFromDate(dateB);
 		return yearA - yearB;
 	});
 };

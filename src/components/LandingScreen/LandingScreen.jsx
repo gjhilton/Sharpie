@@ -12,14 +12,10 @@ import { HowToPlaySection } from '@components/HowToPlaySection/HowToPlaySection'
 import { NextStepsSection } from '@components/NextStepsSection/NextStepsSection';
 import WhatsNewSection from '@components/WhatsNewSection/WhatsNewSection';
 import { useGameOptions } from '@lib/hooks/useGameOptions';
-import { OPTIONS } from '@lib/options/schema';
 import { useDatabase } from '@lib/context/DatabaseContext';
+import { GAME_MODE_OPTIONS } from '@lib/constants/stages';
 
 const MARGIN_BOTTOM_HEADER = '2rem';
-
-const GAME_MODE_OPTIONS = Object.entries(OPTIONS.mode.values).map(
-	([value, { label }]) => ({ value, label })
-);
 
 const LandingScreen = () => {
 	const navigate = useNavigate();

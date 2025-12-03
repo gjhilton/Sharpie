@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
 import { OPTIONS } from '@lib/options/schema.js';
-import Badge from '@components/Badge/Badge.jsx';
+import { Badge } from '@components/Badge/Badge';
 import { useGameOptionsContext } from '@lib/context/GameOptionsContext.jsx';
 
 const Strong = ({ children, isError }) => (

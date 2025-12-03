@@ -4,9 +4,10 @@
 	"version": "1.2.5",
 	"type": "module",
 	"scripts": {
-		"dev": "vite --config src/config/vite.config.js",
-		"dev:host": "vite --config src/config/vite.config.js --host --port 8080",
-		"build": "vite build --config src/config/vite.config.js",
+		"dev": "npm run prepare-public && vite --config src/config/vite.config.js",
+		"dev:host": "npm run prepare-public && vite --config src/config/vite.config.js --host --port 8080",
+		"build": "npm run update-db && npm run prepare-public && vite build --config src/config/vite.config.js",
+		"prepare-public": "node src/scripts/prepare-public.js",
 		"lint": "eslint . --config src/config/eslint.config.js",
 		"preview": "vite preview --config src/config/vite.config.js",
 		"format": "prettier --write --config src/config/.prettierrc --ignore-path src/config/.prettierignore '**/*.{js,jsx,json,css,md}' '!src/artwork/**'",

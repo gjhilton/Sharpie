@@ -3,7 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { NextStepsSection } from './NextStepsSection';
 
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
-	default: ({ title, children }) => (
+	SubSection: ({ title, children }) => (
 		<section>
 			<h3>{title}</h3>
 			{children}

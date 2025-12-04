@@ -1,4 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
+import { flexCenter } from '@lib/constants/ui';
 
 const SPINNER_SIZE = '48px';
 const SPINNER_BORDER_WIDTH = '5px';
@@ -9,9 +10,7 @@ const SPINNER_ANIMATION = 'rotation 1s linear infinite';
 const LoadingSpinner = () => (
 	<div
 		className={css({
-			display: 'flex',
-			justifyContent: 'center',
-			alignItems: 'center',
+			...flexCenter,
 			height: '100vh',
 			width: '100vw',
 		})}

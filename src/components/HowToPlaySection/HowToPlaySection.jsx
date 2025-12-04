@@ -1,4 +1,4 @@
-import SubSection from '@components/SubSection/SubSection';
+import { SubSection } from '@components/SubSection/SubSection';
 import { MarkdownWithPlaceholders } from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders';
 import { ContextImage } from '@components/ContextImage/ContextImage';
 import howToUseContent from '@data/how-to-use.md?raw';

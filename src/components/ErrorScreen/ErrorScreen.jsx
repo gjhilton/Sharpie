@@ -1,5 +1,6 @@
 import { css } from '../../../dist/styled-system/css';
 import { Button } from '@components/Button/Button';
+import { flexCenterColumn } from '@lib/constants/ui';
 
 const PADDING = '2rem';
 const GAP = '1.5rem';
@@ -10,10 +11,7 @@ export const ErrorScreen = ({ error, resetError }) => {
 	return (
 		<div
 			className={css({
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
+				...flexCenterColumn,
 				minHeight: '100vh',
 				padding: PADDING,
 				textAlign: 'center',

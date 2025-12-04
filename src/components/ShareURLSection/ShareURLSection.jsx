@@ -6,7 +6,7 @@ import { SubSection } from '@components/SubSection/SubSection';
 import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
 import { InputWithButton } from '@components/InputWithButton/InputWithButton';
 import { serializeOptions } from '@lib/options/serializer';
-import { commonButtonStyles } from '@lib/constants/ui';
+import { commonButtonStyles, flexCenterColumn } from '@lib/constants/ui';
 import shareURLContent from '@data/share-url.md?raw';
 
 const COPY_SUCCESS_TIMEOUT = 2000;
@@ -130,10 +130,7 @@ const ShareURLSection = ({ options }) => {
 						border: QR_BORDER,
 						borderTop: 'none',
 						backgroundColor: QR_BACKGROUND,
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
+						...flexCenterColumn,
 						marginBottom: QR_MARGIN_BOTTOM,
 					})}
 				>

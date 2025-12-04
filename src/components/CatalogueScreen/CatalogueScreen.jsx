@@ -15,6 +15,7 @@ import handsData from '@data/hands.json';
 import * as catalogueLogic from '@lib/utilities/catalogueLogic';
 import { useGameOptions } from '@lib/hooks/useGameOptions';
 import { useDatabase } from '@lib/context/DatabaseContext';
+import { flexCenter } from '@lib/constants/ui';
 
 const STYLES = {
 	verticalGap: '2rem',
@@ -28,9 +29,7 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => (
 			width: STYLES.imageSize,
 			height: STYLES.imageSize,
 			background: '{colors.paper}',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
+			...flexCenter,
 			opacity: isEnabled ? 1 : 0.2,
 		})}
 	>

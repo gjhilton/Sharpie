@@ -24,6 +24,16 @@ export const HandList = ({
 	onSelectAll,
 	onDeselectAll,
 }) => {
+	const renderHandRow = (name) => (
+		<HandRow
+			key={name}
+			name={name}
+			metadata={handsMetadata[name]}
+			isEnabled={enabledHands[name] || false}
+			onToggle={() => onToggle(name)}
+		/>
+	);
+
 	if (showDifficultyGroups && difficultyGroups) {
 		// Render grouped by difficulty with headings
 		return (
@@ -51,15 +61,7 @@ export const HandList = ({
 								onSelectAll={onSelectAll}
 								onDeselectAll={onDeselectAll}
 							/>
-							{handsInGroup.map(name => (
-								<HandRow
-									key={name}
-									name={name}
-									metadata={handsMetadata[name]}
-									isEnabled={enabledHands[name] || false}
-									onToggle={() => onToggle(name)}
-								/>
-							))}
+							{handsInGroup.map(renderHandRow)}
 						</div>
 					);
 				})}
@@ -70,15 +72,7 @@ export const HandList = ({
 	// Render flat list without grouping
 	return (
 		<div className={gridStyles}>
-			{hands.map(name => (
-				<HandRow
-					key={name}
-					name={name}
-					metadata={handsMetadata[name]}
-					isEnabled={enabledHands[name] || false}
-					onToggle={() => onToggle(name)}
-				/>
-			))}
+			{hands.map(renderHandRow)}
 		</div>
 	);
 };

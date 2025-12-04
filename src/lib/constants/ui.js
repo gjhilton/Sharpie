@@ -54,3 +54,15 @@ export const commonButtonStyles = {
 		outlineOffset: FOCUS_OUTLINE_OFFSET,
 	},
 };
+
+// Common layout patterns
+export const flexCenter = {
+	display: 'flex',
+	justifyContent: 'center',
+	alignItems: 'center',
+};
+
+export const flexCenterColumn = {
+	...flexCenter,
+	flexDirection: 'column',
+};

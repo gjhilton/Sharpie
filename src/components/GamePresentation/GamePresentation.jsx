@@ -5,6 +5,7 @@ import { Character, CHARACTER_STATE } from '@components/Character/Character';
 import { STATUS } from '@lib/utilities/gameLogic';
 import { GAME_MODES } from '@lib/constants/stages';
 import { useEnterKey } from '@lib/hooks/useEnterKey';
+import { flexCenter } from '@lib/constants/ui';
 
 const SPACING = {
 	SECTION_GAP: '2rem',
@@ -15,7 +16,7 @@ const SPACING = {
 const KB_DISABLED_OPACITY = 0.01;
 
 export const Unanswered = ({ solution, showBaseline }) => (
-	<div className={css({ display: 'flex', justifyContent: 'center' })}>
+	<div className={css(flexCenter)}>
 		<Character
 			state={CHARACTER_STATE.AWAIT_ANSWER}
 			imagePath={solution.imagePath}
@@ -32,15 +33,13 @@ export const CorrectAnswer = ({
 	showBaseline,
 	alphabetMetadata = {},
 }) => {
-	const alphabetLink = alphabetMetadata.sourceUri;
-	const alphabetTitle = alphabetMetadata.title;
-	const alphabetDate = alphabetMetadata.date;
+	const { sourceUri: alphabetLink, title: alphabetTitle, date: alphabetDate } = alphabetMetadata;
 
 	useEnterKey(onNext);
 
 	return (
 		<>
-			<div className={css({ display: 'flex', justifyContent: 'center' })}>
+			<div className={css(flexCenter)}>
 				<Character
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
@@ -92,9 +91,7 @@ export const IncorrectAnswer = ({
 	showBaseline,
 	alphabetMetadata = {},
 }) => {
-	const alphabetLink = alphabetMetadata.sourceUri;
-	const alphabetTitle = alphabetMetadata.title;
-	const alphabetDate = alphabetMetadata.date;
+	const { sourceUri: alphabetLink, title: alphabetTitle, date: alphabetDate } = alphabetMetadata;
 
 	useEnterKey(onNext);
 

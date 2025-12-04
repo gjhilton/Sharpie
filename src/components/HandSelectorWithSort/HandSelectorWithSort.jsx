@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { SortSelector } from '@components/SortSelector/SortSelector';
 import { HandList } from '@components/HandList/HandList';
 import {
@@ -24,27 +24,39 @@ export const HandSelectorWithSort = ({
 	const [sortMode, setSortMode] = useState('date');
 
 	// Determine sorted hands and difficulty groups based on sort mode
-	let sortedHands = [];
-	let difficultyGroups = null;
-	let showDifficultyGroups = false;
+	const { sortedHands, difficultyGroups, showDifficultyGroups } = useMemo(() => {
+		if (sortMode === 'date') {
+			return {
+				sortedHands: sortHandsByDate(handNames, handsMetadata),
+				difficultyGroups: null,
+				showDifficultyGroups: false,
+			};
+		}
 
-	if (sortMode === 'date') {
-		sortedHands = sortHandsByDate(handNames, handsMetadata);
-	} else if (sortMode === 'name') {
-		sortedHands = sortHandsByName(handNames);
-	} else if (sortMode === 'difficulty') {
-		sortedHands = sortHandsByDifficulty(
-			handNames,
-			handsMetadata
-		);
-		difficultyGroups = groupHandsByDifficulty(
-			handNames,
-			handsMetadata
-		);
-		showDifficultyGroups = true;
-	}
+		if (sortMode === 'name') {
+			return {
+				sortedHands: sortHandsByName(handNames),
+				difficultyGroups: null,
+				showDifficultyGroups: false,
+			};
+		}
 
-	const handleSelectAll = difficulty => {
+		if (sortMode === 'difficulty') {
+			return {
+				sortedHands: sortHandsByDifficulty(handNames, handsMetadata),
+				difficultyGroups: groupHandsByDifficulty(handNames, handsMetadata),
+				showDifficultyGroups: true,
+			};
+		}
+
+		return {
+			sortedHands: [],
+			difficultyGroups: null,
+			showDifficultyGroups: false,
+		};
+	}, [sortMode, handNames, handsMetadata]);
+
+	const batchToggleHands = (difficulty, targetState) => {
 		if (!difficultyGroups || !difficultyGroups[difficulty]) {
 			return;
 		}
@@ -53,42 +65,22 @@ export const HandSelectorWithSort = ({
 		if (onBatchToggle) {
 			const updates = {};
 			difficultyGroups[difficulty].forEach(handName => {
-				if (!enabledHands[handName]) {
-					updates[handName] = true;
+				if (enabledHands[handName] !== targetState) {
+					updates[handName] = targetState;
 				}
 			});
 			onBatchToggle(updates);
 		} else {
 			difficultyGroups[difficulty].forEach(handName => {
-				if (!enabledHands[handName]) {
+				if (enabledHands[handName] !== targetState) {
 					onToggle(handName);
 				}
 			});
 		}
 	};
 
-	const handleDeselectAll = difficulty => {
-		if (!difficultyGroups || !difficultyGroups[difficulty]) {
-			return;
-		}
-
-		// Use batch toggle if available, otherwise fall back to individual toggles
-		if (onBatchToggle) {
-			const updates = {};
-			difficultyGroups[difficulty].forEach(handName => {
-				if (enabledHands[handName]) {
-					updates[handName] = false;
-				}
-			});
-			onBatchToggle(updates);
-		} else {
-			difficultyGroups[difficulty].forEach(handName => {
-				if (enabledHands[handName]) {
-					onToggle(handName);
-				}
-			});
-		}
-	};
+	const handleSelectAll = difficulty => batchToggleHands(difficulty, true);
+	const handleDeselectAll = difficulty => batchToggleHands(difficulty, false);
 
 	return (
 		<div>

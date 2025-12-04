@@ -1,4 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
+import { flexCenterColumn } from '@lib/constants/ui';
 
 const GAP = '1rem';
 const SPINNER_SIZE = '40px';
@@ -14,10 +15,7 @@ export const LoadingScreen = () => {
 	return (
 		<div
 			className={css({
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
+				...flexCenterColumn,
 				minHeight: '100vh',
 				gap: GAP,
 			})}

@@ -9,6 +9,7 @@ const CHARACTER_LABEL_FONT_WEIGHT = '900';
 const CHARACTER_LABEL_PADDING = '1rem';
 const CHARACTER_ICON_GAP = '0.25rem';
 const ALPHABET_FONT_SIZE = '0.8rem';
+const INFO_BOX_PADDING = '0.25rem 0.5rem';
 
 export const CHARACTER_STATE = {
 	AWAIT_ANSWER: 'awaitAnswer',
@@ -55,6 +56,8 @@ export const Character = ({
 	showBaseline = false,
 	note,
 }) => {
+	const baselineColor = state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline';
+
 	return (
 		<div
 			className={css({
@@ -92,21 +95,13 @@ export const Character = ({
 				<CharacterImage
 					imagePath={imagePath}
 					showBaseline={showBaseline}
-					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER
-							? 'ink'
-							: 'baseline'
-					}
+					baselineColor={baselineColor}
 				/>
 			) : (
 				<CharacterImageSlideshow
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
-					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER
-							? 'ink'
-							: 'baseline'
-					}
+					baselineColor={baselineColor}
 				/>
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
@@ -128,7 +123,7 @@ export const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: '0.25rem 0.5rem',
+								padding: INFO_BOX_PADDING,
 							})}
 						>
 							{note}
@@ -138,7 +133,7 @@ export const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: '0.25rem 0.5rem',
+								padding: INFO_BOX_PADDING,
 							})}
 						>
 							<Alphabet

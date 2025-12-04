@@ -1,4 +1,4 @@
-import SubSection from '@components/SubSection/SubSection';
+import { SubSection } from '@components/SubSection/SubSection';
 import { MarkdownWithPlaceholders } from '@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders';
 import nextStepsContent from '@data/next-steps.md?raw';
 

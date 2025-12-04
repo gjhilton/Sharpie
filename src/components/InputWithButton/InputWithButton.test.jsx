@@ -25,6 +25,7 @@ describe('InputWithButton', () => {
 					inputId="test-input"
 					inputName="test"
 					inputValue="test value"
+					inputReadOnly
 					buttonLabel="Click"
 					buttonOnClick={vi.fn()}
 				/>

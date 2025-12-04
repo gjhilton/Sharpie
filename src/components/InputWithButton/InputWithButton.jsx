@@ -34,6 +34,21 @@ const InputWithButton = ({
 	marginBottom,
 	cursor,
 }) => {
+	const commonButtonStyles = {
+		padding: `${PADDING_STANDARD} ${PADDING_HORIZONTAL}`,
+		border: BORDER_STANDARD,
+		cursor: 'pointer',
+		fontSize: fontSize,
+		fontWeight: 'bold',
+		transition: TRANSITION_ALL_FAST,
+		whiteSpace: 'nowrap',
+		flexShrink: 0,
+		_focusVisible: {
+			outline: FOCUS_OUTLINE,
+			outlineOffset: FOCUS_OUTLINE_OFFSET,
+		},
+	};
+
 	return (
 		<div
 			className={css({
@@ -71,21 +86,10 @@ const InputWithButton = ({
 				type="button"
 				onClick={buttonOnClick}
 				className={css({
-					padding: `${PADDING_STANDARD} ${PADDING_HORIZONTAL}`,
-					border: BORDER_STANDARD,
+					...commonButtonStyles,
 					borderRight: rightButton2Label ? 'none' : BORDER_STANDARD,
 					backgroundColor: buttonActive ? BACKGROUND_INK : BACKGROUND_PAPER,
 					color: buttonActive ? COLOR_PAPER : COLOR_INK,
-					cursor: 'pointer',
-					fontSize: fontSize,
-					fontWeight: 'bold',
-					transition: TRANSITION_ALL_FAST,
-					whiteSpace: 'nowrap',
-					flexShrink: 0,
-					_focusVisible: {
-						outline: FOCUS_OUTLINE,
-						outlineOffset: FOCUS_OUTLINE_OFFSET,
-					},
 				})}
 			>
 				{buttonLabel}
@@ -95,20 +99,9 @@ const InputWithButton = ({
 					type="button"
 					onClick={rightButton2OnClick}
 					className={css({
-						padding: `${PADDING_STANDARD} ${PADDING_HORIZONTAL}`,
-						border: BORDER_STANDARD,
+						...commonButtonStyles,
 						backgroundColor: rightButton2Active ? BACKGROUND_INK : BACKGROUND_PAPER,
 						color: rightButton2Active ? COLOR_PAPER : COLOR_INK,
-						cursor: 'pointer',
-						fontSize: fontSize,
-						fontWeight: 'bold',
-						transition: TRANSITION_ALL_FAST,
-						whiteSpace: 'nowrap',
-						flexShrink: 0,
-						_focusVisible: {
-							outline: FOCUS_OUTLINE,
-							outlineOffset: FOCUS_OUTLINE_OFFSET,
-						},
 					})}
 				>
 					{rightButton2Label}

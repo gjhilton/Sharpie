@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Toggle from '@components/Toggle/Toggle';
+import { Toggle } from '@components/Toggle/Toggle';
 
 export default {
 	title: 'Components/Toggle',

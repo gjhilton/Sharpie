@@ -1,9 +1,9 @@
 import { css } from '../../../dist/styled-system/css';
 import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton';
 import { version } from '@lib/utilities/version';
+import { FONT_SIZE_SMALL } from '@lib/constants/ui';
 
 const MARGIN_TOP = '4rem';
-const FONT_SIZE = 's';
 const TEXT_MARGIN_TOP = '1rem';
 const VERSION_MARGIN_TOP = '0.5rem';
 const GITHUB_URL = 'https://github.com/gjhilton/Sharpie';
@@ -26,7 +26,7 @@ const SmallPrint = ({ onShowFeedback }) => (
 
 		<div
 			className={css({
-				fontSize: FONT_SIZE,
+				fontSize: FONT_SIZE_SMALL,
 				marginTop: TEXT_MARGIN_TOP,
 				fontStyle: 'italic',
 			})}
@@ -40,7 +40,7 @@ const SmallPrint = ({ onShowFeedback }) => (
 
 		<div
 			className={css({
-				fontSize: FONT_SIZE,
+				fontSize: FONT_SIZE_SMALL,
 				marginTop: VERSION_MARGIN_TOP,
 				fontStyle: 'italic',
 			})}
@@ -51,4 +51,3 @@ const SmallPrint = ({ onShowFeedback }) => (
 );
 
 export { SmallPrint };
-export default SmallPrint;

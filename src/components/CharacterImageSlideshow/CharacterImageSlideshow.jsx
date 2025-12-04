@@ -6,7 +6,6 @@ const DEFAULT_INTERVAL = 2000;
 export const CharacterImageSlideshow = ({
 	imagePaths,
 	caption,
-	graph,
 	interval = DEFAULT_INTERVAL,
 	showBaseline = false,
 	baselineColor = 'baseline',
@@ -31,7 +30,6 @@ export const CharacterImageSlideshow = ({
 		<CharacterImage
 			imagePath={imagePaths[currentIndex]}
 			caption={caption}
-			graph={graph}
 			showBaseline={showBaseline}
 			baselineColor={baselineColor}
 		/>

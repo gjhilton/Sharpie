@@ -56,11 +56,11 @@ vi.mock('@components/NextStepsSection/NextStepsSection.jsx', () => ({
 }));
 
 vi.mock('@components/WhatsNewSection/WhatsNewSection.jsx', () => ({
-	default: () => <div data-testid="mock-whats-new">What's new</div>,
+	WhatsNewSection: () => <div data-testid="mock-whats-new">What's new</div>,
 }));
 
 vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
-	default: ({ onShowFeedback }) => (
+	SmallPrint: ({ onShowFeedback }) => (
 		<div data-testid="mock-smallprint">
 			{onShowFeedback && (
 				<button onClick={onShowFeedback} data-testid="feedback-button">

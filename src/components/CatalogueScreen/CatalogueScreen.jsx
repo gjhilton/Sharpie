@@ -31,7 +31,6 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => (
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
-			cborder: '1px solid {colors.ink/10}',
 			opacity: isEnabled ? 1 : 0.2,
 		})}
 	>
@@ -194,7 +193,7 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	return <LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>;
 };
 
-const SelectionStatus = ({ isError, handCount, characterCount, letterCounts }) => {
+const SelectionStatus = ({ isError, handCount, letterCounts }) => {
 	if (isError) {
 		return (
 			<Paragraph className={css({ color: '{colors.error}' })}>
@@ -229,7 +228,6 @@ export const CatalogueScreen = () => {
 		getImagePath,
 		getEnabledGraphSets,
 		countEnabledHands,
-		countEnabledCharacters,
 		getAllHandNames,
 		countEnabledLetters,
 	} = useDatabase();
@@ -247,9 +245,8 @@ export const CatalogueScreen = () => {
 		getEnabledGraphSets(DB)
 	);
 	const handCount = countEnabledHands(enabledHands);
-	const characterCount = countEnabledCharacters(DB, enabledHands);
 	const letterCounts = countEnabledLetters(DB, enabledHands);
-	const hasNoSelection = handCount === 0 || characterCount === 0;
+	const hasNoSelection = handCount === 0 || letterCounts.total === 0;
 
 	const handleToggleHand = name => {
 		const newEnabledHands = {
@@ -298,7 +295,6 @@ export const CatalogueScreen = () => {
 					<SelectionStatus
 						isError={hasNoSelection}
 						handCount={handCount}
-						characterCount={characterCount}
 						letterCounts={letterCounts}
 					/>
 

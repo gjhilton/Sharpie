@@ -1,3 +1,5 @@
+import { getBaseUrl } from './url.js';
+
 export const getGraphs = graphset => graphset.graphs;
 
 export const getTitle = graphset => graphset.title;
@@ -23,7 +25,7 @@ export const getImagePath = graph => {
 	// The img field now contains the full relative path
 	// e.g., "Joscelyn/joscelyn-min-assets/a.png"
 	// Use BASE_URL to support GitHub Pages deployment with base path
-	const baseUrl = import.meta.env.BASE_URL || '/';
+	const baseUrl = getBaseUrl();
 	return `${baseUrl}data/${graph.img}`;
 };
 

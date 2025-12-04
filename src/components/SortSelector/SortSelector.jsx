@@ -1,16 +1,18 @@
 import { css } from '../../../dist/styled-system/css';
+import {
+	FOCUS_OUTLINE_TOGGLE,
+	FOCUS_OUTLINE_OFFSET,
+	FONT_SIZE_MEDIUM
+} from '@lib/constants/ui';
 
 const GAP = '0.5rem';
 const MARGIN_BOTTOM = '1rem';
-const FONT_SIZE = 'm';
 const FONT_WEIGHT = '600';
 const PADDING = '0.5rem';
 const BORDER = '1px solid {colors.ink/30}';
 const BORDER_RADIUS = '4px';
 const BACKGROUND_COLOR = '{colors.paper}';
 const COLOR = '{colors.ink}';
-const OUTLINE = '2px solid {colors.toggleActive}';
-const OUTLINE_OFFSET = '2px';
 const DEFAULT_ID = 'sort-selector';
 const DEFAULT_LABEL = 'Sort by:';
 
@@ -33,7 +35,7 @@ const SortSelector = ({
 			<label
 				htmlFor={id}
 				className={css({
-					fontSize: FONT_SIZE,
+					fontSize: FONT_SIZE_MEDIUM,
 					fontWeight: FONT_WEIGHT,
 				})}
 			>
@@ -45,15 +47,15 @@ const SortSelector = ({
 				onChange={e => onChange(e.target.value)}
 				className={css({
 					padding: PADDING,
-					fontSize: FONT_SIZE,
+					fontSize: FONT_SIZE_MEDIUM,
 					border: BORDER,
 					borderRadius: BORDER_RADIUS,
 					backgroundColor: BACKGROUND_COLOR,
 					color: COLOR,
 					cursor: 'pointer',
 					'&:focus': {
-						outline: OUTLINE,
-						outlineOffset: OUTLINE_OFFSET,
+						outline: FOCUS_OUTLINE_TOGGLE,
+						outlineOffset: FOCUS_OUTLINE_OFFSET,
 					},
 				})}
 			>
@@ -68,4 +70,3 @@ const SortSelector = ({
 };
 
 export { SortSelector };
-export default SortSelector;

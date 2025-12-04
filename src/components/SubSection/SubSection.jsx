@@ -1,10 +1,10 @@
 import { css } from '../../../dist/styled-system/css';
+import { FONT_SIZE_MEDIUM } from '@lib/constants/ui';
 
 const GRID_COLUMNS = '1fr 2fr';
 const GAP = '2rem';
 const MARGIN_BOTTOM = '1.5rem';
 const HEADING_MARGIN = '0';
-const FONT_SIZE = 'm';
 
 const SubSection = ({ title, children }) => (
 	<div
@@ -20,7 +20,7 @@ const SubSection = ({ title, children }) => (
 			className={css({
 				margin: HEADING_MARGIN,
 				fontWeight: 'bold',
-				fontSize: FONT_SIZE,
+				fontSize: FONT_SIZE_MEDIUM,
 			})}
 		>
 			{title}
@@ -30,4 +30,3 @@ const SubSection = ({ title, children }) => (
 );
 
 export { SubSection };
-export default SubSection;

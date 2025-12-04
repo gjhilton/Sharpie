@@ -1,4 +1,13 @@
 import { css } from '../../../dist/styled-system/css';
+import {
+	FOCUS_OUTLINE_TOGGLE,
+	FOCUS_OUTLINE_OFFSET,
+	OPACITY_DISABLED,
+	OPACITY_ENABLED,
+	FONT_SIZE_MEDIUM,
+	KEY_SPACE,
+	KEY_ENTER
+} from '@lib/constants/ui';
 
 const GAP = '0.75rem';
 const MARGIN_BOTTOM = '1rem';
@@ -7,10 +16,6 @@ const TOGGLE_HEIGHT = '31px';
 const TOGGLE_BORDER_RADIUS = '31px';
 const TRANSITION_BACKGROUND = 'background-color 0.25s ease-in-out';
 const TRANSITION_LEFT = 'left 0.25s ease-in-out';
-const OPACITY_DISABLED = 0.5;
-const OPACITY_ENABLED = 1;
-const OUTLINE = '2px solid {colors.toggleActive}';
-const OUTLINE_OFFSET = '2px';
 const SCALE_ACTIVE = 'scale(0.98)';
 const KNOB_TOP = '2px';
 const KNOB_LEFT_UNCHECKED = '2px';
@@ -18,9 +23,6 @@ const KNOB_LEFT_CHECKED = '22px';
 const KNOB_SIZE = '27px';
 const KNOB_BORDER_RADIUS = '50%';
 const KNOB_BOX_SHADOW = '0 3px 8px {colors.ink/15}, 0 1px 1px {colors.ink/16}';
-const FONT_SIZE = 'm';
-const KEY_SPACE = ' ';
-const KEY_ENTER = 'Enter';
 
 const Toggle = ({
 	id,
@@ -70,8 +72,8 @@ const Toggle = ({
 					opacity: disabled ? OPACITY_DISABLED : OPACITY_ENABLED,
 					flexShrink: 0,
 					'&:focus': {
-						outline: OUTLINE,
-						outlineOffset: OUTLINE_OFFSET,
+						outline: FOCUS_OUTLINE_TOGGLE,
+						outlineOffset: FOCUS_OUTLINE_OFFSET,
 					},
 					'&:active:not(:disabled)': {
 						transform: SCALE_ACTIVE,
@@ -96,7 +98,7 @@ const Toggle = ({
 				htmlFor={id}
 				onClick={() => onChange(!checked)}
 				className={css({
-					fontSize: FONT_SIZE,
+					fontSize: FONT_SIZE_MEDIUM,
 					cursor: disabled ? 'not-allowed' : 'pointer',
 					opacity: disabled ? OPACITY_DISABLED : OPACITY_ENABLED,
 				})}
@@ -108,4 +110,3 @@ const Toggle = ({
 };
 
 export { Toggle };
-export default Toggle;

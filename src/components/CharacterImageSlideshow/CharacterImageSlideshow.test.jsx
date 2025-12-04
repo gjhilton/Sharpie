@@ -132,32 +132,6 @@ describe('CharacterImageSlideshow', () => {
 		expect(screen.getByTestId('caption')).toHaveTextContent('Test caption');
 	});
 
-	it('passes graph prop to CharacterImage', () => {
-		const imagePaths = ['/image1.jpg'];
-		const graph = 'Test graph';
-		render(
-			<CharacterImageSlideshow imagePaths={imagePaths} graph={graph} />
-		);
-
-		expect(screen.getByTestId('graph')).toHaveTextContent('Test graph');
-	});
-
-	it('passes both caption and graph props to CharacterImage', () => {
-		const imagePaths = ['/image1.jpg', '/image2.jpg'];
-		const caption = 'Test caption';
-		const graph = 'Test graph';
-		render(
-			<CharacterImageSlideshow
-				imagePaths={imagePaths}
-				caption={caption}
-				graph={graph}
-			/>
-		);
-
-		expect(screen.getByTestId('caption')).toHaveTextContent('Test caption');
-		expect(screen.getByTestId('graph')).toHaveTextContent('Test graph');
-	});
-
 	it('cleans up the interval timer on unmount', () => {
 		const imagePaths = ['/image1.jpg', '/image2.jpg'];
 		const { unmount } = render(

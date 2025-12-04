@@ -1,10 +1,12 @@
 import { css } from '../../../dist/styled-system/css';
+import {
+	FOCUS_OUTLINE_TOGGLE,
+	FOCUS_OUTLINE_OFFSET,
+	OPACITY_DISABLED
+} from '@lib/constants/ui';
 
 const PADDING = 0;
 const MARGIN = 0;
-const OPACITY_DISABLED = 0.5;
-const OUTLINE = '2px solid {colors.toggleActive}';
-const OUTLINE_OFFSET = '2px';
 
 const LinkAsButton = ({ children, onClick, disabled = false, className }) => (
 	<button
@@ -34,8 +36,8 @@ const LinkAsButton = ({ children, onClick, disabled = false, className }) => (
 				color: '{colors.toggleActive}',
 			},
 			'&:focus-visible': {
-				outline: OUTLINE,
-				outlineOffset: OUTLINE_OFFSET,
+				outline: FOCUS_OUTLINE_TOGGLE,
+				outlineOffset: FOCUS_OUTLINE_OFFSET,
 			},
 		})} ${className || ''}`}
 	>

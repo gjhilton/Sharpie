@@ -1,11 +1,12 @@
 import { useState, useRef, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import ReactMarkdown from 'react-markdown';
 import { css } from '../../../dist/styled-system/css';
 import { Paragraph } from '@components/Layout/Layout';
-import SubSection from '@components/SubSection/SubSection';
+import { SubSection } from '@components/SubSection/SubSection';
+import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
 import { InputWithButton } from '@components/InputWithButton/InputWithButton';
 import { serializeOptions } from '@lib/options/serializer';
+import { commonButtonStyles } from '@lib/constants/ui';
 import shareURLContent from '@data/share-url.md?raw';
 
 const COPY_SUCCESS_TIMEOUT = 2000;
@@ -18,16 +19,6 @@ const QR_BACKGROUND = 'white';
 const QR_MARGIN_TOP = '0';
 const QR_MARGIN_BOTTOM = '0.75rem';
 const QR_BUTTON_MARGIN_TOP = '0.5rem';
-const BUTTON_PADDING = '0.5rem 1rem';
-const BUTTON_BORDER = '1px solid {colors.ink}';
-const BUTTON_BACKGROUND = '{colors.paper}';
-const BUTTON_COLOR = '{colors.ink}';
-const BUTTON_FONT_SIZE = 's';
-const BUTTON_TRANSITION = 'all 150ms ease-in-out';
-const BUTTON_SCALE_HOVER = 'scale(1.02)';
-const BUTTON_SCALE_ACTIVE = 'scale(0.98)';
-const BUTTON_OUTLINE = '2px solid {colors.ink}';
-const BUTTON_OUTLINE_OFFSET = '2px';
 const CANVAS_FILL_STYLE = 'white';
 const INPUT_MARGIN_BOTTOM_SHOW_QR = '0';
 const INPUT_MARGIN_BOTTOM_HIDE_QR = '0.75rem';
@@ -104,13 +95,7 @@ const ShareURLSection = ({ options }) => {
 	return (
 		<SubSection title="Share settings">
 			<Paragraph>
-				<ReactMarkdown
-					components={{
-						p: ({ children }) => <>{children}</>,
-					}}
-				>
-					{shareURLContent}
-				</ReactMarkdown>
+				<InlineMarkdown content={shareURLContent} />
 			</Paragraph>
 
 			<InputWithButton
@@ -162,26 +147,7 @@ const ShareURLSection = ({ options }) => {
 						<button
 							type="button"
 							onClick={handleDownloadQR}
-							className={css({
-								padding: BUTTON_PADDING,
-								border: BUTTON_BORDER,
-								backgroundColor: BUTTON_BACKGROUND,
-								color: BUTTON_COLOR,
-								cursor: 'pointer',
-								fontSize: BUTTON_FONT_SIZE,
-								fontWeight: 'bold',
-								transition: BUTTON_TRANSITION,
-								_hover: {
-									transform: BUTTON_SCALE_HOVER,
-								},
-								_active: {
-									transform: BUTTON_SCALE_ACTIVE,
-								},
-								_focusVisible: {
-									outline: BUTTON_OUTLINE,
-									outlineOffset: BUTTON_OUTLINE_OFFSET,
-								},
-							})}
+							className={css(commonButtonStyles)}
 						>
 							Download
 						</button>
@@ -193,4 +159,3 @@ const ShareURLSection = ({ options }) => {
 };
 
 export { ShareURLSection };
-export default ShareURLSection;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import SortSelector from '@components/SortSelector/SortSelector';
+import { SortSelector } from '@components/SortSelector/SortSelector';
 
 export default {
 	title: 'Components/SortSelector',

@@ -1,8 +1,11 @@
 import { css } from '../../../dist/styled-system/css';
-
-const TRANSITION_DURATION = '200ms';
-const HOVER_SCALE = 1.02;
-const ACTIVE_SCALE = 0.98;
+import {
+	FOCUS_OUTLINE,
+	FOCUS_OUTLINE_OFFSET,
+	TRANSITION_ALL_NORMAL,
+	HOVER_SCALE_SMALL,
+	ACTIVE_SCALE
+} from '@lib/constants/ui';
 
 const ButtonLabel = ({ text }) => (
 	<span
@@ -45,13 +48,13 @@ export const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 				padding: '1rem 3rem',
 				margin: '2rem 0',
 				textTransform: hero ? 'uppercase' : 'none',
-				transition: `all ${TRANSITION_DURATION} ease-in-out`,
+				transition: TRANSITION_ALL_NORMAL,
 				_hover: {
-					transform: disabled ? 'none' : `scale(${HOVER_SCALE})`,
+					transform: disabled ? 'none' : `scale(${HOVER_SCALE_SMALL})`,
 				},
 				_focusVisible: {
-					outline: '2px solid {colors.ink}',
-					outlineOffset: '2px',
+					outline: FOCUS_OUTLINE,
+					outlineOffset: FOCUS_OUTLINE_OFFSET,
 				},
 				_active: {
 					transform: disabled ? 'none' : `scale(${ACTIVE_SCALE})`,

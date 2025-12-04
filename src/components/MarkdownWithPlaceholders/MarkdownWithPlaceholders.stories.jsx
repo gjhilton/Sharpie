@@ -1,5 +1,5 @@
 import MarkdownWithPlaceholders from './MarkdownWithPlaceholders';
-import Toggle from '@components/Toggle/Toggle';
+import { Toggle } from '@components/Toggle/Toggle';
 import { Button } from '@components/Button/Button';
 import { css } from '../../../dist/styled-system/css';
 

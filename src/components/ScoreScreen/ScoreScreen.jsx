@@ -1,7 +1,7 @@
 import { useNavigate, useRouterState } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
 import { Button } from '@components/Button/Button';
-import SmallPrint from '@components/SmallPrint/SmallPrint';
+import { SmallPrint } from '@components/SmallPrint/SmallPrint';
 import { Heading } from '@components/Layout/Layout';
 import { CharacterImage } from '@components/CharacterImage/CharacterImage';
 import { useEnterKey } from '@lib/hooks/useEnterKey';
@@ -236,4 +236,3 @@ const ScoreScreen = () => {
 };
 
 export { ScoreScreen };
-export default ScoreScreen;

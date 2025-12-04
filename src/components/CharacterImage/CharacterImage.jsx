@@ -1,4 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
+import { FONT_SIZE_SMALL } from '@lib/constants/ui';
 
 const PADDING = '2.5rem 0 3rem';
 const NOTE_TOP_POSITION = '0.5rem';
@@ -35,7 +36,7 @@ export const CharacterImage = ({
 					padding: NOTE_PADDING,
 					background: 'transparent',
 					color: '{colors.ink}',
-					fontSize: 's',
+					fontSize: FONT_SIZE_SMALL,
 					whiteSpace: 'nowrap',
 					zIndex: NOTE_Z_INDEX,
 				})}

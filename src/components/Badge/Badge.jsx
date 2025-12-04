@@ -1,8 +1,9 @@
 import { css } from '../../../dist/styled-system/css';
-
-const ANIMATION_DURATION = '150ms';
-const HOVER_SCALE = 1.05;
-const ACTIVE_SCALE = 0.95;
+import {
+	TRANSITION_ALL_FAST,
+	HOVER_SCALE_MEDIUM,
+	ACTIVE_SCALE
+} from '@lib/constants/ui';
 
 export const Badge = ({ children, testId, onClick }) => {
 	const isClickable = !!onClick;
@@ -17,8 +18,8 @@ export const Badge = ({ children, testId, onClick }) => {
 	const interactiveStyles = isClickable
 		? {
 				cursor: 'pointer',
-				transition: `all ${ANIMATION_DURATION} ease-in-out`,
-				_hover: { transform: `scale(${HOVER_SCALE})` },
+				transition: TRANSITION_ALL_FAST,
+				_hover: { transform: `scale(${HOVER_SCALE_MEDIUM})` },
 				_active: { transform: `scale(${ACTIVE_SCALE})` },
 		  }
 		: { cursor: 'default' };

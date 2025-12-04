@@ -1,8 +1,8 @@
 import { css } from '../../../dist/styled-system/css';
 import hands from '@data/hands.json';
+import { FONT_SIZE_SMALL } from '@lib/constants/ui';
 
 const MARGIN = '1rem 0';
-const FONT_SIZE = 's';
 const IMAGE_ALT = 'Secretary Hand';
 const IMAGE_SRC = 'secretary_hand.gif';
 const HAND_KEY = 'BeauChesne-Baildon';
@@ -17,7 +17,7 @@ const SourceFigure = () => (
 			className={css({
 				margin: MARGIN,
 				fontStyle: 'italic',
-				fontSize: FONT_SIZE,
+				fontSize: FONT_SIZE_SMALL,
 			})}
 		>
 			{hands[HAND_KEY].title}
@@ -35,4 +35,3 @@ const SourceFigure = () => (
 );
 
 export { SourceFigure };
-export default SourceFigure;

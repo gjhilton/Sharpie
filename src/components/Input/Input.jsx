@@ -1,25 +1,25 @@
 import { css } from '../../../dist/styled-system/css';
+import {
+	FOCUS_OUTLINE,
+	FOCUS_OUTLINE_OFFSET,
+	PADDING_STANDARD,
+	FONT_SIZE_MEDIUM,
+	BORDER_STANDARD
+} from '@lib/constants/ui';
 
-const PADDING = '0.75rem';
-const FONT_SIZE = 'm';
-const BORDER = '1px solid {colors.ink}';
 const BACKGROUND_COLOR = '{colors.paper}';
-const OUTLINE = '2px solid {colors.ink}';
-const OUTLINE_OFFSET = '2px';
 const TEXTAREA_ROWS = 6;
 
 const baseInputStyles = {
-	padding: PADDING,
-	fontSize: FONT_SIZE,
-	border: BORDER,
+	padding: PADDING_STANDARD,
+	fontSize: FONT_SIZE_MEDIUM,
+	border: BORDER_STANDARD,
 	backgroundColor: BACKGROUND_COLOR,
 	_focusVisible: {
-		outline: OUTLINE,
-		outlineOffset: OUTLINE_OFFSET,
+		outline: FOCUS_OUTLINE,
+		outlineOffset: FOCUS_OUTLINE_OFFSET,
 	},
 };
-
-const inputStyles = css(baseInputStyles);
 
 const Input = ({ id, type = 'text', name, required = false, readOnly = false, value, onClick, onFocus, onTouchStart, ...customStyles }) => (
 	<input
@@ -49,4 +49,4 @@ const Textarea = ({ id, name, required = false, ...customStyles }) => (
 	/>
 );
 
-export { Input, Textarea, inputStyles };
+export { Input, Textarea };

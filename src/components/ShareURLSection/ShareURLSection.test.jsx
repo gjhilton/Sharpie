@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ShareURLSection from './ShareURLSection';
+import { ShareURLSection } from './ShareURLSection';
 
 // Mock QRCodeSVG
 vi.mock('qrcode.react', () => ({
@@ -10,7 +10,7 @@ vi.mock('qrcode.react', () => ({
 
 // Mock SubSection
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
-	default: ({ title, children }) => (
+	SubSection: ({ title, children }) => (
 		<section>
 			<h3>{title}</h3>
 			{children}
@@ -21,6 +21,11 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 // Mock Layout components
 vi.mock('@components/Layout/Layout.jsx', () => ({
 	Paragraph: ({ children }) => <p>{children}</p>,
+}));
+
+// Mock InlineMarkdown
+vi.mock('@components/InlineMarkdown/InlineMarkdown.jsx', () => ({
+	InlineMarkdown: ({ content }) => <span>{content}</span>,
 }));
 
 // Mock InputWithButton - pass through all props to actual buttons

@@ -17,7 +17,7 @@ vi.mock('@components/Button/Button.jsx', () => ({
 }));
 
 vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
-	default: ({ onShowFeedback }) => (
+	SmallPrint: ({ onShowFeedback }) => (
 		<div data-testid="mock-smallprint">
 			{onShowFeedback && (
 				<button onClick={onShowFeedback} data-testid="feedback-button">

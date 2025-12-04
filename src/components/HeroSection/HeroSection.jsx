@@ -1,6 +1,6 @@
 import { css } from '../../../dist/styled-system/css';
-import ReactMarkdown from 'react-markdown';
 import { Button } from '@components/Button/Button';
+import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
 import { PageTitle, Paragraph } from '@components/Layout/Layout';
 import heroContent from '@data/hero.md?raw';
 
@@ -21,13 +21,7 @@ export const HeroSection = ({ onPlay }) => (
 		</PageTitle>
 		<div>
 			<Paragraph>
-				<ReactMarkdown
-					components={{
-						p: ({ children }) => <>{children}</>,
-					}}
-				>
-					{heroContent}
-				</ReactMarkdown>
+				<InlineMarkdown content={heroContent} />
 			</Paragraph>
 			<Button hero onClick={onPlay} label="Play" />
 		</div>

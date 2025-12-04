@@ -1,4 +1,4 @@
-import SubSection from '@components/SubSection/SubSection';
+import { SubSection } from '@components/SubSection/SubSection';
 import { Changelog } from '@components/Changelog/Changelog';
 
 const TITLE = 'Changelog';
@@ -10,4 +10,3 @@ const WhatsNewSection = () => (
 );
 
 export { WhatsNewSection };
-export default WhatsNewSection;

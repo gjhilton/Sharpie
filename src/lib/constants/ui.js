@@ -1,7 +1,7 @@
 // Shared UI constants for focus states and interactions
-export const FOCUS_OUTLINE = '2px solid {colors.ink}';
-export const FOCUS_OUTLINE_OFFSET = '2px';
-export const FOCUS_OUTLINE_TOGGLE = '2px solid {colors.toggleActive}';
+export const FOCUS_OUTLINE = 'medium solid {colors.ink}';
+export const FOCUS_OUTLINE_OFFSET = 'tiny';
+export const FOCUS_OUTLINE_TOGGLE = 'medium solid {colors.toggleActive}';
 
 // Animation and interaction constants
 export const ANIMATION_DURATION_FAST = '150ms';
@@ -22,12 +22,12 @@ export const FONT_SIZE_MEDIUM = 'm';
 export const KEY_SPACE = ' ';
 export const KEY_ENTER = 'Enter';
 
-// Padding constants
-export const PADDING_STANDARD = '0.75rem';
-export const PADDING_BUTTON = '0.5rem 1rem';
+// Padding constants - using Panda spacing tokens
+export const PADDING_STANDARD = 'md'; // 0.75rem
+export const PADDING_BUTTON = 'sm lg'; // 0.5rem 1rem
 
-// Border constants
-export const BORDER_STANDARD = '1px solid {colors.ink}';
+// Border constants - using Panda tokens
+export const BORDER_STANDARD = 'thin solid {colors.ink}';
 
 // Transition constants
 export const TRANSITION_ALL_FAST = `all ${ANIMATION_DURATION_FAST} ease-in-out`;

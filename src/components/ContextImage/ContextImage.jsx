@@ -2,7 +2,6 @@ import { css } from '../../../dist/styled-system/css';
 import { getBaseUrl } from '@lib/utilities/url';
 
 const IMAGE_PATH = 'data/Howard/Howard-assets/e-word-7asd.png';
-const MARGIN_VERTICAL = '1rem';
 
 export const ContextImage = () => (
 	<img
@@ -11,8 +10,8 @@ export const ContextImage = () => (
 		className={css({
 			maxWidth: '100%',
 			display: 'block',
-			marginTop: MARGIN_VERTICAL,
-			marginBottom: MARGIN_VERTICAL,
+			marginTop: 'lg',
+			marginBottom: 'lg',
 		})}
 	/>
 );

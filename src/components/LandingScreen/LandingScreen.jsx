@@ -15,8 +15,6 @@ import { useGameOptions } from '@lib/hooks/useGameOptions';
 import { useDatabase } from '@lib/context/DatabaseContext';
 import { GAME_MODE_OPTIONS } from '@lib/constants/stages';
 
-const MARGIN_BOTTOM_HEADER = '2rem';
-
 const LandingScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
@@ -36,7 +34,7 @@ const LandingScreen = () => {
 		<PageWidth>
 			<Article>
 				<header>
-					<div className={css({ marginBottom: MARGIN_BOTTOM_HEADER })}>
+					<div className={css({ marginBottom: '3xl' })}>
 						<Logo size={SIZE.S} />
 					</div>
 					<SourceFigure />

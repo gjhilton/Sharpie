@@ -11,17 +11,12 @@ import {
 	Section,
 } from '@components/Layout/Layout';
 
-const FIELD_GAP = '0.5rem';
-const FORM_GAP = '1.5rem';
-const BUTTON_GAP = '1rem';
-const BUTTON_MARGIN_TOP = '1rem';
-
 const FormField = ({ label, children }) => (
 	<div
 		className={css({
 			display: 'flex',
 			flexDirection: 'column',
-			gap: FIELD_GAP,
+			gap: 'sm',
 		})}
 	>
 		<label
@@ -79,7 +74,7 @@ export const FeedbackScreen = () => {
 					className={css({
 						display: 'flex',
 						flexDirection: 'column',
-						gap: FORM_GAP,
+						gap: '2xl',
 					})}
 				>
 					<FormField label="Name">
@@ -121,8 +116,8 @@ export const FeedbackScreen = () => {
 					<div
 						className={css({
 							display: 'flex',
-							gap: BUTTON_GAP,
-							marginTop: BUTTON_MARGIN_TOP,
+							gap: 'lg',
+							marginTop: 'lg',
 						})}
 					>
 						<Button

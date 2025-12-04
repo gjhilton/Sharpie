@@ -2,10 +2,8 @@ import { css } from '../../../dist/styled-system/css';
 import { Fieldset, Legend } from '@components/Layout/Layout';
 
 const RADIO_SIZE = '1.2rem';
-const GAP_SMALL = '0.5rem';
 const GAP_NONE = '0';
 const LINE_HEIGHT = '1.6';
-const MARGIN_BOTTOM = '1rem';
 
 const radioInputStyles = css({
 	width: RADIO_SIZE,
@@ -17,7 +15,7 @@ const RadioOption = ({ name, value, checked, onChange, children }) => (
 		className={css({
 			display: 'flex',
 			alignItems: 'center',
-			gap: GAP_SMALL,
+			gap: 'sm',
 			cursor: 'pointer',
 			fontWeight: checked ? 'bold' : 'normal',
 		})}
@@ -45,7 +43,7 @@ const RadioGroup = ({
 }) => (
 	<Fieldset
 		className={`${css({
-			marginBottom: MARGIN_BOTTOM,
+			marginBottom: 'lg',
 		})} ${className || ''}`}
 	>
 		<Legend visuallyHidden={!legendVisible}>{legend}</Legend>

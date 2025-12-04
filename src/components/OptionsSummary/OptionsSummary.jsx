@@ -5,8 +5,6 @@ import { OPTIONS } from '@lib/options/schema';
 import { Badge } from '@components/Badge/Badge';
 import { useGameOptionsContext } from '@lib/context/GameOptionsContext';
 
-const GAP = '0.5rem';
-
 const Strong = ({ children, isError }) => (
 	<span
 		className={css({
@@ -88,7 +86,7 @@ const OptionsSummary = ({ options, handCount }) => {
 			className={css({
 				display: 'flex',
 				flexWrap: 'wrap',
-				gap: GAP,
+				gap: 'sm',
 			})}
 			data-testid="options-summary-badges"
 		>

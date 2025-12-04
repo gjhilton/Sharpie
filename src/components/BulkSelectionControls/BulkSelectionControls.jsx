@@ -1,8 +1,6 @@
 import { css } from '../../../dist/styled-system/css';
 import { BulkSelectionLink } from '@components/BulkSelectionLink/BulkSelectionLink';
 
-const GAP = '1rem';
-
 export const BulkSelectionControls = ({
 	difficulty,
 	allSelected = false,
@@ -27,7 +25,7 @@ export const BulkSelectionControls = ({
 			className={css({
 				fontSize: 's',
 				display: 'flex',
-				gap: GAP,
+				gap: 'lg',
 			})}
 		>
 			<BulkSelectionLink disabled={allSelected} onClick={handleSelectAll}>

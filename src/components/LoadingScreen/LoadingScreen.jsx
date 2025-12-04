@@ -1,15 +1,13 @@
 import { css } from '../../../dist/styled-system/css';
 import { flexCenterColumn } from '@lib/constants/ui';
 
-const GAP = '1rem';
 const SPINNER_SIZE = '40px';
-const SPINNER_BORDER_WIDTH = '3px';
+const SPINNER_BORDER_WIDTH = 'thick';
 const SPINNER_BORDER_COLOR = '{colors.ink/20}';
 const SPINNER_BORDER_TOP_COLOR = '{colors.ink}';
 const SPINNER_BORDER_RADIUS = '50%';
 const SPINNER_ANIMATION = 'spin 1s linear infinite';
 const TEXT_COLOR = '{colors.ink/60}';
-const TEXT_FONT_SIZE = '0.875rem';
 
 export const LoadingScreen = () => {
 	return (
@@ -17,7 +15,7 @@ export const LoadingScreen = () => {
 			className={css({
 				...flexCenterColumn,
 				minHeight: '100vh',
-				gap: GAP,
+				gap: 'lg',
 			})}
 		>
 			<div
@@ -34,7 +32,7 @@ export const LoadingScreen = () => {
 			<p
 				className={css({
 					color: TEXT_COLOR,
-					fontSize: TEXT_FONT_SIZE,
+					fontSize: 's',
 				})}
 			>
 				Loading...

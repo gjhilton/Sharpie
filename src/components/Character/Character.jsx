@@ -6,10 +6,7 @@ import { Icon, ICON_TYPE } from '@components/Icon/Icon';
 const CHARACTER_SIZE = '300px';
 const CHARACTER_LABEL_FONT_SIZE = '24px';
 const CHARACTER_LABEL_FONT_WEIGHT = '900';
-const CHARACTER_LABEL_PADDING = '1rem';
-const CHARACTER_ICON_GAP = '0.25rem';
 const ALPHABET_FONT_SIZE = '0.8rem';
-const INFO_BOX_PADDING = '0.25rem 0.5rem';
 
 export const CHARACTER_STATE = {
 	AWAIT_ANSWER: 'awaitAnswer',
@@ -71,11 +68,11 @@ export const Character = ({
 				<div
 					className={css({
 						position: 'absolute',
-						padding: CHARACTER_LABEL_PADDING,
+						padding: 'lg',
 						fontSize: CHARACTER_LABEL_FONT_SIZE,
 						fontWeight: CHARACTER_LABEL_FONT_WEIGHT,
 						display: 'flex',
-						gap: CHARACTER_ICON_GAP,
+						gap: 'xs',
 						alignItems: 'center',
 						zIndex: 10,
 					})}
@@ -123,7 +120,7 @@ export const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: INFO_BOX_PADDING,
+								padding: 'xs sm',
 							})}
 						>
 							{note}
@@ -133,7 +130,7 @@ export const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: INFO_BOX_PADDING,
+								padding: 'xs sm',
 							})}
 						>
 							<Alphabet

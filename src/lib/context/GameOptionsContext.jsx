@@ -15,8 +15,18 @@ export const GameOptionsProvider = ({ children }) => {
 	const options = useMemo(() => deserializeOptions(search), [search]);
 
 	const updateOption = useCallback((key, value) => {
-		// Key can be either the schema key (e.g., 'hands') or option.key (e.g., 'enabledHands')
-		// First check if it's a schema key
+		/**
+		 * Dual-key handling:
+		 * The OPTIONS schema uses schema keys like 'hands', 'mode', 'numLetters', 'showBaseline'.
+		 * But components use the option.key values like 'enabledHands', 'mode', 'numLetters', 'showBaseline'.
+		 *
+		 * This function accepts EITHER:
+		 * 1. Schema key (e.g., 'hands') - from OPTIONS object keys
+		 * 2. Option key (e.g., 'enabledHands') - from OPTIONS[schemaKey].key
+		 *
+		 * Example: OPTIONS['hands'].key === 'enabledHands'
+		 * So updateOption('hands', ...) and updateOption('enabledHands', ...) both work.
+		 */
 		let schemaKey = key;
 		if (!OPTIONS[key]) {
 			// Not a schema key, try finding by option.key
@@ -25,7 +35,7 @@ export const GameOptionsProvider = ({ children }) => {
 				console.warn(`updateOption called with unknown key: ${key}`);
 				return;
 			}
-			// Find the schema key
+			// Find the schema key that has this option.key
 			schemaKey = Object.keys(OPTIONS).find(
 				k => OPTIONS[k] === optionConfig
 			);

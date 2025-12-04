@@ -1,9 +1,3 @@
-export const getAllSources = db => db.sources;
-
-export const getAllGraphsets = db => db.graphSets;
-
-export const getGraphset = (allGraphsets, graphset) => allGraphsets[graphset];
-
 export const getGraphs = graphset => graphset.graphs;
 
 export const getTitle = graphset => graphset.title;
@@ -17,8 +11,7 @@ export const getAllCharacters = graphset => {
 };
 
 export const findGraphSetByTitle = (db, title) => {
-	const graphSets = getAllGraphsets(db);
-	return graphSets.find(gs => getTitle(gs) === title);
+	return db.graphSets.find(gs => getTitle(gs) === title);
 };
 
 export const getRandomGraph = (graphs, randomFn = Math.random) => {
@@ -39,8 +32,7 @@ export const flattenGraphs = graphSets => {
 };
 
 export const getEnabledGraphSets = db => {
-	const graphSets = getAllGraphsets(db);
-	return graphSets.filter(gs => isEnabled(gs));
+	return db.graphSets.filter(gs => isEnabled(gs));
 };
 
 /**
@@ -51,9 +43,8 @@ export const filterGraphsByEnabledHands = (graphs, enabledHands) => {
 };
 
 export const countEnabledCharacters = (db, enabledHands) => {
-	const graphSets = getAllGraphsets(db);
 	let count = 0;
-	graphSets.forEach(gs => {
+	db.graphSets.forEach(gs => {
 		const filteredGraphs = filterGraphsByEnabledHands(
 			getGraphs(gs),
 			enabledHands

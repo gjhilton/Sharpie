@@ -32,25 +32,6 @@ const mockDB = {
 	],
 };
 
-describe('getAllSources', () => {
-	test('returns sources object', () => {
-		const result = db.getAllSources(mockDB);
-		expect(result).toEqual(mockDB.sources);
-	});
-});
-
-describe('getGraphset', () => {
-	test('returns specific graphSet by index', () => {
-		const result = db.getGraphset(mockDB.graphSets, 0);
-		expect(result).toEqual(mockDB.graphSets[0]);
-	});
-
-	test('returns undefined for missing index', () => {
-		const result = db.getGraphset(mockDB.graphSets, 5);
-		expect(result).toBeUndefined();
-	});
-});
-
 describe('getGraphs', () => {
 	test('returns graphs array from graphSet', () => {
 		const result = db.getGraphs(mockDB.graphSets[0]);

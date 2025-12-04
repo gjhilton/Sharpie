@@ -34,6 +34,7 @@ const filesToCopy = [
 	'logo.png',
 	'secretary_hand.gif',
 	'data', // directory
+	'fonts', // directory
 ];
 
 filesToCopy.forEach(file => {

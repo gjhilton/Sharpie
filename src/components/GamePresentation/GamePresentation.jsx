@@ -8,9 +8,9 @@ import { useEnterKey } from '@lib/hooks/useEnterKey';
 import { flexCenter } from '@lib/constants/ui';
 
 const SPACING = {
-	SECTION_GAP: '2rem',
-	BUTTON_GAP: '1rem',
-	CHARACTER_GAP: '2rem',
+	SECTION_GAP: '3xl',
+	BUTTON_GAP: 'lg',
+	CHARACTER_GAP: '3xl',
 };
 
 const KB_DISABLED_OPACITY = 0.01;
@@ -55,8 +55,8 @@ export const CorrectAnswer = ({
 				<div
 					className={css({
 						textAlign: 'center',
-						marginTop: '1rem',
-						padding: '0.75rem',
+						marginTop: 'lg',
+						padding: 'md',
 						color: '{colors.error}',
 						border: '1px solid {colors.error}',
 						fontSize: 's',
@@ -202,7 +202,7 @@ export const GamePresentation = ({
 				flexDirection: 'column',
 				alignItems: 'center',
 				gap: SPACING.SECTION_GAP,
-				padding: { base: '2rem 0', sm: SPACING.SECTION_GAP },
+				padding: { base: '3xl 0', sm: SPACING.SECTION_GAP },
 			})}
 		>
 			<StatusDisplay

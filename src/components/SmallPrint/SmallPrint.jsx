@@ -3,9 +3,9 @@ import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton';
 import { version } from '@lib/utilities/version';
 import { FONT_SIZE_SMALL } from '@lib/constants/ui';
 
-const MARGIN_TOP = '4rem';
-const TEXT_MARGIN_TOP = '1rem';
-const VERSION_MARGIN_TOP = '0.5rem';
+const MARGIN_TOP = '5xl';
+const TEXT_MARGIN_TOP = 'lg';
+const VERSION_MARGIN_TOP = 'sm';
 const GITHUB_URL = 'https://github.com/gjhilton/Sharpie';
 const FUNERAL_GAMES_URL = 'http://funeralgames.co.uk';
 

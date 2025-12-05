@@ -2,8 +2,8 @@ import { css } from '../../../dist/styled-system/css';
 import { DIFFICULTY_LABELS } from '@lib/constants/difficulty';
 import { BulkSelectionControls } from '@components/BulkSelectionControls/BulkSelectionControls';
 
-const MARGIN_TOP = '1.5rem';
-const MARGIN_BOTTOM = '0.5rem';
+const MARGIN_TOP = '2xl';
+const MARGIN_BOTTOM = 'sm';
 
 export const DifficultyHeading = ({
 	difficulty,

@@ -3,8 +3,8 @@ import { HandRow } from '@components/HandRow/HandRow';
 import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
 import { DIFFICULTY_ORDER } from '@lib/constants/difficulty';
 
-const GRID_GAP = '0.5rem 1rem';
-const MARGIN_TOP = '2rem';
+const GRID_GAP = 'sm lg';
+const MARGIN_TOP = '3xl';
 
 const gridStyles = css({
 	display: 'grid',

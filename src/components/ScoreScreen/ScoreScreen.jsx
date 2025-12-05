@@ -18,7 +18,7 @@ const formatTime = seconds => {
 	return `${secs}s`;
 };
 
-const STAT_CARD_PADDING = '1rem';
+const STAT_CARD_PADDING = 'lg';
 const STAT_CARD_BORDER_RADIUS = '8px';
 const STAT_LABEL_FONT_SIZE = 'm';
 const STAT_VALUE_FONT_SIZE = 'xl';
@@ -55,11 +55,11 @@ const StatCard = ({ label, value, bgColor, textColor }) => (
 	</div>
 );
 
-const MISTAKE_CARD_PADDING = '1rem';
+const MISTAKE_CARD_PADDING = 'lg';
 const MISTAKE_IMAGE_HEIGHT = '150px';
-const MISTAKE_IMAGE_MARGIN_BOTTOM = '0.5rem';
+const MISTAKE_IMAGE_MARGIN_BOTTOM = 'sm';
 const MISTAKE_LABEL_FONT_SIZE = 'm';
-const MISTAKE_LABEL_MARGIN_TOP = '0.5rem';
+const MISTAKE_LABEL_MARGIN_TOP = 'sm';
 
 const MistakeCard = ({ graph, imagePath, showBaseline }) => (
 	<div
@@ -101,18 +101,18 @@ const DEFAULT_SCORE = {
 };
 
 const CONTAINER_MAX_WIDTH = '600px';
-const CONTAINER_PADDING = '2rem';
-const GRID_GAP = '1.5rem';
+const CONTAINER_PADDING = '3xl';
+const GRID_GAP = '2xl';
 const MISTAKES_MAX_WIDTH = '800px';
-const MISTAKES_MARGIN_TOP = '2rem auto 0';
-const MISTAKES_HEADING_MARGIN_BOTTOM = '1.5rem';
+const MISTAKES_MARGIN_TOP = '3xl auto 0';
+const MISTAKES_HEADING_MARGIN_BOTTOM = '2xl';
 const MISTAKES_GRID_MIN_WIDTH = '150px';
-const MISTAKES_GRID_GAP = '1rem';
-const BUTTON_MARGIN_TOP = '2rem';
-const BUTTON_PADDING_BASE = '0 2rem';
+const MISTAKES_GRID_GAP = 'lg';
+const BUTTON_MARGIN_TOP = '3xl';
+const BUTTON_PADDING_BASE = '0 3xl';
 const BUTTON_PADDING_SM = '0';
-const FOOTER_MARGIN = '2rem auto';
-const FOOTER_PADDING = '0 2rem';
+const FOOTER_MARGIN = '3xl auto';
+const FOOTER_PADDING = '0 3xl';
 
 const ScoreScreen = () => {
 	const navigate = useNavigate();

@@ -9,8 +9,8 @@ import {
 	KEY_ENTER
 } from '@lib/constants/ui';
 
-const GAP = '0.75rem';
-const MARGIN_BOTTOM = '1rem';
+const GAP = 'md';
+const MARGIN_BOTTOM = 'lg';
 const TOGGLE_WIDTH = '51px';
 const TOGGLE_HEIGHT = '31px';
 const TOGGLE_BORDER_RADIUS = '31px';

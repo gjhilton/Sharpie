@@ -2,8 +2,8 @@ import { css } from '../../../dist/styled-system/css';
 import { FONT_SIZE_MEDIUM } from '@lib/constants/ui';
 
 const GRID_COLUMNS = '1fr 2fr';
-const GAP = '2rem';
-const MARGIN_BOTTOM = '1.5rem';
+const GAP = '3xl';
+const MARGIN_BOTTOM = '2xl';
 const HEADING_MARGIN = '0';
 
 const SubSection = ({ title, children }) => (

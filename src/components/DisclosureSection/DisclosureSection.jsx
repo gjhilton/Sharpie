@@ -3,10 +3,10 @@ import { css } from '../../../dist/styled-system/css';
 
 const MARGIN_TOP = '-4px';
 const BORDER_WIDTH = '4px';
-const PADDING_VERTICAL = '1rem';
-const HEADING_GAP = '1rem';
-const CONTENT_MARGIN_BOTTOM = '2rem';
-const TOGGLE_FONT_SIZE = '2rem';
+const PADDING_VERTICAL = 'lg';
+const HEADING_GAP = 'lg';
+const CONTENT_MARGIN_BOTTOM = '3xl';
+const TOGGLE_FONT_SIZE = '3xl';
 
 export const DisclosureSection = ({
 	title,

@@ -2,8 +2,8 @@ import { css } from '../../../dist/styled-system/css';
 import { FONT_SIZE_SMALL, flexCenter } from '@lib/constants/ui';
 
 const PADDING = '2.5rem 0 3rem';
-const NOTE_TOP_POSITION = '0.5rem';
-const NOTE_PADDING = '0.25rem 0.5rem';
+const NOTE_TOP_POSITION = 'sm';
+const NOTE_PADDING = 'xs sm';
 const NOTE_Z_INDEX = 1;
 const BASELINE_POSITION = '56.5%';
 

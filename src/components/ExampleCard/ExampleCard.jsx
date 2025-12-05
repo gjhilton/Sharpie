@@ -1,7 +1,7 @@
 import { css } from '../../../dist/styled-system/css';
 
 const DEFAULT_HEIGHT = '300px';
-const TITLE_MARGIN_BOTTOM = '0.5rem';
+const TITLE_MARGIN_BOTTOM = 'sm';
 
 export const ExampleCard = ({ title, children, height = DEFAULT_HEIGHT }) => (
 	<div>

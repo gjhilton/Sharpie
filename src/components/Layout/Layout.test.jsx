@@ -109,7 +109,7 @@ describe('Paragraph', () => {
 		expect(paragraph.className).toContain('custom-class');
 		expect(paragraph.className).toContain('fs_m');
 		expect(paragraph.className).toContain('lh_1.6');
-		expect(paragraph.className).toContain('mb_1rem');
+		expect(paragraph.className).toContain('mb_lg');
 	});
 });
 

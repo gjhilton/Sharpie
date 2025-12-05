@@ -2,9 +2,9 @@ import { css } from '../../../dist/styled-system/css';
 import { Button } from '@components/Button/Button';
 import { flexCenterColumn } from '@lib/constants/ui';
 
-const PADDING = '2rem';
-const GAP = '1.5rem';
-const HEADING_FONT_SIZE = '1.5rem';
+const PADDING = '3xl';
+const GAP = '2xl';
+const HEADING_FONT_SIZE = '2xl';
 const MAX_WIDTH = '400px';
 
 export const ErrorScreen = ({ error, resetError }) => {

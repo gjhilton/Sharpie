@@ -4,7 +4,7 @@ import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
 import { PageTitle, Paragraph } from '@components/Layout/Layout';
 import heroContent from '@data/hero.md?raw';
 
-const GAP = '2rem';
+const GAP = '3xl';
 
 export const HeroSection = ({ onPlay }) => (
 	<section

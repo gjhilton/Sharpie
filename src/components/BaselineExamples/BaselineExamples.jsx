@@ -3,9 +3,9 @@ import { ExampleCard } from '@components/ExampleCard/ExampleCard';
 import { CharacterImage } from '@components/CharacterImage/CharacterImage';
 import { getBaseUrl } from '@lib/utilities/url';
 
-const GRID_GAP = '2rem';
-const MARGIN_TOP = '2rem';
-const MARGIN_BOTTOM = '1rem';
+const GRID_GAP = '3xl';
+const MARGIN_TOP = '3xl';
+const MARGIN_BOTTOM = 'lg';
 
 const EXAMPLE_IMAGE = {
 	path: 'data/Joscelyn/joscelyn-minuscule-assets/b.png',

@@ -8,7 +8,7 @@ import {
 	FONT_SIZE_MEDIUM
 } from '@lib/constants/ui';
 
-const PADDING_HORIZONTAL = '1rem';
+const PADDING_HORIZONTAL = 'lg';
 const BACKGROUND_PAPER = '{colors.paper}';
 const BACKGROUND_INK = '{colors.ink}';
 const COLOR_PAPER = '{colors.paper}';

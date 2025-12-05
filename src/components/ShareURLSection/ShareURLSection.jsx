@@ -13,15 +13,15 @@ const COPY_SUCCESS_TIMEOUT = 2000;
 const QR_SIZE = 200;
 const QR_LEVEL = 'M';
 const QR_DOWNLOAD_FILENAME = 'secretary-settings-qr.png';
-const QR_PADDING = '1rem';
+const QR_PADDING = 'lg';
 const QR_BORDER = '1px solid {colors.ink}';
 const QR_BACKGROUND = 'white';
 const QR_MARGIN_TOP = '0';
-const QR_MARGIN_BOTTOM = '0.75rem';
-const QR_BUTTON_MARGIN_TOP = '0.5rem';
+const QR_MARGIN_BOTTOM = 'md';
+const QR_BUTTON_MARGIN_TOP = 'sm';
 const CANVAS_FILL_STYLE = 'white';
 const INPUT_MARGIN_BOTTOM_SHOW_QR = '0';
-const INPUT_MARGIN_BOTTOM_HIDE_QR = '0.75rem';
+const INPUT_MARGIN_BOTTOM_HIDE_QR = 'md';
 
 const ShareURLSection = ({ options }) => {
 	const [copySuccess, setCopySuccess] = useState(false);

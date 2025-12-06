@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import HandRow from '@components/HandRow/HandRow.jsx';
+import { HandRow } from '@components/HandRow/HandRow';
 
 export default {
 	title: 'Components/HandRow',

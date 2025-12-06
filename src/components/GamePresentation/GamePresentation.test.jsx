@@ -8,12 +8,12 @@ import {
 	StatusDisplay,
 	GamePresentation,
 } from './GamePresentation';
-import { STATUS } from '@utilities/gameLogic.js';
+import { STATUS } from '@lib/utilities/gameLogic.js';
 import { CHARACTER_STATE } from '@components/Character/Character.jsx';
 
 // Mock child components
 vi.mock('@components/Character/Character.jsx', () => ({
-	default: ({
+	Character: ({
 		state,
 		imagePath,
 		imagePaths,
@@ -43,7 +43,7 @@ vi.mock('@components/Character/Character.jsx', () => ({
 }));
 
 vi.mock('@components/KB/KB.jsx', () => ({
-	default: ({ keyCallback, initialLayout, showShiftKeys }) => (
+	KB: ({ keyCallback, initialLayout, showShiftKeys }) => (
 		<div
 			data-testid="kb"
 			data-initial-layout={initialLayout}
@@ -58,7 +58,7 @@ vi.mock('@components/KB/KB.jsx', () => ({
 }));
 
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ onClick, label }) => <button onClick={onClick}>{label}</button>,
+	Button: ({ onClick, label }) => <button onClick={onClick}>{label}</button>,
 }));
 
 describe('Unanswered', () => {

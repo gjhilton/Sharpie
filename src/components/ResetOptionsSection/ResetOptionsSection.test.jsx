@@ -1,11 +1,11 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ResetOptionsSection from './ResetOptionsSection';
+import { ResetOptionsSection } from './ResetOptionsSection';
 
 // Mock the GameOptionsContext
 const mockResetOptions = vi.fn();
-vi.mock('@context/GameOptionsContext.jsx', () => ({
+vi.mock('@lib/context/GameOptionsContext.jsx', () => ({
 	useGameOptionsContext: () => ({
 		resetOptions: mockResetOptions,
 	}),
@@ -13,7 +13,7 @@ vi.mock('@context/GameOptionsContext.jsx', () => ({
 
 // Mock SubSection
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
-	default: ({ title, children }) => (
+	SubSection: ({ title, children }) => (
 		<section>
 			<h3>{title}</h3>
 			{children}
@@ -24,6 +24,11 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 // Mock Layout components
 vi.mock('@components/Layout/Layout.jsx', () => ({
 	Paragraph: ({ children }) => <p>{children}</p>,
+}));
+
+// Mock InlineMarkdown
+vi.mock('@components/InlineMarkdown/InlineMarkdown.jsx', () => ({
+	InlineMarkdown: ({ content }) => <span>{content}</span>,
 }));
 
 // Mock markdown

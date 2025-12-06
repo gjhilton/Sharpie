@@ -41,6 +41,30 @@ export default defineConfig({
 				fonts: {
 					joscelyn: { value: 'Joscelyn, serif' },
 				},
+				spacing: {
+					tiny: { value: '0.125rem' }, // 2px
+					xs: { value: '0.25rem' }, // 4px
+					sm: { value: '0.5rem' }, // 8px
+					md: { value: '0.75rem' }, // 12px
+					lg: { value: '1rem' }, // 16px - base unit
+					xl: { value: '1.25rem' }, // 20px
+					'2xl': { value: '1.5rem' }, // 24px
+					'3xl': { value: '2rem' }, // 32px
+					'4xl': { value: '3rem' }, // 48px
+					'5xl': { value: '4rem' }, // 64px
+				},
+				borderWidths: {
+					thin: { value: '1px' },
+					medium: { value: '2px' },
+					thick: { value: '3px' },
+					heavy: { value: '4px' },
+				},
+				radii: {
+					sm: { value: '4px' },
+					md: { value: '8px' },
+					lg: { value: '16px' },
+					full: { value: '9999px' },
+				},
 			},
 			keyframes: {
 				rotation: {

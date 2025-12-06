@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import HowToPlaySection from './HowToPlaySection';
+import { HowToPlaySection } from '@components/HowToPlaySection/HowToPlaySection';
 
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
-	default: ({ title, children }) => (
+	SubSection: ({ title, children }) => (
 		<section>
 			<h3>{title}</h3>
 			{children}
@@ -12,7 +12,7 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 }));
 
 vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	default: ({ content, placeholders }) => (
+	MarkdownWithPlaceholders: ({ content, placeholders }) => (
 		<div data-testid="markdown-content">
 			{content}
 			{placeholders &&
@@ -26,7 +26,7 @@ vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () 
 }));
 
 vi.mock('@components/ContextImage/ContextImage.jsx', () => ({
-	default: () => <img data-testid="context-image" alt="Context" />,
+	ContextImage: () => <img data-testid="context-image" alt="Context" />,
 }));
 
 vi.mock('@data/how-to-use.md?raw', () => ({

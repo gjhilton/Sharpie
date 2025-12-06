@@ -113,4 +113,4 @@ const Logo = ({ size = 'm' }) => (
 	</div>
 );
 
-export default Logo;
+export { Logo };

@@ -1,10 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Character, { CHARACTER_STATE } from './Character';
+import { Character, CHARACTER_STATE } from './Character';
 
 // Mock the child components
 vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath }) => (
+	CharacterImage: ({ imagePath }) => (
 		<div data-testid="character-image">{imagePath}</div>
 	),
 }));
@@ -12,14 +12,14 @@ vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
 vi.mock(
 	'@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx',
 	() => ({
-		default: ({ imagePaths }) => (
+		CharacterImageSlideshow: ({ imagePaths }) => (
 			<div data-testid="character-slideshow">{imagePaths.join(',')}</div>
 		),
 	})
 );
 
 vi.mock('@components/Icon/Icon.jsx', () => ({
-	default: ({ icon }) => <span data-testid="icon">{icon}</span>,
+	Icon: ({ icon }) => <span data-testid="icon">{icon}</span>,
 	ICON_TYPE: {
 		TICK: 'tick',
 		CROSS: 'cross',

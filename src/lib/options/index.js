@@ -1,20 +1,13 @@
-/**
- * Options library - public exports
- */
+export { OPTIONS, getOptionByKey } from './schema.js';
 
-export { OPTIONS, getOptionByKey, getOptionByUrlParam } from './schema.js';
-
-export { getDefaults, getDefaultHandIds, isDefaultValue } from './defaults.js';
+export { getDefaults, isDefaultValue } from './defaults.js';
 
 export {
 	getAllHandIds,
 	getDefaultEnabledIds,
-	getHandById,
 	getHandKeyById,
 	getHandIdByKey,
 	validateHandIds,
-	keysToIds,
-	idsToKeys,
 } from './hands.js';
 
 export {

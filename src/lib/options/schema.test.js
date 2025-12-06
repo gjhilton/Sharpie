@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { OPTIONS, getOptionByKey, getOptionByUrlParam } from './schema.js';
+import { OPTIONS, getOptionByKey } from './schema.js';
 
 describe('OPTIONS schema', () => {
 	it('should define mode option', () => {
@@ -50,18 +50,5 @@ describe('getOptionByKey', () => {
 
 	it('should return undefined for unknown key', () => {
 		expect(getOptionByKey('unknown')).toBeUndefined();
-	});
-});
-
-describe('getOptionByUrlParam', () => {
-	it('should find option by URL param', () => {
-		expect(getOptionByUrlParam('m')).toBe(OPTIONS.mode);
-		expect(getOptionByUrlParam('a')).toBe(OPTIONS.hands);
-		expect(getOptionByUrlParam('l')).toBe(OPTIONS.numLetters);
-		expect(getOptionByUrlParam('b')).toBe(OPTIONS.showBaseline);
-	});
-
-	it('should return undefined for unknown param', () => {
-		expect(getOptionByUrlParam('x')).toBeUndefined();
 	});
 });

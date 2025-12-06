@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import HandList from '@components/HandList/HandList.jsx';
+import { HandList } from '@components/HandList/HandList';
 
 export default {
 	title: 'Components/HandList',

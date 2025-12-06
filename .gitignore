@@ -28,7 +28,6 @@ dist/styled-system
 styled-system-studio
 *storybook.log
 dist/storybook-static
-/public/data
 src/data/DB.js
 
 ## Playwright
@@ -38,11 +37,12 @@ config/playwright/.cache/
 
 ## Test coverage
 dist/coverage/
-/src/public/data
 /src/config/playwright/playwright-report
 src/config/playwright/playwright-report/index.html
 /src/config/playwright/test-results
-/src/public/data
 .claude/settings.local.json
 coverage/
-/src/public/data
+
+## Generated at build time
+/src/public
+/src/artwork/assets/data

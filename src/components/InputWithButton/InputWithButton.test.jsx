@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import InputWithButton from './InputWithButton';
+import { InputWithButton } from './InputWithButton';
 
 describe('InputWithButton', () => {
 	describe('Rendering', () => {
@@ -25,6 +25,7 @@ describe('InputWithButton', () => {
 					inputId="test-input"
 					inputName="test"
 					inputValue="test value"
+					inputReadOnly
 					buttonLabel="Click"
 					buttonOnClick={vi.fn()}
 				/>

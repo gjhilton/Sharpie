@@ -5,7 +5,7 @@ import { CatalogueScreen } from './CatalogueScreen.jsx';
 
 // Mock child components
 vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
-	default: ({ onShowFeedback }) => (
+	SmallPrint: ({ onShowFeedback }) => (
 		<div data-testid="mock-smallprint">
 			{onShowFeedback && (
 				<button onClick={onShowFeedback} data-testid="feedback-button">
@@ -17,13 +17,13 @@ vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
 }));
 
 vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath, caption }) => (
+	CharacterImage: ({ imagePath, caption }) => (
 		<div data-testid={`char-img-${caption}`}>{imagePath}</div>
 	),
 }));
 
 vi.mock('@components/HandSelectorWithSort/HandSelectorWithSort.jsx', () => ({
-	default: ({ onToggle, onBatchToggle, enabledHands }) => (
+	HandSelectorWithSort: ({ onToggle, onBatchToggle, enabledHands }) => (
 		<div data-testid="alphabet-selector">
 			<button
 				onClick={() => onToggle('test-alphabet')}
@@ -65,7 +65,7 @@ vi.mock('@data/hands.json', () => ({
 }));
 
 // Mock catalogue logic
-vi.mock('@utilities/catalogueLogic.js', () => ({
+vi.mock('@lib/utilities/catalogueLogic.js', () => ({
 	groupGraphsByGraphSetAndCharacter: vi.fn(() => [
 		{
 			title: 'minuscule',
@@ -106,7 +106,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 }));
 
 // Mock database context
-vi.mock('@context/DatabaseContext.jsx', () => ({
+vi.mock('@lib/context/DatabaseContext.jsx', () => ({
 	useDatabase: () => ({
 		DB: {
 			sources: {

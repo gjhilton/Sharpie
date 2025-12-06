@@ -1,4 +1,8 @@
 [
+		{
+		"version": "1.2.6",
+		"description": "Hopefully nothing visible to users, but lots of behind the scenes engineering quality improvements."
+	},
 	{
 		"version": "1.2.5",
 		"description": "Shareable settings: Options section now displays current settings as visual badges with a shareable URL, QR code generation for mobile sharing, copy-to-clipboard functionality, and a reset to defaults button, making it easy to share and manage game configurations."

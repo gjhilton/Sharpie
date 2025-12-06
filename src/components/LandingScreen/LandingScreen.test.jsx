@@ -5,12 +5,12 @@ import { LandingScreen } from './LandingScreen.jsx';
 
 // Mock child components
 vi.mock('@components/Logo/Logo.jsx', () => ({
-	default: () => <div data-testid="mock-logo">Logo</div>,
+	Logo: () => <div data-testid="mock-logo">Logo</div>,
 	SIZE: { S: 's' },
 }));
 
 vi.mock('@components/HeroSection/HeroSection.jsx', () => ({
-	default: ({ onPlay }) => (
+	HeroSection: ({ onPlay }) => (
 		<div data-testid="mock-hero">
 			<button onClick={onPlay} data-testid="play-button">
 				Play
@@ -20,7 +20,7 @@ vi.mock('@components/HeroSection/HeroSection.jsx', () => ({
 }));
 
 vi.mock('@components/DisclosureSection/DisclosureSection.jsx', () => ({
-	default: ({ title, children }) => (
+	DisclosureSection: ({ title, children }) => (
 		<div data-testid={`disclosure-${title.toLowerCase().replace(/\s+/g, '-')}`}>
 			<h2>{title}</h2>
 			{children}
@@ -29,7 +29,7 @@ vi.mock('@components/DisclosureSection/DisclosureSection.jsx', () => ({
 }));
 
 vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
-	default: ({ onShowCatalogue }) => (
+	OptionsSection: ({ onShowCatalogue }) => (
 		<div data-testid="mock-options">
 			<button onClick={onShowCatalogue} data-testid="catalogue-button">
 				Choose hands
@@ -39,7 +39,7 @@ vi.mock('@components/OptionsSection/OptionsSection.jsx', () => ({
 }));
 
 vi.mock('@components/OptionsSummary/OptionsSummary.jsx', () => ({
-	default: ({ options, handCount }) => (
+	OptionsSummary: ({ options, handCount }) => (
 		<div data-testid="mock-options-summary">
 			<div data-testid="summary-mode">{options.mode}</div>
 			<div data-testid="summary-hands">{handCount}</div>
@@ -48,19 +48,19 @@ vi.mock('@components/OptionsSummary/OptionsSummary.jsx', () => ({
 }));
 
 vi.mock('@components/HowToPlaySection/HowToPlaySection.jsx', () => ({
-	default: () => <div data-testid="mock-how-to-play">How to play</div>,
+	HowToPlaySection: () => <div data-testid="mock-how-to-play">How to play</div>,
 }));
 
 vi.mock('@components/NextStepsSection/NextStepsSection.jsx', () => ({
-	default: () => <div data-testid="mock-next-steps">Next steps</div>,
+	NextStepsSection: () => <div data-testid="mock-next-steps">Next steps</div>,
 }));
 
 vi.mock('@components/WhatsNewSection/WhatsNewSection.jsx', () => ({
-	default: () => <div data-testid="mock-whats-new">What's new</div>,
+	WhatsNewSection: () => <div data-testid="mock-whats-new">What's new</div>,
 }));
 
 vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
-	default: ({ onShowFeedback }) => (
+	SmallPrint: ({ onShowFeedback }) => (
 		<div data-testid="mock-smallprint">
 			{onShowFeedback && (
 				<button onClick={onShowFeedback} data-testid="feedback-button">
@@ -83,7 +83,7 @@ vi.mock('@data/DB.js', () => ({
 }));
 
 // Mock database utilities
-vi.mock('@utilities/database.js', () => ({
+vi.mock('@lib/utilities/database.js', () => ({
 	countEnabledHands: vi.fn(() => 5),
 	countEnabledCharacters: vi.fn(() => 123),
 }));
@@ -116,7 +116,7 @@ vi.mock('@lib/hooks/useGameOptions.js', () => ({
 }));
 
 // Mock database context
-vi.mock('@context/DatabaseContext.jsx', () => ({
+vi.mock('@lib/context/DatabaseContext.jsx', () => ({
 	useDatabase: () => ({
 		DB: {
 			sources: {

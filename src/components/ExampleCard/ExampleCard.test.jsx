@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import ExampleCard from './ExampleCard';
+import { ExampleCard } from '@components/ExampleCard/ExampleCard';
 
 describe('ExampleCard', () => {
 	it('should render with title', () => {

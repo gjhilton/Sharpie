@@ -1,19 +1,18 @@
-import ReactMarkdown from 'react-markdown';
 import { css } from '../../../dist/styled-system/css';
-import { Paragraph } from '@components/Layout/Layout.jsx';
-import SubSection from '@components/SubSection/SubSection.jsx';
-import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
+import { Paragraph } from '@components/Layout/Layout';
+import { SubSection } from '@components/SubSection/SubSection';
+import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
+import { useGameOptionsContext } from '@lib/context/GameOptionsContext';
+import { commonButtonStyles } from '@lib/constants/ui';
 import resetOptionsContent from '@data/reset-options.md?raw';
+
+const RESET_CONFIRM_MESSAGE = 'Reset all settings to defaults? This will clear your current configuration.';
 
 const ResetOptionsSection = () => {
 	const { resetOptions } = useGameOptionsContext();
 
 	const handleReset = () => {
-		if (
-			window.confirm(
-				'Reset all settings to defaults? This will clear your current configuration.'
-			)
-		) {
+		if (window.confirm(RESET_CONFIRM_MESSAGE)) {
 			resetOptions();
 		}
 	};
@@ -21,38 +20,13 @@ const ResetOptionsSection = () => {
 	return (
 		<SubSection title="Reset settings">
 			<Paragraph>
-				<ReactMarkdown
-					components={{
-						p: ({ children }) => <>{children}</>,
-					}}
-				>
-					{resetOptionsContent}
-				</ReactMarkdown>
+				<InlineMarkdown content={resetOptionsContent} />
 			</Paragraph>
 
 			<button
 				type="button"
 				onClick={handleReset}
-				className={css({
-					padding: '0.5rem 1rem',
-					border: '1px solid {colors.ink}',
-					backgroundColor: '{colors.paper}',
-					color: '{colors.ink}',
-					cursor: 'pointer',
-					fontSize: 's',
-					fontWeight: 'bold',
-					transition: 'all 150ms ease-in-out',
-					_hover: {
-						transform: 'scale(1.02)',
-					},
-					_active: {
-						transform: 'scale(0.98)',
-					},
-					_focusVisible: {
-						outline: '2px solid {colors.ink}',
-						outlineOffset: '2px',
-					},
-				})}
+				className={css(commonButtonStyles)}
 			>
 				Reset to Defaults
 			</button>
@@ -60,4 +34,4 @@ const ResetOptionsSection = () => {
 	);
 };
 
-export default ResetOptionsSection;
+export { ResetOptionsSection };

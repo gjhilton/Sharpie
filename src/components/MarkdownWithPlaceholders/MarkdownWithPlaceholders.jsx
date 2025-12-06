@@ -1,6 +1,13 @@
 import ReactMarkdown from 'react-markdown';
 import { css } from '../../../dist/styled-system/css';
-import { Paragraph } from '@components/Layout/Layout.jsx';
+import { Paragraph } from '@components/Layout/Layout';
+
+const LIST_STYLE_ORDERED = 'lower-roman';
+const LIST_STYLE_UNORDERED = 'disc';
+const LIST_MARGIN_LEFT = '1em';
+const LIST_LINE_HEIGHT = '1.6';
+const LINK_TARGET = '_blank';
+const LINK_REL = 'noopener noreferrer';
 
 const MarkdownWithPlaceholders = ({ content, placeholders = {} }) => {
 	return (
@@ -20,9 +27,9 @@ const MarkdownWithPlaceholders = ({ content, placeholders = {} }) => {
 				ol: ({ children }) => (
 					<ol
 						className={css({
-							listStyleType: 'lower-roman',
-							marginLeft: '1em',
-							lineHeight: '1.6',
+							listStyleType: LIST_STYLE_ORDERED,
+							marginLeft: LIST_MARGIN_LEFT,
+							lineHeight: LIST_LINE_HEIGHT,
 						})}
 					>
 						{children}
@@ -31,16 +38,16 @@ const MarkdownWithPlaceholders = ({ content, placeholders = {} }) => {
 				ul: ({ children }) => (
 					<ul
 						className={css({
-							listStyleType: 'disc',
-							marginLeft: '1em',
-							lineHeight: '1.6',
+							listStyleType: LIST_STYLE_UNORDERED,
+							marginLeft: LIST_MARGIN_LEFT,
+							lineHeight: LIST_LINE_HEIGHT,
 						})}
 					>
 						{children}
 					</ul>
 				),
 				a: ({ href, children }) => (
-					<a href={href} target="_blank" rel="noopener noreferrer">
+					<a href={href} target={LINK_TARGET} rel={LINK_REL}>
 						{children}
 					</a>
 				),
@@ -51,4 +58,4 @@ const MarkdownWithPlaceholders = ({ content, placeholders = {} }) => {
 	);
 };
 
-export default MarkdownWithPlaceholders;
+export { MarkdownWithPlaceholders };

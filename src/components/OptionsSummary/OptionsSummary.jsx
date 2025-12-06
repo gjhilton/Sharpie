@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { css } from '../../../dist/styled-system/css';
-import { OPTIONS } from '@lib/options/schema.js';
-import Badge from '@components/Badge/Badge.jsx';
-import { useGameOptionsContext } from '@context/GameOptionsContext.jsx';
+import { OPTIONS } from '@lib/options/schema';
+import { Badge } from '@components/Badge/Badge';
+import { useGameOptionsContext } from '@lib/context/GameOptionsContext';
 
 const Strong = ({ children, isError }) => (
 	<span
@@ -20,7 +20,6 @@ const OptionsSummary = ({ options, handCount }) => {
 	const { toggleOption, cycleMode } = useGameOptionsContext();
 	const navigate = useNavigate();
 
-	// Helper to render badge label from schema
 	const renderBadgeLabel = (labelData) => {
 		const parts = [];
 
@@ -43,7 +42,6 @@ const OptionsSummary = ({ options, handCount }) => {
 		return parts.length > 0 ? (
 			<>
 				{parts.map((part, idx) => {
-					// Add extra space before text2 (MAJUSCULES)
 					const isText2 = typeof part === 'string' && part === labelData.text2;
 					const prefix = isText2 && labelData.text ? ' ' : '';
 					return (
@@ -57,7 +55,6 @@ const OptionsSummary = ({ options, handCount }) => {
 		) : null;
 	};
 
-	// Generate badges from schema
 	const badges = useMemo(() => {
 		return Object.values(OPTIONS)
 			.filter(option => option.badge)
@@ -67,7 +64,6 @@ const OptionsSummary = ({ options, handCount }) => {
 				const context = { handCount };
 				const labelData = option.badge.renderLabel(value, context);
 
-				// Determine onClick handler based on action type
 				let onClick;
 				if (option.badge.action === 'toggle') {
 					onClick = () => toggleOption(option.key);
@@ -90,7 +86,7 @@ const OptionsSummary = ({ options, handCount }) => {
 			className={css({
 				display: 'flex',
 				flexWrap: 'wrap',
-				gap: '0.5rem',
+				gap: 'sm',
 			})}
 			data-testid="options-summary-badges"
 		>
@@ -107,4 +103,4 @@ const OptionsSummary = ({ options, handCount }) => {
 	);
 };
 
-export default OptionsSummary;
+export { OptionsSummary };

@@ -9,7 +9,7 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 
 // Mock child components
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ onClick, label }) => (
+	Button: ({ onClick, label }) => (
 		<button onClick={onClick} data-testid="mock-button">
 			{label}
 		</button>
@@ -17,7 +17,7 @@ vi.mock('@components/Button/Button.jsx', () => ({
 }));
 
 vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
-	default: ({ onShowFeedback }) => (
+	SmallPrint: ({ onShowFeedback }) => (
 		<div data-testid="mock-smallprint">
 			{onShowFeedback && (
 				<button onClick={onShowFeedback} data-testid="feedback-button">
@@ -29,7 +29,7 @@ vi.mock('@components/SmallPrint/SmallPrint.jsx', () => ({
 }));
 
 vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath, caption }) => (
+	CharacterImage: ({ imagePath, caption }) => (
 		<div data-testid={`char-img-${caption}`}>{imagePath}</div>
 	),
 }));

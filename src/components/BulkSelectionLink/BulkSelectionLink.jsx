@@ -1,5 +1,5 @@
 import { css } from '../../../dist/styled-system/css';
-import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton';
 
 const BulkSelectionLink = ({ children, onClick, disabled = false }) => (
 	<LinkAsButton

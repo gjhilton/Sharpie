@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DifficultyHeading from './DifficultyHeading';
+import { DifficultyHeading } from './DifficultyHeading';
 
 describe('DifficultyHeading', () => {
 	it('renders heading with easy difficulty', () => {

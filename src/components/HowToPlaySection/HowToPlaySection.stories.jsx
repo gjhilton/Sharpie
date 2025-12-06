@@ -1,4 +1,4 @@
-import HowToPlaySection from './HowToPlaySection';
+import { HowToPlaySection } from '@components/HowToPlaySection/HowToPlaySection';
 
 export default {
 	title: 'Sections/HowToPlaySection',

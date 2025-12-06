@@ -1,36 +1,38 @@
-/**
- * LoadingScreen - displayed while app is loading
- */
-
 import { css } from '../../../dist/styled-system/css';
+import { flexCenterColumn } from '@lib/constants/ui';
+
+const SPINNER_SIZE = '40px';
+const SPINNER_BORDER_WIDTH = 'thick';
+const SPINNER_BORDER_COLOR = '{colors.ink/20}';
+const SPINNER_BORDER_TOP_COLOR = '{colors.ink}';
+const SPINNER_BORDER_RADIUS = '50%';
+const SPINNER_ANIMATION = 'spin 1s linear infinite';
+const TEXT_COLOR = '{colors.ink/60}';
 
 export const LoadingScreen = () => {
 	return (
 		<div
 			className={css({
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
+				...flexCenterColumn,
 				minHeight: '100vh',
-				gap: '1rem',
+				gap: 'lg',
 			})}
 		>
 			<div
 				className={css({
-					width: '40px',
-					height: '40px',
-					border: '3px solid {colors.ink/20}',
-					borderTopColor: '{colors.ink}',
-					borderRadius: '50%',
-					animation: 'spin 1s linear infinite',
+					width: SPINNER_SIZE,
+					height: SPINNER_SIZE,
+					border: `${SPINNER_BORDER_WIDTH} solid ${SPINNER_BORDER_COLOR}`,
+					borderTopColor: SPINNER_BORDER_TOP_COLOR,
+					borderRadius: SPINNER_BORDER_RADIUS,
+					animation: SPINNER_ANIMATION,
 				})}
 				aria-hidden="true"
 			/>
 			<p
 				className={css({
-					color: '{colors.ink/60}',
-					fontSize: '0.875rem',
+					color: TEXT_COLOR,
+					fontSize: 's',
 				})}
 			>
 				Loading...

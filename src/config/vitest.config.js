@@ -6,8 +6,27 @@ import { dirname, resolve } from 'path';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+// Plugin to suppress specific Vite warnings
+const suppressWarningsPlugin = () => ({
+	name: 'suppress-specific-warnings',
+	configResolved(config) {
+		const originalWarn = config.logger.warn;
+		config.logger.warn = (msg, options) => {
+			// Suppress the File URL host warning on darwin
+			if (
+				msg.includes(
+					'File URL host must be "localhost" or empty on darwin'
+				)
+			) {
+				return;
+			}
+			originalWarn(msg, options);
+		};
+	},
+});
+
 export default defineConfig({
-	plugins: [react()],
+	plugins: [react(), suppressWarningsPlugin()],
 	resolve: {
 		alias: {
 			'@': resolve(__dirname, '..'),

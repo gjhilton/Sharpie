@@ -1,17 +1,25 @@
 import { css } from '../../../dist/styled-system/css';
+import {
+	FOCUS_OUTLINE,
+	FOCUS_OUTLINE_OFFSET,
+	PADDING_STANDARD,
+	FONT_SIZE_MEDIUM,
+	BORDER_STANDARD
+} from '@lib/constants/ui';
+
+const BACKGROUND_COLOR = '{colors.paper}';
+const TEXTAREA_ROWS = 6;
 
 const baseInputStyles = {
-	padding: '0.75rem',
-	fontSize: 'm',
-	border: '1px solid {colors.ink}',
-	backgroundColor: '{colors.paper}',
+	padding: PADDING_STANDARD,
+	fontSize: FONT_SIZE_MEDIUM,
+	border: BORDER_STANDARD,
+	backgroundColor: BACKGROUND_COLOR,
 	_focusVisible: {
-		outline: '2px solid {colors.ink}',
-		outlineOffset: '2px',
+		outline: FOCUS_OUTLINE,
+		outlineOffset: FOCUS_OUTLINE_OFFSET,
 	},
 };
-
-const inputStyles = css(baseInputStyles);
 
 const Input = ({ id, type = 'text', name, required = false, readOnly = false, value, onClick, onFocus, onTouchStart, ...customStyles }) => (
 	<input
@@ -33,7 +41,7 @@ const Textarea = ({ id, name, required = false, ...customStyles }) => (
 		id={id}
 		name={name}
 		required={required}
-		rows={6}
+		rows={TEXTAREA_ROWS}
 		className={css(baseInputStyles, {
 			resize: 'vertical',
 			fontFamily: 'inherit',
@@ -41,5 +49,4 @@ const Textarea = ({ id, name, required = false, ...customStyles }) => (
 	/>
 );
 
-export { Input, Textarea, inputStyles };
-export default Input;
+export { Input, Textarea };

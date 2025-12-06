@@ -1,4 +1,4 @@
-import ExampleCard from './ExampleCard';
+import { ExampleCard } from '@components/ExampleCard/ExampleCard';
 
 export default {
 	title: 'Components/ExampleCard',

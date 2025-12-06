@@ -1,23 +1,22 @@
 import { css } from '../../../dist/styled-system/css';
-import Button from '@components/Button/Button.jsx';
-import KB from '@components/KB/KB.jsx';
-import Character, {
-	CHARACTER_STATE,
-} from '@components/Character/Character.jsx';
-import { STATUS } from '@utilities/gameLogic.js';
-import { GAME_MODES } from '@constants/stages.js';
-import { useEnterKey } from '@lib/hooks/useEnterKey.js';
+import { Button } from '@components/Button/Button';
+import { KB } from '@components/KB/KB';
+import { Character, CHARACTER_STATE } from '@components/Character/Character';
+import { STATUS } from '@lib/utilities/gameLogic';
+import { GAME_MODES } from '@lib/constants/stages';
+import { useEnterKey } from '@lib/hooks/useEnterKey';
+import { flexCenter } from '@lib/constants/ui';
 
 const SPACING = {
-	SECTION_GAP: '2rem',
-	BUTTON_GAP: '1rem',
-	CHARACTER_GAP: '2rem',
+	SECTION_GAP: '3xl',
+	BUTTON_GAP: 'lg',
+	CHARACTER_GAP: '3xl',
 };
 
 const KB_DISABLED_OPACITY = 0.01;
 
 export const Unanswered = ({ solution, showBaseline }) => (
-	<div className={css({ display: 'flex', justifyContent: 'center' })}>
+	<div className={css(flexCenter)}>
 		<Character
 			state={CHARACTER_STATE.AWAIT_ANSWER}
 			imagePath={solution.imagePath}
@@ -34,15 +33,13 @@ export const CorrectAnswer = ({
 	showBaseline,
 	alphabetMetadata = {},
 }) => {
-	const alphabetLink = alphabetMetadata.sourceUri;
-	const alphabetTitle = alphabetMetadata.title;
-	const alphabetDate = alphabetMetadata.date;
+	const { sourceUri: alphabetLink, title: alphabetTitle, date: alphabetDate } = alphabetMetadata;
 
 	useEnterKey(onNext);
 
 	return (
 		<>
-			<div className={css({ display: 'flex', justifyContent: 'center' })}>
+			<div className={css(flexCenter)}>
 				<Character
 					state={CHARACTER_STATE.CORRECT_ANSWER}
 					imagePath={solution.imagePath}
@@ -58,8 +55,8 @@ export const CorrectAnswer = ({
 				<div
 					className={css({
 						textAlign: 'center',
-						marginTop: '1rem',
-						padding: '0.75rem',
+						marginTop: 'lg',
+						padding: 'md',
 						color: '{colors.error}',
 						border: '1px solid {colors.error}',
 						fontSize: 's',
@@ -94,9 +91,7 @@ export const IncorrectAnswer = ({
 	showBaseline,
 	alphabetMetadata = {},
 }) => {
-	const alphabetLink = alphabetMetadata.sourceUri;
-	const alphabetTitle = alphabetMetadata.title;
-	const alphabetDate = alphabetMetadata.date;
+	const { sourceUri: alphabetLink, title: alphabetTitle, date: alphabetDate } = alphabetMetadata;
 
 	useEnterKey(onNext);
 
@@ -207,7 +202,7 @@ export const GamePresentation = ({
 				flexDirection: 'column',
 				alignItems: 'center',
 				gap: SPACING.SECTION_GAP,
-				padding: { base: '2rem 0', sm: SPACING.SECTION_GAP },
+				padding: { base: '3xl 0', sm: SPACING.SECTION_GAP },
 			})}
 		>
 			<StatusDisplay

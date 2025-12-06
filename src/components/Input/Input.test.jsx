@@ -49,7 +49,7 @@ describe('Input', () => {
 		});
 
 		it('should render with value', () => {
-			render(<Input id="test-input" name="test" value="test value" />);
+			render(<Input id="test-input" name="test" value="test value" readOnly />);
 			expect(screen.getByRole('textbox')).toHaveValue('test value');
 		});
 	});

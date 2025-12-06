@@ -6,6 +6,9 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
 	testDir: '../e2e',
 
+	/* Maximum time one test can run for */
+	timeout: 60 * 1000, // 60 seconds
+
 	/* Run tests in files in parallel */
 	fullyParallel: true,
 
@@ -32,7 +35,7 @@ export default defineConfig({
 		/* Base URL to use in actions like `await page.goto('/')`. */
 		baseURL: process.env.CI
 			? 'http://localhost:4173/Sharpie/'
-			: 'http://localhost:5175/Sharpie/',
+			: 'http://localhost:8080/Sharpie/',
 
 		/* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
 		trace: 'on-first-retry',
@@ -80,7 +83,7 @@ export default defineConfig({
 		command: process.env.CI ? 'npm run preview' : 'npm run dev',
 		url: process.env.CI
 			? 'http://localhost:4173/Sharpie/'
-			: 'http://localhost:5175/Sharpie/',
+			: 'http://localhost:8080/Sharpie/',
 		reuseExistingServer: !process.env.CI, // In CI, always start fresh; locally reuse existing
 		timeout: 120 * 1000,
 		stdout: 'pipe',

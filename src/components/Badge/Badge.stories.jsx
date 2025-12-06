@@ -1,5 +1,5 @@
 import { fn } from '@storybook/test';
-import Badge from './Badge';
+import { Badge } from './Badge';
 
 const Strong = ({ children }) => (
 	<span style={{ fontWeight: 'bold' }}>{children}</span>

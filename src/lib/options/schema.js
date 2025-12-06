@@ -80,16 +80,6 @@ export const OPTIONS = {
 	},
 };
 
-/**
- * Get option config by key
- */
 export const getOptionByKey = key => {
 	return Object.values(OPTIONS).find(opt => opt.key === key);
-};
-
-/**
- * Get option config by URL param
- */
-export const getOptionByUrlParam = param => {
-	return Object.values(OPTIONS).find(opt => opt.urlParam === param);
 };

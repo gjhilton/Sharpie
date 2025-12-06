@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import MarkdownWithPlaceholders from './MarkdownWithPlaceholders';
+import { MarkdownWithPlaceholders } from './MarkdownWithPlaceholders';
 
 describe('MarkdownWithPlaceholders', () => {
 	describe('Basic Markdown Rendering', () => {

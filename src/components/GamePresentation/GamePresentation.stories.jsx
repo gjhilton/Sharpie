@@ -4,7 +4,7 @@ import {
 	IncorrectAnswer,
 	Unanswered,
 } from '@components/GamePresentation/GamePresentation.jsx';
-import { STATUS } from '@utilities/gameLogic.js';
+import { STATUS } from '@lib/utilities/gameLogic.js';
 
 export default {
 	title: 'Components/GamePresentation',

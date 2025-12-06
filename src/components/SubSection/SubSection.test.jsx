@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import SubSection from './SubSection';
+import { SubSection } from './SubSection';
 
 describe('SubSection', () => {
 	it('should render with title', () => {

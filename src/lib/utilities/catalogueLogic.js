@@ -1,4 +1,4 @@
-import * as db from '@utilities/database.js';
+import * as db from '@lib/utilities/database.js';
 
 /**
  * Groups graphs by graphset and character

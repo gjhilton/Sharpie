@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Logo, { SIZE } from './Logo';
+import { Logo, SIZE } from './Logo';
 
 describe('Logo', () => {
 	it('renders SVG element', () => {

@@ -1,9 +1,9 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import WhatsNewSection from './WhatsNewSection';
+import { WhatsNewSection } from './WhatsNewSection';
 
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
-	default: ({ title, children }) => (
+	SubSection: ({ title, children }) => (
 		<section>
 			<h3>{title}</h3>
 			{children}
@@ -12,7 +12,7 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 }));
 
 vi.mock('@components/Changelog/Changelog.jsx', () => ({
-	default: () => (
+	Changelog: () => (
 		<dl data-testid="changelog">
 			<dt>v1.0.0</dt>
 			<dd>Initial release</dd>

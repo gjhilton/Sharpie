@@ -1,13 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import OptionsSection from './OptionsSection';
-import { GAME_MODES, GAME_MODE_OPTIONS } from '@constants/stages.js';
+import { OptionsSection } from './OptionsSection';
+import { GAME_MODES, GAME_MODE_OPTIONS } from '@lib/constants/stages.js';
 
 // Mock the GameOptionsContext
 const mockResetOptions = vi.fn();
 const mockCycleMode = vi.fn();
-vi.mock('@context/GameOptionsContext.jsx', () => ({
+vi.mock('@lib/context/GameOptionsContext.jsx', () => ({
 	useGameOptionsContext: () => ({
 		resetOptions: mockResetOptions,
 		cycleMode: mockCycleMode,
@@ -19,11 +19,11 @@ vi.mock('@components/Layout/Layout.jsx', () => ({
 }));
 
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ label, onClick }) => <button onClick={onClick}>{label}</button>,
+	Button: ({ label, onClick }) => <button onClick={onClick}>{label}</button>,
 }));
 
 vi.mock('@components/Toggle/Toggle.jsx', () => ({
-	default: ({ id, label, checked, onChange }) => (
+	Toggle: ({ id, label, checked, onChange }) => (
 		<label>
 			<input
 				type="checkbox"
@@ -37,7 +37,7 @@ vi.mock('@components/Toggle/Toggle.jsx', () => ({
 }));
 
 vi.mock('@components/SubSection/SubSection.jsx', () => ({
-	default: ({ title, children }) => (
+	SubSection: ({ title, children }) => (
 		<section>
 			<h3>{title}</h3>
 			{children}
@@ -65,8 +65,12 @@ vi.mock('@components/RadioGroup/RadioGroup.jsx', () => ({
 	),
 }));
 
+vi.mock('@components/InlineMarkdown/InlineMarkdown.jsx', () => ({
+	InlineMarkdown: ({ content }) => <span data-testid="inline-markdown">{content}</span>,
+}));
+
 vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	default: ({ content, placeholders }) => (
+	MarkdownWithPlaceholders: ({ content, placeholders }) => (
 		<div data-testid="markdown-content">
 			{content}
 			{placeholders &&
@@ -79,8 +83,8 @@ vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () 
 	),
 }));
 
-vi.mock('@components/BaselineExamples/BaselineExamples.jsx', () => ({
-	default: () => <div data-testid="baseline-examples">Baseline Examples</div>,
+vi.mock('@components/BaselineExamples/BaselineExamples', () => ({
+	BaselineExamples: () => <div data-testid="baseline-examples">Baseline Examples</div>,
 }));
 
 vi.mock('@data/identify.md?raw', () => ({
@@ -96,11 +100,11 @@ vi.mock('@data/baselines.md?raw', () => ({
 }));
 
 vi.mock('@components/ShareURLSection/ShareURLSection.jsx', () => ({
-	default: () => <div data-testid="share-url-section">Share URL Section</div>,
+	ShareURLSection: () => <div data-testid="share-url-section">Share URL Section</div>,
 }));
 
 vi.mock('@components/ResetOptionsSection/ResetOptionsSection.jsx', () => ({
-	default: () => <div data-testid="reset-options-section">Reset Options Section</div>,
+	ResetOptionsSection: () => <div data-testid="reset-options-section">Reset Options Section</div>,
 }));
 
 describe('OptionsSection', () => {

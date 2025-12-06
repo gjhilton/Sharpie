@@ -1,4 +1,4 @@
-import CharacterImage from './CharacterImage';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
 
 export default {
 	title: 'Components/CharacterImage',

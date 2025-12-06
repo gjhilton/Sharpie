@@ -1,5 +1,5 @@
 import { fn } from 'storybook/test';
-import HeroSection from './HeroSection';
+import { HeroSection } from '@components/HeroSection/HeroSection';
 
 export default {
 	title: 'Components/HeroSection',

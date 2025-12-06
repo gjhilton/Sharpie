@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Icon, { ICON_TYPE } from './Icon';
+import { Icon, ICON_TYPE } from './Icon';
 
 describe('Icon', () => {
 	it('renders with default props', () => {

@@ -1,8 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
-import * as catalogueLogic from '@utilities/catalogueLogic.js';
-import * as db from '@utilities/database.js';
+import * as catalogueLogic from '@lib/utilities/catalogueLogic.js';
+import * as db from '@lib/utilities/database.js';
 
-vi.mock('@utilities/database.js');
+vi.mock('@lib/utilities/database.js');
 
 describe('catalogueLogic', () => {
 	describe('groupGraphsByGraphSetAndCharacter', () => {

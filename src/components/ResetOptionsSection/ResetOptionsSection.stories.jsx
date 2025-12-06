@@ -1,5 +1,5 @@
-import ResetOptionsSection from './ResetOptionsSection';
-import { GameOptionsProvider } from '@context/GameOptionsContext';
+import { ResetOptionsSection } from './ResetOptionsSection';
+import { GameOptionsProvider } from '@lib/context/GameOptionsContext';
 
 export default {
 	title: 'Components/ResetOptionsSection',

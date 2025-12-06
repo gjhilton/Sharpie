@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import DisclosureSection from '@components/DisclosureSection/DisclosureSection.jsx';
+import { DisclosureSection } from '@components/DisclosureSection/DisclosureSection';
 import { css } from '../../../dist/styled-system/css';
 
 export default {

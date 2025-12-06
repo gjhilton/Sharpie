@@ -1,17 +1,17 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import BaselineExamples from './BaselineExamples';
+import { BaselineExamples } from './BaselineExamples';
 
-vi.mock('@components/ExampleCard/ExampleCard.jsx', () => ({
-	default: ({ title, children }) => (
+vi.mock('@components/ExampleCard/ExampleCard', () => ({
+	ExampleCard: ({ title, children }) => (
 		<div data-testid="example-card" data-title={title}>
 			{children}
 		</div>
 	),
 }));
 
-vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath, caption, showBaseline }) => (
+vi.mock('@components/CharacterImage/CharacterImage', () => ({
+	CharacterImage: ({ imagePath, caption, showBaseline }) => (
 		<div
 			data-testid="character-image"
 			data-baseline={showBaseline}

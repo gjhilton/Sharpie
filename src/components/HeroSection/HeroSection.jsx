@@ -1,15 +1,17 @@
 import { css } from '../../../dist/styled-system/css';
-import ReactMarkdown from 'react-markdown';
-import Button from '@components/Button/Button.jsx';
-import { PageTitle, Paragraph } from '@components/Layout/Layout.jsx';
+import { Button } from '@components/Button/Button';
+import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
+import { PageTitle, Paragraph } from '@components/Layout/Layout';
 import heroContent from '@data/hero.md?raw';
 
-const HeroSection = ({ onPlay }) => (
+const GAP = '3xl';
+
+export const HeroSection = ({ onPlay }) => (
 	<section
 		className={css({
 			display: 'grid',
 			gridTemplateColumns: '1fr 2fr',
-			gap: '2rem',
+			gap: GAP,
 			alignItems: 'start',
 		})}
 	>
@@ -19,17 +21,9 @@ const HeroSection = ({ onPlay }) => (
 		</PageTitle>
 		<div>
 			<Paragraph>
-				<ReactMarkdown
-					components={{
-						p: ({ children }) => <>{children}</>,
-					}}
-				>
-					{heroContent}
-				</ReactMarkdown>
+				<InlineMarkdown content={heroContent} />
 			</Paragraph>
 			<Button hero onClick={onPlay} label="Play" />
 		</div>
 	</section>
 );
-
-export default HeroSection;

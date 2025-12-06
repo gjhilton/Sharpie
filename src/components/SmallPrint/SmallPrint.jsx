@@ -1,12 +1,19 @@
 import { css } from '../../../dist/styled-system/css';
-import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
-import { version } from '@utilities/version.js';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton';
+import { version } from '@lib/utilities/version';
+import { FONT_SIZE_SMALL } from '@lib/constants/ui';
+
+const MARGIN_TOP = '5xl';
+const TEXT_MARGIN_TOP = 'lg';
+const VERSION_MARGIN_TOP = 'sm';
+const GITHUB_URL = 'https://github.com/gjhilton/Sharpie';
+const FUNERAL_GAMES_URL = 'http://funeralgames.co.uk';
 
 const SmallPrint = ({ onShowFeedback }) => (
 	<footer
 		className={css({
 			gridColumn: '1 / -1',
-			marginTop: '4rem',
+			marginTop: MARGIN_TOP,
 		})}
 	>
 		{onShowFeedback && (
@@ -19,22 +26,22 @@ const SmallPrint = ({ onShowFeedback }) => (
 
 		<div
 			className={css({
-				fontSize: 's',
-				marginTop: '1rem',
+				fontSize: FONT_SIZE_SMALL,
+				marginTop: TEXT_MARGIN_TOP,
 				fontStyle: 'italic',
 			})}
 		>
 			Concept, design and{' '}
-			<a href="https://github.com/gjhilton/Sharpie">code</a> copyright
+			<a href={GITHUB_URL}>code</a> copyright
 			©2025 g.j.hilton /{' '}
-			<a href="http://funeralgames.co.uk">funeral games</a>, <br />
+			<a href={FUNERAL_GAMES_URL}>funeral games</a>, <br />
 			Manuscript context copyright: as shown inline.
 		</div>
 
 		<div
 			className={css({
-				fontSize: 's',
-				marginTop: '0.5rem',
+				fontSize: FONT_SIZE_SMALL,
+				marginTop: VERSION_MARGIN_TOP,
 				fontStyle: 'italic',
 			})}
 		>
@@ -44,4 +51,3 @@ const SmallPrint = ({ onShowFeedback }) => (
 );
 
 export { SmallPrint };
-export default SmallPrint;

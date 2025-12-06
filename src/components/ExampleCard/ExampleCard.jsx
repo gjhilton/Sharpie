@@ -1,12 +1,15 @@
 import { css } from '../../../dist/styled-system/css';
 
-const ExampleCard = ({ title, children, height = '300px' }) => (
+const DEFAULT_HEIGHT = '300px';
+const TITLE_MARGIN_BOTTOM = 'sm';
+
+export const ExampleCard = ({ title, children, height = DEFAULT_HEIGHT }) => (
 	<div>
 		<div
 			className={css({
 				fontWeight: 'bold',
 				textAlign: 'center',
-				marginBottom: '0.5rem',
+				marginBottom: TITLE_MARGIN_BOTTOM,
 			})}
 		>
 			{title}
@@ -21,5 +24,3 @@ const ExampleCard = ({ title, children, height = '300px' }) => (
 		</div>
 	</div>
 );
-
-export default ExampleCard;

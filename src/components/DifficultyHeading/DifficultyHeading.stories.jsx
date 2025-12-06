@@ -1,4 +1,4 @@
-import DifficultyHeading from '@components/DifficultyHeading/DifficultyHeading.jsx';
+import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
 
 export default {
 	title: 'Components/DifficultyHeading',

@@ -1,4 +1,4 @@
-import BulkSelectionControls from '@components/BulkSelectionControls/BulkSelectionControls.jsx';
+import { BulkSelectionControls } from '@components/BulkSelectionControls/BulkSelectionControls';
 
 export default {
 	title: 'Components/BulkSelectionControls',

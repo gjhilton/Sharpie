@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import SourceFigure from './SourceFigure';
+import { SourceFigure } from './SourceFigure';
 
 vi.mock('@data/hands.json', () => ({
 	default: {

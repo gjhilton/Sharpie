@@ -6,10 +6,7 @@ export const GAME_MODES = Object.keys(OPTIONS.mode.values).reduce(
 		acc[key.toUpperCase()] = key;
 		return acc;
 	},
-	{
-		// Keep EXTRAS for backward compatibility (not in OPTIONS schema)
-		EXTRAS: 'extras',
-	}
+	{}
 );
 
 // Derive game mode options from OPTIONS schema

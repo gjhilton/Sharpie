@@ -1,19 +1,33 @@
 import { useState, useRef, useMemo } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import ReactMarkdown from 'react-markdown';
 import { css } from '../../../dist/styled-system/css';
-import { Paragraph } from '@components/Layout/Layout.jsx';
-import SubSection from '@components/SubSection/SubSection.jsx';
-import InputWithButton from '@components/InputWithButton/InputWithButton.jsx';
-import { serializeOptions } from '@lib/options/serializer.js';
+import { Paragraph } from '@components/Layout/Layout';
+import { SubSection } from '@components/SubSection/SubSection';
+import { InlineMarkdown } from '@components/InlineMarkdown/InlineMarkdown';
+import { InputWithButton } from '@components/InputWithButton/InputWithButton';
+import { serializeOptions } from '@lib/options/serializer';
+import { commonButtonStyles, flexCenterColumn } from '@lib/constants/ui';
 import shareURLContent from '@data/share-url.md?raw';
+
+const COPY_SUCCESS_TIMEOUT = 2000;
+const QR_SIZE = 200;
+const QR_LEVEL = 'M';
+const QR_DOWNLOAD_FILENAME = 'secretary-settings-qr.png';
+const QR_PADDING = 'lg';
+const QR_BORDER = '1px solid {colors.ink}';
+const QR_BACKGROUND = 'white';
+const QR_MARGIN_TOP = '0';
+const QR_MARGIN_BOTTOM = 'md';
+const QR_BUTTON_MARGIN_TOP = 'sm';
+const CANVAS_FILL_STYLE = 'white';
+const INPUT_MARGIN_BOTTOM_SHOW_QR = '0';
+const INPUT_MARGIN_BOTTOM_HIDE_QR = 'md';
 
 const ShareURLSection = ({ options }) => {
 	const [copySuccess, setCopySuccess] = useState(false);
 	const [showQR, setShowQR] = useState(false);
 	const qrRef = useRef(null);
 
-	// Generate shareable URL
 	const shareableURL = useMemo(() => {
 		const serialized = serializeOptions(options);
 		const params = new URLSearchParams(serialized);
@@ -22,13 +36,11 @@ const ShareURLSection = ({ options }) => {
 		return queryString ? `${baseUrl}?${queryString}` : baseUrl;
 	}, [options]);
 
-	// Copy to clipboard
 	const handleCopy = async () => {
 		try {
 			if (navigator.clipboard && navigator.clipboard.writeText) {
 				await navigator.clipboard.writeText(shareableURL);
 			} else {
-				// Fallback for older browsers
 				const textarea = document.createElement('textarea');
 				textarea.value = shareableURL;
 				textarea.style.position = 'fixed';
@@ -39,18 +51,16 @@ const ShareURLSection = ({ options }) => {
 				document.body.removeChild(textarea);
 			}
 			setCopySuccess(true);
-			setTimeout(() => setCopySuccess(false), 2000);
+			setTimeout(() => setCopySuccess(false), COPY_SUCCESS_TIMEOUT);
 		} catch (err) {
 			console.error('Failed to copy:', err);
 		}
 	};
 
-	// Toggle QR code display
 	const handleToggleQR = () => {
 		setShowQR(prev => !prev);
 	};
 
-	// Download QR code
 	const handleDownloadQR = () => {
 		if (!qrRef.current) return;
 
@@ -65,7 +75,7 @@ const ShareURLSection = ({ options }) => {
 		img.onload = () => {
 			canvas.width = img.width;
 			canvas.height = img.height;
-			ctx.fillStyle = 'white';
+			ctx.fillStyle = CANVAS_FILL_STYLE;
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			ctx.drawImage(img, 0, 0);
 
@@ -73,7 +83,7 @@ const ShareURLSection = ({ options }) => {
 				const url = URL.createObjectURL(blob);
 				const a = document.createElement('a');
 				a.href = url;
-				a.download = 'secretary-settings-qr.png';
+				a.download = QR_DOWNLOAD_FILENAME;
 				a.click();
 				URL.revokeObjectURL(url);
 			});
@@ -85,16 +95,9 @@ const ShareURLSection = ({ options }) => {
 	return (
 		<SubSection title="Share settings">
 			<Paragraph>
-				<ReactMarkdown
-					components={{
-						p: ({ children }) => <>{children}</>,
-					}}
-				>
-					{shareURLContent}
-				</ReactMarkdown>
+				<InlineMarkdown content={shareURLContent} />
 			</Paragraph>
 
-			{/* URL input with Copy and QR buttons */}
 			<InputWithButton
 				inputId="shareable-url"
 				inputType="text"
@@ -108,7 +111,7 @@ const ShareURLSection = ({ options }) => {
 				}}
 				fontFamily="monospace"
 				fontSize="s"
-				marginBottom={showQR ? '0' : '0.75rem'}
+				marginBottom={showQR ? INPUT_MARGIN_BOTTOM_SHOW_QR : INPUT_MARGIN_BOTTOM_HIDE_QR}
 				cursor="text"
 				buttonLabel={copySuccess ? 'Copied!' : 'Copy'}
 				buttonOnClick={handleCopy}
@@ -118,53 +121,30 @@ const ShareURLSection = ({ options }) => {
 				rightButton2Active={showQR}
 			/>
 
-			{/* QR Code display - full width box centered underneath URL field */}
 			{showQR && (
 				<div
 					ref={qrRef}
 					className={css({
-						marginTop: '0',
-						padding: '1rem',
-						border: '1px solid {colors.ink}',
+						marginTop: QR_MARGIN_TOP,
+						padding: QR_PADDING,
+						border: QR_BORDER,
 						borderTop: 'none',
-						backgroundColor: 'white',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-						marginBottom: '0.75rem',
+						backgroundColor: QR_BACKGROUND,
+						...flexCenterColumn,
+						marginBottom: QR_MARGIN_BOTTOM,
 					})}
 				>
-					<QRCodeSVG value={shareableURL} size={200} level="M" />
+					<QRCodeSVG value={shareableURL} size={QR_SIZE} level={QR_LEVEL} />
 					<div
 						className={css({
-							marginTop: '0.5rem',
+							marginTop: QR_BUTTON_MARGIN_TOP,
 							textAlign: 'center',
 						})}
 					>
 						<button
 							type="button"
 							onClick={handleDownloadQR}
-							className={css({
-								padding: '0.5rem 1rem',
-								border: '1px solid {colors.ink}',
-								backgroundColor: '{colors.paper}',
-								color: '{colors.ink}',
-								cursor: 'pointer',
-								fontSize: 's',
-								fontWeight: 'bold',
-								transition: 'all 150ms ease-in-out',
-								_hover: {
-									transform: 'scale(1.02)',
-								},
-								_active: {
-									transform: 'scale(0.98)',
-								},
-								_focusVisible: {
-									outline: '2px solid {colors.ink}',
-									outlineOffset: '2px',
-								},
-							})}
+							className={css(commonButtonStyles)}
 						>
 							Download
 						</button>
@@ -175,4 +155,4 @@ const ShareURLSection = ({ options }) => {
 	);
 };
 
-export default ShareURLSection;
+export { ShareURLSection };

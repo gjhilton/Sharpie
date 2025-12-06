@@ -1,20 +1,21 @@
 import { css } from '../../../dist/styled-system/css';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import SmallPrint from '@components/SmallPrint/SmallPrint.jsx';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import HandSelectorWithSort from '@components/HandSelectorWithSort/HandSelectorWithSort.jsx';
-import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton.jsx';
+import { SmallPrint } from '@components/SmallPrint/SmallPrint';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
+import { HandSelectorWithSort } from '@components/HandSelectorWithSort/HandSelectorWithSort';
+import { LinkAsButton } from '@components/LinkAsButton/LinkAsButton';
 import {
 	PageTitle,
 	Paragraph,
 	Heading,
 	PageWidth,
-} from '@components/Layout/Layout.jsx';
+} from '@components/Layout/Layout';
 import handsData from '@data/hands.json';
-import * as catalogueLogic from '@utilities/catalogueLogic.js';
-import { useGameOptions } from '@lib/hooks/useGameOptions.js';
-import { useDatabase } from '@context/DatabaseContext.jsx';
+import * as catalogueLogic from '@lib/utilities/catalogueLogic';
+import { useGameOptions } from '@lib/hooks/useGameOptions';
+import { useDatabase } from '@lib/context/DatabaseContext';
+import { flexCenter } from '@lib/constants/ui';
 
 const STYLES = {
 	verticalGap: '2rem',
@@ -28,10 +29,7 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => (
 			width: STYLES.imageSize,
 			height: STYLES.imageSize,
 			background: '{colors.paper}',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			cborder: '1px solid {colors.ink/10}',
+			...flexCenter,
 			opacity: isEnabled ? 1 : 0.2,
 		})}
 	>
@@ -194,7 +192,7 @@ const BackLink = ({ isDisabled, onReturnToMenu }) => {
 	return <LinkAsButton onClick={onReturnToMenu}>← Back to Menu</LinkAsButton>;
 };
 
-const SelectionStatus = ({ isError, handCount, characterCount, letterCounts }) => {
+const SelectionStatus = ({ isError, handCount, letterCounts }) => {
 	if (isError) {
 		return (
 			<Paragraph className={css({ color: '{colors.error}' })}>
@@ -221,7 +219,7 @@ const SelectionStatus = ({ isError, handCount, characterCount, letterCounts }) =
 	);
 };
 
-const CatalogueScreen = () => {
+export const CatalogueScreen = () => {
 	const navigate = useNavigate();
 	const { options, updateOption } = useGameOptions();
 	const {
@@ -229,7 +227,6 @@ const CatalogueScreen = () => {
 		getImagePath,
 		getEnabledGraphSets,
 		countEnabledHands,
-		countEnabledCharacters,
 		getAllHandNames,
 		countEnabledLetters,
 	} = useDatabase();
@@ -247,9 +244,8 @@ const CatalogueScreen = () => {
 		getEnabledGraphSets(DB)
 	);
 	const handCount = countEnabledHands(enabledHands);
-	const characterCount = countEnabledCharacters(DB, enabledHands);
 	const letterCounts = countEnabledLetters(DB, enabledHands);
-	const hasNoSelection = handCount === 0 || characterCount === 0;
+	const hasNoSelection = handCount === 0 || letterCounts.total === 0;
 
 	const handleToggleHand = name => {
 		const newEnabledHands = {
@@ -298,7 +294,6 @@ const CatalogueScreen = () => {
 					<SelectionStatus
 						isError={hasNoSelection}
 						handCount={handCount}
-						characterCount={characterCount}
 						letterCounts={letterCounts}
 					/>
 
@@ -308,7 +303,6 @@ const CatalogueScreen = () => {
 						handsMetadata={DB.sources}
 						onToggle={handleToggleHand}
 						onBatchToggle={handleBatchToggleHands}
-
 					/>
 				</div>
 			</header>
@@ -329,6 +323,3 @@ const CatalogueScreen = () => {
 		</PageWidth>
 	);
 };
-
-export { CatalogueScreen };
-export default CatalogueScreen;

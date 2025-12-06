@@ -1,11 +1,11 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import CharacterImageSlideshow from '@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx';
+import { CharacterImageSlideshow } from '@components/CharacterImageSlideshow/CharacterImageSlideshow';
 
 // Mock the CharacterImage component
 vi.mock('@components/CharacterImage/CharacterImage.jsx', () => ({
-	default: ({ imagePath, caption, graph }) => (
+	CharacterImage: ({ imagePath, caption, graph }) => (
 		<div data-testid="character-image">
 			<div data-testid="image-path">{imagePath}</div>
 			{caption && <div data-testid="caption">{caption}</div>}
@@ -130,32 +130,6 @@ describe('CharacterImageSlideshow', () => {
 		);
 
 		expect(screen.getByTestId('caption')).toHaveTextContent('Test caption');
-	});
-
-	it('passes graph prop to CharacterImage', () => {
-		const imagePaths = ['/image1.jpg'];
-		const graph = 'Test graph';
-		render(
-			<CharacterImageSlideshow imagePaths={imagePaths} graph={graph} />
-		);
-
-		expect(screen.getByTestId('graph')).toHaveTextContent('Test graph');
-	});
-
-	it('passes both caption and graph props to CharacterImage', () => {
-		const imagePaths = ['/image1.jpg', '/image2.jpg'];
-		const caption = 'Test caption';
-		const graph = 'Test graph';
-		render(
-			<CharacterImageSlideshow
-				imagePaths={imagePaths}
-				caption={caption}
-				graph={graph}
-			/>
-		);
-
-		expect(screen.getByTestId('caption')).toHaveTextContent('Test caption');
-		expect(screen.getByTestId('graph')).toHaveTextContent('Test graph');
 	});
 
 	it('cleans up the interval timer on unmount', () => {

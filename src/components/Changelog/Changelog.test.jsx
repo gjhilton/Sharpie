@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Changelog, { VersionEntry } from './Changelog';
+import { Changelog, VersionEntry } from './Changelog';
 
 vi.mock('@components/Layout/Layout.jsx', () => ({
 	DL: ({ children }) => <dl data-testid="dl">{children}</dl>,

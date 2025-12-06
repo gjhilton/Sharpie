@@ -1,7 +1,7 @@
 import { css } from '../../../dist/styled-system/css';
-import { BulkSelectionLink } from '@components/BulkSelectionLink/BulkSelectionLink.jsx';
+import { BulkSelectionLink } from '@components/BulkSelectionLink/BulkSelectionLink';
 
-const BulkSelectionControls = ({
+export const BulkSelectionControls = ({
 	difficulty,
 	allSelected = false,
 	noneSelected = false,
@@ -25,7 +25,7 @@ const BulkSelectionControls = ({
 			className={css({
 				fontSize: 's',
 				display: 'flex',
-				gap: '1rem',
+				gap: 'lg',
 			})}
 		>
 			<BulkSelectionLink disabled={allSelected} onClick={handleSelectAll}>
@@ -40,5 +40,3 @@ const BulkSelectionControls = ({
 		</div>
 	);
 };
-
-export default BulkSelectionControls;

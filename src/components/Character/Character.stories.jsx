@@ -1,4 +1,4 @@
-import Character, { CHARACTER_STATE } from './Character';
+import { Character, CHARACTER_STATE } from './Character';
 
 export default {
 	title: 'Components/Character',

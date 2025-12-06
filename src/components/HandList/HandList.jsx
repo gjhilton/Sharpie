@@ -1,18 +1,20 @@
-import React from 'react';
 import { css } from '../../../dist/styled-system/css';
-import HandRow from '@components/HandRow/HandRow.jsx';
-import DifficultyHeading from '@components/DifficultyHeading/DifficultyHeading.jsx';
-import { DIFFICULTY_ORDER } from '@constants/difficulty.js';
+import { HandRow } from '@components/HandRow/HandRow';
+import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
+import { DIFFICULTY_ORDER } from '@lib/constants/difficulty';
+
+const GRID_GAP = 'sm lg';
+const MARGIN_TOP = '3xl';
 
 const gridStyles = css({
 	display: 'grid',
 	gridTemplateColumns: 'auto 1fr auto auto',
-	gap: '0.5rem 1rem',
+	gap: GRID_GAP,
 	alignItems: 'start',
-	marginTop: '2rem',
+	marginTop: MARGIN_TOP,
 });
 
-const HandList = ({
+export const HandList = ({
 	hands,
 	handsMetadata,
 	enabledHands,
@@ -22,6 +24,16 @@ const HandList = ({
 	onSelectAll,
 	onDeselectAll,
 }) => {
+	const renderHandRow = (name) => (
+		<HandRow
+			key={name}
+			name={name}
+			metadata={handsMetadata[name]}
+			isEnabled={enabledHands[name] || false}
+			onToggle={() => onToggle(name)}
+		/>
+	);
+
 	if (showDifficultyGroups && difficultyGroups) {
 		// Render grouped by difficulty with headings
 		return (
@@ -41,7 +53,7 @@ const HandList = ({
 					const noneSelected = selectedCount === 0;
 
 					return (
-						<React.Fragment key={difficulty}>
+						<div key={difficulty}>
 							<DifficultyHeading
 								difficulty={difficulty}
 								allSelected={allSelected}
@@ -49,16 +61,8 @@ const HandList = ({
 								onSelectAll={onSelectAll}
 								onDeselectAll={onDeselectAll}
 							/>
-							{handsInGroup.map(name => (
-								<HandRow
-									key={name}
-									name={name}
-									metadata={handsMetadata[name]}
-									isEnabled={enabledHands[name] || false}
-									onToggle={() => onToggle(name)}
-								/>
-							))}
-						</React.Fragment>
+							{handsInGroup.map(renderHandRow)}
+						</div>
 					);
 				})}
 			</div>
@@ -68,18 +72,7 @@ const HandList = ({
 	// Render flat list without grouping
 	return (
 		<div className={gridStyles}>
-			{hands.map(name => (
-				<HandRow
-					key={name}
-					name={name}
-					metadata={handsMetadata[name]}
-					isEnabled={enabledHands[name] || false}
-					onToggle={() => onToggle(name)}
-				/>
-			))}
+			{hands.map(renderHandRow)}
 		</div>
 	);
 };
-
-export { HandList };
-export default HandList;

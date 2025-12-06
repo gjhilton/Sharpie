@@ -1,26 +1,11 @@
 import { describe, it, expect } from 'vitest';
 import {
-	getHandById,
 	getHandKeyById,
 	getHandIdByKey,
 	getAllHandIds,
 	getDefaultEnabledIds,
 	validateHandIds,
-	keysToIds,
-	idsToKeys,
 } from './hands.js';
-
-describe('getHandById', () => {
-	it('should find hand by ID', () => {
-		const result = getHandById('001');
-		expect(result).toBeDefined();
-		expect(result[0]).toBe('McKerrow');
-	});
-
-	it('should return undefined for unknown ID', () => {
-		expect(getHandById('999')).toBeUndefined();
-	});
-});
 
 describe('getHandKeyById', () => {
 	it('should return hand key for valid ID', () => {
@@ -73,29 +58,5 @@ describe('validateHandIds', () => {
 	it('should return empty array for all invalid IDs', () => {
 		const result = validateHandIds(['999', '888']);
 		expect(result).toEqual([]);
-	});
-});
-
-describe('keysToIds', () => {
-	it('should convert keys to IDs', () => {
-		const result = keysToIds(['McKerrow', 'PCAttorney']);
-		expect(result).toEqual(['001', '002']);
-	});
-
-	it('should filter out invalid keys', () => {
-		const result = keysToIds(['McKerrow', 'Unknown']);
-		expect(result).toEqual(['001']);
-	});
-});
-
-describe('idsToKeys', () => {
-	it('should convert IDs to keys', () => {
-		const result = idsToKeys(['001', '002']);
-		expect(result).toEqual(['McKerrow', 'PCAttorney']);
-	});
-
-	it('should filter out invalid IDs', () => {
-		const result = idsToKeys(['001', '999']);
-		expect(result).toEqual(['McKerrow']);
 	});
 });

@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HandSelectorWithSort from './HandSelectorWithSort';
+import { HandSelectorWithSort } from '@components/HandSelectorWithSort/HandSelectorWithSort';
 
 describe('HandSelectorWithSort', () => {
 	const mockHandsMetadata = {

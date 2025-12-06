@@ -1,4 +1,4 @@
-import Changelog, { VersionEntry } from './Changelog';
+import { Changelog, VersionEntry } from './Changelog';
 
 export default {
 	title: 'Components/Changelog',

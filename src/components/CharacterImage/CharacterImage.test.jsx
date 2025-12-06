@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import CharacterImage from './CharacterImage';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
 
 describe('CharacterImage', () => {
 	it('renders image with imagePath', () => {

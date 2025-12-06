@@ -1,10 +1,12 @@
-import SubSection from '@components/SubSection/SubSection.jsx';
-import Changelog from '@components/Changelog/Changelog.jsx';
+import { SubSection } from '@components/SubSection/SubSection';
+import { Changelog } from '@components/Changelog/Changelog';
+
+const TITLE = 'Changelog';
 
 const WhatsNewSection = () => (
-	<SubSection title="Changelog">
+	<SubSection title={TITLE}>
 		<Changelog />
 	</SubSection>
 );
 
-export default WhatsNewSection;
+export { WhatsNewSection };

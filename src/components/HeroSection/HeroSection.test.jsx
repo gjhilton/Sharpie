@@ -1,14 +1,14 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HeroSection from './HeroSection';
+import { HeroSection } from '@components/HeroSection/HeroSection';
 
 vi.mock('@data/hero.md?raw', () => ({
 	default: 'Test *hero* content with emphasis.',
 }));
 
 vi.mock('@components/Button/Button.jsx', () => ({
-	default: ({ label, onClick, hero }) => (
+	Button: ({ label, onClick, hero }) => (
 		<button onClick={onClick} data-hero={hero}>
 			{label}
 		</button>

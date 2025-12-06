@@ -5,13 +5,13 @@ export const PageWidth = ({ children }) => (
 		className={css({
 			display: 'flex',
 			flexDirection: 'column',
-			gap: '2rem',
+			gap: '3xl',
 			maxWidth: '90%',
 			textAlign: 'left',
 			desktop: {
 				maxWidth: '800px',
 			},
-			margin: '2rem auto',
+			margin: '3xl auto',
 		})}
 	>
 		{children}
@@ -21,11 +21,11 @@ export const PageWidth = ({ children }) => (
 export const PageTitle = ({ children, style = {} }) => (
 	<h1
 		className={css({
-			fontSize: '2rem',
+			fontSize: '3xl',
 			fontWeight: 'bold',
-			marginBottom: '1rem',
+			marginBottom: 'lg',
 			desktop: {
-				lineHeight: '3rem',
+				lineHeight: '4xl',
 			},
 		})}
 		style={style}
@@ -50,7 +50,7 @@ export const Paragraph = ({ children, className }) => (
 		className={`${css({
 			fontSize: 'm',
 			lineHeight: '1.6',
-			marginBottom: '1rem',
+			marginBottom: 'lg',
 		})} ${className || ''}`}
 	>
 		{children}
@@ -75,7 +75,7 @@ export const Article = ({ children, className }) => (
 export const DL = ({ children, className }) => (
 	<dl
 		className={`${css({
-			marginBottom: '1rem',
+			marginBottom: 'lg',
 		})} ${className || ''}`}
 	>
 		{children}
@@ -86,7 +86,7 @@ export const DT = ({ children, className }) => (
 	<dt
 		className={`${css({
 			fontWeight: 'bold',
-			marginBottom: '0.25rem',
+			marginBottom: 'xs',
 		})} ${className || ''}`}
 	>
 		{children}
@@ -99,7 +99,7 @@ export const DD = ({ children, className }) => (
 			marginLeft: 0,
 			fontSize: 'm',
 			lineHeight: '1.6',
-			marginBottom: '1rem',
+			marginBottom: 'lg',
 		})} ${className || ''}`}
 	>
 		{children}
@@ -125,7 +125,7 @@ export const Legend = ({ children, className, visuallyHidden = false }) =>
 		<legend
 			className={`${css({
 				fontWeight: 'bold',
-				marginBottom: '0.5rem',
+				marginBottom: 'sm',
 			})} ${className || ''}`}
 		>
 			{children}

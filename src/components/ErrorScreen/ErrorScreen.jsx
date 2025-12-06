@@ -1,27 +1,26 @@
-/**
- * ErrorScreen - displayed when an error occurs
- */
-
 import { css } from '../../../dist/styled-system/css';
-import { Button } from '@components/Button/Button.jsx';
+import { Button } from '@components/Button/Button';
+import { flexCenterColumn } from '@lib/constants/ui';
+
+const PADDING = '3xl';
+const GAP = '2xl';
+const HEADING_FONT_SIZE = '2xl';
+const MAX_WIDTH = '400px';
 
 export const ErrorScreen = ({ error, resetError }) => {
 	return (
 		<div
 			className={css({
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
+				...flexCenterColumn,
 				minHeight: '100vh',
-				padding: '2rem',
+				padding: PADDING,
 				textAlign: 'center',
-				gap: '1.5rem',
+				gap: GAP,
 			})}
 		>
 			<h1
 				className={css({
-					fontSize: '1.5rem',
+					fontSize: HEADING_FONT_SIZE,
 					fontWeight: 'bold',
 					color: '{colors.ink}',
 				})}
@@ -32,7 +31,7 @@ export const ErrorScreen = ({ error, resetError }) => {
 			<p
 				className={css({
 					color: '{colors.ink/70}',
-					maxWidth: '400px',
+					maxWidth: MAX_WIDTH,
 				})}
 			>
 				{error?.message || 'An unexpected error occurred. Please try again.'}

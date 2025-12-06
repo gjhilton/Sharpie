@@ -1,17 +1,23 @@
 import { css } from '../../../dist/styled-system/css';
 
+const DEFAULT_SIZE = 24;
+const DEFAULT_COLOUR = 'currentColor';
+const DEFAULT_WEIGHT = 2;
+const VIEWBOX = '0 0 24 24';
+const STROKE_MITERLIMIT = '10';
+
 const Icon = ({
 	icon,
-	size = 24,
-	colour = 'currentColor',
-	weight = 2,
+	size = DEFAULT_SIZE,
+	colour = DEFAULT_COLOUR,
+	weight = DEFAULT_WEIGHT,
 	className = '',
 }) => {
 	const svgStyles = {
 		display: 'inline-block',
 		fill: 'none',
 		strokeLinecap: 'round',
-		strokeMiterlimit: '10',
+		strokeMiterlimit: STROKE_MITERLIMIT,
 		verticalAlign: 'middle',
 	};
 
@@ -26,7 +32,7 @@ const Icon = ({
 			className={className}
 			width={`${size}px`}
 			height={`${size}px`}
-			viewBox="0 0 24 24"
+			viewBox={VIEWBOX}
 			aria-hidden="true"
 			role="img"
 		>
@@ -39,8 +45,6 @@ const Icon = ({
 	);
 };
 
-export default Icon;
-
 export const ICON_TYPE = {
 	CROSS: {
 		path: 'M6 6l12 12M18 6L6 18',
@@ -49,3 +53,5 @@ export const ICON_TYPE = {
 		path: 'M4 13l5 5L20 7',
 	},
 };
+
+export { Icon };

@@ -1,13 +1,11 @@
 import { css } from '../../../dist/styled-system/css';
-import CharacterImage from '@components/CharacterImage/CharacterImage.jsx';
-import CharacterImageSlideshow from '@components/CharacterImageSlideshow/CharacterImageSlideshow.jsx';
-import Icon, { ICON_TYPE } from '@components/Icon/Icon.jsx';
+import { CharacterImage } from '@components/CharacterImage/CharacterImage';
+import { CharacterImageSlideshow } from '@components/CharacterImageSlideshow/CharacterImageSlideshow';
+import { Icon, ICON_TYPE } from '@components/Icon/Icon';
 
 const CHARACTER_SIZE = '300px';
 const CHARACTER_LABEL_FONT_SIZE = '24px';
 const CHARACTER_LABEL_FONT_WEIGHT = '900';
-const CHARACTER_LABEL_PADDING = '1rem';
-const CHARACTER_ICON_GAP = '0.25rem';
 const ALPHABET_FONT_SIZE = '0.8rem';
 
 export const CHARACTER_STATE = {
@@ -44,7 +42,7 @@ const Alphabet = ({ alphabetTitle, alphabetLink, alphabetDate }) => (
 	</span>
 );
 
-const Character = ({
+export const Character = ({
 	state,
 	imagePath,
 	imagePaths,
@@ -55,6 +53,8 @@ const Character = ({
 	showBaseline = false,
 	note,
 }) => {
+	const baselineColor = state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline';
+
 	return (
 		<div
 			className={css({
@@ -68,11 +68,11 @@ const Character = ({
 				<div
 					className={css({
 						position: 'absolute',
-						padding: CHARACTER_LABEL_PADDING,
+						padding: 'lg',
 						fontSize: CHARACTER_LABEL_FONT_SIZE,
 						fontWeight: CHARACTER_LABEL_FONT_WEIGHT,
 						display: 'flex',
-						gap: CHARACTER_ICON_GAP,
+						gap: 'xs',
 						alignItems: 'center',
 						zIndex: 10,
 					})}
@@ -92,21 +92,13 @@ const Character = ({
 				<CharacterImage
 					imagePath={imagePath}
 					showBaseline={showBaseline}
-					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER
-							? 'ink'
-							: 'baseline'
-					}
+					baselineColor={baselineColor}
 				/>
 			) : (
 				<CharacterImageSlideshow
 					imagePaths={imagePaths}
 					showBaseline={showBaseline}
-					baselineColor={
-						state === CHARACTER_STATE.INCORRECT_ANSWER
-							? 'ink'
-							: 'baseline'
-					}
+					baselineColor={baselineColor}
 				/>
 			)}
 			{state === CHARACTER_STATE.INCORRECT_ANSWER && <RedOverlay />}
@@ -128,7 +120,7 @@ const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: '0.25rem 0.5rem',
+								padding: 'xs sm',
 							})}
 						>
 							{note}
@@ -138,7 +130,7 @@ const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: '0.25rem 0.5rem',
+								padding: 'xs sm',
 							})}
 						>
 							<Alphabet
@@ -153,5 +145,3 @@ const Character = ({
 		</div>
 	);
 };
-
-export default Character;

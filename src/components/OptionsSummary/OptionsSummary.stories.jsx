@@ -1,8 +1,7 @@
-import { fn } from 'storybook/test';
 import { createMemoryHistory, RouterProvider, Outlet } from '@tanstack/react-router';
 import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
 import { GameOptionsProvider } from '@lib/context/GameOptionsContext.jsx';
-import OptionsSummary from './OptionsSummary';
+import { OptionsSummary } from './OptionsSummary';
 
 // Wrapper that provides full context stack for OptionsSummary
 const StorybookWrapper = ({ children, searchParams = {} }) => {

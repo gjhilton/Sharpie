@@ -1,4 +1,4 @@
-import SubSection from './SubSection';
+import { SubSection } from './SubSection';
 
 export default {
 	title: 'Components/SubSection',

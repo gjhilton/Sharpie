@@ -265,6 +265,16 @@ export const CatalogueScreen = () => {
 
 	return (
 		<PageWidth>
+			<img
+				src="/hand.png"
+				alt="Hand"
+				className={css({
+					display: 'block',
+					margin: '0 auto 1rem auto',
+					maxWidth: '100%',
+					height: '150px',
+				})}
+			/>
 			<header id="top" className={css({ gridColumn: '1 / -1' })}>
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<BackLink
@@ -280,7 +290,7 @@ export const CatalogueScreen = () => {
 						fontSize: 'xl',
 					})}
 				>
-					Choose Hands
+					Choose Hand(s)
 				</Heading>
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>

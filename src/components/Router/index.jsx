@@ -99,6 +99,11 @@ export const router = createRouter({
 	routeTree,
 	basepath: BASEPATH,
 	defaultPreload: DEFAULT_PRELOAD,
+	defaultNotFoundComponent: () => (
+		<Suspense fallback={<LoadingScreen />}>
+			<LandingScreen />
+		</Suspense>
+	),
 });
 
 export {

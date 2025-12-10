@@ -1,4 +1,4 @@
-import WhatsNewSection from './WhatsNewSection';
+import { WhatsNewSection } from './WhatsNewSection';
 
 export default {
 	title: 'Sections/WhatsNewSection',

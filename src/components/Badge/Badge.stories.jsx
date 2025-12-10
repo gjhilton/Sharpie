@@ -1,4 +1,4 @@
-import { fn } from '@storybook/test';
+import { useState } from 'react';
 import { Badge } from './Badge';
 
 const Strong = ({ children }) => (
@@ -22,9 +22,6 @@ export default {
 			description: 'Optional click handler - makes the badge interactive',
 			action: 'clicked',
 		},
-	},
-	args: {
-		onClick: fn(),
 	},
 };
 
@@ -199,7 +196,7 @@ export const EmptyBadge = {
 export const InteractiveBadge = {
 	args: {
 		children: 'Click me',
-		onClick: fn(),
+		onClick: () => console.log('Badge clicked'),
 	},
 	parameters: {
 		docs: {
@@ -215,7 +212,7 @@ export const ClickableComparison = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
 			<Badge>Non-clickable</Badge>
-			<Badge onClick={fn()}>Clickable</Badge>
+			<Badge onClick={() => console.log('Clicked')}>Clickable</Badge>
 		</div>
 	),
 	parameters: {
@@ -230,7 +227,7 @@ export const ClickableComparison = {
 // Story: Interactive Toggle Example
 export const InteractiveToggleExample = {
 	render: () => {
-		const [enabled, setEnabled] = fn();
+		const [enabled, setEnabled] = useState(false);
 		return (
 			<Badge onClick={() => setEnabled(!enabled)}>
 				Option <Strong>{enabled ? '✓' : '✗'}</Strong>

@@ -1,4 +1,4 @@
-import NextStepsSection from './NextStepsSection';
+import { NextStepsSection } from './NextStepsSection';
 
 export default {
 	title: 'Sections/NextStepsSection',

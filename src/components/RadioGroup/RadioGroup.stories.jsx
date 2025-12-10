@@ -1,4 +1,3 @@
-import { fn } from 'storybook/test';
 import { RadioGroup, RadioOption } from './RadioGroup';
 
 export default {
@@ -21,7 +20,7 @@ export const Default = {
 		legend: 'Game Mode',
 		name: 'gameMode',
 		value: 'all',
-		onChange: fn(),
+		onChange: () => {},
 		options: gameModeOptions,
 	},
 };
@@ -32,7 +31,7 @@ export const WithVisibleLegend = {
 		legendVisible: true,
 		name: 'gameMode',
 		value: 'minuscule',
-		onChange: fn(),
+		onChange: () => {},
 		options: gameModeOptions,
 	},
 };
@@ -42,7 +41,7 @@ export const MinusculeSelected = {
 		legend: 'Game Mode',
 		name: 'gameMode',
 		value: 'minuscule',
-		onChange: fn(),
+		onChange: () => {},
 		options: gameModeOptions,
 	},
 };
@@ -52,7 +51,7 @@ export const MajusculeSelected = {
 		legend: 'Game Mode',
 		name: 'gameMode',
 		value: 'majuscule',
-		onChange: fn(),
+		onChange: () => {},
 		options: gameModeOptions,
 	},
 };
@@ -63,7 +62,7 @@ export const SingleRadioOption = {
 			name="single"
 			value="option"
 			checked={true}
-			onChange={fn()}
+			onChange={() => {}}
 		>
 			Single Option (checked)
 		</RadioOption>

@@ -141,7 +141,14 @@ describe('CatalogueScreen', () => {
 	describe('Component Structure', () => {
 		it('renders the page title', () => {
 			render(<CatalogueScreen />);
-			expect(screen.getByText('Choose Hands')).toBeInTheDocument();
+			expect(screen.getByText('Choose Hand(s)')).toBeInTheDocument();
+		});
+
+		it('renders the hand image header', () => {
+			render(<CatalogueScreen />);
+			const image = screen.getByAltText('Hand');
+			expect(image).toBeInTheDocument();
+			expect(image).toHaveAttribute('src', '/hand.png');
 		});
 
 		it('renders the hand selector', () => {

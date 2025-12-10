@@ -1,5 +1,4 @@
-import { fn } from 'storybook/test';
-import OptionsSection from './OptionsSection';
+import { OptionsSection } from './OptionsSection';
 import { OPTIONS } from '@lib/options/schema.js';
 
 // Derive mode values from OPTIONS schema
@@ -29,17 +28,17 @@ export default {
 export const Default = {
 	args: {
 		selectedMode: 'all',
-		onModeChange: fn(),
+		onModeChange: () => {},
 		twentyFourLetterAlphabet: false,
-		onTwentyFourLetterChange: fn(),
+		onTwentyFourLetterChange: () => {},
 		showBaseline: false,
-		onShowBaselineChange: fn(),
+		onShowBaselineChange: () => {},
 		enabledAlphabets: {
 			'BeauChesne-Baildon': true,
 			Howard: true,
 			Joscelyn: true,
 		},
-		onShowCatalogue: fn(),
+		onShowCatalogue: () => {},
 	},
 };
 

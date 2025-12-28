@@ -68,7 +68,9 @@ describe('BulkSelectionControls', () => {
 			/>
 		);
 
-		const selectAllButton = screen.getByRole('button', { name: 'select all' });
+		const selectAllButton = screen.getByRole('button', {
+			name: 'select all',
+		});
 		expect(selectAllButton).toBeDisabled();
 
 		await user.click(selectAllButton);
@@ -88,7 +90,9 @@ describe('BulkSelectionControls', () => {
 			/>
 		);
 
-		const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
+		const deselectAllButton = screen.getByRole('button', {
+			name: 'deselect all',
+		});
 		expect(deselectAllButton).toBeDisabled();
 
 		await user.click(deselectAllButton);
@@ -106,8 +110,12 @@ describe('BulkSelectionControls', () => {
 			/>
 		);
 
-		const selectAllButton = screen.getByRole('button', { name: 'select all' });
-		const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
+		const selectAllButton = screen.getByRole('button', {
+			name: 'select all',
+		});
+		const deselectAllButton = screen.getByRole('button', {
+			name: 'deselect all',
+		});
 
 		expect(selectAllButton).not.toBeDisabled();
 		expect(deselectAllButton).not.toBeDisabled();

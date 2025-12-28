@@ -121,11 +121,19 @@ const ScoreScreen = () => {
 
 	const score = routerState.location.state?.score || DEFAULT_SCORE;
 
-	const { correct, incorrect, percentage, timeElapsed, mistakes = [] } = score;
+	const {
+		correct,
+		incorrect,
+		percentage,
+		timeElapsed,
+		mistakes = [],
+	} = score;
 	const { showBaseline } = options;
 
-	const handleReturnToMenu = () => navigate({ to: '/', search: prev => prev });
-	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
+	const handleReturnToMenu = () =>
+		navigate({ to: '/', search: prev => prev });
+	const handleShowFeedback = () =>
+		navigate({ to: '/feedback', search: prev => prev });
 
 	useEnterKey(handleReturnToMenu);
 
@@ -216,7 +224,10 @@ const ScoreScreen = () => {
 					display: 'flex',
 					justifyContent: 'center',
 					marginTop: BUTTON_MARGIN_TOP,
-					padding: { base: BUTTON_PADDING_BASE, sm: BUTTON_PADDING_SM },
+					padding: {
+						base: BUTTON_PADDING_BASE,
+						sm: BUTTON_PADDING_SM,
+					},
 				})}
 			>
 				<Button onClick={handleReturnToMenu} label="Return to Menu" />

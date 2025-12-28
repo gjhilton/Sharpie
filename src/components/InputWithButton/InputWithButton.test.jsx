@@ -16,7 +16,9 @@ describe('InputWithButton', () => {
 			);
 
 			expect(screen.getByRole('textbox')).toBeInTheDocument();
-			expect(screen.getByRole('button', { name: 'Click' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'Click' })
+			).toBeInTheDocument();
 		});
 
 		it('should render with input value', () => {
@@ -44,7 +46,9 @@ describe('InputWithButton', () => {
 				/>
 			);
 
-			expect(screen.getByRole('button', { name: 'Copy' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'Copy' })
+			).toBeInTheDocument();
 		});
 
 		it('should render button with active label when active', () => {
@@ -58,7 +62,9 @@ describe('InputWithButton', () => {
 				/>
 			);
 
-			expect(screen.getByRole('button', { name: 'Copied!' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'Copied!' })
+			).toBeInTheDocument();
 		});
 	});
 
@@ -88,7 +94,10 @@ describe('InputWithButton', () => {
 				/>
 			);
 
-			expect(screen.getByRole('textbox')).toHaveAttribute('type', 'email');
+			expect(screen.getByRole('textbox')).toHaveAttribute(
+				'type',
+				'email'
+			);
 		});
 
 		it('should default to type text', () => {
@@ -173,7 +182,9 @@ describe('InputWithButton', () => {
 			);
 
 			const input = screen.getByRole('textbox');
-			input.dispatchEvent(new TouchEvent('touchstart', { bubbles: true }));
+			input.dispatchEvent(
+				new TouchEvent('touchstart', { bubbles: true })
+			);
 			expect(handleTouchStart).toHaveBeenCalledTimes(1);
 		});
 	});
@@ -236,8 +247,12 @@ describe('InputWithButton', () => {
 
 			const flexContainer = container.firstChild;
 			expect(flexContainer.childNodes).toHaveLength(2);
-			expect(flexContainer.childNodes[0]).toBe(screen.getByRole('textbox'));
-			expect(flexContainer.childNodes[1]).toBe(screen.getByRole('button'));
+			expect(flexContainer.childNodes[0]).toBe(
+				screen.getByRole('textbox')
+			);
+			expect(flexContainer.childNodes[1]).toBe(
+				screen.getByRole('button')
+			);
 		});
 	});
 });

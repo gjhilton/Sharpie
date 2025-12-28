@@ -13,17 +13,26 @@ describe('Input', () => {
 
 		it('should render with correct id', () => {
 			render(<Input id="test-input" name="test" />);
-			expect(screen.getByRole('textbox')).toHaveAttribute('id', 'test-input');
+			expect(screen.getByRole('textbox')).toHaveAttribute(
+				'id',
+				'test-input'
+			);
 		});
 
 		it('should render with correct name', () => {
 			render(<Input id="test-input" name="test-name" />);
-			expect(screen.getByRole('textbox')).toHaveAttribute('name', 'test-name');
+			expect(screen.getByRole('textbox')).toHaveAttribute(
+				'name',
+				'test-name'
+			);
 		});
 
 		it('should render with correct type', () => {
 			render(<Input id="test-input" name="test" type="email" />);
-			expect(screen.getByRole('textbox')).toHaveAttribute('type', 'email');
+			expect(screen.getByRole('textbox')).toHaveAttribute(
+				'type',
+				'email'
+			);
 		});
 
 		it('should default to type text', () => {
@@ -49,7 +58,14 @@ describe('Input', () => {
 		});
 
 		it('should render with value', () => {
-			render(<Input id="test-input" name="test" value="test value" readOnly />);
+			render(
+				<Input
+					id="test-input"
+					name="test"
+					value="test value"
+					readOnly
+				/>
+			);
 			expect(screen.getByRole('textbox')).toHaveValue('test value');
 		});
 	});
@@ -75,10 +91,18 @@ describe('Input', () => {
 
 		it('should call onTouchStart when touched', async () => {
 			const handleTouchStart = vi.fn();
-			render(<Input id="test-input" name="test" onTouchStart={handleTouchStart} />);
+			render(
+				<Input
+					id="test-input"
+					name="test"
+					onTouchStart={handleTouchStart}
+				/>
+			);
 
 			const input = screen.getByRole('textbox');
-			input.dispatchEvent(new TouchEvent('touchstart', { bubbles: true }));
+			input.dispatchEvent(
+				new TouchEvent('touchstart', { bubbles: true })
+			);
 			expect(handleTouchStart).toHaveBeenCalledTimes(1);
 		});
 	});
@@ -108,12 +132,18 @@ describe('Textarea', () => {
 
 		it('should render with correct id', () => {
 			render(<Textarea id="test-textarea" name="test" />);
-			expect(screen.getByRole('textbox')).toHaveAttribute('id', 'test-textarea');
+			expect(screen.getByRole('textbox')).toHaveAttribute(
+				'id',
+				'test-textarea'
+			);
 		});
 
 		it('should render with correct name', () => {
 			render(<Textarea id="test-textarea" name="test-name" />);
-			expect(screen.getByRole('textbox')).toHaveAttribute('name', 'test-name');
+			expect(screen.getByRole('textbox')).toHaveAttribute(
+				'name',
+				'test-name'
+			);
 		});
 
 		it('should render with 6 rows by default', () => {
@@ -136,7 +166,9 @@ describe('Textarea', () => {
 
 	describe('Custom Styles', () => {
 		it('should accept custom styles', () => {
-			render(<Textarea id="test-textarea" name="test" minHeight="200px" />);
+			render(
+				<Textarea id="test-textarea" name="test" minHeight="200px" />
+			);
 			expect(screen.getByRole('textbox')).toBeInTheDocument();
 		});
 	});

@@ -5,7 +5,7 @@ import {
 	FOCUS_OUTLINE,
 	FOCUS_OUTLINE_OFFSET,
 	TRANSITION_ALL_FAST,
-	FONT_SIZE_MEDIUM
+	FONT_SIZE_MEDIUM,
 } from '@lib/constants/ui';
 
 const PADDING_HORIZONTAL = 'lg';
@@ -88,7 +88,9 @@ const InputWithButton = ({
 				className={css({
 					...commonButtonStyles,
 					borderRight: rightButton2Label ? 'none' : BORDER_STANDARD,
-					backgroundColor: buttonActive ? BACKGROUND_INK : BACKGROUND_PAPER,
+					backgroundColor: buttonActive
+						? BACKGROUND_INK
+						: BACKGROUND_PAPER,
 					color: buttonActive ? COLOR_PAPER : COLOR_INK,
 				})}
 			>
@@ -100,7 +102,9 @@ const InputWithButton = ({
 					onClick={rightButton2OnClick}
 					className={css({
 						...commonButtonStyles,
-						backgroundColor: rightButton2Active ? BACKGROUND_INK : BACKGROUND_PAPER,
+						backgroundColor: rightButton2Active
+							? BACKGROUND_INK
+							: BACKGROUND_PAPER,
 						color: rightButton2Active ? COLOR_PAPER : COLOR_INK,
 					})}
 				>

@@ -24,37 +24,44 @@ export const HandSelectorWithSort = ({
 	const [sortMode, setSortMode] = useState('date');
 
 	// Determine sorted hands and difficulty groups based on sort mode
-	const { sortedHands, difficultyGroups, showDifficultyGroups } = useMemo(() => {
-		if (sortMode === 'date') {
+	const { sortedHands, difficultyGroups, showDifficultyGroups } =
+		useMemo(() => {
+			if (sortMode === 'date') {
+				return {
+					sortedHands: sortHandsByDate(handNames, handsMetadata),
+					difficultyGroups: null,
+					showDifficultyGroups: false,
+				};
+			}
+
+			if (sortMode === 'name') {
+				return {
+					sortedHands: sortHandsByName(handNames),
+					difficultyGroups: null,
+					showDifficultyGroups: false,
+				};
+			}
+
+			if (sortMode === 'difficulty') {
+				return {
+					sortedHands: sortHandsByDifficulty(
+						handNames,
+						handsMetadata
+					),
+					difficultyGroups: groupHandsByDifficulty(
+						handNames,
+						handsMetadata
+					),
+					showDifficultyGroups: true,
+				};
+			}
+
 			return {
-				sortedHands: sortHandsByDate(handNames, handsMetadata),
+				sortedHands: [],
 				difficultyGroups: null,
 				showDifficultyGroups: false,
 			};
-		}
-
-		if (sortMode === 'name') {
-			return {
-				sortedHands: sortHandsByName(handNames),
-				difficultyGroups: null,
-				showDifficultyGroups: false,
-			};
-		}
-
-		if (sortMode === 'difficulty') {
-			return {
-				sortedHands: sortHandsByDifficulty(handNames, handsMetadata),
-				difficultyGroups: groupHandsByDifficulty(handNames, handsMetadata),
-				showDifficultyGroups: true,
-			};
-		}
-
-		return {
-			sortedHands: [],
-			difficultyGroups: null,
-			showDifficultyGroups: false,
-		};
-	}, [sortMode, handNames, handsMetadata]);
+		}, [sortMode, handNames, handsMetadata]);
 
 	const batchToggleHands = (difficulty, targetState) => {
 		if (!difficultyGroups || !difficultyGroups[difficulty]) {

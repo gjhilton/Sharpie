@@ -190,10 +190,7 @@ describe('HandRow', () => {
 			</div>
 		);
 
-		expect(screen.getByRole('switch')).toHaveAttribute(
-			'id',
-			'hand-NBacon'
-		);
+		expect(screen.getByRole('switch')).toHaveAttribute('id', 'hand-NBacon');
 
 		rerender(
 			<div
@@ -211,10 +208,7 @@ describe('HandRow', () => {
 			</div>
 		);
 
-		expect(screen.getByRole('switch')).toHaveAttribute(
-			'id',
-			'hand-Howard'
-		);
+		expect(screen.getByRole('switch')).toHaveAttribute('id', 'hand-Howard');
 	});
 
 	it('displays letter counts when provided', () => {
@@ -240,7 +234,9 @@ describe('HandRow', () => {
 			</div>
 		);
 
-		expect(screen.getByText(/\(52 characters: 26 minuscule, 26 majuscule\)/)).toBeInTheDocument();
+		expect(
+			screen.getByText(/\(52 characters: 26 minuscule, 26 majuscule\)/)
+		).toBeInTheDocument();
 	});
 
 	it('does not display letter counts when not provided', () => {
@@ -316,6 +312,8 @@ describe('HandRow', () => {
 			</div>
 		);
 
-		expect(screen.getByText(/\(198 characters: 125 minuscule, 73 majuscule\)/)).toBeInTheDocument();
+		expect(
+			screen.getByText(/\(198 characters: 125 minuscule, 73 majuscule\)/)
+		).toBeInTheDocument();
 	});
 });

@@ -1,5 +1,13 @@
-import { createMemoryHistory, RouterProvider, Outlet } from '@tanstack/react-router';
-import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
+import {
+	createMemoryHistory,
+	RouterProvider,
+	Outlet,
+} from '@tanstack/react-router';
+import {
+	createRootRoute,
+	createRoute,
+	createRouter,
+} from '@tanstack/react-router';
 import { GameOptionsProvider } from '@lib/context/GameOptionsContext';
 import { DatabaseProvider } from '@lib/context/DatabaseContext';
 import { CatalogueScreen } from './CatalogueScreen';
@@ -34,7 +42,11 @@ const StorybookWrapper = ({ children }) => {
 		component: () => <div>Feedback</div>,
 	});
 
-	const routeTree = rootRoute.addChildren([indexRoute, catalogueRoute, feedbackRoute]);
+	const routeTree = rootRoute.addChildren([
+		indexRoute,
+		catalogueRoute,
+		feedbackRoute,
+	]);
 
 	const memoryHistory = createMemoryHistory({
 		initialEntries: ['/'],
@@ -56,7 +68,7 @@ export default {
 	},
 	tags: ['autodocs'],
 	decorators: [
-		(Story) => (
+		Story => (
 			<StorybookWrapper>
 				<Story />
 			</StorybookWrapper>

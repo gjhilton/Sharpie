@@ -2,7 +2,7 @@ import { css } from '../../../dist/styled-system/css';
 import {
 	FOCUS_OUTLINE_TOGGLE,
 	FOCUS_OUTLINE_OFFSET,
-	FONT_SIZE_MEDIUM
+	FONT_SIZE_MEDIUM,
 } from '@lib/constants/ui';
 
 const GAP = '0.5rem';

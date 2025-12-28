@@ -218,9 +218,7 @@ describe('DisclosureSection', () => {
 			);
 
 			expect(screen.getByText('Additional Content')).toBeInTheDocument();
-			expect(
-				screen.queryByText('Main Content')
-			).not.toBeInTheDocument();
+			expect(screen.queryByText('Main Content')).not.toBeInTheDocument();
 		});
 
 		it('renders additionalComponent when section is expanded', () => {

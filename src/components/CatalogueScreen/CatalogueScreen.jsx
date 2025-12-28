@@ -156,9 +156,11 @@ const LetterIndex = ({ label, letters }) => {
 
 const CharacterIndex = ({ letterGroups }) => {
 	const minuscules =
-		letterGroups.find(group => group.title === 'minuscules')?.characters || [];
+		letterGroups.find(group => group.title === 'minuscules')?.characters ||
+		[];
 	const majuscules =
-		letterGroups.find(group => group.title === 'MAJUSCULES')?.characters || [];
+		letterGroups.find(group => group.title === 'MAJUSCULES')?.characters ||
+		[];
 
 	return (
 		<div
@@ -203,9 +205,15 @@ const SelectionStatus = ({ isError, handCount, letterCounts }) => {
 
 	return (
 		<Paragraph>
-			Enable the hands you'd like to work on from the list below. You have enabled <strong>{handCount}</strong>{' '}
+			Enable the hands you'd like to work on from the list below. You have
+			enabled <strong>{handCount}</strong>{' '}
 			{handCount === 1 ? 'hand' : 'hands'} (
-			<strong>{letterCounts && letterCounts.total > 0 ? letterCounts.total : 0}</strong> characters total:{' '}
+			<strong>
+				{letterCounts && letterCounts.total > 0
+					? letterCounts.total
+					: 0}
+			</strong>{' '}
+			characters total:{' '}
 			{letterCounts && letterCounts.total > 0 ? (
 				<>
 					<strong>{letterCounts.minuscules}</strong> minuscule,{' '}
@@ -237,8 +245,10 @@ export const CatalogueScreen = () => {
 		window.scrollTo(0, 0);
 	}, []);
 
-	const handleReturnToMenu = () => navigate({ to: '/', search: prev => prev });
-	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
+	const handleReturnToMenu = () =>
+		navigate({ to: '/', search: prev => prev });
+	const handleShowFeedback = () =>
+		navigate({ to: '/feedback', search: prev => prev });
 
 	const letterGroups = catalogueLogic.groupGraphsByGraphSetAndCharacter(
 		getEnabledGraphSets(DB)
@@ -295,10 +305,10 @@ export const CatalogueScreen = () => {
 
 				<div className={css({ marginBottom: STYLES.verticalGap })}>
 					<Paragraph>
-						The hands Sharpie tests are extracted from a range of source
-						documents. Expanding the time and stylistic coverage of the
-						hands available for practice is the current top priority. Watch
-						this space.
+						The hands Sharpie tests are extracted from a range of
+						source documents. Expanding the time and stylistic
+						coverage of the hands available for practice is the
+						current top priority. Watch this space.
 					</Paragraph>
 
 					<SelectionStatus

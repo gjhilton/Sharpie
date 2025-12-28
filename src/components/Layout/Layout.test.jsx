@@ -217,7 +217,9 @@ describe('DL, DT, DD', () => {
 describe('Fieldset and Legend', () => {
 	it('should render Fieldset as a fieldset element', () => {
 		render(<Fieldset>Fieldset content</Fieldset>);
-		const fieldset = screen.getByText('Fieldset content').closest('fieldset');
+		const fieldset = screen
+			.getByText('Fieldset content')
+			.closest('fieldset');
 		expect(fieldset.tagName).toBe('FIELDSET');
 	});
 

@@ -11,6 +11,7 @@
 		"lint": "eslint . --config src/config/eslint.config.js",
 		"preview": "vite preview --config src/config/vite.config.js",
 		"format": "prettier --write --config src/config/.prettierrc --ignore-path src/config/.prettierignore '**/*.{js,jsx,json,css,md}' '!src/artwork/**'",
+		"prettier": "prettier --write --config src/config/.prettierrc --ignore-path src/config/.prettierignore '**/*.{js,jsx,json,css,md}' '!src/artwork/**'",
 		"storybook": "storybook dev -p 6006 -c src/config/storybook",
 		"build-storybook": "storybook build -c src/config/storybook -o dist/storybook-static",
 		"test": "vitest --config src/config/vitest.config.js",

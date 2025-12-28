@@ -11,9 +11,14 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 	),
 }));
 
-vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	MarkdownWithPlaceholders: ({ content }) => <div data-testid="markdown-content">{content}</div>,
-}));
+vi.mock(
+	'@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx',
+	() => ({
+		MarkdownWithPlaceholders: ({ content }) => (
+			<div data-testid="markdown-content">{content}</div>
+		),
+	})
+);
 
 vi.mock('@data/next-steps.md?raw', () => ({
 	default: 'Next steps content',

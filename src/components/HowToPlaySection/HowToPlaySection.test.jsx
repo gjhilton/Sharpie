@@ -11,19 +11,22 @@ vi.mock('@components/SubSection/SubSection.jsx', () => ({
 	),
 }));
 
-vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	MarkdownWithPlaceholders: ({ content, placeholders }) => (
-		<div data-testid="markdown-content">
-			{content}
-			{placeholders &&
-				Object.entries(placeholders).map(([key, value]) => (
-					<div key={key} data-testid={`placeholder-${key}`}>
-						{value}
-					</div>
-				))}
-		</div>
-	),
-}));
+vi.mock(
+	'@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx',
+	() => ({
+		MarkdownWithPlaceholders: ({ content, placeholders }) => (
+			<div data-testid="markdown-content">
+				{content}
+				{placeholders &&
+					Object.entries(placeholders).map(([key, value]) => (
+						<div key={key} data-testid={`placeholder-${key}`}>
+							{value}
+						</div>
+					))}
+			</div>
+		),
+	})
+);
 
 vi.mock('@components/ContextImage/ContextImage.jsx', () => ({
 	ContextImage: () => <img data-testid="context-image" alt="Context" />,

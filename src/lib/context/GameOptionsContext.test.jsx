@@ -1,6 +1,9 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { GameOptionsProvider, useGameOptionsContext } from './GameOptionsContext';
+import {
+	GameOptionsProvider,
+	useGameOptionsContext,
+} from './GameOptionsContext';
 
 // Mock TanStack Router
 const mockNavigate = vi.fn();
@@ -35,11 +38,16 @@ vi.mock('@lib/options/index.js', () => {
 
 	return {
 		OPTIONS: mockOptions,
-		getOptionByKey: (key) => {
+		getOptionByKey: key => {
 			return Object.values(mockOptions).find(opt => opt.key === key);
 		},
-		deserializeOptions: (search) => ({
-			mode: search.m === 'i' ? 'minuscule' : search.m === 'j' ? 'majuscule' : 'all',
+		deserializeOptions: search => ({
+			mode:
+				search.m === 'i'
+					? 'minuscule'
+					: search.m === 'j'
+						? 'majuscule'
+						: 'all',
 			enabledHands: { 'BeauChesne-Baildon': true, Hill: true },
 			numLetters: search.l !== 'f',
 			showBaseline: search.b !== 'f',
@@ -47,7 +55,12 @@ vi.mock('@lib/options/index.js', () => {
 		serializeOption: (key, value) => {
 			const serialized = {};
 			if (key === 'mode') {
-				serialized.m = value === 'minuscule' ? 'i' : value === 'majuscule' ? 'j' : 'a';
+				serialized.m =
+					value === 'minuscule'
+						? 'i'
+						: value === 'majuscule'
+							? 'j'
+							: 'a';
 			} else if (key === 'numLetters') {
 				serialized.l = value ? 't' : 'f';
 			} else if (key === 'showBaseline') {
@@ -80,11 +93,15 @@ describe('GameOptionsContext', () => {
 
 		it('should throw error when used outside provider', () => {
 			// Suppress console.error for this test
-			const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+			const consoleSpy = vi
+				.spyOn(console, 'error')
+				.mockImplementation(() => {});
 
 			expect(() => {
 				renderHook(() => useGameOptionsContext());
-			}).toThrow('useGameOptionsContext must be used within GameOptionsProvider');
+			}).toThrow(
+				'useGameOptionsContext must be used within GameOptionsProvider'
+			);
 
 			consoleSpy.mockRestore();
 		});
@@ -210,7 +227,9 @@ describe('GameOptionsContext', () => {
 		});
 
 		it('should warn and not toggle non-boolean options', () => {
-			const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+			const consoleSpy = vi
+				.spyOn(console, 'warn')
+				.mockImplementation(() => {});
 
 			const { result } = renderHook(() => useGameOptionsContext(), {
 				wrapper: GameOptionsProvider,
@@ -229,7 +248,9 @@ describe('GameOptionsContext', () => {
 		});
 
 		it('should warn and not toggle enabledHands', () => {
-			const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+			const consoleSpy = vi
+				.spyOn(console, 'warn')
+				.mockImplementation(() => {});
 
 			const { result } = renderHook(() => useGameOptionsContext(), {
 				wrapper: GameOptionsProvider,
@@ -303,7 +324,6 @@ describe('GameOptionsContext', () => {
 			const newSearch = searchFn({});
 			expect(newSearch).toEqual({ m: 'i' });
 		});
-
 	});
 
 	describe('resetOptions', () => {

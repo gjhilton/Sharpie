@@ -66,25 +66,32 @@ vi.mock('@components/RadioGroup/RadioGroup.jsx', () => ({
 }));
 
 vi.mock('@components/InlineMarkdown/InlineMarkdown.jsx', () => ({
-	InlineMarkdown: ({ content }) => <span data-testid="inline-markdown">{content}</span>,
-}));
-
-vi.mock('@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx', () => ({
-	MarkdownWithPlaceholders: ({ content, placeholders }) => (
-		<div data-testid="markdown-content">
-			{content}
-			{placeholders &&
-				Object.entries(placeholders).map(([key, value]) => (
-					<div key={key} data-testid={`placeholder-${key}`}>
-						{value}
-					</div>
-				))}
-		</div>
+	InlineMarkdown: ({ content }) => (
+		<span data-testid="inline-markdown">{content}</span>
 	),
 }));
 
+vi.mock(
+	'@components/MarkdownWithPlaceholders/MarkdownWithPlaceholders.jsx',
+	() => ({
+		MarkdownWithPlaceholders: ({ content, placeholders }) => (
+			<div data-testid="markdown-content">
+				{content}
+				{placeholders &&
+					Object.entries(placeholders).map(([key, value]) => (
+						<div key={key} data-testid={`placeholder-${key}`}>
+							{value}
+						</div>
+					))}
+			</div>
+		),
+	})
+);
+
 vi.mock('@components/BaselineExamples/BaselineExamples', () => ({
-	BaselineExamples: () => <div data-testid="baseline-examples">Baseline Examples</div>,
+	BaselineExamples: () => (
+		<div data-testid="baseline-examples">Baseline Examples</div>
+	),
 }));
 
 vi.mock('@data/identify.md?raw', () => ({
@@ -100,11 +107,15 @@ vi.mock('@data/baselines.md?raw', () => ({
 }));
 
 vi.mock('@components/ShareURLSection/ShareURLSection.jsx', () => ({
-	ShareURLSection: () => <div data-testid="share-url-section">Share URL Section</div>,
+	ShareURLSection: () => (
+		<div data-testid="share-url-section">Share URL Section</div>
+	),
 }));
 
 vi.mock('@components/ResetOptionsSection/ResetOptionsSection.jsx', () => ({
-	ResetOptionsSection: () => <div data-testid="reset-options-section">Reset Options Section</div>,
+	ResetOptionsSection: () => (
+		<div data-testid="reset-options-section">Reset Options Section</div>
+	),
 }));
 
 describe('OptionsSection', () => {
@@ -143,21 +154,32 @@ describe('OptionsSection', () => {
 
 		expect(screen.getByLabelText('minuscules only')).toBeInTheDocument();
 		expect(screen.getByLabelText('MAJUSCULES only')).toBeInTheDocument();
-		expect(screen.getByLabelText('both minuscules AND MAJUSCULES')).toBeInTheDocument();
+		expect(
+			screen.getByLabelText('both minuscules AND MAJUSCULES')
+		).toBeInTheDocument();
 	});
 
 	it('selects the correct game mode', () => {
-		render(<OptionsSection {...defaultProps} selectedMode={GAME_MODES.MINUSCULE} />);
+		render(
+			<OptionsSection
+				{...defaultProps}
+				selectedMode={GAME_MODES.MINUSCULE}
+			/>
+		);
 
 		expect(screen.getByLabelText('minuscules only')).toBeChecked();
-		expect(screen.getByLabelText('both minuscules AND MAJUSCULES')).not.toBeChecked();
+		expect(
+			screen.getByLabelText('both minuscules AND MAJUSCULES')
+		).not.toBeChecked();
 	});
 
 	it('calls onModeChange when radio is clicked', async () => {
 		const onModeChange = vi.fn();
 		const user = userEvent.setup();
 
-		render(<OptionsSection {...defaultProps} onModeChange={onModeChange} />);
+		render(
+			<OptionsSection {...defaultProps} onModeChange={onModeChange} />
+		);
 
 		await user.click(screen.getByLabelText('minuscules only'));
 
@@ -174,14 +196,21 @@ describe('OptionsSection', () => {
 	it('renders Choose hands button', () => {
 		render(<OptionsSection {...defaultProps} />);
 
-		expect(screen.getByRole('button', { name: 'Choose hands' })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: 'Choose hands' })
+		).toBeInTheDocument();
 	});
 
 	it('calls onShowCatalogue when Choose hands is clicked', async () => {
 		const onShowCatalogue = vi.fn();
 		const user = userEvent.setup();
 
-		render(<OptionsSection {...defaultProps} onShowCatalogue={onShowCatalogue} />);
+		render(
+			<OptionsSection
+				{...defaultProps}
+				onShowCatalogue={onShowCatalogue}
+			/>
+		);
 
 		await user.click(screen.getByRole('button', { name: 'Choose hands' }));
 
@@ -198,7 +227,12 @@ describe('OptionsSection', () => {
 		const onShowBaselineChange = vi.fn();
 		const user = userEvent.setup();
 
-		render(<OptionsSection {...defaultProps} onShowBaselineChange={onShowBaselineChange} />);
+		render(
+			<OptionsSection
+				{...defaultProps}
+				onShowBaselineChange={onShowBaselineChange}
+			/>
+		);
 
 		await user.click(screen.getByLabelText('Show baselines'));
 
@@ -215,7 +249,12 @@ describe('OptionsSection', () => {
 		const onNumLettersChange = vi.fn();
 		const user = userEvent.setup();
 
-		render(<OptionsSection {...defaultProps} onNumLettersChange={onNumLettersChange} />);
+		render(
+			<OptionsSection
+				{...defaultProps}
+				onNumLettersChange={onNumLettersChange}
+			/>
+		);
 
 		await user.click(screen.getByLabelText('24-letter alphabet'));
 

@@ -66,7 +66,7 @@ export const DisclosureSection = ({
 				</h2>
 				{additionalComponent && (
 					<div
-						onClick={(e) => e.stopPropagation()}
+						onClick={e => e.stopPropagation()}
 						className={css({
 							cursor: 'default',
 							flexGrow: 1,

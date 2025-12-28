@@ -45,7 +45,9 @@ describe('HeroSection', () => {
 
 	it('should render Play button', () => {
 		render(<HeroSection onPlay={() => {}} />);
-		expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: 'Play' })
+		).toBeInTheDocument();
 	});
 
 	it('should render Play button as hero style', () => {

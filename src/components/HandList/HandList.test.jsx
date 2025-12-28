@@ -263,7 +263,9 @@ describe('HandList', () => {
 			);
 
 			// "select all" button should be disabled
-			const selectAllButton = screen.getByRole('button', { name: 'select all' });
+			const selectAllButton = screen.getByRole('button', {
+				name: 'select all',
+			});
 			expect(selectAllButton).toBeDisabled();
 		});
 
@@ -291,7 +293,9 @@ describe('HandList', () => {
 			);
 
 			// "deselect all" button should be disabled
-			const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
+			const deselectAllButton = screen.getByRole('button', {
+				name: 'deselect all',
+			});
 			expect(deselectAllButton).toBeDisabled();
 		});
 
@@ -319,8 +323,12 @@ describe('HandList', () => {
 				/>
 			);
 
-			const selectAllButton = screen.getByRole('button', { name: 'select all' });
-			const deselectAllButton = screen.getByRole('button', { name: 'deselect all' });
+			const selectAllButton = screen.getByRole('button', {
+				name: 'select all',
+			});
+			const deselectAllButton = screen.getByRole('button', {
+				name: 'deselect all',
+			});
 
 			expect(selectAllButton).not.toBeDisabled();
 			expect(deselectAllButton).not.toBeDisabled();
@@ -406,8 +414,12 @@ describe('HandList', () => {
 				/>
 			);
 
-			const selectAllButtons = screen.getAllByRole('button', { name: 'select all' });
-			const deselectAllButtons = screen.getAllByRole('button', { name: 'deselect all' });
+			const selectAllButtons = screen.getAllByRole('button', {
+				name: 'select all',
+			});
+			const deselectAllButtons = screen.getAllByRole('button', {
+				name: 'deselect all',
+			});
 
 			// Easy: all selected (Joscelyn: true)
 			expect(selectAllButtons[0]).toBeDisabled();

@@ -54,6 +54,8 @@ describe('ErrorBoundary', () => {
 		expect(screen.getByText('Something went wrong')).toBeInTheDocument();
 
 		// Try again button should exist
-		expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /try again/i })
+		).toBeInTheDocument();
 	});
 });

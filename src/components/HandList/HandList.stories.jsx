@@ -79,13 +79,7 @@ const HandListWithState = args => {
 export const FlatListByDate = {
 	render: HandListWithState,
 	args: {
-		hands: [
-			'BeauChesne-Baildon',
-			'Hill',
-			'Howard',
-			'NBacon',
-			'Joscelyn',
-		],
+		hands: ['BeauChesne-Baildon', 'Hill', 'Howard', 'NBacon', 'Joscelyn'],
 		showDifficultyGroups: false,
 	},
 };
@@ -93,13 +87,7 @@ export const FlatListByDate = {
 export const FlatListByName = {
 	render: HandListWithState,
 	args: {
-		hands: [
-			'BeauChesne-Baildon',
-			'Hill',
-			'Howard',
-			'Joscelyn',
-			'NBacon',
-		],
+		hands: ['BeauChesne-Baildon', 'Hill', 'Howard', 'Joscelyn', 'NBacon'],
 		showDifficultyGroups: false,
 	},
 };
@@ -120,13 +108,7 @@ export const GroupedByDifficulty = {
 export const MixedEnabledDisabled = {
 	render: HandListWithState,
 	args: {
-		hands: [
-			'BeauChesne-Baildon',
-			'Hill',
-			'Howard',
-			'NBacon',
-			'Joscelyn',
-		],
+		hands: ['BeauChesne-Baildon', 'Hill', 'Howard', 'NBacon', 'Joscelyn'],
 		enabledHands: {
 			Joscelyn: true,
 			NBacon: false,

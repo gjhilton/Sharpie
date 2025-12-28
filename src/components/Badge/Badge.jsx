@@ -2,13 +2,13 @@ import { css } from '../../../dist/styled-system/css';
 import {
 	TRANSITION_ALL_FAST,
 	HOVER_SCALE_MEDIUM,
-	ACTIVE_SCALE
+	ACTIVE_SCALE,
 } from '@lib/constants/ui';
 
 export const Badge = ({ children, testId, onClick }) => {
 	const isClickable = !!onClick;
 
-	const handleKeyDown = (e) => {
+	const handleKeyDown = e => {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();
 			onClick?.(e);
@@ -21,7 +21,7 @@ export const Badge = ({ children, testId, onClick }) => {
 				transition: TRANSITION_ALL_FAST,
 				_hover: { transform: `scale(${HOVER_SCALE_MEDIUM})` },
 				_active: { transform: `scale(${ACTIVE_SCALE})` },
-		  }
+			}
 		: { cursor: 'default' };
 
 	const interactiveProps = isClickable
@@ -29,7 +29,7 @@ export const Badge = ({ children, testId, onClick }) => {
 				role: 'button',
 				tabIndex: 0,
 				onKeyDown: handleKeyDown,
-		  }
+			}
 		: {};
 
 	return (

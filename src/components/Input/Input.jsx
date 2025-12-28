@@ -4,7 +4,7 @@ import {
 	FOCUS_OUTLINE_OFFSET,
 	PADDING_STANDARD,
 	FONT_SIZE_MEDIUM,
-	BORDER_STANDARD
+	BORDER_STANDARD,
 } from '@lib/constants/ui';
 
 const BACKGROUND_COLOR = '{colors.paper}';
@@ -21,7 +21,18 @@ const baseInputStyles = {
 	},
 };
 
-const Input = ({ id, type = 'text', name, required = false, readOnly = false, value, onClick, onFocus, onTouchStart, ...customStyles }) => (
+const Input = ({
+	id,
+	type = 'text',
+	name,
+	required = false,
+	readOnly = false,
+	value,
+	onClick,
+	onFocus,
+	onTouchStart,
+	...customStyles
+}) => (
 	<input
 		id={id}
 		type={type}
@@ -42,10 +53,14 @@ const Textarea = ({ id, name, required = false, ...customStyles }) => (
 		name={name}
 		required={required}
 		rows={TEXTAREA_ROWS}
-		className={css(baseInputStyles, {
-			resize: 'vertical',
-			fontFamily: 'inherit',
-		}, customStyles)}
+		className={css(
+			baseInputStyles,
+			{
+				resize: 'vertical',
+				fontFamily: 'inherit',
+			},
+			customStyles
+		)}
 	/>
 );
 

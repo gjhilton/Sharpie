@@ -1,5 +1,13 @@
-import { createMemoryHistory, RouterProvider, Outlet } from '@tanstack/react-router';
-import { createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
+import {
+	createMemoryHistory,
+	RouterProvider,
+	Outlet,
+} from '@tanstack/react-router';
+import {
+	createRootRoute,
+	createRoute,
+	createRouter,
+} from '@tanstack/react-router';
 import { GameOptionsProvider } from '@lib/context/GameOptionsContext.jsx';
 import { OptionsSummary } from './OptionsSummary';
 
@@ -24,7 +32,10 @@ const StorybookWrapper = ({ children, searchParams = {} }) => {
 
 	const memoryHistory = createMemoryHistory({
 		initialEntries: [
-			'/' + (Object.keys(searchParams).length ? '?' + new URLSearchParams(searchParams).toString() : ''),
+			'/' +
+				(Object.keys(searchParams).length
+					? '?' + new URLSearchParams(searchParams).toString()
+					: ''),
 		],
 	});
 

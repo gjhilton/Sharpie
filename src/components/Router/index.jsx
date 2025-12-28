@@ -10,27 +10,27 @@ import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
 import { LoadingScreen } from '@components/LoadingScreen/LoadingScreen';
 
 const LandingScreen = lazy(() =>
-	import('@components/LandingScreen/LandingScreen').then((m) => ({
+	import('@components/LandingScreen/LandingScreen').then(m => ({
 		default: m.LandingScreen,
 	}))
 );
 const GameScreen = lazy(() =>
-	import('@components/GameScreen/GameScreen').then((m) => ({
+	import('@components/GameScreen/GameScreen').then(m => ({
 		default: m.GameScreen,
 	}))
 );
 const ScoreScreen = lazy(() =>
-	import('@components/ScoreScreen/ScoreScreen').then((m) => ({
+	import('@components/ScoreScreen/ScoreScreen').then(m => ({
 		default: m.ScoreScreen,
 	}))
 );
 const CatalogueScreen = lazy(() =>
-	import('@components/CatalogueScreen/CatalogueScreen').then((m) => ({
+	import('@components/CatalogueScreen/CatalogueScreen').then(m => ({
 		default: m.CatalogueScreen,
 	}))
 );
 const FeedbackScreen = lazy(() =>
-	import('@components/FeedbackScreen/FeedbackScreen').then((m) => ({
+	import('@components/FeedbackScreen/FeedbackScreen').then(m => ({
 		default: m.FeedbackScreen,
 	}))
 );

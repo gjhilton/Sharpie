@@ -60,10 +60,18 @@ export const ModeBadges = {
 export const AlphabetCountBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>Alphabets <Strong>1</Strong></Badge>
-			<Badge>Alphabets <Strong>2</Strong></Badge>
-			<Badge>Alphabets <Strong>3</Strong></Badge>
-			<Badge>Alphabets <Strong>5</Strong></Badge>
+			<Badge>
+				Alphabets <Strong>1</Strong>
+			</Badge>
+			<Badge>
+				Alphabets <Strong>2</Strong>
+			</Badge>
+			<Badge>
+				Alphabets <Strong>3</Strong>
+			</Badge>
+			<Badge>
+				Alphabets <Strong>5</Strong>
+			</Badge>
 		</div>
 	),
 	parameters: {
@@ -79,8 +87,12 @@ export const AlphabetCountBadges = {
 export const LetterCountBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>Letters <Strong>24</Strong></Badge>
-			<Badge>Letters <Strong>26</Strong></Badge>
+			<Badge>
+				Letters <Strong>24</Strong>
+			</Badge>
+			<Badge>
+				Letters <Strong>26</Strong>
+			</Badge>
 		</div>
 	),
 	parameters: {
@@ -96,8 +108,12 @@ export const LetterCountBadges = {
 export const ToggleStateBadges = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge>Baseline <Strong>✓</Strong></Badge>
-			<Badge>Baseline <Strong>✗</Strong></Badge>
+			<Badge>
+				Baseline <Strong>✓</Strong>
+			</Badge>
+			<Badge>
+				Baseline <Strong>✗</Strong>
+			</Badge>
 		</div>
 	),
 	parameters: {
@@ -149,10 +165,18 @@ export const LongTextBadge = {
 export const BadgeGroup = {
 	render: () => (
 		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-			<Badge testId="badge-mode">minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✓</Strong></Badge>
-			<Badge testId="badge-alphabets">Alphabets <Strong>3</Strong></Badge>
-			<Badge testId="badge-letters">Letters <Strong>26</Strong></Badge>
-			<Badge testId="badge-baseline">Baseline <Strong>✓</Strong></Badge>
+			<Badge testId="badge-mode">
+				minuscules <Strong>✓</Strong> MAJUSCULES <Strong>✓</Strong>
+			</Badge>
+			<Badge testId="badge-alphabets">
+				Alphabets <Strong>3</Strong>
+			</Badge>
+			<Badge testId="badge-letters">
+				Letters <Strong>26</Strong>
+			</Badge>
+			<Badge testId="badge-baseline">
+				Baseline <Strong>✓</Strong>
+			</Badge>
 		</div>
 	),
 	parameters: {
@@ -210,7 +234,14 @@ export const InteractiveBadge = {
 // Story: Clickable vs Non-Clickable
 export const ClickableComparison = {
 	render: () => (
-		<div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
+		<div
+			style={{
+				display: 'flex',
+				gap: '0.5rem',
+				flexWrap: 'wrap',
+				alignItems: 'center',
+			}}
+		>
 			<Badge>Non-clickable</Badge>
 			<Badge onClick={() => console.log('Clicked')}>Clickable</Badge>
 		</div>

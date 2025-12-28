@@ -29,7 +29,8 @@ export default {
 		},
 		buttonActive: {
 			control: 'boolean',
-			description: 'Whether the button is in active state (inverted colors)',
+			description:
+				'Whether the button is in active state (inverted colors)',
 		},
 		fontFamily: {
 			control: 'select',
@@ -67,8 +68,8 @@ export const CopyURL = {
 		buttonOnClick: () => console.log('Copy clicked'),
 		fontFamily: 'monospace',
 		fontSize: 's',
-		inputOnClick: (e) => e.target.select(),
-		inputOnFocus: (e) => e.target.select(),
+		inputOnClick: e => e.target.select(),
+		inputOnFocus: e => e.target.select(),
 	},
 	parameters: {
 		docs: {
@@ -159,8 +160,8 @@ export const InteractiveCopy = {
 				inputName="url"
 				inputValue={url}
 				inputReadOnly
-				inputOnClick={(e) => e.target.select()}
-				inputOnFocus={(e) => e.target.select()}
+				inputOnClick={e => e.target.select()}
+				inputOnFocus={e => e.target.select()}
 				buttonLabel={copied ? 'Copied!' : 'Copy'}
 				buttonOnClick={handleCopy}
 				buttonActive={copied}
@@ -183,7 +184,8 @@ export const LongURL = {
 	args: {
 		inputId: 'long-url',
 		inputName: 'url',
-		inputValue: 'https://example.com/very/long/path/to/resource?param1=value1&param2=value2&param3=value3&param4=value4',
+		inputValue:
+			'https://example.com/very/long/path/to/resource?param1=value1&param2=value2&param3=value3&param4=value4',
 		inputReadOnly: true,
 		buttonLabel: 'Copy',
 		buttonOnClick: () => console.log('Copy clicked'),

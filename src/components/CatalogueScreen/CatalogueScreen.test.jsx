@@ -126,7 +126,11 @@ vi.mock('@lib/context/DatabaseContext.jsx', () => ({
 		]),
 		countEnabledHands: vi.fn(() => 2),
 		countEnabledCharacters: vi.fn(() => 52),
-		countEnabledLetters: vi.fn(() => ({ majuscules: 26, minuscules: 26, total: 52 })),
+		countEnabledLetters: vi.fn(() => ({
+			majuscules: 26,
+			minuscules: 26,
+			total: 52,
+		})),
 		getAllHandNames: vi.fn(() => ['test-alphabet']),
 	}),
 }));
@@ -170,9 +174,7 @@ describe('CatalogueScreen', () => {
 	describe('Selection Status', () => {
 		it('displays hand and character counts', () => {
 			const { container } = render(<CatalogueScreen />);
-			expect(
-				screen.getByText(/you have enabled/i)
-			).toBeInTheDocument();
+			expect(screen.getByText(/you have enabled/i)).toBeInTheDocument();
 			const textContent = container.textContent;
 			expect(textContent).toMatch(/2.*hands/);
 			expect(textContent).toMatch(/52.*characters total/);
@@ -184,7 +186,9 @@ describe('CatalogueScreen', () => {
 			expect(textContent).toMatch(/26.*minuscule/);
 			expect(textContent).toMatch(/26.*majuscule/);
 			// Verify total equals majuscules + minuscules
-			expect(textContent).toMatch(/52.*characters total.*26.*minuscule.*26.*majuscule/);
+			expect(textContent).toMatch(
+				/52.*characters total.*26.*minuscule.*26.*majuscule/
+			);
 		});
 
 		it('verifies total equals sum of majuscules and minuscules', () => {

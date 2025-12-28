@@ -20,7 +20,7 @@ const OptionsSummary = ({ options, handCount }) => {
 	const { toggleOption, cycleMode } = useGameOptionsContext();
 	const navigate = useNavigate();
 
-	const renderBadgeLabel = (labelData) => {
+	const renderBadgeLabel = labelData => {
 		const parts = [];
 
 		if (labelData.text) parts.push(labelData.text);
@@ -30,7 +30,8 @@ const OptionsSummary = ({ options, handCount }) => {
 					{labelData.icon}
 				</Strong>
 			);
-		if (labelData.value) parts.push(<Strong key="value">{labelData.value}</Strong>);
+		if (labelData.value)
+			parts.push(<Strong key="value">{labelData.value}</Strong>);
 		if (labelData.text2) parts.push(labelData.text2);
 		if (labelData.icon2)
 			parts.push(
@@ -42,7 +43,8 @@ const OptionsSummary = ({ options, handCount }) => {
 		return parts.length > 0 ? (
 			<>
 				{parts.map((part, idx) => {
-					const isText2 = typeof part === 'string' && part === labelData.text2;
+					const isText2 =
+						typeof part === 'string' && part === labelData.text2;
 					const prefix = isText2 && labelData.text ? ' ' : '';
 					return (
 						<span key={idx}>
@@ -70,7 +72,11 @@ const OptionsSummary = ({ options, handCount }) => {
 				} else if (option.badge.action === 'cycle') {
 					onClick = cycleMode;
 				} else if (option.badge.action === 'navigate') {
-					onClick = () => navigate({ to: option.badge.navigationPath, search: prev => prev });
+					onClick = () =>
+						navigate({
+							to: option.badge.navigationPath,
+							search: prev => prev,
+						});
 				}
 
 				return {

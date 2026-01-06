@@ -8,7 +8,7 @@
 		"difficulty": "hard"
 	},
 	"Stationers": {
-		"id": "008",
+		"id": "009",
 		"title": "Stationers Register, Liber B, fol. 297v. The Worshipful Company of Stationers and Newspaper Makers. doi.org/10.37078/109",
 		"sourceUri": "https://shakespearedocumented.folger.edu/resource/document/stationers-register-entry-venus-and-adonis",
 		"date": "1593",
@@ -71,7 +71,7 @@
 		"difficulty": "hard"
 	},
 	"Wolsey": {
-		"id": "007",
+		"id": "010",
 		"title": "Cardinal Wolsey to Henry VIII, 5 July 1527, (SP1/42, f.156r-158r)",
 		"sourceUri": "https://www.nationalarchives.gov.uk/education/resources/the-english-reformation-c1527-1590/henry-viiis-divorce-1527/",
 		"date": "1527",

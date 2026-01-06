@@ -39,7 +39,6 @@ const LandingScreen = () => {
 					</div>
 					<SourceFigure />
 				</header>
-
 				<HeroSection onPlay={handlePlay} />
 
 				<main>

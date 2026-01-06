@@ -6,7 +6,7 @@
  * Runs at build time alongside update-db
  */
 
-import { existsSync, mkdirSync, cpSync, rmSync } from 'fs';
+import { existsSync, mkdirSync, cpSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
@@ -19,21 +19,22 @@ const PUBLIC_DIR = resolve(SRC_DIR, 'public');
 
 console.log('🚀 Preparing /public directory...\n');
 
-// Clean and recreate public directory
-if (existsSync(PUBLIC_DIR)) {
-	console.log('🗑️  Removing old /public directory...');
-	rmSync(PUBLIC_DIR, { recursive: true, force: true });
+// Create public directory if it doesn't exist
+// DO NOT remove the directory as update-db.js may have already populated /public/data
+if (!existsSync(PUBLIC_DIR)) {
+	console.log('📁 Creating /public directory...');
+	mkdirSync(PUBLIC_DIR, { recursive: true });
+} else {
+	console.log('📁 Using existing /public directory...');
 }
 
-console.log('📁 Creating /public directory...');
-mkdirSync(PUBLIC_DIR, { recursive: true });
-
 // Copy files from artwork/assets to public
+// Note: 'data' is NOT included here because update-db.js handles copying
+// character images directly to src/public/data from src/artwork/alphabets
 const filesToCopy = [
 	'sharpieicon.svg',
 	'logo.png',
 	'secretary_hand.gif',
-	'data', // directory
 	'fonts', // directory
 ];
 

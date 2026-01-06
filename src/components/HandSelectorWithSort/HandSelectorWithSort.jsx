@@ -89,6 +89,45 @@ export const HandSelectorWithSort = ({
 	const handleSelectAll = difficulty => batchToggleHands(difficulty, true);
 	const handleDeselectAll = difficulty => batchToggleHands(difficulty, false);
 
+	const handleGlobalSelectAll = () => {
+		if (onBatchToggle) {
+			const updates = {};
+			handNames.forEach(handName => {
+				if (!enabledHands[handName]) {
+					updates[handName] = true;
+				}
+			});
+			onBatchToggle(updates);
+		} else {
+			handNames.forEach(handName => {
+				if (!enabledHands[handName]) {
+					onToggle(handName);
+				}
+			});
+		}
+	};
+
+	const handleGlobalDeselectAll = () => {
+		if (onBatchToggle) {
+			const updates = {};
+			handNames.forEach(handName => {
+				if (enabledHands[handName]) {
+					updates[handName] = false;
+				}
+			});
+			onBatchToggle(updates);
+		} else {
+			handNames.forEach(handName => {
+				if (enabledHands[handName]) {
+					onToggle(handName);
+				}
+			});
+		}
+	};
+
+	const someEnabled = handNames.some(name => enabledHands[name]);
+	const someDisabled = handNames.some(name => !enabledHands[name]);
+
 	return (
 		<div>
 			<SortSelector
@@ -105,6 +144,10 @@ export const HandSelectorWithSort = ({
 				difficultyGroups={difficultyGroups}
 				onSelectAll={handleSelectAll}
 				onDeselectAll={handleDeselectAll}
+				onGlobalSelectAll={handleGlobalSelectAll}
+				onGlobalDeselectAll={handleGlobalDeselectAll}
+				canSelectAll={someDisabled}
+				canDeselectAll={someEnabled}
 			/>
 		</div>
 	);

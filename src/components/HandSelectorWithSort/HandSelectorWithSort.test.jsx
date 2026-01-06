@@ -459,17 +459,240 @@ describe('HandSelectorWithSort', () => {
 				/>
 			);
 
-			// Switch to difficulty sort
 			const select = screen.getByRole('combobox');
 			await user.selectOptions(select, 'difficulty');
 
-			// Click "deselect all" for medium difficulty (NBacon is enabled, Howard is disabled)
 			const deselectAllLinks = screen.getAllByText('deselect all');
-			await user.click(deselectAllLinks[1]); // Medium difficulty
+			await user.click(deselectAllLinks[1]);
 
-			// Should only toggle NBacon (the enabled one)
 			expect(handleToggle).toHaveBeenCalledTimes(1);
 			expect(handleToggle).toHaveBeenCalledWith('NBacon');
+		});
+	});
+
+	describe('Global select/deselect all buttons', () => {
+		it('renders global Select All and Deselect All buttons', () => {
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={mockEnabledHands}
+					onToggle={() => {}}
+				/>
+			);
+
+			expect(screen.getByTestId('select-all-hands')).toBeInTheDocument();
+			expect(screen.getByTestId('deselect-all-hands')).toBeInTheDocument();
+		});
+
+		it('enables Select All when some hands are disabled', () => {
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: true,
+				Hill: false,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={() => {}}
+				/>
+			);
+
+			const selectAllWrapper = screen.getByTestId('select-all-hands');
+			const selectAllButton = selectAllWrapper.querySelector('button');
+			expect(selectAllButton).not.toBeDisabled();
+		});
+
+		it('disables Select All when all hands are enabled', () => {
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: true,
+				Howard: true,
+				Hill: true,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={() => {}}
+				/>
+			);
+
+			const selectAllWrapper = screen.getByTestId('select-all-hands');
+			const selectAllButton = selectAllWrapper.querySelector('button');
+			expect(selectAllButton).toBeDisabled();
+		});
+
+		it('enables Deselect All when some hands are enabled', () => {
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: true,
+				Hill: false,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={() => {}}
+				/>
+			);
+
+			const deselectAllWrapper = screen.getByTestId('deselect-all-hands');
+			const deselectAllButton = deselectAllWrapper.querySelector('button');
+			expect(deselectAllButton).not.toBeDisabled();
+		});
+
+		it('disables Deselect All when no hands are enabled', () => {
+			const enabledHands = {
+				Joscelyn: false,
+				NBacon: false,
+				Howard: false,
+				Hill: false,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={() => {}}
+				/>
+			);
+
+			const deselectAllWrapper = screen.getByTestId('deselect-all-hands');
+			const deselectAllButton = deselectAllWrapper.querySelector('button');
+			expect(deselectAllButton).toBeDisabled();
+		});
+
+		it('calls onToggle for all disabled hands when Select All is clicked', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: true,
+				Hill: false,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={handleToggle}
+				/>
+			);
+
+			const selectAllWrapper = screen.getByTestId('select-all-hands');
+			const selectAllButton = selectAllWrapper.querySelector('button');
+			await user.click(selectAllButton);
+
+			expect(handleToggle).toHaveBeenCalledTimes(2);
+			expect(handleToggle).toHaveBeenCalledWith('NBacon');
+			expect(handleToggle).toHaveBeenCalledWith('Hill');
+		});
+
+		it('calls onToggle for all enabled hands when Deselect All is clicked', async () => {
+			const handleToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: true,
+				Hill: false,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={handleToggle}
+				/>
+			);
+
+			const deselectAllWrapper = screen.getByTestId('deselect-all-hands');
+			const deselectAllButton = deselectAllWrapper.querySelector('button');
+			await user.click(deselectAllButton);
+
+			expect(handleToggle).toHaveBeenCalledTimes(2);
+			expect(handleToggle).toHaveBeenCalledWith('Joscelyn');
+			expect(handleToggle).toHaveBeenCalledWith('Howard');
+		});
+
+		it('uses onBatchToggle when provided for Select All', async () => {
+			const handleBatchToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: false,
+				Hill: true,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={() => {}}
+					onBatchToggle={handleBatchToggle}
+				/>
+			);
+
+			const selectAllWrapper = screen.getByTestId('select-all-hands');
+			const selectAllButton = selectAllWrapper.querySelector('button');
+			await user.click(selectAllButton);
+
+			expect(handleBatchToggle).toHaveBeenCalledTimes(1);
+			expect(handleBatchToggle).toHaveBeenCalledWith({
+				NBacon: true,
+				Howard: true,
+			});
+		});
+
+		it('uses onBatchToggle when provided for Deselect All', async () => {
+			const handleBatchToggle = vi.fn();
+			const user = userEvent.setup();
+
+			const enabledHands = {
+				Joscelyn: true,
+				NBacon: false,
+				Howard: true,
+				Hill: false,
+			};
+
+			render(
+				<HandSelectorWithSort
+					handNames={mockHandNames}
+					handsMetadata={mockHandsMetadata}
+					enabledHands={enabledHands}
+					onToggle={() => {}}
+					onBatchToggle={handleBatchToggle}
+				/>
+			);
+
+			const deselectAllWrapper = screen.getByTestId('deselect-all-hands');
+			const deselectAllButton = deselectAllWrapper.querySelector('button');
+			await user.click(deselectAllButton);
+
+			expect(handleBatchToggle).toHaveBeenCalledTimes(1);
+			expect(handleBatchToggle).toHaveBeenCalledWith({
+				Joscelyn: false,
+				Howard: false,
+			});
 		});
 	});
 });

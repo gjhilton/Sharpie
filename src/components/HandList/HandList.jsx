@@ -1,6 +1,7 @@
 import { css } from '../../../dist/styled-system/css';
 import { HandRow } from '@components/HandRow/HandRow';
 import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
+import { Button } from '@components/Button/Button';
 import { DIFFICULTY_ORDER } from '@lib/constants/difficulty';
 
 const GRID_ROW_GAP = 'sm';
@@ -25,6 +26,10 @@ export const HandList = ({
 	difficultyGroups = null,
 	onSelectAll,
 	onDeselectAll,
+	onGlobalSelectAll,
+	onGlobalDeselectAll,
+	canSelectAll,
+	canDeselectAll,
 }) => {
 	const renderHandRow = name => (
 		<HandRow
@@ -36,8 +41,34 @@ export const HandList = ({
 		/>
 	);
 
+	const renderGlobalButtons = () => (
+		<div
+			className={css({
+				display: 'flex',
+				gap: 'md',
+				marginTop: 'xl',
+				gridColumn: '1 / -1',
+			})}
+			data-testid="global-hand-buttons"
+		>
+			<div data-testid="select-all-hands">
+				<Button
+					onClick={onGlobalSelectAll}
+					disabled={!canSelectAll}
+					label="Select All"
+				/>
+			</div>
+			<div data-testid="deselect-all-hands">
+				<Button
+					onClick={onGlobalDeselectAll}
+					disabled={!canDeselectAll}
+					label="Deselect All"
+				/>
+			</div>
+		</div>
+	);
+
 	if (showDifficultyGroups && difficultyGroups) {
-		// Render grouped by difficulty with headings
 		return (
 			<div className={gridStyles}>
 				{DIFFICULTY_ORDER.map(difficulty => {
@@ -46,7 +77,6 @@ export const HandList = ({
 						return null;
 					}
 
-					// Calculate selection states for this difficulty group
 					const selectedCount = handsInGroup.filter(
 						name => enabledHands[name]
 					).length;
@@ -66,10 +96,15 @@ export const HandList = ({
 						</div>
 					);
 				})}
+				{renderGlobalButtons()}
 			</div>
 		);
 	}
 
-	// Render flat list without grouping
-	return <div className={gridStyles}>{hands.map(renderHandRow)}</div>;
+	return (
+		<div className={gridStyles}>
+			{hands.map(renderHandRow)}
+			{renderGlobalButtons()}
+		</div>
+	);
 };

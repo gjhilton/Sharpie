@@ -425,24 +425,18 @@ test.describe('Bulk Selection', () => {
 		expect(isDisabled).toBe(true);
 	});
 
-	test('should not display bulk selection controls when not sorting by difficulty', async ({
+	test('should not display per-difficulty bulk selection controls when not sorting by difficulty', async ({
 		page,
 	}) => {
-		// Switch back to date sort
 		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
 		await sortSelect.selectOption('date');
 		await page.waitForTimeout(200);
 
-		// Select all and deselect all buttons should not be visible
-		const selectAllButtons = page.getByRole('button', {
-			name: 'select all',
-		});
-		const deselectAllButtons = page.getByRole('button', {
-			name: 'deselect all',
-		});
+		const selectAllLinks = page.getByText('select all');
+		const deselectAllLinks = page.getByText('deselect all');
 
-		await expect(selectAllButtons.first()).not.toBeVisible();
-		await expect(deselectAllButtons.first()).not.toBeVisible();
+		await expect(selectAllLinks).toHaveCount(0);
+		await expect(deselectAllLinks).toHaveCount(0);
 	});
 
 	test('should handle bulk selection across multiple difficulty groups', async ({
@@ -482,8 +476,208 @@ test.describe('Bulk Selection', () => {
 		await firstSelectButton.click();
 		await page.waitForTimeout(200);
 
-		// Now deselect all should be enabled again and select all disabled
 		await expect(firstDeselectButton).toBeEnabled();
 		await expect(firstSelectButton).toBeDisabled();
+	});
+});
+
+test.describe('Global Select/Deselect All Buttons', () => {
+	test.beforeEach(async ({ page }) => {
+		await navigateToCatalogue(page);
+	});
+
+	test('should display global Select All and Deselect All buttons', async ({
+		page,
+	}) => {
+		const selectAllButton = page.getByTestId('select-all-hands');
+		const deselectAllButton = page.getByTestId('deselect-all-hands');
+
+		await expect(selectAllButton).toBeVisible();
+		await expect(deselectAllButton).toBeVisible();
+	});
+
+	test('should enable Deselect All when hands are enabled', async ({
+		page,
+	}) => {
+		const deselectAllButton = page.getByTestId('deselect-all-hands');
+
+		await expect(deselectAllButton).toBeEnabled();
+	});
+
+	test('should disable Select All when all hands are enabled', async ({
+		page,
+	}) => {
+		const selectAllWrapper = page.getByTestId('select-all-hands');
+		const selectAllButton = selectAllWrapper.locator('button');
+
+		await expect(selectAllButton).toBeDisabled();
+	});
+
+	test('should deselect all hands when clicking Deselect All', async ({
+		page,
+	}) => {
+		const deselectAllButton = page.getByTestId('deselect-all-hands');
+		const allToggles = page.locator('[id^="hand-"]');
+		const toggleCount = await allToggles.count();
+
+		let enabledCountBefore = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountBefore++;
+			}
+		}
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		let enabledCountAfter = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountAfter++;
+			}
+		}
+
+		expect(enabledCountAfter).toBe(0);
+		expect(enabledCountBefore).toBeGreaterThan(0);
+	});
+
+	test('should disable Deselect All after deselecting all hands', async ({
+		page,
+	}) => {
+		const deselectAllWrapper = page.getByTestId('deselect-all-hands');
+		const deselectAllButton = deselectAllWrapper.locator('button');
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		await expect(deselectAllButton).toBeDisabled();
+	});
+
+	test('should enable Select All after deselecting all hands', async ({
+		page,
+	}) => {
+		const selectAllButton = page.getByTestId('select-all-hands');
+		const deselectAllButton = page.getByTestId('deselect-all-hands');
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		await expect(selectAllButton).toBeEnabled();
+	});
+
+	test('should select all hands when clicking Select All', async ({
+		page,
+	}) => {
+		const selectAllButton = page.getByTestId('select-all-hands');
+		const deselectAllButton = page.getByTestId('deselect-all-hands');
+		const allToggles = page.locator('[id^="hand-"]');
+		const toggleCount = await allToggles.count();
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		let enabledCountBefore = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountBefore++;
+			}
+		}
+
+		await selectAllButton.click();
+		await page.waitForTimeout(200);
+
+		let enabledCountAfter = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCountAfter++;
+			}
+		}
+
+		expect(enabledCountAfter).toBe(toggleCount);
+		expect(enabledCountBefore).toBe(0);
+	});
+
+	test('should disable Select All after selecting all hands', async ({
+		page,
+	}) => {
+		const selectAllWrapper = page.getByTestId('select-all-hands');
+		const selectAllButton = selectAllWrapper.locator('button');
+		const deselectAllWrapper = page.getByTestId('deselect-all-hands');
+		const deselectAllButton = deselectAllWrapper.locator('button');
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		await selectAllButton.click();
+		await page.waitForTimeout(200);
+
+		await expect(selectAllButton).toBeDisabled();
+	});
+
+	test('should work when some hands are already enabled', async ({
+		page,
+	}) => {
+		const deselectAllButton = page.getByTestId('deselect-all-hands');
+		const allToggles = page.locator('[id^="hand-"]');
+
+		await allToggles.first().click();
+		await page.waitForTimeout(200);
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		const toggleCount = await allToggles.count();
+		let enabledCount = 0;
+		for (let i = 0; i < toggleCount; i++) {
+			const toggle = allToggles.nth(i);
+			const ariaChecked = await toggle.getAttribute('aria-checked');
+			if (ariaChecked === 'true') {
+				enabledCount++;
+			}
+		}
+
+		expect(enabledCount).toBe(0);
+	});
+
+	test('should persist state when changing sort order', async ({ page }) => {
+		const selectAllWrapper = page.getByTestId('select-all-hands');
+		const selectAllButton = selectAllWrapper.locator('button');
+		const deselectAllWrapper = page.getByTestId('deselect-all-hands');
+		const deselectAllButton = deselectAllWrapper.locator('button');
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		await sortSelect.selectOption('name');
+		await page.waitForTimeout(200);
+
+		await expect(selectAllButton).toBeEnabled();
+		await expect(deselectAllButton).toBeDisabled();
+	});
+
+	test('should work in difficulty sort mode', async ({ page }) => {
+		const selectAllWrapper = page.getByTestId('select-all-hands');
+		const selectAllButton = selectAllWrapper.locator('button');
+		const deselectAllWrapper = page.getByTestId('deselect-all-hands');
+		const deselectAllButton = deselectAllWrapper.locator('button');
+		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
+
+		await sortSelect.selectOption('difficulty');
+		await page.waitForTimeout(200);
+
+		await deselectAllButton.click();
+		await page.waitForTimeout(200);
+
+		await expect(deselectAllButton).toBeDisabled();
+		await expect(selectAllButton).toBeEnabled();
 	});
 });

@@ -104,8 +104,8 @@ export const URLWithAutoSelect = {
 		value: 'https://example.com/shareable-link?param=value',
 		readOnly: true,
 		fontFamily: 'monospace',
-		onClick: (e) => e.target.select(),
-		onFocus: (e) => e.target.select(),
+		onClick: e => e.target.select(),
+		onFocus: e => e.target.select(),
 	},
 	parameters: {
 		docs: {
@@ -118,7 +118,7 @@ export const URLWithAutoSelect = {
 
 // Story: Default Textarea
 export const DefaultTextarea = {
-	render: (args) => <Textarea {...args} />,
+	render: args => <Textarea {...args} />,
 	args: {
 		id: 'default-textarea',
 		name: 'message',
@@ -127,7 +127,7 @@ export const DefaultTextarea = {
 
 // Story: Textarea with Content
 export const TextareaWithContent = {
-	render: (args) => <Textarea {...args} />,
+	render: args => <Textarea {...args} />,
 	args: {
 		id: 'textarea-content',
 		name: 'message',
@@ -137,7 +137,7 @@ export const TextareaWithContent = {
 
 // Story: Required Textarea
 export const RequiredTextarea = {
-	render: (args) => <Textarea {...args} />,
+	render: args => <Textarea {...args} />,
 	args: {
 		id: 'required-textarea',
 		name: 'message',
@@ -148,29 +148,60 @@ export const RequiredTextarea = {
 // Story: Form Example
 export const FormExample = {
 	render: () => (
-		<form style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxWidth: '400px' }}>
+		<form
+			style={{
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '1rem',
+				maxWidth: '400px',
+			}}
+		>
 			<div>
-				<label htmlFor="name" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+				<label
+					htmlFor="name"
+					style={{
+						display: 'block',
+						marginBottom: '0.5rem',
+						fontWeight: 'bold',
+					}}
+				>
 					Name
 				</label>
 				<Input id="name" name="name" type="text" required />
 			</div>
 
 			<div>
-				<label htmlFor="email" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+				<label
+					htmlFor="email"
+					style={{
+						display: 'block',
+						marginBottom: '0.5rem',
+						fontWeight: 'bold',
+					}}
+				>
 					Email
 				</label>
 				<Input id="email" name="email" type="email" required />
 			</div>
 
 			<div>
-				<label htmlFor="message" style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 'bold' }}>
+				<label
+					htmlFor="message"
+					style={{
+						display: 'block',
+						marginBottom: '0.5rem',
+						fontWeight: 'bold',
+					}}
+				>
 					Message
 				</label>
 				<Textarea id="message" name="message" required />
 			</div>
 
-			<button type="submit" style={{ padding: '0.75rem', cursor: 'pointer' }}>
+			<button
+				type="submit"
+				style={{ padding: '0.75rem', cursor: 'pointer' }}
+			>
 				Submit
 			</button>
 		</form>

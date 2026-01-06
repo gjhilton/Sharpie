@@ -1,4 +1,4 @@
-import SourceFigure from './SourceFigure';
+import { SourceFigure } from './SourceFigure';
 
 export default {
 	title: 'Components/SourceFigure',

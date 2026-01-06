@@ -1,4 +1,4 @@
-import LoadingSpinner from './LoadingSpinner';
+import { LoadingSpinner } from './LoadingSpinner';
 
 export default {
 	title: 'Components/LoadingSpinner',

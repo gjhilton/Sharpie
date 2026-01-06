@@ -14,7 +14,7 @@ test.describe('Hand Selection on Catalogue Page', () => {
 	test.describe('Page Structure', () => {
 		test('should display Choose Hands heading', async ({ page }) => {
 			await expect(
-				page.getByRole('heading', { name: 'Choose Hands' })
+				page.getByRole('heading', { name: 'Choose Hand(s)' })
 			).toBeVisible();
 		});
 

@@ -30,7 +30,7 @@ vi.mock('@components/InlineMarkdown/InlineMarkdown.jsx', () => ({
 
 // Mock InputWithButton - pass through all props to actual buttons
 vi.mock('@components/InputWithButton/InputWithButton.jsx', () => ({
-	InputWithButton: (props) => {
+	InputWithButton: props => {
 		const {
 			inputValue,
 			buttonLabel,
@@ -40,7 +40,7 @@ vi.mock('@components/InputWithButton/InputWithButton.jsx', () => ({
 			inputOnClick,
 			inputId,
 			buttonActive,
-			rightButton2Active
+			rightButton2Active,
 		} = props;
 
 		return (
@@ -112,17 +112,23 @@ describe('ShareURLSection', () => {
 
 		it('should render Copy button', () => {
 			render(<ShareURLSection options={mockOptions} />);
-			expect(screen.getByRole('button', { name: 'Copy' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'Copy' })
+			).toBeInTheDocument();
 		});
 
 		it('should render QR button', () => {
 			render(<ShareURLSection options={mockOptions} />);
-			expect(screen.getByRole('button', { name: 'QR' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'QR' })
+			).toBeInTheDocument();
 		});
 
 		it('should not show QR code by default', () => {
 			render(<ShareURLSection options={mockOptions} />);
-			expect(screen.queryByRole('button', { name: 'Download' })).not.toBeInTheDocument();
+			expect(
+				screen.queryByRole('button', { name: 'Download' })
+			).not.toBeInTheDocument();
 		});
 	});
 
@@ -150,7 +156,9 @@ describe('ShareURLSection', () => {
 	describe('Copy Functionality', () => {
 		it('should render Copy button', () => {
 			render(<ShareURLSection options={mockOptions} />);
-			expect(screen.getByRole('button', { name: 'Copy' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'Copy' })
+			).toBeInTheDocument();
 		});
 	});
 
@@ -162,7 +170,9 @@ describe('ShareURLSection', () => {
 
 		it('should have QR toggle button', () => {
 			render(<ShareURLSection options={mockOptions} />);
-			expect(screen.getByRole('button', { name: 'QR' })).toBeInTheDocument();
+			expect(
+				screen.getByRole('button', { name: 'QR' })
+			).toBeInTheDocument();
 		});
 	});
 

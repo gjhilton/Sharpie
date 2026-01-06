@@ -6,7 +6,7 @@ import {
 	OPACITY_ENABLED,
 	FONT_SIZE_MEDIUM,
 	KEY_SPACE,
-	KEY_ENTER
+	KEY_ENTER,
 } from '@lib/constants/ui';
 
 const GAP = 'md';

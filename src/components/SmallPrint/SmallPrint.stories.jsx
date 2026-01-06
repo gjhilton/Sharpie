@@ -1,5 +1,5 @@
 import React from 'react';
-import SmallPrint from './SmallPrint';
+import { SmallPrint } from './SmallPrint';
 
 export default {
 	title: 'Components/SmallPrint',

@@ -26,7 +26,7 @@ export const HandList = ({
 	onSelectAll,
 	onDeselectAll,
 }) => {
-	const renderHandRow = (name) => (
+	const renderHandRow = name => (
 		<HandRow
 			key={name}
 			name={name}
@@ -50,8 +50,7 @@ export const HandList = ({
 					const selectedCount = handsInGroup.filter(
 						name => enabledHands[name]
 					).length;
-					const allSelected =
-						selectedCount === handsInGroup.length;
+					const allSelected = selectedCount === handsInGroup.length;
 					const noneSelected = selectedCount === 0;
 
 					return (
@@ -72,9 +71,5 @@ export const HandList = ({
 	}
 
 	// Render flat list without grouping
-	return (
-		<div className={gridStyles}>
-			{hands.map(renderHandRow)}
-		</div>
-	);
+	return <div className={gridStyles}>{hands.map(renderHandRow)}</div>;
 };

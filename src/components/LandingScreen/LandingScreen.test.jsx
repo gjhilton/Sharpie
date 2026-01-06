@@ -21,7 +21,9 @@ vi.mock('@components/HeroSection/HeroSection.jsx', () => ({
 
 vi.mock('@components/DisclosureSection/DisclosureSection.jsx', () => ({
 	DisclosureSection: ({ title, children }) => (
-		<div data-testid={`disclosure-${title.toLowerCase().replace(/\s+/g, '-')}`}>
+		<div
+			data-testid={`disclosure-${title.toLowerCase().replace(/\s+/g, '-')}`}
+		>
 			<h2>{title}</h2>
 			{children}
 		</div>
@@ -48,7 +50,9 @@ vi.mock('@components/OptionsSummary/OptionsSummary.jsx', () => ({
 }));
 
 vi.mock('@components/HowToPlaySection/HowToPlaySection.jsx', () => ({
-	HowToPlaySection: () => <div data-testid="mock-how-to-play">How to play</div>,
+	HowToPlaySection: () => (
+		<div data-testid="mock-how-to-play">How to play</div>
+	),
 }));
 
 vi.mock('@components/NextStepsSection/NextStepsSection.jsx', () => ({
@@ -148,14 +152,18 @@ describe('LandingScreen', () => {
 
 		it('renders all disclosure sections', () => {
 			render(<LandingScreen />);
-			expect(screen.getByTestId('disclosure-options')).toBeInTheDocument();
+			expect(
+				screen.getByTestId('disclosure-options')
+			).toBeInTheDocument();
 			expect(
 				screen.getByTestId('disclosure-how-to-play')
 			).toBeInTheDocument();
 			expect(
 				screen.getByTestId('disclosure-next-steps-for-learners')
 			).toBeInTheDocument();
-			expect(screen.getByTestId("disclosure-what's-new?")).toBeInTheDocument();
+			expect(
+				screen.getByTestId("disclosure-what's-new?")
+			).toBeInTheDocument();
 		});
 
 		it('renders SmallPrint component', () => {

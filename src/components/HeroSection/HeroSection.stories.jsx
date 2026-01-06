@@ -1,4 +1,3 @@
-import { fn } from 'storybook/test';
 import { HeroSection } from '@components/HeroSection/HeroSection';
 
 export default {
@@ -12,6 +11,6 @@ export default {
 
 export const Default = {
 	args: {
-		onPlay: fn(),
+		onPlay: () => {},
 	},
 };

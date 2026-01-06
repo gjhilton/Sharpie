@@ -33,7 +33,11 @@ export const CorrectAnswer = ({
 	showBaseline,
 	alphabetMetadata = {},
 }) => {
-	const { sourceUri: alphabetLink, title: alphabetTitle, date: alphabetDate } = alphabetMetadata;
+	const {
+		sourceUri: alphabetLink,
+		title: alphabetTitle,
+		date: alphabetDate,
+	} = alphabetMetadata;
 
 	useEnterKey(onNext);
 
@@ -91,7 +95,11 @@ export const IncorrectAnswer = ({
 	showBaseline,
 	alphabetMetadata = {},
 }) => {
-	const { sourceUri: alphabetLink, title: alphabetTitle, date: alphabetDate } = alphabetMetadata;
+	const {
+		sourceUri: alphabetLink,
+		title: alphabetTitle,
+		date: alphabetDate,
+	} = alphabetMetadata;
 
 	useEnterKey(onNext);
 

@@ -6,9 +6,10 @@ const LETTER_COUNT_MARGIN_TOP = '0.25rem';
 
 export const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 	const letterCount = (metadata.majuscules || 0) + (metadata.minuscules || 0);
-	const letterCountDisplay = letterCount > 0
-		? `(${letterCount} characters: ${metadata.minuscules || 0} minuscule, ${metadata.majuscules || 0} majuscule)`
-		: '';
+	const letterCountDisplay =
+		letterCount > 0
+			? `(${letterCount} characters: ${metadata.minuscules || 0} minuscule, ${metadata.majuscules || 0} majuscule)`
+			: '';
 
 	return (
 		<>
@@ -21,7 +22,13 @@ export const HandRow = ({ name, metadata, isEnabled, onToggle }) => {
 			<div>
 				<div>{metadata.title}</div>
 				{letterCountDisplay && (
-					<div className={css({ fontSize: LETTER_COUNT_FONT_SIZE, color: '{colors.ink/70}', marginTop: LETTER_COUNT_MARGIN_TOP })}>
+					<div
+						className={css({
+							fontSize: LETTER_COUNT_FONT_SIZE,
+							color: '{colors.ink/70}',
+							marginTop: LETTER_COUNT_MARGIN_TOP,
+						})}
+					>
 						{letterCountDisplay}
 					</div>
 				)}

@@ -23,6 +23,7 @@ const config = {
 				alias: {
 					...config.resolve?.alias,
 					'@': join(root, 'src'),
+					'@lib': join(root, 'src/lib'),
 					'@components': join(root, 'src/components'),
 					'@constants': join(root, 'src/constants'),
 					'@data': join(root, 'src/data'),

@@ -1,4 +1,4 @@
-import ShareURLSection from './ShareURLSection';
+import { ShareURLSection } from './ShareURLSection';
 
 export default {
 	title: 'Components/ShareURLSection',

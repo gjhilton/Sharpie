@@ -6,7 +6,12 @@ import { RadioGroup, RadioOption } from './RadioGroup';
 describe('RadioOption', () => {
 	it('should render with label text', () => {
 		render(
-			<RadioOption name="test" value="a" checked={false} onChange={() => {}}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={false}
+				onChange={() => {}}
+			>
 				Option A
 			</RadioOption>
 		);
@@ -15,7 +20,12 @@ describe('RadioOption', () => {
 
 	it('should render a radio input', () => {
 		render(
-			<RadioOption name="test" value="a" checked={false} onChange={() => {}}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={false}
+				onChange={() => {}}
+			>
 				Option A
 			</RadioOption>
 		);
@@ -24,7 +34,12 @@ describe('RadioOption', () => {
 
 	it('should be checked when checked prop is true', () => {
 		render(
-			<RadioOption name="test" value="a" checked={true} onChange={() => {}}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={true}
+				onChange={() => {}}
+			>
 				Option A
 			</RadioOption>
 		);
@@ -33,7 +48,12 @@ describe('RadioOption', () => {
 
 	it('should not be checked when checked prop is false', () => {
 		render(
-			<RadioOption name="test" value="a" checked={false} onChange={() => {}}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={false}
+				onChange={() => {}}
+			>
 				Option A
 			</RadioOption>
 		);
@@ -44,7 +64,12 @@ describe('RadioOption', () => {
 		const handleChange = vi.fn();
 		const user = userEvent.setup();
 		render(
-			<RadioOption name="test" value="a" checked={false} onChange={handleChange}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={false}
+				onChange={handleChange}
+			>
 				Option A
 			</RadioOption>
 		);
@@ -54,7 +79,12 @@ describe('RadioOption', () => {
 
 	it('should have bold font when checked', () => {
 		render(
-			<RadioOption name="test" value="a" checked={true} onChange={() => {}}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={true}
+				onChange={() => {}}
+			>
 				Option A
 			</RadioOption>
 		);
@@ -64,7 +94,12 @@ describe('RadioOption', () => {
 
 	it('should have normal font when not checked', () => {
 		render(
-			<RadioOption name="test" value="a" checked={false} onChange={() => {}}>
+			<RadioOption
+				name="test"
+				value="a"
+				checked={false}
+				onChange={() => {}}
+			>
 				Option A
 			</RadioOption>
 		);

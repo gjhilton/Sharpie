@@ -36,7 +36,7 @@ vi.mock('@data/reset-options.md?raw', () => ({
 	default: 'Reset all your settings back to the defaults',
 }));
 
-const renderWithProvider = (component) => {
+const renderWithProvider = component => {
 	return render(component);
 };
 
@@ -52,7 +52,9 @@ describe('ResetOptionsSection', () => {
 		it('should render markdown description', () => {
 			renderWithProvider(<ResetOptionsSection />);
 			expect(
-				screen.getByText(/Reset all your settings back to the defaults/i)
+				screen.getByText(
+					/Reset all your settings back to the defaults/i
+				)
 			).toBeInTheDocument();
 		});
 
@@ -67,7 +69,9 @@ describe('ResetOptionsSection', () => {
 	describe('Reset Functionality', () => {
 		it('should show confirmation dialog when reset button is clicked', async () => {
 			const user = userEvent.setup();
-			const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
+			const confirmSpy = vi
+				.spyOn(window, 'confirm')
+				.mockReturnValue(false);
 
 			renderWithProvider(<ResetOptionsSection />);
 			const resetButton = screen.getByRole('button', {
@@ -86,7 +90,9 @@ describe('ResetOptionsSection', () => {
 
 		it('should not reset if user cancels confirmation', async () => {
 			const user = userEvent.setup();
-			const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(false);
+			const confirmSpy = vi
+				.spyOn(window, 'confirm')
+				.mockReturnValue(false);
 
 			renderWithProvider(<ResetOptionsSection />);
 			const resetButton = screen.getByRole('button', {
@@ -104,7 +110,9 @@ describe('ResetOptionsSection', () => {
 
 		it('should call resetOptions if user confirms', async () => {
 			const user = userEvent.setup();
-			const confirmSpy = vi.spyOn(window, 'confirm').mockReturnValue(true);
+			const confirmSpy = vi
+				.spyOn(window, 'confirm')
+				.mockReturnValue(true);
 
 			renderWithProvider(<ResetOptionsSection />);
 			const resetButton = screen.getByRole('button', {

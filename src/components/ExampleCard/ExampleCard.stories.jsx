@@ -12,7 +12,9 @@ export default {
 export const Default = {
 	args: {
 		title: 'Example Title',
-		children: <div style={{ padding: '2rem' }}>Example content goes here</div>,
+		children: (
+			<div style={{ padding: '2rem' }}>Example content goes here</div>
+		),
 	},
 };
 

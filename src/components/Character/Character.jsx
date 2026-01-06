@@ -53,7 +53,8 @@ export const Character = ({
 	showBaseline = false,
 	note,
 }) => {
-	const baselineColor = state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline';
+	const baselineColor =
+		state === CHARACTER_STATE.INCORRECT_ANSWER ? 'ink' : 'baseline';
 
 	return (
 		<div

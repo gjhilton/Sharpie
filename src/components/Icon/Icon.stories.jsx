@@ -1,4 +1,4 @@
-import Icon, { ICON_TYPE } from './Icon';
+import { Icon, ICON_TYPE } from './Icon';
 
 export default {
 	title: 'Components/Icon',

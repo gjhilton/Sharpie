@@ -1,4 +1,4 @@
-import SubSection from './SubSection';
+import { SubSection } from './SubSection';
 
 export default {
 	title: 'Components/SubSection',
@@ -14,8 +14,9 @@ export const Default = {
 		title: 'Section Title',
 		children: (
 			<p>
-				This is the content area of the subsection. It takes up two-thirds of
-				the available width while the title takes one-third.
+				This is the content area of the subsection. It takes up
+				two-thirds of the available width while the title takes
+				one-third.
 			</p>
 		),
 	},

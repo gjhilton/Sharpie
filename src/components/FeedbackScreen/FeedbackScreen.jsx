@@ -36,7 +36,8 @@ const ThankYouMessage = ({ onReturnToMenu }) => (
 		<PageTitle>Thank you.</PageTitle>
 		<div>
 			<Paragraph>
-				Your message has been received. Thank you for helping improve Sharpie.
+				Your message has been received. Thank you for helping improve
+				Sharpie.
 			</Paragraph>
 			<Button onClick={onReturnToMenu} label="Return to Menu" />
 		</div>
@@ -47,7 +48,8 @@ export const FeedbackScreen = () => {
 	const navigate = useNavigate();
 	const [state, handleSubmit] = useForm('xanlrkkz');
 
-	const handleReturnToMenu = () => navigate({ to: '/', search: prev => prev });
+	const handleReturnToMenu = () =>
+		navigate({ to: '/', search: prev => prev });
 
 	if (state.succeeded) {
 		return (
@@ -65,8 +67,8 @@ export const FeedbackScreen = () => {
 
 			<Section title={null}>
 				<Paragraph>
-					Found a problem? Have suggestions to help us improve? We'd love to
-					hear from you.
+					Found a problem? Have suggestions to help us improve? We'd
+					love to hear from you.
 				</Paragraph>
 
 				<form

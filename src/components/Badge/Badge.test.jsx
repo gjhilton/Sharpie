@@ -57,7 +57,8 @@ describe('Badge', () => {
 		});
 
 		it('should render with long text', () => {
-			const longText = 'This is a very long badge text that should not wrap';
+			const longText =
+				'This is a very long badge text that should not wrap';
 			render(<Badge>{longText}</Badge>);
 			expect(screen.getByText(longText)).toBeInTheDocument();
 		});

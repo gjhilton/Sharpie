@@ -470,20 +470,47 @@ describe('KB Component', () => {
 			vi.resetModules();
 			vi.mock('react-simple-keyboard', () => ({
 				default: ({ onKeyPress, layoutName, layout }) => {
-					const hasShiftKeys = layout && layout.default && layout.default.some(row => row.includes('{shift}'));
+					const hasShiftKeys =
+						layout &&
+						layout.default &&
+						layout.default.some(row => row.includes('{shift}'));
 					return (
-						<div data-testid="keyboard" data-layout={layoutName} data-has-shift={hasShiftKeys}>
+						<div
+							data-testid="keyboard"
+							data-layout={layoutName}
+							data-has-shift={hasShiftKeys}
+						>
 							<button onClick={() => onKeyPress('a')}>a</button>
 							<button onClick={() => onKeyPress('Q')}>Q</button>
-							<button onClick={() => onKeyPress('i(j)')}>i(j)</button>
-							<button onClick={() => onKeyPress('j(i)')}>j(i)</button>
-							<button onClick={() => onKeyPress('u(v)')}>u(v)</button>
-							<button onClick={() => onKeyPress('v(u)')}>v(u)</button>
-							<button onClick={() => onKeyPress('I(J)')}>I(J)</button>
-							<button onClick={() => onKeyPress('J(I)')}>J(I)</button>
-							<button onClick={() => onKeyPress('U(V)')}>U(V)</button>
-							<button onClick={() => onKeyPress('V(U)')}>V(U)</button>
-							{hasShiftKeys && <button onClick={() => onKeyPress('{shift}')}>{'{shift}'}</button>}
+							<button onClick={() => onKeyPress('i(j)')}>
+								i(j)
+							</button>
+							<button onClick={() => onKeyPress('j(i)')}>
+								j(i)
+							</button>
+							<button onClick={() => onKeyPress('u(v)')}>
+								u(v)
+							</button>
+							<button onClick={() => onKeyPress('v(u)')}>
+								v(u)
+							</button>
+							<button onClick={() => onKeyPress('I(J)')}>
+								I(J)
+							</button>
+							<button onClick={() => onKeyPress('J(I)')}>
+								J(I)
+							</button>
+							<button onClick={() => onKeyPress('U(V)')}>
+								U(V)
+							</button>
+							<button onClick={() => onKeyPress('V(U)')}>
+								V(U)
+							</button>
+							{hasShiftKeys && (
+								<button onClick={() => onKeyPress('{shift}')}>
+									{'{shift}'}
+								</button>
+							)}
 						</div>
 					);
 				},
@@ -493,56 +520,100 @@ describe('KB Component', () => {
 		describe('Paired Letter Display', () => {
 			it('should display i(j) on the i key in lowercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				expect(screen.getByText('i(j)')).toBeInTheDocument();
 			});
 
 			it('should display j(i) on the j key in lowercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				expect(screen.getByText('j(i)')).toBeInTheDocument();
 			});
 
 			it('should display u(v) on the u key in lowercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				expect(screen.getByText('u(v)')).toBeInTheDocument();
 			});
 
 			it('should display v(u) on the v key in lowercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				expect(screen.getByText('v(u)')).toBeInTheDocument();
 			});
 
 			it('should display I(J) on the I key in uppercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				expect(screen.getByText('I(J)')).toBeInTheDocument();
 			});
 
 			it('should display J(I) on the J key in uppercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				expect(screen.getByText('J(I)')).toBeInTheDocument();
 			});
 
 			it('should display U(V) on the U key in uppercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				expect(screen.getByText('U(V)')).toBeInTheDocument();
 			});
 
 			it('should display V(U) on the V key in uppercase layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				expect(screen.getByText('V(U)')).toBeInTheDocument();
 			});
@@ -551,7 +622,12 @@ describe('KB Component', () => {
 		describe('Paired Letter Normalization - Lowercase', () => {
 			it('should normalize "i(j)" to "i" when i key is pressed', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				const iButton = screen.getByText('i(j)');
 				await user.click(iButton);
@@ -562,7 +638,12 @@ describe('KB Component', () => {
 
 			it('should normalize "j(i)" to "j" when j key is pressed', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				const jButton = screen.getByText('j(i)');
 				await user.click(jButton);
@@ -573,7 +654,12 @@ describe('KB Component', () => {
 
 			it('should normalize "u(v)" to "u" when u key is pressed', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				const uButton = screen.getByText('u(v)');
 				await user.click(uButton);
@@ -584,7 +670,12 @@ describe('KB Component', () => {
 
 			it('should normalize "v(u)" to "v" when v key is pressed', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				const vButton = screen.getByText('v(u)');
 				await user.click(vButton);
@@ -597,7 +688,13 @@ describe('KB Component', () => {
 		describe('Paired Letter Normalization - Uppercase', () => {
 			it('should normalize "I(J)" to "I" when I key is pressed in shift layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				const iButton = screen.getByText('I(J)');
 				await user.click(iButton);
@@ -608,7 +705,13 @@ describe('KB Component', () => {
 
 			it('should normalize "J(I)" to "J" when J key is pressed in shift layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				const jButton = screen.getByText('J(I)');
 				await user.click(jButton);
@@ -619,7 +722,13 @@ describe('KB Component', () => {
 
 			it('should normalize "U(V)" to "U" when U key is pressed in shift layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				const uButton = screen.getByText('U(V)');
 				await user.click(uButton);
@@ -630,7 +739,13 @@ describe('KB Component', () => {
 
 			it('should normalize "V(U)" to "V" when V key is pressed in shift layout', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				const vButton = screen.getByText('V(U)');
 				await user.click(vButton);
@@ -643,7 +758,12 @@ describe('KB Component', () => {
 		describe('Layout Switching with Paired Letters', () => {
 			it('should switch from lowercase paired letters to uppercase paired letters when shift is pressed', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				let keyboard = screen.getByTestId('keyboard');
 				expect(keyboard).toHaveAttribute('data-layout', 'default');
@@ -659,7 +779,13 @@ describe('KB Component', () => {
 
 			it('should switch from uppercase paired letters to lowercase paired letters when shift is pressed', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				let keyboard = screen.getByTestId('keyboard');
 				expect(keyboard).toHaveAttribute('data-layout', 'shift');
@@ -677,7 +803,12 @@ describe('KB Component', () => {
 		describe('Non-Paired Letters in 24-Letter Mode', () => {
 			it('should still handle regular letters normally in 24-letter mode', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+					/>
+				);
 
 				const aButton = screen.getByText('a');
 				await user.click(aButton);
@@ -688,7 +819,13 @@ describe('KB Component', () => {
 
 			it('should still handle regular uppercase letters normally in 24-letter mode', async () => {
 				const user = userEvent.setup();
-				render(<KB keyCallback={mockKeyCallback} twentyFourLetterAlphabet={true} initialLayout="shift" />);
+				render(
+					<KB
+						keyCallback={mockKeyCallback}
+						twentyFourLetterAlphabet={true}
+						initialLayout="shift"
+					/>
+				);
 
 				const qButton = screen.getByText('Q');
 				await user.click(qButton);

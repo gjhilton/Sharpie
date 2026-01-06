@@ -10,7 +10,7 @@ export default {
 };
 
 export const Default = {
-	args: {},
+	render: () => <App />,
 	parameters: {
 		docs: {
 			description: {

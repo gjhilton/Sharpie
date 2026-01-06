@@ -21,8 +21,10 @@ const LandingScreen = () => {
 	const { DB, countEnabledCharacters, countEnabledHands } = useDatabase();
 
 	const handlePlay = () => navigate({ to: '/play', search: prev => prev });
-	const handleShowCatalogue = () => navigate({ to: '/catalogue', search: prev => prev });
-	const handleShowFeedback = () => navigate({ to: '/feedback', search: prev => prev });
+	const handleShowCatalogue = () =>
+		navigate({ to: '/catalogue', search: prev => prev });
+	const handleShowFeedback = () =>
+		navigate({ to: '/feedback', search: prev => prev });
 
 	const handleModeChange = e => updateOption('mode', e.target.value);
 	const handleNumLettersChange = checked =>
@@ -47,7 +49,9 @@ const LandingScreen = () => {
 						additionalComponent={
 							<OptionsSummary
 								options={options}
-								handCount={countEnabledHands(options.enabledHands)}
+								handCount={countEnabledHands(
+									options.enabledHands
+								)}
 							/>
 						}
 					>

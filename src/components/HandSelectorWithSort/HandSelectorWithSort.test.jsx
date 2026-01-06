@@ -252,9 +252,13 @@ describe('HandSelectorWithSort', () => {
 		);
 
 		// Check for Joscelyn's letter count (26 + 26 = 52)
-		expect(screen.getByText(/52 characters: 26 minuscule, 26 majuscule/)).toBeInTheDocument();
+		expect(
+			screen.getByText(/52 characters: 26 minuscule, 26 majuscule/)
+		).toBeInTheDocument();
 		// Check for NBacon's letter count (1 + 21 = 22)
-		expect(screen.getByText(/22 characters: 21 minuscule, 1 majuscule/)).toBeInTheDocument();
+		expect(
+			screen.getByText(/22 characters: 21 minuscule, 1 majuscule/)
+		).toBeInTheDocument();
 	});
 
 	it('handles empty hand list', () => {

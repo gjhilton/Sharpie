@@ -111,7 +111,11 @@ const ShareURLSection = ({ options }) => {
 				}}
 				fontFamily="monospace"
 				fontSize="s"
-				marginBottom={showQR ? INPUT_MARGIN_BOTTOM_SHOW_QR : INPUT_MARGIN_BOTTOM_HIDE_QR}
+				marginBottom={
+					showQR
+						? INPUT_MARGIN_BOTTOM_SHOW_QR
+						: INPUT_MARGIN_BOTTOM_HIDE_QR
+				}
 				cursor="text"
 				buttonLabel={copySuccess ? 'Copied!' : 'Copy'}
 				buttonOnClick={handleCopy}
@@ -134,7 +138,11 @@ const ShareURLSection = ({ options }) => {
 						marginBottom: QR_MARGIN_BOTTOM,
 					})}
 				>
-					<QRCodeSVG value={shareableURL} size={QR_SIZE} level={QR_LEVEL} />
+					<QRCodeSVG
+						value={shareableURL}
+						size={QR_SIZE}
+						level={QR_LEVEL}
+					/>
 					<div
 						className={css({
 							marginTop: QR_BUTTON_MARGIN_TOP,

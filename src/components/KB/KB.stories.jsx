@@ -1,4 +1,4 @@
-import KB from './KB';
+import { KB } from './KB';
 
 export default {
 	title: 'Components/KB',

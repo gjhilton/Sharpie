@@ -34,12 +34,16 @@ export const ErrorScreen = ({ error, resetError }) => {
 					maxWidth: MAX_WIDTH,
 				})}
 			>
-				{error?.message || 'An unexpected error occurred. Please try again.'}
+				{error?.message ||
+					'An unexpected error occurred. Please try again.'}
 			</p>
 
 			{resetError && <Button onClick={resetError} label="Try again" />}
 
-			<Button onClick={() => window.location.reload()} label="Reload page" />
+			<Button
+				onClick={() => window.location.reload()}
+				label="Reload page"
+			/>
 		</div>
 	);
 };

@@ -6,7 +6,8 @@ import { useGameOptionsContext } from '@lib/context/GameOptionsContext';
 import { commonButtonStyles } from '@lib/constants/ui';
 import resetOptionsContent from '@data/reset-options.md?raw';
 
-const RESET_CONFIRM_MESSAGE = 'Reset all settings to defaults? This will clear your current configuration.';
+const RESET_CONFIRM_MESSAGE =
+	'Reset all settings to defaults? This will clear your current configuration.';
 
 const ResetOptionsSection = () => {
 	const { resetOptions } = useGameOptionsContext();

@@ -1,6 +1,5 @@
-import { fn } from '@storybook/test';
 import { useState } from 'react';
-import InputWithButton from './InputWithButton';
+import { InputWithButton } from './InputWithButton';
 
 export default {
 	title: 'Components/InputWithButton',
@@ -30,7 +29,8 @@ export default {
 		},
 		buttonActive: {
 			control: 'boolean',
-			description: 'Whether the button is in active state (inverted colors)',
+			description:
+				'Whether the button is in active state (inverted colors)',
 		},
 		fontFamily: {
 			control: 'select',
@@ -52,7 +52,7 @@ export const Default = {
 		inputName: 'default',
 		inputValue: 'Enter text here',
 		buttonLabel: 'Submit',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Button clicked'),
 	},
 };
 
@@ -65,11 +65,11 @@ export const CopyURL = {
 		inputValue: 'https://example.com/shareable-link?param=value',
 		inputReadOnly: true,
 		buttonLabel: 'Copy',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Copy clicked'),
 		fontFamily: 'monospace',
 		fontSize: 's',
-		inputOnClick: (e) => e.target.select(),
-		inputOnFocus: (e) => e.target.select(),
+		inputOnClick: e => e.target.select(),
+		inputOnFocus: e => e.target.select(),
 	},
 	parameters: {
 		docs: {
@@ -89,7 +89,7 @@ export const ActiveButton = {
 		inputReadOnly: true,
 		buttonLabel: 'Copied!',
 		buttonActive: true,
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Button clicked'),
 		fontFamily: 'monospace',
 		fontSize: 's',
 	},
@@ -110,7 +110,7 @@ export const EmailInput = {
 		inputType: 'email',
 		inputValue: 'user@example.com',
 		buttonLabel: 'Send',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Send clicked'),
 	},
 };
 
@@ -121,7 +121,7 @@ export const SmallFontSize = {
 		inputName: 'small',
 		inputValue: 'Small text',
 		buttonLabel: 'Go',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Go clicked'),
 		fontSize: 's',
 	},
 };
@@ -133,7 +133,7 @@ export const LargeFontSize = {
 		inputName: 'large',
 		inputValue: 'Large text',
 		buttonLabel: 'Submit',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Submit clicked'),
 		fontSize: 'l',
 	},
 };
@@ -160,8 +160,8 @@ export const InteractiveCopy = {
 				inputName="url"
 				inputValue={url}
 				inputReadOnly
-				inputOnClick={(e) => e.target.select()}
-				inputOnFocus={(e) => e.target.select()}
+				inputOnClick={e => e.target.select()}
+				inputOnFocus={e => e.target.select()}
 				buttonLabel={copied ? 'Copied!' : 'Copy'}
 				buttonOnClick={handleCopy}
 				buttonActive={copied}
@@ -184,10 +184,11 @@ export const LongURL = {
 	args: {
 		inputId: 'long-url',
 		inputName: 'url',
-		inputValue: 'https://example.com/very/long/path/to/resource?param1=value1&param2=value2&param3=value3&param4=value4',
+		inputValue:
+			'https://example.com/very/long/path/to/resource?param1=value1&param2=value2&param3=value3&param4=value4',
 		inputReadOnly: true,
 		buttonLabel: 'Copy',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Copy clicked'),
 		fontFamily: 'monospace',
 		fontSize: 's',
 	},
@@ -207,7 +208,7 @@ export const SearchInput = {
 		inputName: 'search',
 		inputValue: '',
 		buttonLabel: 'Search',
-		buttonOnClick: fn(),
+		buttonOnClick: () => console.log('Search clicked'),
 	},
 	parameters: {
 		docs: {

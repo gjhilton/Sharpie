@@ -25,7 +25,9 @@ describe('ErrorScreen', () => {
 	it('should render Try again button when resetError is provided', () => {
 		const resetError = vi.fn();
 		render(<ErrorScreen resetError={resetError} />);
-		expect(screen.getByRole('button', { name: /try again/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /try again/i })
+		).toBeInTheDocument();
 	});
 
 	it('should call resetError when Try again is clicked', async () => {
@@ -39,6 +41,8 @@ describe('ErrorScreen', () => {
 
 	it('should render Reload page button', () => {
 		render(<ErrorScreen />);
-		expect(screen.getByRole('button', { name: /reload page/i })).toBeInTheDocument();
+		expect(
+			screen.getByRole('button', { name: /reload page/i })
+		).toBeInTheDocument();
 	});
 });

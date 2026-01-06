@@ -1,4 +1,20 @@
 {
+	"GellyMeyrick": {
+		"id": "008",
+		"title": "State Papers Domestic, Elizabeth I February 18, 1601 SP 12/278/78, fols. 141-142, Examination of Sir Gelly Meyrick",
+		"sourceUri": "https://shakespearedocumented.folger.edu/file/sp-1227878-folio-141-recto",
+		"date": "1601",
+		"isDefaultEnabled": true,
+		"difficulty": "hard"
+	},
+	"Stationers": {
+		"id": "008",
+		"title": "Stationers Register, Liber B, fol. 297v. The Worshipful Company of Stationers and Newspaper Makers. doi.org/10.37078/109",
+		"sourceUri": "https://shakespearedocumented.folger.edu/resource/document/stationers-register-entry-venus-and-adonis",
+		"date": "1593",
+		"isDefaultEnabled": true,
+		"difficulty": "hard"
+	},
 	"McKerrow": {
 		"id": "001",
 		"title": "McKerrow, 'A Note on Elizabethan Handwriting', reprinted in Wolfe, The Alphabet Book",

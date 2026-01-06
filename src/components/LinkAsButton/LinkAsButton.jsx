@@ -2,7 +2,7 @@ import { css } from '../../../dist/styled-system/css';
 import {
 	FOCUS_OUTLINE_TOGGLE,
 	FOCUS_OUTLINE_OFFSET,
-	OPACITY_DISABLED
+	OPACITY_DISABLED,
 } from '@lib/constants/ui';
 
 const PADDING = 0;

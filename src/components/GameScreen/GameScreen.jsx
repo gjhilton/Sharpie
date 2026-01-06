@@ -19,11 +19,7 @@ export const GameScreen = () => {
 		enabledHands = null,
 	} = options;
 
-	const graphs = gameLogic.getGraphsForGameMode(
-		DB,
-		gameMode,
-		enabledHands
-	);
+	const graphs = gameLogic.getGraphsForGameMode(DB, gameMode, enabledHands);
 	const [currentSolution, setCurrentSolution] = useState(
 		gameLogic.createRandomSolution(graphs)
 	);

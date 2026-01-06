@@ -4,7 +4,7 @@ import {
 	FOCUS_OUTLINE_OFFSET,
 	TRANSITION_ALL_NORMAL,
 	HOVER_SCALE_SMALL,
-	ACTIVE_SCALE
+	ACTIVE_SCALE,
 } from '@lib/constants/ui';
 
 const ButtonLabel = ({ text }) => (
@@ -50,7 +50,9 @@ export const Button = ({ onClick, label, disabled, sublabel, hero }) => {
 				textTransform: hero ? 'uppercase' : 'none',
 				transition: TRANSITION_ALL_NORMAL,
 				_hover: {
-					transform: disabled ? 'none' : `scale(${HOVER_SCALE_SMALL})`,
+					transform: disabled
+						? 'none'
+						: `scale(${HOVER_SCALE_SMALL})`,
 				},
 				_focusVisible: {
 					outline: FOCUS_OUTLINE,

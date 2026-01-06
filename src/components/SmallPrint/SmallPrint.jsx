@@ -31,10 +31,8 @@ const SmallPrint = ({ onShowFeedback }) => (
 				fontStyle: 'italic',
 			})}
 		>
-			Concept, design and{' '}
-			<a href={GITHUB_URL}>code</a> copyright
-			©2025 g.j.hilton /{' '}
-			<a href={FUNERAL_GAMES_URL}>funeral games</a>, <br />
+			Concept, design and <a href={GITHUB_URL}>code</a> copyright ©2025
+			g.j.hilton / <a href={FUNERAL_GAMES_URL}>funeral games</a>, <br />
 			Manuscript context copyright: as shown inline.
 		</div>
 

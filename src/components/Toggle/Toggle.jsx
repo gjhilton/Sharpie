@@ -5,8 +5,6 @@ import {
 	OPACITY_DISABLED,
 	OPACITY_ENABLED,
 	FONT_SIZE_MEDIUM,
-	KEY_SPACE,
-	KEY_ENTER,
 } from '@lib/constants/ui';
 
 const GAP = 'md';
@@ -32,11 +30,8 @@ const Toggle = ({
 	onChange,
 	disabled = false,
 }) => {
-	const handleKeyDown = e => {
-		if (e.key === KEY_SPACE || e.key === KEY_ENTER) {
-			e.preventDefault();
-			onChange(!checked);
-		}
+	const handleClick = () => {
+		onChange(!checked);
 	};
 
 	const labelContent = children || label;
@@ -51,13 +46,13 @@ const Toggle = ({
 			})}
 		>
 			<button
+				type="button"
 				id={id}
 				role="switch"
 				aria-checked={checked}
 				aria-label={typeof label === 'string' ? label : undefined}
 				disabled={disabled}
-				onClick={() => onChange(!checked)}
-				onKeyDown={handleKeyDown}
+				onClick={handleClick}
 				className={css({
 					position: 'relative',
 					width: TOGGLE_WIDTH,
@@ -96,7 +91,6 @@ const Toggle = ({
 			</button>
 			<label
 				htmlFor={id}
-				onClick={() => onChange(!checked)}
 				className={css({
 					fontSize: FONT_SIZE_MEDIUM,
 					cursor: disabled ? 'not-allowed' : 'pointer',

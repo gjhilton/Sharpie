@@ -21,6 +21,7 @@
 		"test:e2e": "playwright test --config src/config/playwright.config.js",
 		"test:e2e:ui": "playwright test --config src/config/playwright.config.js --ui",
 		"test:e2e:headed": "playwright test --config src/config/playwright.config.js --headed",
+		"test:e2e:errors": "rm -f e2e-output.log && playwright test --config src/config/playwright.config.js 2>&1 | tee /dev/tty | grep -A 30 'Error:' > e2e-output.log || true",
 		"test:e2e:codegen": "playwright codegen http://localhost:8080/Sharpie/",
 		"update-db": "node src/scripts/update-db.js",
 		"prepare": "husky src/config/.husky"

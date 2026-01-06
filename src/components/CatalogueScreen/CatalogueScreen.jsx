@@ -276,7 +276,7 @@ export const CatalogueScreen = () => {
 	return (
 		<PageWidth>
 			<img
-				src="/hand.png"
+				src={`${import.meta.env.BASE_URL}hand.png`}
 				alt="Hand"
 				className={css({
 					display: 'block',

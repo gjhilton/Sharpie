@@ -35,6 +35,7 @@ const filesToCopy = [
 	'sharpieicon.svg',
 	'logo.png',
 	'secretary_hand.gif',
+	'hand.png',
 	'fonts', // directory
 ];
 

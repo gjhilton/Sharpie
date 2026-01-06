@@ -16,6 +16,7 @@ import * as catalogueLogic from '@lib/utilities/catalogueLogic';
 import { useGameOptions } from '@lib/hooks/useGameOptions';
 import { useDatabase } from '@lib/context/DatabaseContext';
 import { flexCenter } from '@lib/constants/ui';
+import { DEBUG_FILENAMES } from '@lib/constants/debug';
 
 const STYLES = {
 	verticalGap: '2rem',
@@ -23,23 +24,42 @@ const STYLES = {
 	imageSize: '100%',
 };
 
-const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => (
-	<div
-		className={css({
-			width: STYLES.imageSize,
-			height: STYLES.imageSize,
-			background: '{colors.paper}',
-			...flexCenter,
-			opacity: isEnabled ? 1 : 0.2,
-		})}
-	>
-		<CharacterImage
-			imagePath={getImagePath(graph)}
-			caption={graph.character}
-			showBaseline={showBaseline}
-		/>
-	</div>
-);
+const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => {
+	const debugPath = DEBUG_FILENAMES ? graph.img : null;
+
+	return (
+		<div
+			className={css({
+				width: STYLES.imageSize,
+				height: STYLES.imageSize,
+				background: '{colors.paper}',
+				...flexCenter,
+				opacity: isEnabled ? 1 : 0.2,
+				flexDirection: 'column',
+			})}
+		>
+			<CharacterImage
+				imagePath={getImagePath(graph)}
+				caption={graph.character}
+				showBaseline={showBaseline}
+			/>
+			{debugPath && (
+				<div
+					className={css({
+						fontSize: '0.625rem',
+						color: '{colors.ink/60}',
+						marginTop: '0.25rem',
+						wordBreak: 'break-all',
+						textAlign: 'center',
+						paddingInline: '0.25rem',
+					})}
+				>
+					{debugPath}
+				</div>
+			)}
+		</div>
+	);
+};
 
 const LetterHeader = ({ letter }) => (
 	<div

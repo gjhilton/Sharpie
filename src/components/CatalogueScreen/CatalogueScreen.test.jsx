@@ -72,11 +72,22 @@ vi.mock('@lib/utilities/catalogueLogic.js', () => ({
 			characters: [
 				{
 					character: 'a',
-					graphs: [{ character: 'a', source: 'test-alphabet' }],
+					graphs: [
+						{
+							character: 'a',
+							source: 'test-alphabet',
+							img: 'test-alphabet/test-assets/a-001.png',
+						},
+					],
 				},
 			],
 		},
 	]),
+}));
+
+// Mock debug constants
+vi.mock('@lib/constants/debug.js', () => ({
+	DEBUG_FILENAMES: true,
 }));
 
 // Mock router navigate
@@ -271,6 +282,31 @@ describe('CatalogueScreen', () => {
 
 			// The component should update the options
 			expect(screen.getByTestId('enabled-state')).toBeInTheDocument();
+		});
+	});
+
+	describe('Debug Filenames', () => {
+		it('displays full image path when DEBUG_FILENAMES is enabled', () => {
+			const { container } = render(<CatalogueScreen />);
+
+			expect(container.textContent).toContain('test-alphabet/test-assets/a-001.png');
+		});
+
+		it('shows debug path in small gray text under character image', () => {
+			const { container } = render(<CatalogueScreen />);
+
+			const debugPathElement = Array.from(container.querySelectorAll('*')).find(
+				el => el.textContent === 'test-alphabet/test-assets/a-001.png'
+			);
+
+			expect(debugPathElement).toBeInTheDocument();
+		});
+
+		it('displays debug path for each character image', () => {
+			const { container } = render(<CatalogueScreen />);
+
+			expect(screen.getByTestId('char-img-a')).toBeInTheDocument();
+			expect(container.textContent).toContain('test-alphabet/test-assets/a-001.png');
 		});
 	});
 });

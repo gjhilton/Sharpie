@@ -7,12 +7,12 @@ export const PageWidth = ({ children }) => (
 			flexDirection: 'column',
 			gap: '3xl',
 			maxWidth: '90%',
-			textAlign: 'c',
+			textAlign: 'center',
 			desktop: {
 				maxWidth: '800px',
 			},
-			marginLeft: "auto",
-			marginRight: "auto",
+			marginLeft: 'auto',
+			marginRight: 'auto',
 		})}
 	>
 		{children}

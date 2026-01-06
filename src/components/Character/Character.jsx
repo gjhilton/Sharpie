@@ -120,7 +120,10 @@ export const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: 'xs sm',
+								paddingTop: 'xs',
+								paddingBottom: 'xs',
+								paddingLeft: 'sm',
+								paddingRight: 'sm',
 							})}
 						>
 							{note}
@@ -130,7 +133,10 @@ export const Character = ({
 						<span
 							className={css({
 								backgroundColor: '{colors.paper}',
-								padding: 'xs sm',
+								paddingTop: 'xs',
+								paddingBottom: 'xs',
+								paddingLeft: 'sm',
+								paddingRight: 'sm',
 							})}
 						>
 							<Alphabet

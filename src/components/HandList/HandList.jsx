@@ -3,13 +3,15 @@ import { HandRow } from '@components/HandRow/HandRow';
 import { DifficultyHeading } from '@components/DifficultyHeading/DifficultyHeading';
 import { DIFFICULTY_ORDER } from '@lib/constants/difficulty';
 
-const GRID_GAP = 'sm lg';
+const GRID_ROW_GAP = 'sm';
+const GRID_COLUMN_GAP = 'lg';
 const MARGIN_TOP = '3xl';
 
 const gridStyles = css({
 	display: 'grid',
 	gridTemplateColumns: 'auto 1fr auto auto',
-	gap: GRID_GAP,
+	rowGap: GRID_ROW_GAP,
+	columnGap: GRID_COLUMN_GAP,
 	alignItems: 'start',
 	marginTop: MARGIN_TOP,
 });

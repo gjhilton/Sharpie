@@ -3,7 +3,8 @@ import { FONT_SIZE_SMALL, flexCenter } from '@lib/constants/ui';
 
 const PADDING = '2.5rem 0 3rem';
 const NOTE_TOP_POSITION = 'sm';
-const NOTE_PADDING = 'xs sm';
+const NOTE_PADDING_VERTICAL = 'xs';
+const NOTE_PADDING_HORIZONTAL = 'sm';
 const NOTE_Z_INDEX = 1;
 const BASELINE_POSITION = '56.5%';
 
@@ -31,7 +32,10 @@ export const CharacterImage = ({
 					top: NOTE_TOP_POSITION,
 					left: '50%',
 					transform: 'translateX(-50%)',
-					padding: NOTE_PADDING,
+					paddingTop: NOTE_PADDING_VERTICAL,
+					paddingBottom: NOTE_PADDING_VERTICAL,
+					paddingLeft: NOTE_PADDING_HORIZONTAL,
+					paddingRight: NOTE_PADDING_HORIZONTAL,
 					background: 'transparent',
 					color: '{colors.ink}',
 					fontSize: FONT_SIZE_SMALL,

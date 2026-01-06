@@ -202,7 +202,10 @@ export const GamePresentation = ({
 				flexDirection: 'column',
 				alignItems: 'center',
 				gap: SPACING.SECTION_GAP,
-				padding: { base: '3xl 0', sm: SPACING.SECTION_GAP },
+				paddingTop: SPACING.SECTION_GAP,
+				paddingBottom: SPACING.SECTION_GAP,
+				paddingLeft: { base: 0, sm: SPACING.SECTION_GAP },
+				paddingRight: { base: 0, sm: SPACING.SECTION_GAP },
 			})}
 		>
 			<StatusDisplay

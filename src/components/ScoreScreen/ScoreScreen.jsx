@@ -104,15 +104,14 @@ const CONTAINER_MAX_WIDTH = '600px';
 const CONTAINER_PADDING = '3xl';
 const GRID_GAP = '2xl';
 const MISTAKES_MAX_WIDTH = '800px';
-const MISTAKES_MARGIN_TOP = '3xl auto 0';
+const MISTAKES_MARGIN_TOP = '3xl';
 const MISTAKES_HEADING_MARGIN_BOTTOM = '2xl';
 const MISTAKES_GRID_MIN_WIDTH = '150px';
 const MISTAKES_GRID_GAP = 'lg';
 const BUTTON_MARGIN_TOP = '3xl';
-const BUTTON_PADDING_BASE = '0 3xl';
-const BUTTON_PADDING_SM = '0';
-const FOOTER_MARGIN = '3xl auto';
-const FOOTER_PADDING = '0 3xl';
+const BUTTON_PADDING_HORIZONTAL = '3xl';
+const FOOTER_MARGIN_VERTICAL = '3xl';
+const FOOTER_PADDING_HORIZONTAL = '3xl';
 
 const ScoreScreen = () => {
 	const navigate = useNavigate();
@@ -180,7 +179,10 @@ const ScoreScreen = () => {
 				<div
 					className={css({
 						maxWidth: MISTAKES_MAX_WIDTH,
-						margin: MISTAKES_MARGIN_TOP,
+						marginTop: MISTAKES_MARGIN_TOP,
+						marginLeft: 'auto',
+						marginRight: 'auto',
+						marginBottom: 0,
 						padding: CONTAINER_PADDING,
 					})}
 				>
@@ -216,7 +218,8 @@ const ScoreScreen = () => {
 					display: 'flex',
 					justifyContent: 'center',
 					marginTop: BUTTON_MARGIN_TOP,
-					padding: { base: BUTTON_PADDING_BASE, sm: BUTTON_PADDING_SM },
+					paddingLeft: { base: BUTTON_PADDING_HORIZONTAL, sm: 0 },
+					paddingRight: { base: BUTTON_PADDING_HORIZONTAL, sm: 0 },
 				})}
 			>
 				<Button onClick={handleReturnToMenu} label="Return to Menu" />
@@ -225,8 +228,12 @@ const ScoreScreen = () => {
 			<div
 				className={css({
 					maxWidth: CONTAINER_MAX_WIDTH,
-					margin: FOOTER_MARGIN,
-					padding: FOOTER_PADDING,
+					marginTop: FOOTER_MARGIN_VERTICAL,
+					marginBottom: FOOTER_MARGIN_VERTICAL,
+					marginLeft: 'auto',
+					marginRight: 'auto',
+					paddingLeft: FOOTER_PADDING_HORIZONTAL,
+					paddingRight: FOOTER_PADDING_HORIZONTAL,
 				})}
 			>
 				<SmallPrint onShowFeedback={handleShowFeedback} />

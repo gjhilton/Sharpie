@@ -30,11 +30,11 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => {
 	return (
 		<div
 			className={css({
-				border: "1px solid green",
 				width: STYLES.imageSize,
 				height: STYLES.imageSize,
 				background: '{colors.paper}',
 				...flexCenter,
+				   display:'flex',                                                 justifyContent:'center',                                              alignItems: 'flex-start',      
 				opacity: isEnabled ? 1 : 0.2,
 				flexDirection: 'column',
 			})}
@@ -55,7 +55,7 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => {
 						paddingInline: '0.25rem',
 					})}
 				>
-					
+					{debugPath}
 				</div>
 			)}
 		</div>

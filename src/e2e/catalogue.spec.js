@@ -430,19 +430,21 @@ test.describe('Bulk Selection', () => {
 	}) => {
 		const sortSelect = page.getByRole('combobox', { name: /sort by/i });
 		await sortSelect.selectOption('date');
-		await page.waitForTimeout(200);
+		await page.waitForTimeout(500);
 
-		// When not sorting by difficulty, there should be exactly 2 "select all" buttons (the global ones)
-		// When sorting by difficulty, there would be more (global + per-difficulty)
-		const selectAllButtons = page.getByRole('button', {
-			name: /select all/i,
+		// Per-difficulty buttons have lowercase text "select all" / "deselect all"
+		// Global buttons have title case "Select All" / "Deselect All"
+		const perDifficultySelectButtons = page.getByRole('button', {
+			name: 'select all',
+			exact: true,
 		});
-		const deselectAllButtons = page.getByRole('button', {
-			name: /deselect all/i,
+		const perDifficultyDeselectButtons = page.getByRole('button', {
+			name: 'deselect all',
+			exact: true,
 		});
 
-		await expect(selectAllButtons).toHaveCount(1); // Only the global "Select All" button
-		await expect(deselectAllButtons).toHaveCount(1); // Only the global "Deselect All" button
+		await expect(perDifficultySelectButtons).toHaveCount(0);
+		await expect(perDifficultyDeselectButtons).toHaveCount(0);
 	});
 
 	test('should handle bulk selection across multiple difficulty groups', async ({

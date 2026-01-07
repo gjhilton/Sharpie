@@ -9,7 +9,7 @@ describe('SmallPrint', () => {
 
 		expect(screen.getByText(/Concept, design and/i)).toBeInTheDocument();
 		expect(
-			screen.getByText(/copyright ©2025 g.j.hilton/i)
+			screen.getByText(/copyright ©2025-2026 g.j.hilton/i)
 		).toBeInTheDocument();
 	});
 

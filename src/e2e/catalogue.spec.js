@@ -100,6 +100,59 @@ test.describe('Catalogue Screen', () => {
 		await expect(lastImage).toBeVisible();
 	});
 
+	test('should not have any 404 image requests', async ({ page }) => {
+		const failedRequests = [];
+
+		page.on('response', response => {
+			if (response.url().includes('.png') && response.status() === 404) {
+				failedRequests.push(response.url());
+			}
+		});
+
+		await navigateToCatalogue(page);
+		await page.waitForLoadState('networkidle');
+
+		if (failedRequests.length > 0) {
+			console.error('404 image requests found:', failedRequests);
+		}
+
+		expect(failedRequests).toHaveLength(0);
+	});
+
+	test('should load all character images without 404 errors', async ({
+		page,
+	}) => {
+		// Get all character images
+		const characterImages = page.locator('img[alt]');
+		const count = await characterImages.count();
+
+		expect(count).toBeGreaterThan(0);
+
+		// Check each image has loaded successfully (naturalWidth > 0 means loaded)
+		const brokenImages = [];
+		for (let i = 0; i < count; i++) {
+			const img = characterImages.nth(i);
+			await img.scrollIntoViewIfNeeded();
+
+			const isLoaded = await img.evaluate(el => {
+				return el.complete && el.naturalWidth > 0;
+			});
+
+			if (!isLoaded) {
+				const src = await img.getAttribute('src');
+				const alt = await img.getAttribute('alt');
+				brokenImages.push({ src, alt, index: i });
+			}
+		}
+
+		// Report all broken images
+		if (brokenImages.length > 0) {
+			console.error('Broken images found:', brokenImages);
+		}
+
+		expect(brokenImages).toHaveLength(0);
+	});
+
 	test('should be navigable by keyboard', async ({ page }) => {
 		// Tab through elements
 		await page.keyboard.press('Tab');

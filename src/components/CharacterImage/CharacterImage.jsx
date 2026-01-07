@@ -17,6 +17,7 @@ export const CharacterImage = ({
 }) => (
 	<div
 		className={css({
+			border: "1px solid blue",
 			background: '{colors.paper}',
 			height: '100%',
 			width: '100%',
@@ -58,6 +59,7 @@ export const CharacterImage = ({
 				src={imagePath}
 				alt={caption || 'Character to identify'}
 				className={css({
+					border: "1px solid red",
 					maxWidth: '100%',
 					maxHeight: '100%',
 					objectFit: 'contain',

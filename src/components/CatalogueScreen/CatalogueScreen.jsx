@@ -30,6 +30,7 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => {
 	return (
 		<div
 			className={css({
+				border: "1px solid green",
 				width: STYLES.imageSize,
 				height: STYLES.imageSize,
 				background: '{colors.paper}',
@@ -47,14 +48,14 @@ const GlyphImage = ({ graph, showBaseline, isEnabled, getImagePath }) => {
 				<div
 					className={css({
 						fontSize: '0.625rem',
-						color: '{colors.ink/60}',
+						color: '{colors.ink}',
 						marginTop: '0.25rem',
 						wordBreak: 'break-all',
 						textAlign: 'center',
 						paddingInline: '0.25rem',
 					})}
 				>
-					{debugPath}
+					
 				</div>
 			)}
 		</div>

@@ -432,11 +432,17 @@ test.describe('Bulk Selection', () => {
 		await sortSelect.selectOption('date');
 		await page.waitForTimeout(200);
 
-		const selectAllLinks = page.getByText('select all');
-		const deselectAllLinks = page.getByText('deselect all');
+		// When not sorting by difficulty, there should be exactly 2 "select all" buttons (the global ones)
+		// When sorting by difficulty, there would be more (global + per-difficulty)
+		const selectAllButtons = page.getByRole('button', {
+			name: /select all/i,
+		});
+		const deselectAllButtons = page.getByRole('button', {
+			name: /deselect all/i,
+		});
 
-		await expect(selectAllLinks).toHaveCount(0);
-		await expect(deselectAllLinks).toHaveCount(0);
+		await expect(selectAllButtons).toHaveCount(1); // Only the global "Select All" button
+		await expect(deselectAllButtons).toHaveCount(1); // Only the global "Deselect All" button
 	});
 
 	test('should handle bulk selection across multiple difficulty groups', async ({
@@ -507,9 +513,18 @@ test.describe('Global Select/Deselect All Buttons', () => {
 	test('should disable Select All when all hands are enabled', async ({
 		page,
 	}) => {
+		// First, ensure all hands are enabled by clicking Select All if needed
 		const selectAllWrapper = page.getByTestId('select-all-hands');
 		const selectAllButton = selectAllWrapper.locator('button');
 
+		const isDisabled = await selectAllButton.isDisabled();
+		if (!isDisabled) {
+			// Some hands are not enabled, so click Select All to enable them all
+			await selectAllButton.click();
+			await page.waitForTimeout(200);
+		}
+
+		// Now all hands should be enabled, so Select All should be disabled
 		await expect(selectAllButton).toBeDisabled();
 	});
 
